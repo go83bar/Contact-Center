@@ -1,0 +1,33 @@
+.navButton {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.aboveTabCard {
+    margin-top: -20px;
+}
+
+.leadInfo {
+   padding: 1rem;
+   padding-bottom: 25px;
+}
+
+.logo {
+    margin : 7px;
+    width: 70px;
+    height: 36px;
+}
+
+.navBar {
+    background-color: #CF483B;
+}
+.sideNav {
+    background-color: #CF483B;
+    width: 100px !important;
+}
+.sideNavItem {
+    color : #B5BDCA;
+}
