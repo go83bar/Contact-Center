@@ -7,8 +7,8 @@ import "./assets/scss/mdb-pro.scss"
 import "./index.css";
 
 import registerServiceWorker from './registerServiceWorker';
-import CallCenter from "./CallCenter";
+import ContactCenter from "./ContactCenter";
 
-ReactDOM.render( <CallCenter /> , document.getElementById('root'));
+ReactDOM.render( <ContactCenter /> , document.getElementById('root'));
 
 registerServiceWorker();

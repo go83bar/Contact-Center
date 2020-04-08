@@ -1,24 +1,21 @@
 import React, {Component} from "react";
-import {
-    MDBContainer
-} from "mdbreact";
+import {MDBContainer, MDBIcon} from "mdbreact";
 import "./index.css";
 import CircularSideNav from "./components/CircluarSideNav/CircularSideNav";
-//import logo from "./logo.png";
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {
-    faHome,
-    faHeadphones,
-    faSearch,
-    faList
-} from '@fortawesome/pro-solid-svg-icons'
-import {faCircle} from "@fortawesome/pro-light-svg-icons";
+import {BrowserRouter, Switch, Route, Link} from 'react-router-dom';
+//import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+//import { faHome, faHeadphones, faSearch, faList} from '@fortawesome/pro-solid-svg-icons'
+import Home from "./components/Home"
+import Interaction from "./components/Interaction"
+import Search from "./components/Search"
+import Recent from "./components/Recent"
+
 //import SideNav from "./components/SideNav";
 //import TopNav from "./components/TopNav";
 
 //const element = <FontAwesomeIcon icon={faCoffee} />
 
-class CallCenter extends Component {
+class ContactCenter extends Component {
 
     state = {
         activeItem: "1",
@@ -39,6 +36,7 @@ class CallCenter extends Component {
     changeSkin() {
         document.body.className = 'mdb-skin';
     }
+
     toggleSideNav = () => {
         if (this.state.windowWidth < this.state.breakWidth) {
             this.setState({
@@ -55,37 +53,48 @@ class CallCenter extends Component {
     };
 
     render() {
+/*              <span className="fa-layers fa-fw">
+                    <FontAwesomeIcon icon={faCircle} size={"4x"}/>
+                    <FontAwesomeIcon icon={faHeadphones} transform={"right-8"} size={"2x"}/>
+                </span>*/
+
+
+        const elements = [
+            <Link to="/"><MDBIcon icon={"home"} size={"2x"}/></Link>,
+            <Link to="/interaction"><MDBIcon icon={"headphones"} size={"2x"}/></Link>,
+            <Link to="/search"><MDBIcon icon={"search"} size={"2x"}/></Link>,
+            <Link to="/recent"><MDBIcon icon={"list"} size={"2x"}/></Link>
+        ]
         return (
-            <MDBContainer>
-                <CircularSideNav
-                    backgroundImg={"/images/nav.png"}
-                    backgroundColor={'#E0E0E0'}
-                    color={'#7c7c7c'}
-                    navSize={9}
-                    elements={[
-                        <span className="fa-layers fa-fw">
-                            <FontAwesomeIcon icon={faCircle} size={"4x"}/>
-                            <FontAwesomeIcon icon={faHome} transform={"right-7"} size={"2x"}/>
-                        </span>,
-                        <span className="fa-layers fa-fw">
-                            <FontAwesomeIcon icon={faCircle} size={"4x"}/>
-                            <FontAwesomeIcon icon={faHeadphones} transform={"right-8"} size={"2x"}/>
-                        </span>,
-                        <span className="fa-layers fa-fw">
-                            <FontAwesomeIcon icon={faCircle} size={"4x"}/>
-                            <FontAwesomeIcon icon={faSearch} transform={"right-8"} size={"2x"}/>
-                        </span>,
-                        <span className="fa-layers fa-fw">
-                            <FontAwesomeIcon icon={faCircle} size={"4x"}/>
-                            <FontAwesomeIcon icon={faList} transform={"right-8"} size={"2x"}/>
-                        </span>
-                    ]}
-                    animation={''}
-                    animationPeriod={0.04}
-                />
-            </MDBContainer>
+            <BrowserRouter>
+                <MDBContainer>
+                    <CircularSideNav
+                        backgroundImg={"/images/nav.png"}
+                        backgroundColor={'#E0E0E0'}
+                        color={'#7c7c7c'}
+                        navSize={9}
+                        elements={elements}
+                        animation={''}
+                        animationPeriod={0.04}
+                    />
+                    <Switch>
+                        <Route exact path="/">
+                            <Home/>
+                        </Route>
+                        <Route path="/recent">
+                            <Recent/>
+                        </Route>
+                        <Route path="/search">
+                            <Search/>
+                        </Route>
+                        <Route path="/interaction">
+                            <Interaction/>
+                        </Route>
+                    </Switch>
+                </MDBContainer>
+            </BrowserRouter>
         );
     }
 }
 
-export default CallCenter;
+export default ContactCenter;
