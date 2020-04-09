@@ -9,6 +9,8 @@ import Home from "./components/Home"
 import Interaction from "./components/Interaction"
 import Search from "./components/Search"
 import Recent from "./components/Recent"
+import Login from "./components/Login"
+import ProtectedRoute from "./ProtectedRoute"
 
 //import SideNav from "./components/SideNav";
 //import TopNav from "./components/TopNav";
@@ -78,18 +80,11 @@ class ContactCenter extends Component {
                         animationPeriod={0.04}
                     />
                     <Switch>
-                        <Route exact path="/">
-                            <Home/>
-                        </Route>
-                        <Route path="/recent">
-                            <Recent/>
-                        </Route>
-                        <Route path="/search">
-                            <Search/>
-                        </Route>
-                        <Route path="/interaction">
-                            <Interaction/>
-                        </Route>
+                        <Route exact path="/login" component={Login}/>
+                        <ProtectedRoute exact path="/" component={Home}/>
+                        <ProtectedRoute path="/recent" component={Recent}/>
+                        <ProtectedRoute path="/search" component={Search}/>
+                        <ProtectedRoute path="/interaction" component={Interaction}/>
                     </Switch>
                 </MDBContainer>
             </BrowserRouter>
