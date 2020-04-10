@@ -1,8 +1,7 @@
 import React, {Component} from 'react'
 import {MDBBtn, MDBContainer} from "mdbreact";
 import { connect } from 'react-redux';
-import ObjectID from "bson-objectid";
-import ObjectId from '@tybys/oid'
+//import ObjectId from '@tybys/oid'
 
 class Login extends Component {
 
@@ -12,13 +11,7 @@ class Login extends Component {
         this.login = this.login.bind(this)
         this.state = {
         };
-        for (var i = 0; i<10; i++) {
-            console.log(ObjectID.generate())
-        }
-        console.log("New Oid Generator")
-        for (i = 0; i<10; i++) {
-            console.log(new ObjectId().toString())
-        }
+        //console.log(new ObjectId().toString())
      }
 
     login() {
@@ -29,19 +22,16 @@ class Login extends Component {
     render() {
         return (
             <MDBContainer fluid>
-                <div>Login</div>
+                <div>{this.props.localization.name}</div>
                 <MDBBtn onClick={this.login}>Login</MDBBtn>
-            </MDBContainer>        )
+            </MDBContainer>
+        )
     }
 }
 const mapStateToProps = state => {
-    return { auth: state.auth }
+    return { auth: state.auth, localization : state.localization }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        dispatch
-    }
-}
+const mapDispatchToProps = dispatch => { return { dispatch }}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
