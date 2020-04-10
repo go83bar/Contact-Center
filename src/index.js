@@ -21,7 +21,7 @@ fetch(window.location.protocol + "//" + window.location.host + "//data//" + host
     .then((responseJson) => {
 //            responseJson["cookies"] = new Cookies()
         store.dispatch({type: 'CONFIGURE',payload: responseJson})
-        const lang = responseJson.languages && responseJson.languages.indexOf(window.navigator.language) !== -1 ? window.navigator.language : "default"
+        const lang = responseJson.languages && responseJson.languages.indexOf(window.navigator.language) !== -1 ? window.navigator.language : responseJson["language-default"]
 
         fetch(window.location.protocol + "//" + window.location.host + "//localization//" + lang + '.json')
             .then(response => response.json())
