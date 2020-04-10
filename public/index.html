@@ -1,40 +1,113 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="theme-color" content="#000000">
-    <!--
-      manifest.json provides metadata used when your web app is added to the
-      homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <script>// DNR </script>
+  <style type="text/css">
+    .loadingcontainer {
+      position : absolute;
+      top : 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>83Bar Activate</title>
-  </head>
-  <body>
-    <noscript>
-      You need to enable JavaScript to run this app.
-    </noscript>
-    <div id="83Bar-Activate"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+    .spinner {
+      width: 30px;
+      height: 30px;
+      position: relative;
+      margin: 0 auto;
+      display: block;
+      border-radius: 50%;
+      opacity: 0.6;
+      top: 0;
+      left: 0;
+    }
+    .spinner:before {
+      content: "";
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 1px solid #464646;
+      position: absolute;
+      animation: sk-bounce 1.5s linear infinite;
+    }
+    .spinner:after {
+      content: "";
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 1px solid #464646;
+      position: absolute;
+      animation: sk-bounce 1.5s linear infinite;
+      animation-delay: -.75s;
+    }
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+    @keyframes sk-bounce {
+      0% {
+        transform: scale(0.2);
+        opacity: 0.2;
+      }
+      20% {
+        transform: scale(0.5);
+        opacity: 1;
+      }
+      40% {
+        transform: scale(0.9);
+        opacity: 0.8;
+      }
+      60% {
+        transform: scale(1.2);
+        opacity: 0.4;
+      }
+      80% {
+        transform: scale(1.4);
+        opacity: 0.15;
+      }
+      100% {
+        transform: scale(1.5);
+        opacity: 0;
+      }
+    }
+    h3 {
+      font-family: Source Sans Pro, Helvetica, Arial, Sans Serif;
+      font-weight: 400;
+      text-align: center;
+      font-size: 18px;
+      color: #464646;
+    }
+    .calculating {
+      width: 100%;
+      height: auto;
+      position: relative;
+      display: block;
+    }
+  </style>
+  <!--
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:regular,bold">
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC3HcbJtm10meNa5nR0cTDnbM3utCtVUhA&libraries=places"></script>
+
+
+    Notice the use of %PUBLIC_URL% in the tag above.
+    It will be replaced with the URL of the `public` folder during the build.
+    Only files inside the `public` folder can be referenced from the HTML.
+
+    Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+    work correctly both with client-side routing and a non-root public URL.
+    Learn how to configure a non-root public URL by running `npm run build`.
+  -->
+  <title>83bar</title>
+</head>
+<body>
+<div id="83Bar-Activate" class="react-container">
+  <div class="loadingcontainer">
+    <div class="spinner"></div>
+    <div class="calculating">
+      <h3>Initializing ...</h3>
+    </div>
+    <div>
+    </div>
+</body>
 </html>
