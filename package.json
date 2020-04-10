@@ -11,6 +11,8 @@
     "@fortawesome/pro-regular-svg-icons": "^5.13.0",
     "@fortawesome/pro-solid-svg-icons": "^5.13.0",
     "@fortawesome/react-fontawesome": "^0.1.9",
+    "@tybys/oid": "^1.0.8",
+    "bson-objectid": "^1.3.0",
     "mdbreact": "./mdbreact-4.25.5.tgz",
     "node-sass": "^4.13.1",
     "react": "^16.12.0",

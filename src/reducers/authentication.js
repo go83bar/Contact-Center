@@ -7,7 +7,7 @@
 const initialState = {
         isAuthenticated: false,
         roles : [],
-        token : undefined
+        auth : { userID : undefined, token : undefined }
       }
 
 // Reducer for handling auth actions

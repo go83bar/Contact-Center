@@ -11,6 +11,7 @@ import Search from "./components/Search"
 import Recent from "./components/Recent"
 import Login from "./components/Login"
 import ProtectedRoute from "./ProtectedRoute"
+import { connect } from 'react-redux';
 
 //import SideNav from "./components/SideNav";
 //import TopNav from "./components/TopNav";
@@ -69,8 +70,8 @@ class ContactCenter extends Component {
         ]
         return (
             <BrowserRouter>
-                <MDBContainer>
-                    <CircularSideNav
+                <MDBContainer fluid>
+                    {this.props.auth.isAuthenticated && <CircularSideNav
                         backgroundImg={"/images/nav.png"}
                         backgroundColor={'#E0E0E0'}
                         color={'#7c7c7c'}
@@ -78,18 +79,21 @@ class ContactCenter extends Component {
                         elements={elements}
                         animation={''}
                         animationPeriod={0.04}
-                    />
+                    />}
                     <Switch>
                         <Route exact path="/login" component={Login}/>
                         <ProtectedRoute exact path="/" component={Home}/>
-                        <ProtectedRoute path="/recent" component={Recent}/>
-                        <ProtectedRoute path="/search" component={Search}/>
-                        <ProtectedRoute path="/interaction" component={Interaction}/>
+                        <ProtectedRoute exact path="/recent" component={Recent}/>
+                        <ProtectedRoute exact path="/search" component={Search}/>
+                        <ProtectedRoute exact path="/interaction" component={Interaction}/>
                     </Switch>
                 </MDBContainer>
             </BrowserRouter>
         );
     }
 }
+const mapStateToProps = state => {
+    return { auth : state.auth }
+}
+export default connect(mapStateToProps)(ContactCenter);
 
-export default ContactCenter;
