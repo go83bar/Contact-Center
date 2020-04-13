@@ -7,10 +7,11 @@ import {BrowserRouter, Switch, Route, Link} from 'react-router-dom';
 //import { faHome, faHeadphones, faSearch, faList} from '@fortawesome/pro-solid-svg-icons'
 import Home from "./components/Home"
 import Interaction from "./components/Interaction"
-import Search from "./components/Search"
+import Search from "./components/search/Search"
 import Recent from "./components/Recent"
 import Login from "./components/Login"
 import ProtectedRoute from "./ProtectedRoute"
+import Preview from "./components/Preview"
 import { connect } from 'react-redux';
 
 //import SideNav from "./components/SideNav";
@@ -70,7 +71,7 @@ class ContactCenter extends Component {
         ]
         return (
             <BrowserRouter>
-                <MDBContainer fluid>
+                <MDBContainer>
                     {this.props.auth.isAuthenticated && <CircularSideNav
                         backgroundImg={"/images/nav.png"}
                         backgroundColor={'#E0E0E0'}
@@ -85,6 +86,7 @@ class ContactCenter extends Component {
                         <ProtectedRoute exact path="/" component={Home}/>
                         <ProtectedRoute exact path="/recent" component={Recent}/>
                         <ProtectedRoute exact path="/search" component={Search}/>
+                        <ProtectedRoute exact path="/preview" component={Preview}/>
                         <ProtectedRoute exact path="/interaction" component={Interaction}/>
                     </Switch>
                 </MDBContainer>

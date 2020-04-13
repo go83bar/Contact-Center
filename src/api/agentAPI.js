@@ -1,12 +1,42 @@
 import sendRequest from './fetch'
 
-export default class RecentAPI {
+export default class AgentAPI {
     /**@typedef Auth
      * @type {object}
      * @property {string} token - The token string
      * @property {number} userID - The ID of the current User
      * 
      */
+
+     /**
+     * getAppStats is called to fetch basic stats to display to the agent
+     * Promise resolves to an object like
+     * {
+     *  success: {boolean},
+     *  data: {
+     *      interactions: {number},
+     *      handoffs: {number},
+     *      bookings: {number},
+     *      queue: {number}
+     *  }
+     * }
+     * 
+     * @static
+     * @param {Auth} auth - the auth object
+     * @return {Promise}
+     * @memberof AgentAPI
+     */
+    static async getAppStats(auth) {
+        const requestOptions = {
+            url: process.env.REACT_APP_API_BASE_URL + "agents/appstats",
+            data: { agent_id: auth.userID},
+            method: "GET",
+            auth: auth
+        }
+        const result = await sendRequest(requestOptions)
+        
+        return result
+    }
 
     /**
      * Gets recently worked leads for the current user
@@ -43,4 +73,5 @@ export default class RecentAPI {
         return result
 
     }
+
 }
