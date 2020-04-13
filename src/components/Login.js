@@ -42,7 +42,7 @@ class Login extends Component {
                 <MDBRotatingCard flipped={this.state.flipped} className="text-center h-100 w-100" style={{margin: "0 auto", marginTop: "20%", width: "500px"}}>
                     <MDBCard className="face front" narrow >
                         <MDBCardImage
-                            className='view view-cascade gradient-card-header blue-gradient'
+                            className='view view-cascade gradient-card-header peach-gradient'
                             cascade
                             tag='div'
                         >
@@ -51,13 +51,13 @@ class Login extends Component {
                             <h2 className='h2-responsive' style={{marginTop: "10px"}}>{localization.title}</h2>
                         </MDBCardImage>
                         <MDBCardBody cascade className='text-center'>
-                            <div className={"text-left"}><MDBInput label={localization.frontPlaceholder} outline icon="mobile" className={"text-left"}/></div>
-                            <MDBBtn gradient="blue" rounded onClick={this.getPin}><h5 style={{marginBottom:"0px"}}> {localization.frontButton} <MDBIcon icon="angle-double-right" style={{marginLeft : "10px"}}/> </h5></MDBBtn>
+                            <div className={"text-left"}><MDBInput label={localization.frontPlaceholder} outline icon="mobile-alt" className={"text-left"}/></div>
+                            <MDBBtn gradient="peach" rounded onClick={this.getPin}><h5 style={{marginBottom:"0px"}}> {localization.frontButton} <MDBIcon icon="angle-double-right" style={{marginLeft : "10px"}}/> </h5></MDBBtn>
                         </MDBCardBody>
                     </MDBCard>
                     <MDBCard className="face back" narrow >
                         <MDBCardImage
-                            className='view view-cascade gradient-card-header blue-gradient'
+                            className='view view-cascade gradient-card-header peach-gradient'
                             cascade
                             tag='div'
                         >
@@ -67,7 +67,7 @@ class Login extends Component {
                         </MDBCardImage>
                         <MDBCardBody cascade className='text-center'>
                             <div className={"text-left"}><MDBInput label={localization.backPlaceholder} outline icon="lock" className={"text-left"}/></div>
-                            <MDBBtn gradient="blue" rounded onClick={this.login}><h5 style={{marginBottom:"0px"}}> <MDBIcon icon="unlock" style={{marginRight : "10px"}}/> {localization.backButton} </h5></MDBBtn>
+                            <MDBBtn gradient="peach" rounded onClick={this.login}><h5 style={{marginBottom:"0px"}}> <MDBIcon icon="unlock" style={{marginRight : "10px"}}/> {localization.backButton} </h5></MDBBtn>
                         </MDBCardBody>
                     </MDBCard>
                 </MDBRotatingCard>
