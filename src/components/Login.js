@@ -51,7 +51,7 @@ class Login extends Component {
                             <h2 className='h2-responsive' style={{marginTop: "10px"}}>{localization.title}</h2>
                         </MDBCardImage>
                         <MDBCardBody cascade className='text-center'>
-                            <div className={"text-left"}><MDBInput label={localization.frontPlaceholder} outline icon="mobile-alt" className={"text-left"}/></div>
+                            <div className={"text-left"}><MDBInput label={localization.frontPlaceholder} outline icon="envelope" className={"text-left"}/></div>
                             <MDBBtn gradient="peach" rounded onClick={this.getPin}><h5 style={{marginBottom:"0px"}}> {localization.frontButton} <MDBIcon icon="angle-double-right" style={{marginLeft : "10px"}}/> </h5></MDBBtn>
                         </MDBCardBody>
                     </MDBCard>

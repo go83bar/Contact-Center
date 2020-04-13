@@ -38,7 +38,7 @@ class LeadDetail extends Component {
                             onClick={this.toggle("1")}
                             role="tab"
                         >
-                            <MDBIcon icon="chart-bar"/> Survey
+                            <MDBIcon icon="poll"/> Survey
                         </MDBNavLink>
                     </MDBNavItem>
                     <MDBNavItem>

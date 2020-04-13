@@ -2,7 +2,7 @@
   "name" : "Activate",
   "login" : {
     "title" : "Sign in to start your session.",
-    "frontPlaceholder" : "Mobile Number",
+    "frontPlaceholder" : "Email Address",
     "frontButton" : "Get Pin",
     "backPlaceholder" : "Pin Code",
     "backButton" : "Sign In"
