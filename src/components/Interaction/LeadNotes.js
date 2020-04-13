@@ -14,4 +14,4 @@ class LeadNotes extends Component {
         )
     }
 }
-export default LeadNotesg;
+export default LeadNotes;

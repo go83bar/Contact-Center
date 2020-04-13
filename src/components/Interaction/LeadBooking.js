@@ -10,7 +10,7 @@ class LeadBooking extends Component {
 
     render() {
         return (
-            <div>Lead Appointments</div>
+            <div>Lead Booking</div>
         )
     }
 }

@@ -31,3 +31,27 @@
 .sideNavItem {
     color : #B5BDCA;
 }
+
+.callNavLink {
+    text-align: center;
+    padding: 4px;
+    color: #7c7c7c;
+
+}
+.darkIcon {
+    color: #7c7c7c !important;
+}
+.outlineIcon {
+    margin-top: -12px;
+    margin-left: -2px;
+}
+.navDescriptor {
+    margin-top: 30px;
+    font-weight: 400;
+    padding: 5px;
+}
+.divider {
+    border-left: 1px solid #4A597E;
+    height: 76px;
+    margin: 12px;
+}
