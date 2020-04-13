@@ -1,4 +1,8 @@
 import React, {Component} from 'react'
+import {MDBContainer} from "mdbreact";
+import LeadSummary from "./Interaction/LeadSummary";
+import LeadDetail from "./Interaction/LeadDetail";
+import CallBar from "./Interaction/CallBar";
 
 class Interaction extends Component {
 
@@ -10,7 +14,11 @@ class Interaction extends Component {
 
     render() {
         return (
-            <div>Interaction</div>
+            <MDBContainer>
+                <LeadSummary/>
+                <CallBar/>
+                <LeadDetail/>
+            </MDBContainer>
         )
     }
 }
