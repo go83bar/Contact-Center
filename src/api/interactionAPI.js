@@ -8,31 +8,15 @@ export default class InteractionAPI {
      * 
      */
 
-    /**
-     * getAppStats is called to fetch basic stats to display to the agent
-     * returns an object like
-     * {
-     *  success: {boolean},
-     *  data: {
-     *      interactions: {number},
-     *      handoffs: {number},
-     *      bookings: {number},
-     *      queue: {number}
-     *  }
-     * }
-     * 
-     * @param {Auth} auth - the auth object
-     * @return {object}
-     */
-    static async getAppStats(auth) {
+     static async GetIssues(auth, params) {
         const requestOptions = {
-            url: process.env.REACT_APP_API_BASE_URL + "agents/appstats",
-            data: { agent_id: auth.userID},
+            url: process.env.REACT_APP_API_BASE_URL + "interaction/" + params.interactionID + "/getissues",
             method: "GET",
+            data: params,
             auth: auth
         }
         const result = await sendRequest(requestOptions)
         
         return result
-    }
+     }
 } 

@@ -1,5 +1,23 @@
 {
   "name" : "Activate",
+  "search": {
+    "componentTitle": "Search",
+    "firstNameLabel": "First Name",
+    "lastNameLabel": "Last Name",
+    "phoneLabel": "Phone",
+    "leadIDLabel": "Lead ID",
+    "clientIDLabel": "Client",
+    "clientIDSelect": "Select...",
+    "searchButtonLabel": "GO",
+    "resultIDHeader": "ID",
+    "resultNameHeader": "Name",
+    "resultVerticalHeader": "Vertical",
+    "resultPhaseHeader": "Phase",
+    "resultNextContactHeader": "Next Contact",
+    "resultLockedLabel": "LOCKED",
+    "resultButtonLabel": "Load",
+    "noClientSelectedError": "You must select a client"
+  },
   "login" : {
     "title" : "Sign in to start your session.",
     "frontPlaceholder" : "Email Address",
