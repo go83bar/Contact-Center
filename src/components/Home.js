@@ -17,6 +17,7 @@ class Home extends Component {
     }
 
     render() {
+        const localization = this.props.localization.home
         return (
             <MDBContainer>
                 <MDBRow style={{textAlign: "center", marginTop: "20%"}}>
@@ -24,7 +25,7 @@ class Home extends Component {
                         <MDBCard style={{width: "100%", height: "15rem"}}>
                             <MDBCardBody style={{marginTop: "50px"}}>
                                 <MDBCardText style={{fontSize: "20px"}}>
-                                    <Link to="/interaction"><MDBBtn floating><MDBIcon icon={"headphones"} size={"2x"}/></MDBBtn><br/>FETCH NEW LEAD</Link>
+                                    <Link to="/interaction"><MDBBtn floating><MDBIcon icon={"headphones"} size={"2x"}/></MDBBtn><br/>{localization.fetch}</Link>
 
                                 </MDBCardText>
                             </MDBCardBody>
@@ -35,7 +36,7 @@ class Home extends Component {
                             <MDBCardBody style={{marginTop: "50px"}}>
                                 <MDBCardText style={{fontSize: "20px"}}>
                                 <Link to="/search"><MDBBtn floating><MDBIcon icon={"search"}
-                                                                             size={"2x"}/></MDBBtn><br/>FIND A LEAD</Link>
+                                                                             size={"2x"}/></MDBBtn><br/>{localization.search}</Link>
                                 </MDBCardText>
                             </MDBCardBody>
                         </MDBCard>
@@ -47,7 +48,7 @@ class Home extends Component {
                         <MDBCard style={{width: "100%", height: "15rem"}}>
                             <MDBCardBody style={{marginTop: "50px"}}>
                                 <MDBCardText style={{fontSize: "20px"}}>
-                                <Link to="/recent" ><MDBBtn floating><MDBIcon icon={"list"} size={"2x"}/></MDBBtn><br/>RECENT LEADS</Link>
+                                <Link to="/recent" ><MDBBtn floating><MDBIcon icon={"list"} size={"2x"}/></MDBBtn><br/>{localization.recent}</Link>
                                 </MDBCardText>
                             </MDBCardBody>
                         </MDBCard>
@@ -56,7 +57,7 @@ class Home extends Component {
                         <MDBCard style={{width: "100%", height: "15rem"}}>
                             <MDBCardBody style={{marginTop: "50px"}}>
                                 <MDBCardText style={{fontSize: "20px"}}>
-                                    <Link to="#" onClick={this.logout}><MDBBtn floating onClick={this.logout}><MDBIcon icon={"lock"} size={"2x"}/></MDBBtn><br/>SIGN OUT</Link>
+                                    <Link to="#" onClick={this.logout}><MDBBtn floating onClick={this.logout}><MDBIcon icon={"lock"} size={"2x"}/></MDBBtn><br/>{localization.logout}</Link>
                                 </MDBCardText>
                             </MDBCardBody>
                         </MDBCard>

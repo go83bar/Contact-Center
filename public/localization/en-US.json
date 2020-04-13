@@ -6,5 +6,11 @@
     "frontButton" : "Get Pin",
     "backPlaceholder" : "Pin Code",
     "backButton" : "Sign In"
+  },
+  "home" : {
+    "fetch" : "FETCH NEW LEAD",
+    "search" : "FIND A LEAD",
+    "recent" : "RECENT LEADS",
+    "logout" : "SIGN OUT"
   }
 }
