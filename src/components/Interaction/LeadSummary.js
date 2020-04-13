@@ -42,10 +42,18 @@ class LeadSummary extends Component {
                     </MDBCol>
                 </MDBRow>
                 <MDBRow>
-                    <MDBCol size={"6"}> CellPhone: (937) 543 - 1960 </MDBCol>
                     <MDBCol size={"6"}>
-                        <MDBChip>Client: Myriad</MDBChip>
-                        <MDBChip>Trial: Genetic Testing</MDBChip>
+                        <MDBChip>Cell Phone: (937) 543 - 1960</MDBChip>
+                        <MDBChip>Home Phone: (937) 555 - 1748</MDBChip>
+                        <MDBChip>EST</MDBChip>
+                        <MDBChip>Address: 10300 Jollyville, Austin, TX, 78759</MDBChip>
+                        <MDBChip>Email: louisesmith@gmail.com</MDBChip>
+
+                    </MDBCol>
+                    <MDBCol size={"6"}>
+                        <MDBChip className={"outlineChip"}>Client: Myriad</MDBChip>
+                        <MDBChip className={"outlineChip"}>Trial: Genetic Testing</MDBChip>
+                        <MDBChip className={"outlineChip"}>Phase: Nurture, Call 1 of 4</MDBChip>
                     </MDBCol>
                 </MDBRow>
             </MDBContainer>
