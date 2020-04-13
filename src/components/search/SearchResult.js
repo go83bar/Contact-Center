@@ -1,20 +1,20 @@
 import React, {Component} from 'react'
 import {MDBBtn} from "mdbreact"
-import LeadAPI from '../../api/leadAPI'
+//import LeadAPI from '../../api/leadAPI'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
 class SearchResult extends Component {
     constructor(props) {
         super(props)
-        
+
 
         let lockedOpts = {}
         let leadName = props.row.first_name + " " + props.row.last_name
         if (props.row.locked) {
             lockedOpts.className = "deep-orange-text"
             leadName = leadName + " - " + props.localization.search.resultLockedLabel
-        } 
+        }
 
         this.state = {
             lockedOpts: lockedOpts,
@@ -29,7 +29,7 @@ class SearchResult extends Component {
         this.props.dispatch({type: "LEAD_PREVIEW", payload: {leadID: this.props.row.id}})
         this.props.history.push('/preview')
     }
-    
+
     render() {
         return (
             <tr>
@@ -44,7 +44,7 @@ class SearchResult extends Component {
                 )}</td>
             </tr>
         )
-        
+
     }
 }
 

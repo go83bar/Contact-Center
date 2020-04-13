@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {MDBRow, MDBCol, MDBTable, MDBTableHead, MDBTableBody} from "mdbreact"
+
 import { connect } from 'react-redux'
 import LoadingScreen from './LoadingScreen'
 import LeadAPI from '../api/leadAPI'
@@ -22,7 +22,7 @@ class Preview extends Component {
             })
     }
     render() {
-        if (!this.state.leadData == undefined) {
+        if (!this.state.leadData === undefined) {
             return <LoadingScreen />
         }
         return (

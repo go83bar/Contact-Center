@@ -8,7 +8,7 @@ import {lead} from "./lead";
 export default combineReducers({
     auth : authentication,
     config : configuration,
-    preview: preview
+    preview: preview,
     localization : localization,
     lead : lead
 })

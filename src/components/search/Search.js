@@ -33,7 +33,7 @@ class Search extends Component {
     }
 
     generateClientOptions() {
-        let clientOptions = this.state.clients.map((client, key) => 
+        let clientOptions = this.state.clients.map((client, key) =>
             <option key={client.id} value={client.id}>{client.name}</option>
         )
         return clientOptions
@@ -52,7 +52,7 @@ class Search extends Component {
 
     handleFormSubmit() {
         // validate that a client has been chosen
-        if (this.state.form.clientIDValue == "") {
+        if (this.state.form.clientIDValue === "") {
             this.setState({
                 validationError: true,
                 validationMessage: this.props.localization.search.noClientSelectedError
@@ -78,10 +78,10 @@ class Search extends Component {
                 let newStateOptions = {
                     isFetchingResults: false
                 }
-                if (response.success == false) {
+                if (response.success === false) {
                     newStateOptions.validationError = true
                     newStateOptions.validationMessage = "Search Error"
-                } else if (response.data.length == 0) {
+                } else if (response.data.length === 0) {
                     newStateOptions.validationError = true
                     newStateOptions.validationMessage = "No Results Found"
                 }
@@ -113,7 +113,7 @@ class Search extends Component {
             )
         }
 
-        
+
 
         return (
             <MDBBox>
@@ -125,41 +125,41 @@ class Search extends Component {
                 <MDBRow>
                     <MDBCol size="6">
                         <label htmlFor="first_name" className="grey-text">{localized.firstNameLabel}</label>
-                        <input type="text" 
-                            id="first_name" 
-                            name="firstNameValue" 
-                            className="form-control" 
-                            value={this.state.firstNameValue} 
-                            onChange={this.handleFormInput} 
+                        <input type="text"
+                            id="first_name"
+                            name="firstNameValue"
+                            className="form-control"
+                            value={this.state.firstNameValue}
+                            onChange={this.handleFormInput}
                         />
                         <br />
                         <label htmlFor="lead_id" className="grey-text">{localized.leadIDLabel}</label>
-                        <input type="text" 
-                            id="lead_id" 
-                            name="leadIDValue" 
-                            className="form-control" 
-                            value={this.state.leadIDValue} 
-                            onChange={this.handleFormInput} 
+                        <input type="text"
+                            id="lead_id"
+                            name="leadIDValue"
+                            className="form-control"
+                            value={this.state.leadIDValue}
+                            onChange={this.handleFormInput}
                         />
                         <br />
                     </MDBCol>
                     <MDBCol size="6">
                         <label htmlFor="last_name" className="grey-text">{localized.lastNameLabel}</label>
-                        <input type="text" 
-                            id="last_name" 
-                            name="lastNameValue" 
-                            className="form-control" 
-                            value={this.state.lastNameValue} 
-                            onChange={this.handleFormInput} 
+                        <input type="text"
+                            id="last_name"
+                            name="lastNameValue"
+                            className="form-control"
+                            value={this.state.lastNameValue}
+                            onChange={this.handleFormInput}
                         />
                         <br />
                         <label htmlFor="phone" className="grey-text">{localized.phoneLabel}</label>
-                        <input type="text" 
-                            id="phone" 
-                            name="phoneValue" 
-                            value={this.state.phoneValue} 
-                            onChange={this.handleFormInput} 
-                            className="form-control" 
+                        <input type="text"
+                            id="phone"
+                            name="phoneValue"
+                            value={this.state.phoneValue}
+                            onChange={this.handleFormInput}
+                            className="form-control"
                         />
                         <br />
                     </MDBCol>
@@ -168,24 +168,24 @@ class Search extends Component {
 
                     <MDBCol size="8">
                         <label htmlFor="client_id" className="grey-text">{localized.clientIDLabel}</label>
-                        <select id="client_id" 
-                            name="clientIDValue" 
+                        <select id="client_id"
+                            name="clientIDValue"
                             className="form-control"
-                            value={this.state.clientIDValue} 
-                            onChange={this.handleFormInput} 
+                            value={this.state.clientIDValue}
+                            onChange={this.handleFormInput}
                         >
                             <option value="">{localized.clientIDSelect}</option>
                             {this.generateClientOptions()}
-                        </select>    
+                        </select>
                         <div className="text-center mt-4">
                         {button}
-                        {this.state.validationError && 
+                        {this.state.validationError &&
                             <MDBAlert color="danger" >
                             {this.state.validationMessage}
                           </MDBAlert>
                         }
                         </div>
-                    </MDBCol>    
+                    </MDBCol>
                 </MDBRow>
                 {this.state.searchResults.length > 0 &&
                     <SearchResults results={this.state.searchResults} />
