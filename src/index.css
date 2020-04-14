@@ -41,6 +41,12 @@
 .darkIcon {
     color: #7c7c7c !important;
 }
+.dark {
+    color: #7c7c7c !important;
+}
+.darkBack {
+    background: #7c7c7c;
+}
 .outlineIcon {
     margin-top: -12px;
     margin-left: -2px;
@@ -62,8 +68,15 @@
     border-radius: 20px;
 }
 
-.timelineIcon {
-    color: #7c7c7c !important;
-    margin-top: -12px;
+.step-content-top {
+    margin-top: -5rem !important;
+    margin-left: 5rem !important;
+    height: 150px;
 }
+.card-header-no-back-no-border{
+    background-color: inherit;
+    border-bottom: none;
+}
+
+
 
