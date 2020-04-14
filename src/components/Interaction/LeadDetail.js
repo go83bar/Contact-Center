@@ -28,7 +28,7 @@ class LeadDetail extends Component {
 
     render() {
         return (
-            <MDBContainer>
+            <MDBContainer fluid>
                 <MDBNav tabs style={{padding: "4px"}} className={"justify-content-center"}>
                     <MDBNavItem>
                         <MDBNavLink

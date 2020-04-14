@@ -22,7 +22,7 @@ class LeadTimeline extends Component {
 
     render() {
         return (
-            <MDBContainer>
+            <MDBContainer fluid>
                 <MDBRow>
                     <MDBCol size={"4"}>
                         <MDBCard className="mb-3">

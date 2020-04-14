@@ -14,7 +14,7 @@ class Interaction extends Component {
 
     render() {
         return (
-            <MDBContainer>
+            <MDBContainer fluid>
                 <LeadSummary/>
                 <CallBar/>
                 <LeadDetail/>

@@ -3,8 +3,6 @@ import {MDBContainer, MDBIcon} from "mdbreact";
 import "./index.css";
 import CircularSideNav from "./components/CircluarSideNav/CircularSideNav";
 import {BrowserRouter, Switch, Route, Link} from 'react-router-dom';
-//import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-//import { faHome, faHeadphones, faSearch, faList} from '@fortawesome/pro-solid-svg-icons'
 import Home from "./components/Home"
 import Interaction from "./components/Interaction"
 import Search from "./components/search/Search"
@@ -13,11 +11,9 @@ import Login from "./components/Login"
 import ProtectedRoute from "./ProtectedRoute"
 import Preview from "./components/Preview"
 import { connect } from 'react-redux';
-
-//import SideNav from "./components/SideNav";
-//import TopNav from "./components/TopNav";
-
-//const element = <FontAwesomeIcon icon={faCoffee} />
+//import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+//import {faCircle} from "@fortawesome/pro-light-svg-icons";
+//import {faHome} from "@fortawesome/pro-solid-svg-icons";
 
 class ContactCenter extends Component {
 
@@ -57,11 +53,20 @@ class ContactCenter extends Component {
     };
 
     render() {
-/*              <span className="fa-layers fa-fw">
-                    <FontAwesomeIcon icon={faCircle} size={"4x"}/>
-                    <FontAwesomeIcon icon={faHeadphones} transform={"right-8"} size={"2x"}/>
-                </span>*/
+/*
 
+        <Link to="/">
+                <span className="fa-layers fa-fw fa-4x">
+                    <FontAwesomeIcon icon={faCircle} className={"darkIcon"}/>
+                    <FontAwesomeIcon icon={faHome} transform={"shrink-8"} className={"darkIcon"}/>
+                </span>
+        </Link>,
+            <Link to="/interaction">
+                <span className="fa-layers fa-fw fa-4x">
+                    <FontAwesomeIcon icon={faCircle} className={"darkIcon"}/>
+                    <FontAwesomeIcon icon={faHeadphonesHome} transform={"shrink-8"} className={"darkIcon"}/>
+                </span>
+            </Link>,*/
 
         const elements = [
             <Link to="/"><MDBIcon icon={"home"} size={"2x"}/></Link>,
@@ -71,7 +76,7 @@ class ContactCenter extends Component {
         ]
         return (
             <BrowserRouter>
-                <MDBContainer>
+                <MDBContainer fluid>
                     {this.props.auth.isAuthenticated && <CircularSideNav
                         backgroundImg={"/images/nav.png"}
                         backgroundColor={'#E0E0E0'}

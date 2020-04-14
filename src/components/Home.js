@@ -1,18 +1,21 @@
 import React, {Component} from 'react'
-import {MDBCardBody, MDBCard, MDBCardText, MDBContainer, MDBCol, MDBRow, MDBIcon, MDBBtn} from "mdbreact";
+import {MDBCardBody, MDBCard, MDBCardText, MDBContainer, MDBCol, MDBRow} from "mdbreact";
 import {Link} from "react-router-dom";
 import {connect} from "react-redux";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faCircle} from "@fortawesome/pro-light-svg-icons";
+import {faHeadphones, faList, faLock, faSearch} from "@fortawesome/pro-solid-svg-icons";
 
 class Home extends Component {
 
     constructor(props) {
         super(props);
 
-        this.logout=this.logout.bind(this)
+        this.logout = this.logout.bind(this)
         this.state = {};
     }
 
-    logout(){
+    logout() {
         this.props.dispatch({type: 'LOG_OUT_USER', payload: {}})
     }
 
@@ -25,8 +28,12 @@ class Home extends Component {
                         <MDBCard style={{width: "100%", height: "15rem"}}>
                             <MDBCardBody style={{marginTop: "50px"}}>
                                 <MDBCardText style={{fontSize: "20px"}}>
-                                    <Link to="/interaction"><MDBBtn floating><MDBIcon icon={"headphones"} size={"2x"}/></MDBBtn><br/>{localization.fetch}</Link>
-
+                                    <Link to="/interaction" className={"dark"}>
+                                        <span className="fa-layers fa-fw fa-3x">
+                                            <FontAwesomeIcon icon={faCircle} className={"darkIcon"}/>
+                                            <FontAwesomeIcon icon={faHeadphones} transform={"shrink-8"} className={"darkIcon"}/>
+                                        </span>
+                                        <br/>{localization.fetch}</Link>
                                 </MDBCardText>
                             </MDBCardBody>
                         </MDBCard>
@@ -35,8 +42,13 @@ class Home extends Component {
                         <MDBCard style={{width: "100%", height: "15rem"}}>
                             <MDBCardBody style={{marginTop: "50px"}}>
                                 <MDBCardText style={{fontSize: "20px"}}>
-                                <Link to="/search"><MDBBtn floating><MDBIcon icon={"search"}
-                                                                             size={"2x"}/></MDBBtn><br/>{localization.search}</Link>
+                                    <Link to="/search" className={"dark"}>
+                                        <span className="fa-layers fa-fw fa-3x">
+                                            <FontAwesomeIcon icon={faCircle} className={"darkIcon"}/>
+                                            <FontAwesomeIcon icon={faSearch} transform={"shrink-8"} className={"darkIcon"}/>
+                                        </span>
+                                        <br/>{localization.search}
+                                    </Link>
                                 </MDBCardText>
                             </MDBCardBody>
                         </MDBCard>
@@ -48,7 +60,13 @@ class Home extends Component {
                         <MDBCard style={{width: "100%", height: "15rem"}}>
                             <MDBCardBody style={{marginTop: "50px"}}>
                                 <MDBCardText style={{fontSize: "20px"}}>
-                                <Link to="/recent" ><MDBBtn floating><MDBIcon icon={"list"} size={"2x"}/></MDBBtn><br/>{localization.recent}</Link>
+                                    <Link to="/recent" className={"dark"}>
+                                        <span className="fa-layers fa-fw fa-3x">
+                                            <FontAwesomeIcon icon={faCircle} className={"darkIcon"}/>
+                                            <FontAwesomeIcon icon={faList} transform={"shrink-8"} className={"darkIcon"}/>
+                                        </span>
+                                        <br/>{localization.recent}
+                                    </Link>
                                 </MDBCardText>
                             </MDBCardBody>
                         </MDBCard>
@@ -57,7 +75,12 @@ class Home extends Component {
                         <MDBCard style={{width: "100%", height: "15rem"}}>
                             <MDBCardBody style={{marginTop: "50px"}}>
                                 <MDBCardText style={{fontSize: "20px"}}>
-                                    <Link to="#" onClick={this.logout}><MDBBtn floating onClick={this.logout}><MDBIcon icon={"lock"} size={"2x"}/></MDBBtn><br/>{localization.logout}</Link>
+                                    <Link to="#" onClick={this.logout} className={"dark"}>
+                                        <span className="fa-layers fa-fw fa-3x">
+                                            <FontAwesomeIcon icon={faCircle} className={"darkIcon"}/>
+                                            <FontAwesomeIcon icon={faLock} transform={"shrink-8"} className={"darkIcon"}/>
+                                        </span>
+                                        <br/>{localization.logout}</Link>
                                 </MDBCardText>
                             </MDBCardBody>
                         </MDBCard>

@@ -11,7 +11,7 @@ class LeadSummary extends Component {
 
     render() {
         return (
-            <MDBContainer>
+            <MDBContainer fluid>
 
                 <MDBRow>
                     <MDBCol size={"6"}>Loiuse Smith</MDBCol>
