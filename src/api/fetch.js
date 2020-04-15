@@ -36,6 +36,7 @@ export default async function (options) {
         method: options.method,
         cache: "no-cache",
         credentials: "include",
+        headers: {}
     }
     if (options.auth.token !== undefined) {
         fetchOptions.headers = {

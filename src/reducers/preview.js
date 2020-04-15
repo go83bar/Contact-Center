@@ -9,7 +9,8 @@ switch (action.type) {
     case 'LOAD_PREVIEW':
         return {
             ...state,
-            leadID: action.payload.leadID
+            leadID: action.payload.leadID,
+            callQueueID: action.payload.callQueueID
         }
     default:
         return state

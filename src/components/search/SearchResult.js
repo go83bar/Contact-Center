@@ -9,6 +9,7 @@ class SearchResult extends Component {
         super(props)
 
 
+        // some small changes to display items depending on locked status
         let lockedOpts = {}
         let leadName = props.row.first_name + " " + props.row.last_name
         if (props.row.locked) {
@@ -24,16 +25,19 @@ class SearchResult extends Component {
         this.handleResultClick = this.handleResultClick.bind(this)
     }
 
+    // when user clicks on a result, we load the preview screen for that lead
     handleResultClick() {
-        console.log("Dude you clicked " + this.props.row.id)
-        this.props.dispatch({type: "LEAD_PREVIEW", payload: {leadID: this.props.row.id}})
+        this.props.dispatch({type: "LOAD_PREVIEW", payload: {
+            leadID: this.props.row.lead_id, 
+            callQueueID: "search"
+        }})
         this.props.history.push('/preview')
     }
 
     render() {
         return (
             <tr>
-                <td>{this.props.row.id}</td>
+                <td>{this.props.row.lead_id}</td>
                 <td {...this.state.lockedOpts}>{this.state.leadName}</td>
                 <td>{this.props.row.vertical_name}</td>
                 <td>{this.props.row.phase_name}</td>

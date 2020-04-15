@@ -6,7 +6,7 @@ import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import Home from "./components/Home"
 import Interaction from "./components/Interaction"
 import Search from "./components/search/Search"
-import Recent from "./components/Recent"
+import RecentLeads from "./components/RecentLeads"
 import Login from "./components/Login"
 import ProtectedRoute from "./ProtectedRoute"
 import Preview from "./components/Preview"
@@ -80,7 +80,7 @@ class ContactCenter extends Component {
                     <Switch>
                         <Route exact path="/login" component={Login}/>
                         <ProtectedRoute exact path="/" component={Home}/>
-                        <ProtectedRoute exact path="/recent" component={Recent}/>
+                        <ProtectedRoute exact path="/recent" component={RecentLeads}/>
                         <ProtectedRoute exact path="/search" component={Search}/>
                         <ProtectedRoute exact path="/preview" component={Preview}/>
                         <ProtectedRoute exact path="/interaction" component={Interaction}/>
