@@ -3,18 +3,50 @@ import React, {Component} from 'react';
 import "./CircularSideNav.css";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {
-    faBars
+    faBars, faHeadphones, faList, faLock, faSearch
 } from '@fortawesome/pro-solid-svg-icons'
+import {Link} from "react-router-dom";
+import {faCircle} from "@fortawesome/pro-light-svg-icons";
+import {connect} from "react-redux";
 
 class CircularSideNav extends Component {
     constructor(props) {
         super(props);
+        this.logout = this.logout.bind(this)
         this.state = {
             windowWidth: window.innerWidth,
             windowHeight: window.innerHeight,
             mainCircleRadius: window.innerHeight * (this.props.navSize / 100),
-            outerCircleRadius: window.innerHeight * (this.props.navSize / 100),
-            isHovering: false
+           // outerCircleRadius: window.innerHeight * (this.props.navSize / 100),
+            outerCircleRadius: (window.innerHeight * (this.props.navSize / 100)) * 2.5,
+            isHovering: true,
+            elements : [
+                <Link to="/interaction" className={"circleNavLink skin-primary-color"}>
+                <span className="fa-layers fa-fw fa-4x">
+                    <FontAwesomeIcon icon={faCircle}/>
+                    <FontAwesomeIcon icon={faHeadphones} transform={"shrink-8"}/>
+                </span><br/>FETCH NEW LEAD
+                </Link>,
+                <Link to="/search" className={"circleNavLink skin-primary-color"}>
+                <span className="fa-layers fa-fw fa-4x">
+                    <FontAwesomeIcon icon={faCircle}/>
+                    <FontAwesomeIcon icon={faSearch} transform={"shrink-8"} />
+                </span><br/>FIND A LEAD
+                </Link>,
+                <Link to="/recent" className={"circleNavLink skin-primary-color"}>
+                <span className="fa-layers fa-fw fa-4x">
+                    <FontAwesomeIcon icon={faCircle}/>
+                    <FontAwesomeIcon icon={faList} transform={"shrink-8"} />
+                </span><br/>RECENT LEADS
+                </Link>,
+                <Link to="#" onClick={this.logout} className={"circleNavLink skin-primary-color"}>
+                <span className="fa-layers fa-fw fa-4x">
+                    <FontAwesomeIcon icon={faCircle} />
+                    <FontAwesomeIcon icon={faLock} transform={"shrink-8"} />
+                </span><br/>SIGN OUT
+                </Link>
+            ]
+
         };
     }
 
@@ -56,13 +88,18 @@ class CircularSideNav extends Component {
     }
 
     closeElementsHandler = () => {
-        this.setState({ isHovering: false, outerCircleRadius: this.state.mainCircleRadius })
+        //this.setState({ isHovering: false, outerCircleRadius: this.state.mainCircleRadius })
+    }
+
+    logout() {
+        this.props.dispatch({type: 'LOG_OUT_USER', payload: {}})
     }
 
     render() {
+
         const middleOfPage = this.state.windowHeight / 2;
         const isHovering = this.state.isHovering;
-        const elementsLength = (this.props.elements.length + 1);
+        const elementsLength = (this.state.elements.length + 1);
         const T = 180 / elementsLength;
 
         const mainCircleRadius = Math.floor(this.state.mainCircleRadius);
@@ -70,7 +107,7 @@ class CircularSideNav extends Component {
 
         const elemetRadius = elementsLength <= 4 ? outerCircleRadius / 4 : outerCircleRadius / elementsLength;
 
-        const navElements = this.props.elements.map((el, i) => {
+        const navElements = this.state.elements.map((el, i) => {
             let newT = T * (i + 1);
             newT = newT <= 90 ? (90 - newT) : 360 - (newT - 90);
             const circleX = Math.round(Math.cos(Math.PI * (newT / 180)) * (outerCircleRadius - elemetRadius));
@@ -95,22 +132,22 @@ class CircularSideNav extends Component {
 
         return (
             <div>
-                <div className="m-cn-d"
+                <div className="m-cn-d skin-primary-background-color"
                      style={{
                          top: isHovering ? middleOfPage - mainCircleRadius : middleOfPage - mainCircleRadius,
                          left: isHovering ? -mainCircleRadius : -mainCircleRadius - 30,
                          width: isHovering ? mainCircleRadius * 2 : mainCircleRadius * 2 - (elemetRadius),
                          height: isHovering ? mainCircleRadius * 2 : mainCircleRadius * 2 - (elemetRadius),
                          //backgroundImage: `url(${this.props.backgroundImg ? this.props.backgroundImg : ""})`,
-                         backgroundColor: isHovering ? this.props.color : this.props.backgroundColor,
-                         color : "red",
+                         //backgroundColor: isHovering ? this.props.color : this.props.backgroundColor,
+                         //color : "red",
                          backgroundSize: "cover"
                      }}
-                >HI - <FontAwesomeIcon icon={faBars} />
+                ><FontAwesomeIcon icon={faBars} />
                 </div>
                 <div
-                    onMouseEnter={this.openElementsHandler}
-                    onMouseLeave={this.closeElementsHandler}
+     //               onMouseEnter={this.openElementsHandler}
+       //             onMouseLeave={this.closeElementsHandler}
                     style={{
                         width: outerCircleRadius * 2,
                         height: outerCircleRadius * 2,
@@ -125,4 +162,8 @@ class CircularSideNav extends Component {
     }
 }
 
-export default CircularSideNav;
+const mapDispatchToProps = dispatch => {
+    return {dispatch}
+}
+
+export default connect(mapDispatchToProps)(CircularSideNav);

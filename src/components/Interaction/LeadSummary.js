@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {MDBContainer, MDBNavItem, MDBNavLink, MDBNav, MDBIcon, MDBBtn, MDBRow, MDBCol, MDBChip} from "mdbreact";
+import {connect} from "react-redux";
 
 class LeadSummary extends Component {
 
@@ -61,4 +62,16 @@ class LeadSummary extends Component {
     }
 
 }
-export default LeadSummary;
+const mapStateToProps = state => {
+    return {
+        auth: state.auth,
+        localization: state.localization,
+        lead : state.lead
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {dispatch}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LeadSummary);

@@ -8,7 +8,7 @@ import "bootstrap-css-only/css/bootstrap.min.css";
 //import "mdbreact/dist/css/mdb.css";
 import "./assets/scss/mdb-pro.scss"
 import "./index.css";
-
+import Cookies from 'universal-cookie'
 import registerServiceWorker from './registerServiceWorker';
 import ContactCenter from "./ContactCenter";
 import Unauthorized from "./Unauthorized";
@@ -19,7 +19,7 @@ const host = window.location.host.indexOf(":") ? window.location.host.substr(0, 
 fetch(window.location.protocol + "//" + window.location.host + "//data//" + host + '.json')
     .then(response => response.json())
     .then((responseJson) => {
-//            responseJson["cookies"] = new Cookies()
+        responseJson["cookies"] = new Cookies()
         store.dispatch({type: 'CONFIGURE',payload: responseJson})
         const lang = responseJson.languages && responseJson.languages.indexOf(window.navigator.language) !== -1 ? window.navigator.language : responseJson["language-default"]
 
@@ -34,22 +34,12 @@ fetch(window.location.protocol + "//" + window.location.host + "//data//" + host
                     document.getElementById('83Bar-Activate')
                 )
             })
-
-
-
-
-//            if (responseJson.domain.indexOf(document.domain) !== -1) {
-
     })
     .catch((error) => {
         //console.error(error)
         ReactDOM.render(<Unauthorized/>, document.getElementById('83Bar-Activate'))
 
     })
-
-
-// DISPLAY it in console
-//store.subscribe(() => console.log(store.getState()))
 
 registerServiceWorker();
 

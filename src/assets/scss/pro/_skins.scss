@@ -2,11 +2,30 @@
 @each $skin,
   $data in $skins {
   .#{$skin}-skin {
+
+    // START  ****** Put Custom Classes Here ******
+    .skin-primary-color {
+      color: map-get($data, skin-primary-color);
+    }
+    .skin-primary-background-color {
+      background-color:map-get($data, skin-primary-color);
+    }
+    .skin-secondary-color {
+      color: map-get($data, skin-secondary-color);
+    }
+    .skin-secondary-background-color {
+      background-color:map-get($data, skin-secondary-color);
+    }
+    .skin-text {
+      color: map-get($data, skin-text);
+    }
+    // END  ****** Put Custom Classes Here ******
+
+
     .gradient {
       background: map-get($data, skin-gradient-start);
       background: linear-gradient(135deg, map-get($data, skin-gradient-start) 0%, map-get($data, skin-gradient-end) 100%);
     }
-
     .primary-color {
       background-color: map-get($data, skin-primary-color) !important;
     }

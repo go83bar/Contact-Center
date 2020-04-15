@@ -7,6 +7,7 @@ import LeadTimeline from "./LeadTimeline";
 import LeadCallQueue from "./LeadCallQueue";
 import LeadDocuments from "./LeadDocuments";
 import LeadNotes from "./LeadNotes";
+import {connect} from "react-redux";
 
 class LeadDetail extends Component {
 
@@ -49,7 +50,7 @@ class LeadDetail extends Component {
                             onClick={this.toggle("2")}
                             role="tab"
                         >
-                            <MDBIcon icon="calendar-check"/> Appointment
+                            <MDBIcon icon="calendar-check"/> Appointments
                         </MDBNavLink>
                     </MDBNavItem>
                     <MDBNavItem>
@@ -60,7 +61,7 @@ class LeadDetail extends Component {
                             onClick={this.toggle("3")}
                             role="tab"
                         >
-                            <MDBIcon icon="calendar"/> Booking
+                            <MDBIcon icon="calendar-plus"/> Booking
                         </MDBNavLink>
                     </MDBNavItem>
                     <MDBNavItem>
@@ -138,5 +139,16 @@ class LeadDetail extends Component {
         )
     }
 }
+const mapStateToProps = state => {
+    return {
+        auth: state.auth,
+        localization: state.localization,
+        lead : state.lead
+    }
+}
 
-export default LeadDetail;
+const mapDispatchToProps = dispatch => {
+    return {dispatch}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LeadDetail);

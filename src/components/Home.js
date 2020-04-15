@@ -1,10 +1,11 @@
 import React, {Component} from 'react'
-import {MDBCardBody, MDBCard, MDBCardText, MDBContainer, MDBCol, MDBRow} from "mdbreact";
-import {Link} from "react-router-dom";
+import {MDBContainer, MDBCol, MDBRow, MDBCard, MDBIcon, MDBCardBody, MDBProgress} from "mdbreact";
 import {connect} from "react-redux";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCircle} from "@fortawesome/pro-light-svg-icons";
-import {faHeadphones, faList, faLock, faSearch} from "@fortawesome/pro-solid-svg-icons";
+import CircularSideNav from "./CircluarSideNav/CircularSideNav";
+//import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+//import {faCircle} from "@fortawesome/pro-light-svg-icons";
+//import {faPhone, faCalendarCheck, faHandPaper} from "@fortawesome/pro-solid-svg-icons";
+//import {faCircle} from "@fortawesome/pro-light-svg-icons";
 
 class Home extends Component {
 
@@ -20,72 +21,97 @@ class Home extends Component {
     }
 
     render() {
-        const localization = this.props.localization.home
+        //const localization = this.props.localization.home
         return (
             <MDBContainer>
-                <MDBRow style={{textAlign: "center", marginTop: "20%"}}>
-                    <MDBCol md='4' className={"offset-md-2"}>
-                        <MDBCard style={{width: "100%", height: "15rem"}}>
-                            <MDBCardBody style={{marginTop: "50px"}}>
-                                <MDBCardText style={{fontSize: "20px"}}>
-                                    <Link to="/interaction" className={"dark"}>
-                                        <span className="fa-layers fa-fw fa-3x">
-                                            <FontAwesomeIcon icon={faCircle} className={"darkIcon"}/>
-                                            <FontAwesomeIcon icon={faHeadphones} transform={"shrink-8"} className={"darkIcon"}/>
-                                        </span>
-                                        <br/>{localization.fetch}</Link>
-                                </MDBCardText>
+                <CircularSideNav
+                    backgroundImg={"/images/nav.png"}
+                    backgroundColor={'#E0E0E0'}
+                    color={'#7c7c7c'}
+                    navSize={16}
+                    animation={''}
+                    animationPeriod={0.04}
+                />
+                <MDBRow style={{marginTop: "50px"}}>
+                    <MDBCol size={"3"} className='mb-5 offset-2'>
+                        <MDBCard cascade className='cascading-admin-card'>
+                            <div className='admin-up'>
+                                <MDBIcon
+                                    icon='phone-alt'
+                                    className='far primary-color mr-3 z-depth-2'
+                                />
+                                <div className='data'>
+                                    <p>INTERACTIONS<br/> MADE TODAY</p>
+                                    <h4 className='font-weight-bold dark-grey-text'>2000</h4>
+                                </div>
+                            </div>
+                            <MDBCardBody cascade>
+                                <MDBProgress
+                                    value={25}
+                                    barClassName='primary-color'
+                                    height='6px'
+                                    wrapperStyle={{ opacity: '.7' }}
+                                    className='mb-3'
+                                />
+                                <p className='card-text'>Better than last week (25%)</p>
                             </MDBCardBody>
                         </MDBCard>
                     </MDBCol>
-                    <MDBCol md='4'>
-                        <MDBCard style={{width: "100%", height: "15rem"}}>
-                            <MDBCardBody style={{marginTop: "50px"}}>
-                                <MDBCardText style={{fontSize: "20px"}}>
-                                    <Link to="/search" className={"dark"}>
-                                        <span className="fa-layers fa-fw fa-3x">
-                                            <FontAwesomeIcon icon={faCircle} className={"darkIcon"}/>
-                                            <FontAwesomeIcon icon={faSearch} transform={"shrink-8"} className={"darkIcon"}/>
-                                        </span>
-                                        <br/>{localization.search}
-                                    </Link>
-                                </MDBCardText>
+                    <MDBCol size={"3"} className='mb-5'>
+                        <MDBCard cascade className='cascading-admin-card'>
+                            <div className='admin-up'>
+                                <MDBIcon
+                                    icon='calendar-check'
+                                    className='far primary-color mr-3 z-depth-2'
+                                />
+                                <div className='data'>
+                                    <p>APPOINTMENTS<br/>BOOKED</p>
+                                    <h4 className='font-weight-bold dark-grey-text'>2000</h4>
+                                </div>
+                            </div>
+                            <MDBCardBody cascade>
+                                <MDBProgress
+                                    value={25}
+                                    barClassName='primary-color'
+                                    height='6px'
+                                    wrapperStyle={{ opacity: '.7' }}
+                                    className='mb-3'
+                                />
+                                <p className='card-text'>Better than last week (25%)</p>
                             </MDBCardBody>
                         </MDBCard>
                     </MDBCol>
+                    <MDBCol size={"3"} className='mb-5'>
+                        <MDBCard cascade className='cascading-admin-card'>
+                            <div className='admin-up'>
+                                <MDBIcon
+                                    icon='hand-paper'
+                                    className='far primary-color mr-3 z-depth-2'
+                                />
+                                <div className='data'>
+                                    <p>HANDOFFS<br/> MADE</p>
+                                    <h4 className='font-weight-bold dark-grey-text'>2000</h4>
+                                </div>
+                            </div>
+                            <MDBCardBody cascade>
+                                <MDBProgress
+                                    value={25}
+                                    barClassName='primary-color'
+                                    height='6px'
+                                    wrapperStyle={{ opacity: '.7' }}
+                                    className='mb-3'
+                                />
+                                <p className='card-text'>Better than last week (25%)</p>
+                            </MDBCardBody>
+                        </MDBCard>
+                    </MDBCol>
+
                 </MDBRow>
-                <MDBRow style={{textAlign: "center", marginTop: "30px"}}>
+                <MDBRow style={{textAlign: "center"}}>
 
-                    <MDBCol md='4' className={"offset-md-2"}>
-                        <MDBCard style={{width: "100%", height: "15rem"}}>
-                            <MDBCardBody style={{marginTop: "50px"}}>
-                                <MDBCardText style={{fontSize: "20px"}}>
-                                    <Link to="/recent" className={"dark"}>
-                                        <span className="fa-layers fa-fw fa-3x">
-                                            <FontAwesomeIcon icon={faCircle} className={"darkIcon"}/>
-                                            <FontAwesomeIcon icon={faList} transform={"shrink-8"} className={"darkIcon"}/>
-                                        </span>
-                                        <br/>{localization.recent}
-                                    </Link>
-                                </MDBCardText>
-                            </MDBCardBody>
-                        </MDBCard>
+                    <MDBCol md='6' className={"offset-md-3"}>
+                        <h1>Hi Agent! You have new leads!</h1>
                     </MDBCol>
-                    <MDBCol md='4'>
-                        <MDBCard style={{width: "100%", height: "15rem"}}>
-                            <MDBCardBody style={{marginTop: "50px"}}>
-                                <MDBCardText style={{fontSize: "20px"}}>
-                                    <Link to="#" onClick={this.logout} className={"dark"}>
-                                        <span className="fa-layers fa-fw fa-3x">
-                                            <FontAwesomeIcon icon={faCircle} className={"darkIcon"}/>
-                                            <FontAwesomeIcon icon={faLock} transform={"shrink-8"} className={"darkIcon"}/>
-                                        </span>
-                                        <br/>{localization.logout}</Link>
-                                </MDBCardText>
-                            </MDBCardBody>
-                        </MDBCard>
-                    </MDBCol>
-
                 </MDBRow>
             </MDBContainer>
         )
