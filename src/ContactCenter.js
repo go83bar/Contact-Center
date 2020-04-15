@@ -38,7 +38,7 @@ class ContactCenter extends Component {
     }
 
     changeSkin() {
-        document.body.className = 'black-skin';
+        document.body.className = 'white-skin';
     }
 
     toggleSideNav = () => {

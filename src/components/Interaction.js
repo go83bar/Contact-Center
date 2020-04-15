@@ -22,7 +22,7 @@ class Interaction extends Component {
 
     render() {
         return (
-            <MDBContainer fluid>
+            <MDBContainer fluid className={"p-0"}>
                 <LeadSummary/>
                 <CallBar/>
                 <LeadDetail/>
