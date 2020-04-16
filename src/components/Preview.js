@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBCardHeader, MDBBtn, MDBRow, MDBCol } from "mdbreact";
+import { MDBCard, MDBCardBody, MDBCardText, MDBCardHeader, MDBBtn, MDBRow, MDBCol } from "mdbreact";
 import { connect } from 'react-redux'
 import LoadingScreen from './LoadingScreen'
 import LeadAPI from '../api/leadAPI'
@@ -57,9 +57,9 @@ class Preview extends Component {
                                 </ul></div>
                         <MDBBtn color="primary-color" onClick={this.startInteraction}>Start Interaction</MDBBtn>
                         </MDBCardBody>
-                        
-                    </MDBCard>    
-                </MDBCol> 
+
+                    </MDBCard>
+                </MDBCol>
             </MDBRow>
         )
     }

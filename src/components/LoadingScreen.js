@@ -5,8 +5,8 @@ export default function LoadingScreen() {
         <div className="loadingcontainer">
             <div className="spinner"></div>
             <div className="calculating">
-                <h3>Initializing ...</h3>
+                <h3>Loading ...</h3>
             </div>
-        </div>  
+        </div>
     )
 }

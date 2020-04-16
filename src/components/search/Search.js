@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
-import {MDBBtn, MDBRow, MDBCol, MDBBox, MDBAlert, MDBIcon} from "mdbreact"
+import {MDBBtn, MDBRow, MDBCol, MDBBox, MDBAlert, MDBIcon, MDBContainer} from "mdbreact"
 import LeadAPI from '../../api/leadAPI'
 import SearchResults from './SearchResults'
 import { connect } from 'react-redux'
+import CircularSideNav from "../CircluarSideNav/CircularSideNav";
 
 class Search extends Component {
 
@@ -116,6 +117,15 @@ class Search extends Component {
 
 
         return (
+            <MDBContainer fluid>
+                <CircularSideNav
+                    backgroundImg={"/images/nav.png"}
+                    backgroundColor={'#E0E0E0'}
+                    color={'#7c7c7c'}
+                    navSize={16}
+                    animation={''}
+                    animationPeriod={0.04}
+                />
             <MDBBox>
                 <MDBRow center>
                     <MDBCol size="12">
@@ -191,6 +201,8 @@ class Search extends Component {
                     <SearchResults results={this.state.searchResults} />
                 }
             </MDBBox>
+            </MDBContainer>
+
         )
     }
 }

@@ -12,7 +12,7 @@ class Interaction extends Component {
         this.state = {
         };
 
-        fetch(window.location.protocol + "//" + window.location.host + "//leadDTO.json")
+        fetch(window.location.protocol + "//" + window.location.host + "//leadDTOReact.json")
             .then(response => response.json())
             .then((responseJson) => {
                 this.props.dispatch({type: 'LEAD.LOADSAMPLE',payload: responseJson})
@@ -24,8 +24,10 @@ class Interaction extends Component {
         return (
             <MDBContainer fluid className={"p-0"}>
                 <LeadSummary/>
-                <CallBar/>
-                <LeadDetail/>
+                <MDBContainer fluid className="d-flex p-0 pt-3 flex-row">
+                        <LeadDetail/>
+                        <CallBar/>
+                </MDBContainer>
             </MDBContainer>
         )
     }

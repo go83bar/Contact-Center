@@ -5,19 +5,28 @@
 
     // START  ****** Put Custom Classes Here ******
     .skin-primary-color {
-      color: map-get($data, skin-primary-color);
+      color: map-get($data, skin-primary-color) !important;
     }
     .skin-primary-background-color {
-      background-color:map-get($data, skin-primary-color);
+      background-color:map-get($data, skin-primary-color) !important;
+    }
+    .skin-primary-faint-background-color {
+      background-color: lighten(map-get($data, skin-primary-color), 46%) !important;
+    }
+    .skin-border-primary {
+      border-color: map-get($data, skin-primary-color) !important;
     }
     .skin-secondary-color {
-      color: map-get($data, skin-secondary-color);
+      color: map-get($data, skin-btn-secondary) !important;
     }
     .skin-secondary-background-color {
-      background-color:map-get($data, skin-secondary-color);
+      background-color:map-get($data, skin-btn-secondary) !important;
+    }
+    .skin-border-secondary {
+      border-color: map-get($data, skin-btn-secondary) !important;
     }
     .skin-text {
-      color: map-get($data, skin-text);
+      color: map-get($data, skin-text) !important;
     }
     // END  ****** Put Custom Classes Here ******
 

@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {MDBContainer, MDBIcon, MDBTabPane, MDBNav, MDBNavItem, MDBNavLink, MDBTabContent} from "mdbreact";
+import {MDBContainer, MDBTabPane, MDBNav, MDBNavItem, MDBNavLink, MDBTabContent} from "mdbreact";
 import LeadSurvey from "./LeadSurvey";
 import LeadAppointments from "./LeadAppointments";
 import LeadBooking from "./LeadBooking";
@@ -8,7 +8,8 @@ import LeadCallQueue from "./LeadCallQueue";
 import LeadDocuments from "./LeadDocuments";
 import LeadNotes from "./LeadNotes";
 import {connect} from "react-redux";
-
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faPoll, faCalendarCheck,faEdit,faCalendarPlus, faStream, faList, faFile, faBars} from '@fortawesome/pro-solid-svg-icons'
 class LeadDetail extends Component {
 
     constructor(props) {
@@ -29,90 +30,99 @@ class LeadDetail extends Component {
 
     render() {
         return (
-            <MDBContainer fluid>
-                <MDBNav tabs style={{padding: "4px"}} className={"justify-content-center"}>
-                    <MDBNavItem>
-                        <MDBNavLink
-                            link
-                            to="#"
-                            active={this.state.activeItem === "1"}
-                            onClick={this.toggle("1")}
-                            role="tab"
+            <MDBContainer className={"w-auto h-100 p-0"}>
+                <MDBContainer className="d-flex flex-row p-0">
+                <MDBNav className="float-left border skin-secondary-background-color" style={{width: "100px", fontSize:"14px"}}>
+                    <MDBNavItem className="w-100">
+                        <MDBNavLink className={"text-align-center skin-text p-3"}
+                                    link
+                                    to="#"
+                                    active={this.state.activeItem === "1"}
+                                    onClick={this.toggle("1")}
+                                    role="tab"
                         >
-                            <MDBIcon icon="poll"/> Survey
+                            <FontAwesomeIcon className="skin-text fa-lg" icon={faBars}/>
                         </MDBNavLink>
                     </MDBNavItem>
-                    <MDBNavItem>
-                        <MDBNavLink
-                            link
-                            to="#"
-                            active={this.state.activeItem === "2"}
-                            onClick={this.toggle("2")}
-                            role="tab"
+                    <MDBNavItem className="w-100">
+                        <MDBNavLink className={"text-align-center skin-text"}
+                                    link
+                                    to="#"
+                                    active={this.state.activeItem === "1"}
+                                    onClick={this.toggle("1")}
+                                    role="tab"
                         >
-                            <MDBIcon icon="calendar-check"/> Appointments
+                            <FontAwesomeIcon className="skin-primary-color fa-lg" icon={faPoll}/><br/>Survey
                         </MDBNavLink>
                     </MDBNavItem>
-                    <MDBNavItem>
-                        <MDBNavLink
-                            link
-                            to="#"
-                            active={this.state.activeItem === "3"}
-                            onClick={this.toggle("3")}
-                            role="tab"
+                    <MDBNavItem className="w-100">
+                        <MDBNavLink className={"text-align-center skin-text"}
+                                    link
+                                    to="#"
+                                    active={this.state.activeItem === "2"}
+                                    onClick={this.toggle("2")}
+                                    role="tab"
                         >
-                            <MDBIcon icon="calendar-plus"/> Booking
+                            <FontAwesomeIcon className="skin-primary-color fa-lg" icon={faCalendarCheck}/><br/>Appointments
                         </MDBNavLink>
                     </MDBNavItem>
-                    <MDBNavItem>
-                        <MDBNavLink
-                            link
-                            to="#"
-                            active={this.state.activeItem === "4"}
-                            onClick={this.toggle("4")}
-                            role="tab"
+                    <MDBNavItem className="w-100">
+                        <MDBNavLink className={"text-align-center skin-text"}
+                                    link
+                                    to="#"
+                                    active={this.state.activeItem === "3"}
+                                    onClick={this.toggle("3")}
+                                    role="tab"
                         >
-                            <MDBIcon icon="stream"/> Timeline
+                            <FontAwesomeIcon className="skin-primary-color fa-lg" icon={faCalendarPlus}/><br/>Booking
                         </MDBNavLink>
                     </MDBNavItem>
-                    <MDBNavItem>
-                        <MDBNavLink
-                            link
-                            to="#"
-                            active={this.state.activeItem === "5"}
-                            onClick={this.toggle("5")}
-                            role="tab"
+                    <MDBNavItem className="w-100">
+                        <MDBNavLink className={"text-align-center skin-text"}
+                                    link
+                                    to="#"
+                                    active={this.state.activeItem === "4"}
+                                    onClick={this.toggle("4")}
+                                    role="tab"
                         >
-                            <MDBIcon icon="list"/> Queue
+                            <FontAwesomeIcon className="skin-primary-color fa-lg" icon={faStream}/><br/>Timeline
                         </MDBNavLink>
                     </MDBNavItem>
-                    <MDBNavItem>
-                        <MDBNavLink
-                            link
-                            to="#"
-                            active={this.state.activeItem === "6"}
-                            onClick={this.toggle("6")}
-                            role="tab"
+                    <MDBNavItem className="w-100">
+                        <MDBNavLink className={"text-align-center skin-text"}
+                                    link
+                                    to="#"
+                                    active={this.state.activeItem === "5"}
+                                    onClick={this.toggle("5")}
+                                    role="tab"
                         >
-                            <MDBIcon icon="edit"/> Notes
+                            <FontAwesomeIcon className="skin-primary-color fa-lg" icon={faList}/><br/>Queue
                         </MDBNavLink>
                     </MDBNavItem>
-                    <MDBNavItem>
-                        <MDBNavLink
-                            link
-                            to="#"
-                            active={this.state.activeItem === "7"}
-                            onClick={this.toggle("7")}
-                            role="tab"
+                    <MDBNavItem className="w-100">
+                        <MDBNavLink className={"text-align-center skin-text"}
+                                    link
+                                    to="#"
+                                    active={this.state.activeItem === "6"}
+                                    onClick={this.toggle("6")}
+                                    role="tab"
                         >
-                            <MDBIcon icon="file"/> Documents
+                            <FontAwesomeIcon className="skin-primary-color fa-lg" icon={faEdit}/><br/>Notes
+                        </MDBNavLink>
+                    </MDBNavItem>
+                    <MDBNavItem className="w-100">
+                        <MDBNavLink className={"text-align-center skin-text"}
+                                    link
+                                    to="#"
+                                    active={this.state.activeItem === "7"}
+                                    onClick={this.toggle("7")}
+                                    role="tab"
+                        >
+                            <FontAwesomeIcon className="skin-primary-color fa-lg" icon={faFile}/><br/>Documents
                         </MDBNavLink>
                     </MDBNavItem>
                 </MDBNav>
-                <MDBTabContent
-                    className="card"
-                    activeItem={this.state.activeItem}
-                >
+                <MDBTabContent className="p-3 w-auto mh-100" activeItem={this.state.activeItem}>
                     <MDBTabPane tabId="1" role="tabpanel">
                         <LeadSurvey/>
                     </MDBTabPane>
@@ -135,15 +145,17 @@ class LeadDetail extends Component {
                         <LeadDocuments/>
                     </MDBTabPane>
                 </MDBTabContent>
+                </MDBContainer>
             </MDBContainer>
         )
     }
 }
+
 const mapStateToProps = state => {
     return {
         auth: state.auth,
         localization: state.localization,
-        lead : state.lead
+        lead: state.lead
     }
 }
 

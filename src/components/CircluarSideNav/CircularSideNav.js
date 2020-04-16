@@ -24,25 +24,25 @@ class CircularSideNav extends Component {
                 <Link to="/interaction" className={"circleNavLink skin-primary-color"}>
                 <span className="fa-layers fa-fw fa-4x">
                     <FontAwesomeIcon icon={faCircle}/>
-                    <FontAwesomeIcon icon={faHeadphones} transform={"shrink-8"}/>
+                    <FontAwesomeIcon icon={faHeadphones} transform={"shrink-8"} className={"skin-secondary-color"}/>
                 </span><br/>FETCH NEW LEAD
                 </Link>,
                 <Link to="/search" className={"circleNavLink skin-primary-color"}>
                 <span className="fa-layers fa-fw fa-4x">
                     <FontAwesomeIcon icon={faCircle}/>
-                    <FontAwesomeIcon icon={faSearch} transform={"shrink-8"} />
+                    <FontAwesomeIcon icon={faSearch} transform={"shrink-8"} className={"skin-secondary-color"}/>
                 </span><br/>FIND A LEAD
                 </Link>,
                 <Link to="/recent" className={"circleNavLink skin-primary-color"}>
                 <span className="fa-layers fa-fw fa-4x">
                     <FontAwesomeIcon icon={faCircle}/>
-                    <FontAwesomeIcon icon={faList} transform={"shrink-8"} />
+                    <FontAwesomeIcon icon={faList} transform={"shrink-8"} className={"skin-secondary-color"}/>
                 </span><br/>RECENT LEADS
                 </Link>,
                 <Link to="#" onClick={this.logout} className={"circleNavLink skin-primary-color"}>
                 <span className="fa-layers fa-fw fa-4x">
                     <FontAwesomeIcon icon={faCircle} />
-                    <FontAwesomeIcon icon={faLock} transform={"shrink-8"} />
+                    <FontAwesomeIcon icon={faLock} transform={"shrink-8"} className={"skin-secondary-color"}/>
                 </span><br/>SIGN OUT
                 </Link>
             ]
@@ -76,11 +76,11 @@ class CircularSideNav extends Component {
     }
 
     componentDidMount() {
-        window.addEventListener("resize", this.updateWindowDimensions.bind(this));
+        //window.addEventListener("resize", this.updateWindowDimensions.bind(this));
     }
 
     componentWillUnmount() {
-        window.removeEventListener("resize", this.updateWindowDimensions.bind(this));
+        //window.removeEventListener("resize", this.updateWindowDimensions.bind(this));
     }
 
     openElementsHandler = () => {

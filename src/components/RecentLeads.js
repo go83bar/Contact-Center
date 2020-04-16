@@ -4,6 +4,7 @@ import AgentAPI from '../api/agentAPI';
 import LoadingScreen from './LoadingScreen'
 import SearchResults from './search/SearchResults'
 import { connect } from 'react-redux';
+import CircularSideNav from "./CircluarSideNav/CircularSideNav";
 
 class RecentLeads extends Component {
 
@@ -36,6 +37,14 @@ class RecentLeads extends Component {
         return (
             <MDBRow center>
                 <MDBCol size="12">
+                    <CircularSideNav
+                        backgroundImg={"/images/nav.png"}
+                        backgroundColor={'#E0E0E0'}
+                        color={'#7c7c7c'}
+                        navSize={16}
+                        animation={''}
+                        animationPeriod={0.04}
+                    />
                     <MDBCard>
                         <MDBCardBody>
                             <MDBCardTitle>Recent Leads</MDBCardTitle>
