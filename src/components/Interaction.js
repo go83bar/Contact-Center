@@ -9,7 +9,9 @@ class Interaction extends Component {
 
     constructor(props) {
         super(props);
+        this.toggleCallBar=this.toggleCallBar.bind(this)
         this.state = {
+            callBarVisible : true
         };
 
         fetch(window.location.protocol + "//" + window.location.host + "//leadDTOReact.json")
@@ -20,13 +22,17 @@ class Interaction extends Component {
 
     }
 
+    toggleCallBar() {
+        this.setState({callBarVisible : !this.state.callBarVisible})
+    }
+
     render() {
         return (
             <MDBContainer fluid className={"p-0"}>
-                <LeadSummary/>
+                <LeadSummary toggleCallBar={this.toggleCallBar}/>
                 <MDBContainer fluid className="d-flex p-0 pt-3 flex-row">
                         <LeadDetail/>
-                        <CallBar/>
+                        <CallBar toggleCallBar={this.toggleCallBar} callBarVisible={this.state.callBarVisible}/>
                 </MDBContainer>
             </MDBContainer>
         )

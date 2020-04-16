@@ -11,7 +11,7 @@ class LeadSurvey extends Component {
 
     render() {
         return (
-            <MDBContainer className={"p-0 w-auto"}>
+            <MDBContainer fluid className={"p-0 w-auto"}>
                 Lead Survey<br/>
                <p> Pariatur cliche reprehenderit, enim eiusmod high life accusamus
                 terry richardson ad squid. 3 wolf moon officia aute, non

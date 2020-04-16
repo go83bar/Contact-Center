@@ -30,8 +30,8 @@ class LeadDetail extends Component {
 
     render() {
         return (
-            <MDBContainer className={"w-auto h-100 p-0"}>
-                <MDBContainer className="d-flex flex-row p-0">
+            <MDBContainer fluid className={"h-100 p-0"}>
+                <MDBContainer fluid className="d-flex flex-row p-0">
                 <MDBNav className="float-left border skin-secondary-background-color" style={{width: "100px", fontSize:"14px"}}>
                     <MDBNavItem className="w-100">
                         <MDBNavLink className={"text-align-center skin-text p-3"}
@@ -122,7 +122,7 @@ class LeadDetail extends Component {
                         </MDBNavLink>
                     </MDBNavItem>
                 </MDBNav>
-                <MDBTabContent className="p-3 w-auto mh-100" activeItem={this.state.activeItem}>
+                <MDBTabContent className="p-3 w-100 mh-100" activeItem={this.state.activeItem}>
                     <MDBTabPane tabId="1" role="tabpanel">
                         <LeadSurvey/>
                     </MDBTabPane>

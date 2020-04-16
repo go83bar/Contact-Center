@@ -8,7 +8,15 @@ import {
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faPhone} from '@fortawesome/free-solid-svg-icons'
 import {faCircle} from "@fortawesome/pro-light-svg-icons";
-import {faCheck, faCircle as faCircleSolid, faPause, faVoicemail, faRandom, faHandPaper} from "@fortawesome/pro-solid-svg-icons";
+import {
+    faCheck,
+    faCircle as faCircleSolid,
+    faPause,
+    faVoicemail,
+    faRandom,
+    faHandPaper,
+    faAngleUp
+} from "@fortawesome/pro-solid-svg-icons";
 
 class CallBar extends Component {
 
@@ -22,6 +30,9 @@ class CallBar extends Component {
             <MDBContainer
                 className="rounded p-0 border float-right skin-border-primary skin-primary-faint-background-color callBar">
                 <MDBNav className="">
+                    <div className={"font-weight-bolder p-0 text-align-center w-100 "} onClick={this.props.toggleCallBar}>
+                        <FontAwesomeIcon icon={faAngleUp} size={"2x"} className="skin-secondary-color"/>
+                    </div>
                     <div className={"font-weight-bolder p-0 pb-1 mt-1 text-align-center w-100 "}>Lead</div>
                     <MDBNavItem className="w-50 pb-2">
                         <MDBNavLink to="#" className={"text-align-center p-0"}>
