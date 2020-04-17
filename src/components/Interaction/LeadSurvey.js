@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { MDBTypography, MDBBox} from "mdbreact";
+import { MDBBox} from "mdbreact";
 import {connect} from "react-redux";
 import SurveySubmission from "./SurveySubmission"
 
@@ -23,16 +23,16 @@ class LeadSurvey extends Component {
     }
     render() {
         const surveys = this.props.lead.surveys.map( (submission) => {
-            return <SurveySubmission 
-                key={submission.id} 
-                survey={submission} 
+            return <SurveySubmission
+                key={submission.id}
+                survey={submission}
                 collapseID={this.state.collapseID}
                 collapseCallback={this.toggleCollapse}
                 />
         })
         return (
             <MDBBox className={"p-0 m-0 w-auto"}>
-                    <h3>{this.props.localization.interaction.survey.tabTitle}</h3> 
+                    <h3>{this.props.localization.interaction.survey.tabTitle}</h3>
                     <MDBBox className='w-100 p-0 md-accordion mt-5'>
                         {surveys}
                     </MDBBox>
