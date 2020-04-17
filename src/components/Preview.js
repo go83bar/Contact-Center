@@ -13,36 +13,82 @@ class Preview extends Component {
 
         this.state = {}
 
-        // grab store data, fetch preview response, and set it into state
-        const previewPayload = {
-            leadID: this.props.previewData.leadID,
-            callQueueID: this.props.previewData.callQueueID
-        }
-        LeadAPI.getLeadPreview(this.props.auth.auth, previewPayload)
-            .then((response) => {
-                console.log(response)
-                this.setState({
-                    leadData: response.data
+        console.log(props.previewData)
+        let leadID = 0
+        
+        // if this is a queued lead, we will already have preview data
+        if (props.previewData.lead_name !== undefined) {
+            this.state.leadData = props.previewData
+            leadID = props.previewData.lead_id
+        } else {
+            // otherwise we should have lead ID in the store, fetch preview
+            // response from the API and set it into state when we get it
+            const previewPayload = {
+                leadID: props.previewData.leadID,
+                callQueueID: props.previewData.callQueueID
+            }
+            leadID = props.previewData.leadID
+            LeadAPI.getLeadPreview(props.auth.auth, previewPayload)
+                .then((response) => {
+                    this.setState({
+                        leadData: response.data
+                    })
                 })
+
+        }
+
+        // no need to wait for interaction to start, we can start loading 
+        // lead data right here and put it into store ahead of time
+        LeadAPI.getLeadDTO(this.props.auth.auth, {leadID: leadID})
+            .then((responseJson) => {
+                console.log(responseJson);
+                const clientIndex = this.props.shift.clients.findIndex(client => client.id === responseJson.client_id)
+                responseJson["client_index"] = clientIndex
+                if (clientIndex === -1) {
+                    // serious problem, lead's client doesn't exist in agent's shift data
+                    // TODO handle error
+                    return
+                }
+
+                const campaignIndex = this.props.shift.clients[clientIndex].campaigns.findIndex(campaign => campaign.id === responseJson.campaign_id);
+                responseJson["campaign_index"] = campaignIndex
+                if (campaignIndex === -1) {
+                    // lead's campaign doesn't exist in agent's shift data
+                    // TODO handle error
+                    return
+                }
+
+                const regionIndex = this.props.shift.clients[clientIndex].regions.findIndex(region => region.id === responseJson.region_id);
+                responseJson["region_index"] = regionIndex
+                if (regionIndex === -1) {
+                    // lead's region doesn't exist in agent's shift data
+                    // TODO handle error
+                    return
+                }
+                this.props.dispatch({type: 'LEAD.LOAD',payload: responseJson})
             })
     }
 
     startInteraction() {
-
+        // TODO make API call to startInteraction here
+        
+        this.props.history.push("/interaction") 
     }
 
     render() {
+        // Display loading image until lead preview data is loaded
         if (this.state.leadData === undefined) {
             return <LoadingScreen />
         }
 
+        // Build list of preview data items
         const data = this.state.leadData.meta.map((item, i) => {
             return (
                 <li key={i}>{item.name}: {item.value}</li>
             )
         })
         return (
-            <MDBRow center>
+            <MDBRow center style={{ marginTop: "10%" }}>
                 <MDBCol size="6">
                     <MDBCard className="card-body">
                         <MDBCardHeader><h3>
@@ -66,7 +112,12 @@ class Preview extends Component {
 }
 
 const mapStateToProps = state => {
-    return { auth: state.auth, localization : state.localization, previewData: state.preview }
+    return { 
+        auth: state.auth, 
+        localization : state.localization, 
+        previewData: state.preview,
+        shift: state.shift
+    }
 }
 
 const mapDispatchToProps = dispatch => { return { dispatch }}

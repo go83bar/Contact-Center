@@ -8,7 +8,7 @@ class SearchResults extends Component {
     render() {
         const rows = this.props.results.map((row) => {
             return (
-                <SearchResult key={row.lead_id} row={row} />
+                <SearchResult key={row.id} row={row} />
             )
         })
         const localized = this.props.localization.search

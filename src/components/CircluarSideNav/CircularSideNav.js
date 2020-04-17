@@ -21,7 +21,7 @@ class CircularSideNav extends Component {
             outerCircleRadius: (window.innerHeight * (this.props.navSize / 100)) * 2.5,
             isHovering: true,
             elements : [
-                <Link to="/interaction" className={"circleNavLink skin-primary-color"}>
+                <Link to="/next" className={"circleNavLink skin-primary-color"}>
                 <span className="fa-layers fa-fw fa-4x">
                     <FontAwesomeIcon icon={faCircle}/>
                     <FontAwesomeIcon icon={faHeadphones} transform={"shrink-8"} className={"skin-secondary-color"}/>

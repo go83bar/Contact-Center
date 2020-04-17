@@ -1,5 +1,23 @@
 {
   "name" : "Activate",
+  "home" : {
+    "fetch" : "FETCH NEW LEAD",
+    "search" : "FIND A LEAD",
+    "recent" : "RECENT LEADS",
+    "logout" : "SIGN OUT"
+  },
+  "interaction": {
+    "survey": {
+      "tabTitle": "Surveys"
+    }
+  },
+  "login" : {
+    "title" : "Sign in to start your session.",
+    "frontPlaceholder" : "Email Address",
+    "frontButton" : "Get Pin",
+    "backPlaceholder" : "Pin Code",
+    "backButton" : "Sign In"
+  },
   "search": {
     "componentTitle": "Search",
     "firstNameLabel": "First Name",
@@ -17,18 +35,6 @@
     "resultLockedLabel": "LOCKED",
     "resultButtonLabel": "Load",
     "noClientSelectedError": "You must select a client"
-  },
-  "login" : {
-    "title" : "Sign in to start your session.",
-    "frontPlaceholder" : "Email Address",
-    "frontButton" : "Get Pin",
-    "backPlaceholder" : "Pin Code",
-    "backButton" : "Sign In"
-  },
-  "home" : {
-    "fetch" : "FETCH NEW LEAD",
-    "search" : "FIND A LEAD",
-    "recent" : "RECENT LEADS",
-    "logout" : "SIGN OUT"
   }
+
 }

@@ -63,6 +63,13 @@ export default class AgentAPI {
      * @memberof RecentAPI
      */
     static async getRecentLeads(auth) {
+        // Mock API responses for local dev
+        if (process.env.REACT_APP_QUERY_MODE === "development") {
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "//data//recentLeads.json")
+            
+            return mockData.json()
+        }
+
         const requestOptions = {
             url: process.env.REACT_APP_API_BASE_URL + "agents/recentleads",
             method: "GET",

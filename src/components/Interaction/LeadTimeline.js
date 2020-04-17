@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {
-    MDBContainer,
+    MDBBox,
     MDBStepper,
     MDBStep,
     MDBCardHeader,
@@ -22,7 +22,7 @@ class LeadTimeline extends Component {
 
     render() {
         return (
-            <MDBContainer fluid>
+            <MDBBox className={"p-0 m-0 w-auto"}>
                 <MDBRow>
                     <MDBCol size={"4"}>
                         <MDBCard className="mb-3">
@@ -94,7 +94,7 @@ class LeadTimeline extends Component {
                     </MDBCard>
                     </MDBCol>
                  </MDBRow>
-            </MDBContainer>
+            </MDBBox>
         )
     }
 }

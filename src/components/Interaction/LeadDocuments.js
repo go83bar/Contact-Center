@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {MDBBox} from 'mdbreact'
 
 class LeadDocuments extends Component {
 
@@ -10,7 +11,9 @@ class LeadDocuments extends Component {
 
     render() {
         return (
-            <div>Lead Documents</div>
+            <MDBBox className="w-100 p-0 m-0">
+                Lead Documents
+            </MDBBox>
         )
     }
 }

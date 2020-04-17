@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {MDBRow, MDBCol, MDBCard, MDBCardBody, MDBCardTitle} from "mdbreact"
+import {MDBRow, MDBCol, MDBCard, MDBCardBody, MDBCardTitle, MDBBox} from "mdbreact"
 import AgentAPI from '../api/agentAPI';
 import LoadingScreen from './LoadingScreen'
 import SearchResults from './search/SearchResults'
@@ -14,8 +14,12 @@ class RecentLeads extends Component {
         AgentAPI.getRecentLeads(this.props.auth.auth)
             .then((response) => {
                 if (response.success) {
+                    const searchifiedResults = response.data.map( (item) => {
+                        item.id = item.lead_id
+                        return item
+                    })
                     this.setState({
-                        recentData: response.data
+                        recentData: searchifiedResults
                     })
                 }
             }).catch((reason) => {
@@ -26,8 +30,6 @@ class RecentLeads extends Component {
 
         this.state = {
         };
-
-
     }
 
     render() {
@@ -35,25 +37,28 @@ class RecentLeads extends Component {
             return <LoadingScreen />
         }
         return (
-            <MDBRow center>
-                <MDBCol size="12">
-                    <CircularSideNav
-                        backgroundImg={"/images/nav.png"}
-                        backgroundColor={'#E0E0E0'}
-                        color={'#7c7c7c'}
-                        navSize={16}
-                        animation={''}
-                        animationPeriod={0.04}
-                    />
-                    <MDBCard>
-                        <MDBCardBody>
-                            <MDBCardTitle>Recent Leads</MDBCardTitle>
-                            <SearchResults results={this.state.recentData} />
-                        </MDBCardBody>
-                    </MDBCard>
-
-                </MDBCol>
-            </MDBRow>
+            <MDBBox>
+                <MDBRow>
+                    <MDBCol size="3">
+                        <CircularSideNav
+                            backgroundImg={"/images/nav.png"}
+                            backgroundColor={'#E0E0E0'}
+                            color={'#7c7c7c'}
+                            navSize={16}
+                            animation={''}
+                            animationPeriod={0.04}
+                        />
+                    </MDBCol>
+                    <MDBCol size="7">
+                        <MDBCard style={{marginTop: "10%"}}>
+                            <MDBCardBody>
+                                <MDBCardTitle>Recent Leads</MDBCardTitle>
+                                <SearchResults results={this.state.recentData} />
+                            </MDBCardBody>
+                        </MDBCard>
+                    </MDBCol>
+                </MDBRow>
+            </MDBBox>
         )
     }
 }

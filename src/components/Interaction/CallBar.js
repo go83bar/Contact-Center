@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {
-    MDBContainer,
+    MDBBox,
     MDBNav,
     MDBNavItem,
     MDBNavLink
@@ -27,7 +27,7 @@ class CallBar extends Component {
 
     render() {
         return (
-            <MDBContainer
+            <MDBBox
                 className="rounded p-0 border float-right skin-border-primary skin-primary-faint-background-color callBar">
                 <MDBNav className="">
                     <div className={"font-weight-bolder p-0 text-align-center w-100 "} onClick={this.props.toggleCallBar}>
@@ -147,7 +147,7 @@ class CallBar extends Component {
                 </MDBNav>
 
 
-            </MDBContainer>
+            </MDBBox>
         )
     }
 }

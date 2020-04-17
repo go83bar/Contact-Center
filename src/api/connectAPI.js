@@ -9,52 +9,63 @@ export default class ConnectAPI {
      */
 
     /**
-     * Performs PIN request call, requires an agent phone number
-     * returns false if it gets an error from the API endpoint
+     * Performs PIN request call, requires an user email
+     * Promise resolves to false if it gets an error from the API endpoint
      * 
-     * @param {string} loginPhone 
+     * @param {string} loginEmail 
      * @return {boolean}
      */
-    async pin(loginPhone) {
-        const url = this.config.appBaseUrl + "pin-react"
-        const payload = {
-            phone: loginPhone
-        }
+    static async getPin(loginEmail) {
 
         const requestOptions = {
-            url: process.env.REACT_APP_APP_BASE_URL + "pin-react",
-            data: { phone: loginPhone},
+            url: process.env.REACT_APP_LOGIN_BASE_URL + "pin",
+            data: { email: loginEmail},
         }
-        const result = await sendRequest(requestOptions)
+        return await sendRequest(requestOptions)
 
-        return result.success
     }
 
     /**
      * Performs login auth call, and if successful will set auth info into this.auth
-     * returns false if the login failed
+     * Promise resolves to an object like this:
+     * {
+     *  "success": {bool},
+     *  "user_id": {number},
+     *  "auth_token": {string}
+     * }
      * 
      * @param {number} loginPIN 
-     * @param {string} loginPhone 
+     * @param {string} loginEmail 
      * @return {boolean|Auth}
      */
-    async login(loginPIN, loginPhone) {
-        const url = this.config.appBaseUrl + "login-react"
+    static async login(loginPIN, loginEmail) {
         const payload = {
-            phone: loginPhone,
-            pin: loginPIN,
-            react_mode: true
+            email: loginEmail,
+            pin: loginPIN
         }
 
         const requestOptions = {
-            url: process.env.REACT_APP_APP_BASE_URL + "login-react",
+            url: process.env.REACT_APP_LOGIN_BASE_URL + "login",
             data: payload
         }
-        const result = await sendRequest(requestOptions)
-
-        if (result.api_token != undefined) {
-            return {token: result.api_token, userID: result.user_id}
-        }
-        return false
+        return await sendRequest(requestOptions)
     }
+
+    /**
+     * Performs logout call
+     * 
+     * 
+     * @param {Auth} auth
+     * @returns {Promise}
+     * @memberof ConnectAPI
+     */
+    static async logout(auth) {
+
+        const requestOptions = {
+            url: process.env.REACT_APP_LOGIN_BASE_URL + "logout",
+            auth: auth
+        }
+        return await sendRequest(requestOptions)
+    }
+
 }

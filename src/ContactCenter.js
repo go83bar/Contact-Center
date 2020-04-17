@@ -4,6 +4,7 @@ import "./index.css";
 //import CircularSideNav from "./components/CircluarSideNav/CircularSideNav";
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import Home from "./components/Home"
+import NextLead from "./components/NextLead"
 import Interaction from "./components/Interaction"
 import Search from "./components/search/Search"
 import RecentLeads from "./components/RecentLeads"
@@ -83,7 +84,9 @@ class ContactCenter extends Component {
                         <ProtectedRoute exact path="/recent" component={RecentLeads}/>
                         <ProtectedRoute exact path="/search" component={Search}/>
                         <ProtectedRoute exact path="/preview" component={Preview}/>
+                        <ProtectedRoute exact path="/next" component={NextLead}/>
                         <ProtectedRoute exact path="/interaction" component={Interaction}/>
+
                     </Switch>
                 </MDBContainer>
             </BrowserRouter>

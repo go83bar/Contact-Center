@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {
-    MDBContainer,
+    MDBBox,
     MDBNavItem,
     MDBNavLink,
     MDBNav,
@@ -24,22 +24,16 @@ class LeadSummary extends Component {
         super(props);
         this.toggleCollapse = this.toggleCollapse.bind(this)
         this.collapseClosed = this.collapseClosed.bind(this)
+        const client = this.props.shift.clients[this.props.lead.client_index]
+        const campaign = client.campaigns[this.props.lead.campaign_index]
         this.state = {
-            collapsed : false,
-            closed : false
+            collapsed: false,
+            closed: false,
+            clientName: client.name,
+            campaignName: campaign.name
         };
     }
 
-    getTimeZone(timezone) {
-        switch (timezone) {
-            case "America/Chicago":
-                return "CDT"
-            case "America/Denver":
-                return "MDT"
-            default:
-                return ""
-        }
-    }
     toggleCollapse() {
         this.setState(this.state.collapsed ? {collapsed : false, closed : false} : {collapsed: true} )
     }
@@ -48,7 +42,7 @@ class LeadSummary extends Component {
     }
     render() {
         return (
-            <MDBContainer fluid className={'md-accordian p-0'}>
+            <MDBBox className={'md-accordian p-0 w-100'}>
                 <MDBCard className='mt-3 skin-border-primary rounded'>
                     <MDBCollapseHeader className={"backgroundColorInherit border-0 p-0 m-0"}>
                         <div className={"d-inline-block font-weight-bolder pl-3 pt-4"}>{this.props.lead.first_name} {this.props.lead.last_name}</div>
@@ -68,10 +62,10 @@ class LeadSummary extends Component {
                             {this.props.lead.city !== null ? this.props.lead.city + ", " : ""} {this.props.lead.state !== null ? this.props.lead.state : ""}
                         </div>
                         <div className={"d-inline-block font-weight-bolder ml-3"}>
-                            {this.getTimeZone(this.props.lead.timezone)}
+                            {this.props.lead.timezone_short}
                         </div>
-                        <MDBChip className={"outlineChip ml-4 mb-0"}>Client: Myriad</MDBChip>
-                        <MDBChip className={"outlineChip ml-1 mb-0"}>{this.props.lead.campaign && this.props.lead.campaign.name}</MDBChip>
+                        <MDBChip className={"outlineChip ml-4 mb-0"}>Client: {this.state.clientName}</MDBChip>
+                        <MDBChip className={"outlineChip ml-1 mb-0"}>{this.state.campaignName}</MDBChip>
 
                         <MDBNav className={"justify-content-end float-right border-left skin-border-primary " + (!this.state.closed && "border-bottom ")}>
                             <MDBNavItem className={"skin-primary-background-color"}>
@@ -119,7 +113,7 @@ class LeadSummary extends Component {
                 </MDBCard>
 
 
-            </MDBContainer>
+            </MDBBox>
         )
     }
 
@@ -128,7 +122,8 @@ const mapStateToProps = state => {
     return {
         auth: state.auth,
         localization: state.localization,
-        lead : state.lead
+        lead : state.lead,
+        shift: state.shift
     }
 }
 

@@ -5,14 +5,12 @@ const initialState = {
 
 // Reducer for handling auth actions
 export function preview(state = initialState, action) {
-switch (action.type) {
-    case 'LOAD_PREVIEW':
-        return {
-            ...state,
-            leadID: action.payload.leadID,
-            callQueueID: action.payload.callQueueID
-        }
-    default:
-        return state
-}
+    switch (action.type) {
+        case 'PREVIEW.LOAD':
+            return Object.assign({}, state, {
+                ...action.payload
+            })
+        default:
+            return state
+    }
 }

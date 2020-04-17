@@ -4,6 +4,7 @@ import LeadSummary from "./Interaction/LeadSummary";
 import LeadDetail from "./Interaction/LeadDetail";
 import CallBar from "./Interaction/CallBar";
 import {connect} from "react-redux";
+import LoadingScreen from './LoadingScreen';
 
 class Interaction extends Component {
 
@@ -14,12 +15,6 @@ class Interaction extends Component {
             callBarVisible : true
         };
 
-        fetch(window.location.protocol + "//" + window.location.host + "//leadDTOReact.json")
-            .then(response => response.json())
-            .then((responseJson) => {
-                this.props.dispatch({type: 'LEAD.LOADSAMPLE',payload: responseJson})
-            })
-
     }
 
     toggleCallBar() {
@@ -27,6 +22,10 @@ class Interaction extends Component {
     }
 
     render() {
+        if (this.props.lead === undefined) {
+            return <LoadingScreen />
+        }
+
         return (
             <MDBContainer fluid className={"p-0"}>
                 <LeadSummary toggleCallBar={this.toggleCallBar}/>

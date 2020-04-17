@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {MDBContainer, MDBTabPane, MDBNav, MDBNavItem, MDBNavLink, MDBTabContent} from "mdbreact";
+import {MDBBox, MDBTabPane, MDBNav, MDBNavItem, MDBNavLink, MDBTabContent} from "mdbreact";
 import LeadSurvey from "./LeadSurvey";
 import LeadAppointments from "./LeadAppointments";
 import LeadBooking from "./LeadBooking";
@@ -30,8 +30,8 @@ class LeadDetail extends Component {
 
     render() {
         return (
-            <MDBContainer fluid className={"h-100 p-0"}>
-                <MDBContainer fluid className="d-flex flex-row p-0">
+            <MDBBox className={"h-100 w-100 p-0"}>
+                <MDBBox className="d-flex flex-row p-0">
                 <MDBNav className="float-left border skin-secondary-background-color" style={{width: "100px", fontSize:"14px"}}>
                     <MDBNavItem className="w-100">
                         <MDBNavLink className={"text-align-center skin-text p-3"}
@@ -145,8 +145,8 @@ class LeadDetail extends Component {
                         <LeadDocuments/>
                     </MDBTabPane>
                 </MDBTabContent>
-                </MDBContainer>
-            </MDBContainer>
+                </MDBBox>
+            </MDBBox>
         )
     }
 }

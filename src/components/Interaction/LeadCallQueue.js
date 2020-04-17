@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {MDBBox} from 'mdbreact'
 
 class LeadCallQueue extends Component {
 
@@ -10,7 +11,9 @@ class LeadCallQueue extends Component {
 
     render() {
         return (
-            <div>Lead Call Queue</div>
+            <MDBBox className="w-100 p-0 m-0">
+                Call Queue
+            </MDBBox>
         )
     }
 }

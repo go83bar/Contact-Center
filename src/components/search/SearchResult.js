@@ -27,8 +27,8 @@ class SearchResult extends Component {
 
     // when user clicks on a result, we load the preview screen for that lead
     handleResultClick() {
-        this.props.dispatch({type: "LOAD_PREVIEW", payload: {
-            leadID: this.props.row.lead_id, 
+        this.props.dispatch({type: "PREVIEW.LOAD", payload: {
+            leadID: this.props.row.id, 
             callQueueID: "search"
         }})
         this.props.history.push('/preview')
@@ -37,7 +37,7 @@ class SearchResult extends Component {
     render() {
         return (
             <tr>
-                <td>{this.props.row.lead_id}</td>
+                <td>{this.props.row.id}</td>
                 <td {...this.state.lockedOpts}>{this.state.leadName}</td>
                 <td>{this.props.row.vertical_name}</td>
                 <td>{this.props.row.phase_name}</td>

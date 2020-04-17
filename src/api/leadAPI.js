@@ -79,6 +79,13 @@ export default class LeadAPI {
      * @memberof LeadAPI
      */
     static async getNextLead(auth) {
+        // Mock API responses for local dev
+        if (process.env.REACT_APP_QUERY_MODE === "development") {
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "//data//nextLead.json")
+            
+            return mockData.json()
+        }
+
         const requestOptions = {
             url: process.env.REACT_APP_API_BASE_URL + "leads/next",
             method: "GET",
@@ -121,6 +128,13 @@ export default class LeadAPI {
      * @memberof LeadAPI
      */
     static async getLeadPreview(auth, params) {
+        // Mock API responses for local dev
+        if (process.env.REACT_APP_QUERY_MODE === "development") {
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "//data//nextLead.json")
+            
+            return mockData.json()
+        }
+
         const requestOptions = {
             url: process.env.REACT_APP_API_BASE_URL + "leads/" + params.leadID + "/preview",
             data: { call_queue_id: params.callQueueID},
@@ -179,7 +193,7 @@ export default class LeadAPI {
 
     /**
      * Gets the large lead DTO that the interaction views are based on
-     * Promise resolves to the large object structure represented in leadDTO.json
+     * Promise resolves to the large object structure represented in leadDTOReact.json
      *
      * @static
      * @param {Auth} auth
@@ -188,8 +202,15 @@ export default class LeadAPI {
      * @memberof LeadAPI
      */
     static async getLeadDTO(auth, params) {
+        // Mock API responses for local dev
+        if (process.env.REACT_APP_QUERY_MODE === "development") {
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "//data//leadDTOReact.json")
+            
+            return mockData.json()
+        }
+
         const requestOptions = {
-            url: process.env.REACT_APP_API_BASE_URL + "leads/" + params.leadID,
+            url: process.env.REACT_APP_API_BASE_URL + "leads/" + params.leadID + "/reactDTO",
             method: "GET",
             auth: auth
         }

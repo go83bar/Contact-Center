@@ -1,5 +1,16 @@
 import React, {Component} from 'react'
-import {MDBBtn, MDBRow, MDBCol, MDBBox, MDBAlert, MDBIcon, MDBContainer} from "mdbreact"
+import {
+    MDBBtn, 
+    MDBRow, 
+    MDBCol, 
+    MDBBox, 
+    MDBAlert, 
+    MDBIcon, 
+    MDBCard,
+    MDBCardBody,
+    MDBCardTitle,
+    MDBCollapse
+} from "mdbreact"
 import LeadAPI from '../../api/leadAPI'
 import SearchResults from './SearchResults'
 import { connect } from 'react-redux'
@@ -12,7 +23,6 @@ class Search extends Component {
 
         this.state = {
             form: {
-                leadIDValue: 0,
                 firstNameValue: "",
                 lastNameValue: "",
                 phoneValue: "",
@@ -25,6 +35,7 @@ class Search extends Component {
             validationError: false,
             validationMessage: "",
             isFetchingResults: false,
+            searchOpen: true,
             searchResults: []
 
         };
@@ -66,25 +77,33 @@ class Search extends Component {
 
         // build payload object
         const payload = {
-            id: this.state.form.leadIDValue,
             first_name: this.state.form.firstNameValue,
             last_name: this.state.form.lastNameValue,
             phone: this.state.form.phoneValue,
             client_id: this.state.form.clientIDValue
         }
 
+        // conditionally add lead ID since the backend is stupid and 
+        // will never return results with "undefined" as a query argument
+        if (this.state.form.leadIDValue !== undefined) {
+            payload["id"] = this.state.form.leadIDValue
+        }
+
         // perform search
         LeadAPI.moduleSearch(this.props.auth.auth, payload)
             .then((response) => {
                 let newStateOptions = {
-                    isFetchingResults: false
+                    isFetchingResults: false,
+                    searchOpen: false
                 }
                 if (response.success === false) {
                     newStateOptions.validationError = true
                     newStateOptions.validationMessage = "Search Error"
+                    newStateOptions.searchOpen = true
                 } else if (response.data.length === 0) {
                     newStateOptions.validationError = true
                     newStateOptions.validationMessage = "No Results Found"
+                    newStateOptions.searchOpen = true
                 }
 
                 newStateOptions.searchResults = response.data
@@ -96,6 +115,12 @@ class Search extends Component {
             }).catch((reason) => {
                 console.log(reason)
             })
+    }
+
+    toggleCollapse() {
+        this.setState(prevState => ({
+            searchOpen: !prevState.searchOpen
+          }))
     }
 
     render() {
@@ -117,92 +142,107 @@ class Search extends Component {
 
 
         return (
-            <MDBContainer fluid>
-                <CircularSideNav
-                    backgroundImg={"/images/nav.png"}
-                    backgroundColor={'#E0E0E0'}
-                    color={'#7c7c7c'}
-                    navSize={16}
-                    animation={''}
-                    animationPeriod={0.04}
-                />
             <MDBBox>
-                <MDBRow center>
-                    <MDBCol size="12">
-                        <p className="h4 text-center mb-4">{localized.componentTitle}</p>
-                    </MDBCol>
-                </MDBRow>
                 <MDBRow>
-                    <MDBCol size="6">
-                        <label htmlFor="first_name" className="grey-text">{localized.firstNameLabel}</label>
-                        <input type="text"
-                            id="first_name"
-                            name="firstNameValue"
-                            className="form-control"
-                            value={this.state.firstNameValue}
-                            onChange={this.handleFormInput}
+                    <MDBCol size="3">
+                        <CircularSideNav
+                            backgroundImg={"/images/nav.png"}
+                            backgroundColor={'#E0E0E0'}
+                            color={'#7c7c7c'}
+                            navSize={16}
+                            animation={''}
+                            animationPeriod={0.04}
                         />
-                        <br />
-                        <label htmlFor="lead_id" className="grey-text">{localized.leadIDLabel}</label>
-                        <input type="text"
-                            id="lead_id"
-                            name="leadIDValue"
-                            className="form-control"
-                            value={this.state.leadIDValue}
-                            onChange={this.handleFormInput}
-                        />
-                        <br />
                     </MDBCol>
-                    <MDBCol size="6">
-                        <label htmlFor="last_name" className="grey-text">{localized.lastNameLabel}</label>
-                        <input type="text"
-                            id="last_name"
-                            name="lastNameValue"
-                            className="form-control"
-                            value={this.state.lastNameValue}
-                            onChange={this.handleFormInput}
-                        />
-                        <br />
-                        <label htmlFor="phone" className="grey-text">{localized.phoneLabel}</label>
-                        <input type="text"
-                            id="phone"
-                            name="phoneValue"
-                            value={this.state.phoneValue}
-                            onChange={this.handleFormInput}
-                            className="form-control"
-                        />
-                        <br />
-                    </MDBCol>
-                </MDBRow>
-                <MDBRow center>
+                    <MDBCol size="7" className="ml-4">
+                        <MDBCard style={{marginTop: "10%"}}>
+                            <MDBCardBody>
+                                <MDBCardTitle className={this.state.searchOpen ? "" : "d-flex justify-content-between"}>
+                                    {localized.componentTitle}
+                                    {!this.state.searchOpen && 
+                                        <MDBBtn color="primary" rounded onClick={() => this.toggleCollapse()}>New Search</MDBBtn>
+                                    }
+                                </MDBCardTitle>
+                                <MDBCollapse id="searchResults" isOpen={this.state.searchOpen}>
+                                    <MDBRow>
+                                        <MDBCol size="6">
+                                            <label htmlFor="first_name" className="grey-text">{localized.firstNameLabel}</label>
+                                            <input type="text"
+                                                id="first_name"
+                                                name="firstNameValue"
+                                                className="form-control"
+                                                value={this.state.firstNameValue}
+                                                onChange={this.handleFormInput}
+                                            />
+                                            <br />
+                                            <label htmlFor="lead_id" className="grey-text">{localized.leadIDLabel}</label>
+                                            <input type="text"
+                                                id="lead_id"
+                                                name="leadIDValue"
+                                                className="form-control"
+                                                value={this.state.leadIDValue}
+                                                onChange={this.handleFormInput}
+                                            />
+                                            <br />
+                                        </MDBCol>
+                                        <MDBCol size="6">
+                                            <label htmlFor="last_name" className="grey-text">{localized.lastNameLabel}</label>
+                                            <input type="text"
+                                                id="last_name"
+                                                name="lastNameValue"
+                                                className="form-control"
+                                                value={this.state.lastNameValue}
+                                                onChange={this.handleFormInput}
+                                            />
+                                            <br />
+                                            <label htmlFor="phone" className="grey-text">{localized.phoneLabel}</label>
+                                            <input type="text"
+                                                id="phone"
+                                                name="phoneValue"
+                                                value={this.state.phoneValue}
+                                                onChange={this.handleFormInput}
+                                                className="form-control"
+                                            />
+                                            <br />
+                                        </MDBCol>
+                                    </MDBRow>
+                                    <MDBRow center>
 
-                    <MDBCol size="8">
-                        <label htmlFor="client_id" className="grey-text">{localized.clientIDLabel}</label>
-                        <select id="client_id"
-                            name="clientIDValue"
-                            className="form-control"
-                            value={this.state.clientIDValue}
-                            onChange={this.handleFormInput}
-                        >
-                            <option value="">{localized.clientIDSelect}</option>
-                            {this.generateClientOptions()}
-                        </select>
-                        <div className="text-center mt-4">
-                        {button}
-                        {this.state.validationError &&
-                            <MDBAlert color="danger" >
-                            {this.state.validationMessage}
-                          </MDBAlert>
+                                        <MDBCol size="8">
+                                            <label htmlFor="client_id" className="grey-text">{localized.clientIDLabel}</label>
+                                            <select id="client_id"
+                                                name="clientIDValue"
+                                                className="form-control"
+                                                value={this.state.clientIDValue}
+                                                onChange={this.handleFormInput}
+                                            >
+                                                <option value="">{localized.clientIDSelect}</option>
+                                                {this.generateClientOptions()}
+                                            </select>
+                                            <div className="text-center mt-4">
+                                            {button}
+                                            {this.state.validationError &&
+                                                <MDBAlert color="danger" >
+                                                {this.state.validationMessage}
+                                            </MDBAlert>
+                                            }
+                                            </div>
+                                        </MDBCol>
+                                    </MDBRow>
+                                </MDBCollapse>
+                            </MDBCardBody>
+                        </MDBCard>
+                        {this.state.searchResults.length > 0 &&
+                            <MDBCard className="mt-4">
+                                <MDBCardBody>
+                                    <SearchResults results={this.state.searchResults} />
+                                    
+                                </MDBCardBody>
+                            </MDBCard>
                         }
-                        </div>
                     </MDBCol>
                 </MDBRow>
-                {this.state.searchResults.length > 0 &&
-                    <SearchResults results={this.state.searchResults} />
-                }
             </MDBBox>
-            </MDBContainer>
-
         )
     }
 }
