@@ -11,7 +11,7 @@
       background-color:map-get($data, skin-primary-color) !important;
     }
     .skin-primary-faint-background-color {
-      background-color: lighten(map-get($data, skin-primary-color), 46%) !important;
+      background-color: lighten(map-get($data, skin-primary-color), 42%) !important;
     }
     .skin-border-primary {
       border-color: map-get($data, skin-primary-color) !important;
