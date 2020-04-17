@@ -31,6 +31,14 @@ class Login extends Component {
         this.setState({ flipped : true })
     }
     login() {
+        // mock client load for now, this will be replaced by an API function 
+        // to load from queryKey thru API Gateway
+        fetch(window.location.protocol + "//" + window.location.host + "//data//clientDTO.json")
+            .then(response => response.json())
+            .then((responseJson) => {
+                this.props.dispatch({type: 'CLIENT.LOADSAMPLE',payload: responseJson})
+            })
+
         this.props.dispatch({type: 'LOG_IN_USER', payload: {}})
         this.props.history.push("/") //this.props.location.state.from.pathname )
     }
