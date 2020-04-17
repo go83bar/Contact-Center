@@ -31,7 +31,7 @@ class Interaction extends Component {
                 <LeadSummary toggleCallBar={this.toggleCallBar}/>
                 <MDBContainer fluid className="d-flex p-0 pt-3 flex-row">
                         <LeadDetail/>
-                        <CallBar toggleCallBar={this.toggleCallBar} callBarVisible={this.state.callBarVisible}/>
+                    {this.state.callBarVisible && <CallBar toggleCallBar={this.toggleCallBar} />}
                 </MDBContainer>
             </MDBContainer>
         )

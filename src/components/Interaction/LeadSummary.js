@@ -68,7 +68,7 @@ class LeadSummary extends Component {
                         <MDBChip className={"outlineChip ml-1 mb-0"}>{this.state.campaignName}</MDBChip>
 
                         <MDBNav className={"justify-content-end float-right border-left skin-border-primary " + (!this.state.closed && "border-bottom ")}>
-                            <MDBNavItem className={"skin-primary-background-color"}>
+                            <MDBNavItem className={"skin-primary-background-color"} onClick={this.props.toggleCallBar}>
                                 <MDBNavLink to="#" className={"py-0 px-2 align-middle"}>
                                     <span className="fa-layers fa-2x mt-2">
                                         <FontAwesomeIcon icon={faCircle} className={"skin-text"}/>
