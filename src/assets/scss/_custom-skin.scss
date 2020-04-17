@@ -3,25 +3,25 @@
 $skins: () !default;
 $skins: map-merge(
   (
-    "83Bar-skin": (
-      "skin-primary-color":      #fff,
-      "skin-navbar":             #fff,
-      "skin-footer-color":       #fff,
-      "skin-flat":               #fff,
-      "skin-accent":             #fff,
-      "skin-sidenav-item":       #fff,
-      "skin-sidenav-item-hover": #fff,
-      "skin-gradient-start":     #fff,
-      "skin-gradient-end":       #fff,
-      "skin-mask-slight":        #fff,
-      "skin-mask-light":         #fff,
-      "skin-mask-strong":        #fff,
-      "skin-sn-child":           #fff,
-      "skin-btn-primary":        #fff,
-      "skin-btn-secondary":      #fff,
-      "skin-btn-default":        #fff,
-      "skin-text":               #fff
-    )
+          "eightthree": (
+                  "skin-primary-color":      #51C7B6,
+                  "skin-navbar":             #222,
+                  "skin-footer-color":       #222,
+                  "skin-accent":             #51C7B6,
+                  "skin-flat":               #222,
+                  "skin-sidenav-item":       #51C7B6,
+                  "skin-sidenav-item-hover": #51C7B6,
+                  "skin-gradient-start":     #000,
+                  "skin-gradient-end":       #616161,
+                  "skin-mask-slight":        rgba($black, .5),
+                  "skin-mask-light":         rgba($black, .65),
+                  "skin-mask-strong":        rgba($black, .8),
+                  "skin-sn-child":           #51C7B6,
+                  "skin-btn-primary":        #51C7B6,
+                  "skin-btn-secondary":      #475B7B,
+                  "skin-btn-default":        #475B7B,
+                  "skin-text":               $white
+          ),
   ),
   $skins
 );

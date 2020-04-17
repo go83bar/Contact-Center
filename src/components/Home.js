@@ -20,7 +20,7 @@ class Home extends Component {
     }
 
     render() {
-        //const localization = this.props.localization.home
+        const localization = this.props.localization.home
         return (
             <MDBBox>
                 <MDBRow>
@@ -51,7 +51,7 @@ class Home extends Component {
                                             </span>
                                         </MDBCol>
                                         <MDBCol md='9' col='9' className='text-right pr-5'>
-                                            <p>INTERACTIONS<br/> MADE TODAY</p>
+                                            <p>{localization.interactions}</p>
                                             <h4 className='font-weight-bold dark-grey-text'>20</h4>
                                         </MDBCol>
                                     </MDBRow>
@@ -77,7 +77,7 @@ class Home extends Component {
                                             </span>
                                         </MDBCol>
                                         <MDBCol md='9' col='9' className='text-right pr-5'>
-                                            <p>APPOINTMENTS<br/>BOOKED</p>
+                                            <p>{localization.appointments}</p>
                                             <h4 className='font-weight-bold dark-grey-text'>5</h4>
                                         </MDBCol>
                                     </MDBRow>
@@ -103,7 +103,7 @@ class Home extends Component {
                                             </span>
                                         </MDBCol>
                                         <MDBCol md='9' col='9' className='text-right pr-5'>
-                                            <p>HANDOFFS<br/>MADE TODAY</p>
+                                            <p>{localization.handoffs}</p>
                                             <h4 className='font-weight-bold dark-grey-text'>3</h4>
                                         </MDBCol>
                                     </MDBRow>

@@ -31,7 +31,7 @@ class Login extends Component {
         this.setState({ flipped : true })
     }
     login() {
-        // mock client load for now, this will be replaced by an API function 
+        // mock client load for now, this will be replaced by an API function
         // to load from queryKey thru API Gateway
         fetch(window.location.protocol + "//" + window.location.host + "//data//clientDTO.json")
             .then(response => response.json())
@@ -59,7 +59,7 @@ class Login extends Component {
                             <h2 className='h2-responsive' style={{marginTop: "10px"}}>{localization.title}</h2>
                         </MDBCardImage>
                         <MDBCardBody cascade className='text-center'>
-                            <div className={"text-left"}><MDBInput label={localization.frontPlaceholder} outline icon="envelope" className={"text-left"}/></div>
+                            <div className={"text-left"}><MDBInput label={localization.frontPlaceholder} outline icon="envelope" iconClass={"skin-secondary-color"} className={"text-left"}/></div>
                             <MDBBtn onClick={this.getPin}><h5 style={{marginBottom:"0px"}}> {localization.frontButton} <MDBIcon icon="angle-double-right" style={{marginLeft : "10px"}}/> </h5></MDBBtn>
                         </MDBCardBody>
                     </MDBCard>
@@ -74,7 +74,7 @@ class Login extends Component {
                             <h2 className='h2-responsive' style={{marginTop: "10px"}}>{localization.title}</h2>
                         </MDBCardImage>
                         <MDBCardBody cascade className='text-center'>
-                            <div className={"text-left"}><MDBInput label={localization.backPlaceholder} outline icon="lock" className={"text-left"}/></div>
+                            <div className={"text-left"}><MDBInput label={localization.backPlaceholder} outline icon="lock" iconClass={"skin-secondary-color"} className={"text-left"}/></div>
                             <MDBBtn onClick={this.login}><h5 style={{marginBottom:"0px"}}> <MDBIcon icon="unlock" style={{marginRight : "10px"}}/> {localization.backButton} </h5></MDBBtn>
                         </MDBCardBody>
                     </MDBCard>

@@ -1,10 +1,15 @@
 {
   "name" : "Activate",
-  "home" : {
+  "nav" : {
     "fetch" : "FETCH NEW LEAD",
     "search" : "FIND A LEAD",
     "recent" : "RECENT LEADS",
     "logout" : "SIGN OUT"
+  },
+  "home" : {
+    "interactions" : "INTERACTIONS MADE TODAY",
+    "appointments" : "APPOINTMENTS MADE TODAY",
+    "handoffs" : "HANDOFFS MADE TODAY"
   },
   "interaction": {
     "survey": {
