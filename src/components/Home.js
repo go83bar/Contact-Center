@@ -1,11 +1,10 @@
 import React, {Component} from 'react'
-import {MDBBox, MDBCol, MDBRow, MDBCard, MDBIcon, MDBCardBody, MDBProgress} from "mdbreact";
+import {MDBBox, MDBCol, MDBRow, MDBCard, MDBCardBody, MDBProgress} from "mdbreact";
 import {connect} from "react-redux";
 import CircularSideNav from "./CircluarSideNav/CircularSideNav";
-//import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-//import {faCircle} from "@fortawesome/pro-light-svg-icons";
-//import {faPhone, faCalendarCheck, faHandPaper} from "@fortawesome/pro-solid-svg-icons";
-//import {faCircle} from "@fortawesome/pro-light-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faCircle} from "@fortawesome/pro-light-svg-icons";
+import {faCalendarCheck, faHandPaper, faPhone} from "@fortawesome/pro-solid-svg-icons";
 
 class Home extends Component {
 
@@ -44,16 +43,18 @@ class Home extends Component {
                         <MDBRow style={{marginTop: "50px"}}>
                             <MDBCol size={"4"} className='mb-5'>
                                 <MDBCard cascade className='cascading-admin-card'>
-                                    <div className='admin-up'>
-                                        <MDBIcon
-                                            icon='phone-alt'
-                                            className='far primary-color mr-3 z-depth-2'
-                                        />
-                                        <div className='data'>
+                                    <MDBRow className='mt-3'>
+                                        <MDBCol md='3' size='3' className='text-left pl-4'>
+                                            <span className="fa-layers fa-fw fa-4x">
+                                                <FontAwesomeIcon icon={faCircle} className={"skin-primary-color"}/>
+                                                <FontAwesomeIcon icon={faPhone} transform={"shrink-8"} className={"skin-secondary-color"}/>
+                                            </span>
+                                        </MDBCol>
+                                        <MDBCol md='9' col='9' className='text-right pr-5'>
                                             <p>INTERACTIONS<br/> MADE TODAY</p>
-                                            <h4 className='font-weight-bold dark-grey-text'>2000</h4>
-                                        </div>
-                                    </div>
+                                            <h4 className='font-weight-bold dark-grey-text'>20</h4>
+                                        </MDBCol>
+                                    </MDBRow>
                                     <MDBCardBody cascade>
                                         <MDBProgress
                                             value={25}
@@ -68,16 +69,18 @@ class Home extends Component {
                             </MDBCol>
                             <MDBCol size={"4"} className='mb-5'>
                                 <MDBCard cascade className='cascading-admin-card'>
-                                    <div className='admin-up'>
-                                        <MDBIcon
-                                            icon='calendar-check'
-                                            className='far primary-color mr-3 z-depth-2'
-                                        />
-                                        <div className='data'>
+                                    <MDBRow className='mt-3'>
+                                        <MDBCol md='3' size='3' className='text-left pl-4'>
+                                            <span className="fa-layers fa-fw fa-4x">
+                                                <FontAwesomeIcon icon={faCircle} className={"skin-primary-color"}/>
+                                                <FontAwesomeIcon icon={faCalendarCheck} transform={"shrink-8"} className={"skin-secondary-color"}/>
+                                            </span>
+                                        </MDBCol>
+                                        <MDBCol md='9' col='9' className='text-right pr-5'>
                                             <p>APPOINTMENTS<br/>BOOKED</p>
-                                            <h4 className='font-weight-bold dark-grey-text'>2000</h4>
-                                        </div>
-                                    </div>
+                                            <h4 className='font-weight-bold dark-grey-text'>5</h4>
+                                        </MDBCol>
+                                    </MDBRow>
                                     <MDBCardBody cascade>
                                         <MDBProgress
                                             value={25}
@@ -92,16 +95,18 @@ class Home extends Component {
                             </MDBCol>
                             <MDBCol size={"4"} className='mb-5'>
                                 <MDBCard cascade className='cascading-admin-card'>
-                                    <div className='admin-up'>
-                                        <MDBIcon
-                                            icon='hand-paper'
-                                            className='far primary-color mr-3 z-depth-2'
-                                        />
-                                        <div className='data'>
-                                            <p>HANDOFFS<br/> MADE</p>
-                                            <h4 className='font-weight-bold dark-grey-text'>2000</h4>
-                                        </div>
-                                    </div>
+                                    <MDBRow className='mt-3'>
+                                        <MDBCol md='3' size='3' className='text-left pl-4'>
+                                            <span className="fa-layers fa-fw fa-4x">
+                                                <FontAwesomeIcon icon={faCircle} className={"skin-primary-color"}/>
+                                                <FontAwesomeIcon icon={faHandPaper} transform={"shrink-8"} className={"skin-secondary-color"}/>
+                                            </span>
+                                        </MDBCol>
+                                        <MDBCol md='9' col='9' className='text-right pr-5'>
+                                            <p>HANDOFFS<br/>MADE TODAY</p>
+                                            <h4 className='font-weight-bold dark-grey-text'>3</h4>
+                                        </MDBCol>
+                                    </MDBRow>
                                     <MDBCardBody cascade>
                                         <MDBProgress
                                             value={25}
