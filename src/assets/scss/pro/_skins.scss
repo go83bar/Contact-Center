@@ -25,6 +25,15 @@
     .skin-border-secondary {
       border-color: map-get($data, skin-btn-secondary) !important;
     }
+    .skin-accent-color {
+      color: map-get($data, skin-accent) !important;
+    }
+    .skin-accent-background-color {
+      background-color:map-get($data, skin-accent) !important;
+    }
+    .skin-accent-secondary {
+      border-color: map-get($data, skin-accent) !important;
+    }
     .skin-text {
       color: map-get($data, skin-text) !important;
     }

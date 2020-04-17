@@ -12,6 +12,7 @@ import {
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faCalendarCheck, faComment, faEnvelope, faPhone, faPoll} from '@fortawesome/pro-solid-svg-icons'
 import {faCircle} from '@fortawesome/pro-light-svg-icons'
+import {faCircle as faCircleSolid} from '@fortawesome/pro-solid-svg-icons'
 
 class LeadTimeline extends Component {
 
@@ -31,9 +32,10 @@ class LeadTimeline extends Component {
                                 <MDBStepper vertical>
                                     <MDBStep>
                         <span className="fa-layers fa-fw fa-4x">
-                            <FontAwesomeIcon icon={faCircle} className={"darkIcon"}/>
-                            <FontAwesomeIcon icon={faCalendarCheck} transform={"shrink-8"} className={"darkIcon"}/>
-                            <span className="fa-layers-counter fa-layers-top-right darkBack">3</span>
+                            <FontAwesomeIcon icon={faCircleSolid} className="text-white"/>
+                            <FontAwesomeIcon icon={faCircle} className={"skin-accent-color"}/>
+                            <FontAwesomeIcon icon={faCalendarCheck} transform={"shrink-8"} className={"skin-secondary-color"}/>
+                            <span className="fa-layers-counter fa-layers-top-right skin-accent-background-color">3</span>
                         </span>
                                         <div style={{minHeight: "50px"}}
                                              className={"step-content step-content-top"}>Test
@@ -88,12 +90,12 @@ class LeadTimeline extends Component {
                         </MDBCard>
                     </MDBCol>
                     <MDBCol size={"8"}>
-                    <MDBCard>
-                        <MDBCardHeader className={"card-header-no-back-no-border"}>All</MDBCardHeader>
-                        <MDBCardBody></MDBCardBody>
-                    </MDBCard>
+                        <MDBCard>
+                            <MDBCardHeader className={"card-header-no-back-no-border"}>All</MDBCardHeader>
+                            <MDBCardBody></MDBCardBody>
+                        </MDBCard>
                     </MDBCol>
-                 </MDBRow>
+                </MDBRow>
             </MDBBox>
         )
     }
