@@ -1,4 +1,6 @@
 import sendRequest from './fetch'
+import store from '../store'
+    
 
 export default class ConnectAPI {
     /**@typedef Auth
@@ -16,9 +18,16 @@ export default class ConnectAPI {
      * @return {boolean}
      */
     static async getPin(loginEmail) {
+        // Mock API responses for local dev
+        if (process.env.REACT_APP_QUERY_MODE === "development") {
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "//data//getPin.json")
+            
+            return mockData.json()
+        }
 
+        const redux = store.getState()
         const requestOptions = {
-            url: process.env.REACT_APP_LOGIN_BASE_URL + "pin",
+            url: redux.config["url-login-base"] + "pin",
             data: { email: loginEmail},
         }
         return await sendRequest(requestOptions)
@@ -39,13 +48,21 @@ export default class ConnectAPI {
      * @return {boolean|Auth}
      */
     static async login(loginPIN, loginEmail) {
+        // Mock API responses for local dev
+        if (process.env.REACT_APP_QUERY_MODE === "development") {
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "//data//shiftDTO.json")
+            
+            return mockData.json()
+        }
+
+        const redux = store.getState()
         const payload = {
             email: loginEmail,
             pin: loginPIN
         }
 
         const requestOptions = {
-            url: process.env.REACT_APP_LOGIN_BASE_URL + "login",
+            url: redux.config["url-login-base"] + "login",
             data: payload
         }
         return await sendRequest(requestOptions)
@@ -61,8 +78,9 @@ export default class ConnectAPI {
      */
     static async logout(auth) {
 
+        const redux = store.getState()
         const requestOptions = {
-            url: process.env.REACT_APP_LOGIN_BASE_URL + "logout",
+            url: redux.config["url-login-base"] + "logout",
             auth: auth
         }
         return await sendRequest(requestOptions)

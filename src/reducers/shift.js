@@ -2,12 +2,12 @@
 
 const initialState = { }
 
-// Reducer for handling localization actions
+// Reducer for handling shift actions
 export function shift(state = initialState, action) {
     switch (action.type) {
-        case 'CLIENT.LOADSAMPLE':
+        case 'SHIFT.LOAD':
             return Object.assign({}, state, {
-                clients: action.payload
+                ...action.payload
             })
 
         default:

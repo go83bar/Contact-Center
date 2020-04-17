@@ -1,0 +1,33 @@
+{
+    "user": {
+        "id": 3,
+        "first_name": "Matt",
+        "full_title": "Lord Matthew Graham Mood"
+    },
+    "auth": {
+        "userID" : 3, 
+        "token" : "fe41eea042cd5057d78cda9f1441a1d7"
+    },
+    "clients": [
+        {
+            "id": 8,
+            "name": "Arthrokinex"
+        },
+        {
+            "id": 10,
+            "name": "Myriad",
+            "campaigns": [
+                {
+                    "id": 97,
+                    "name": "Genetic Counseling"
+                }
+            ],
+            "regions": [
+                {
+                    "id": 194,
+                    "name": "Hell, MI"
+                }
+            ]
+        }
+    ]
+}

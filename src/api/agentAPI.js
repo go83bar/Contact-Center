@@ -1,4 +1,5 @@
 import sendRequest from './fetch'
+import store from '../store'
 
 export default class AgentAPI {
     /**@typedef Auth
@@ -27,8 +28,10 @@ export default class AgentAPI {
      * @memberof AgentAPI
      */
     static async getAppStats(auth) {
+        const redux = store.getState()
+
         const requestOptions = {
-            url: process.env.REACT_APP_API_BASE_URL + "agents/appstats",
+            url: redux.config["url-api-base"] + "agents/appstats",
             data: { agent_id: auth.userID},
             method: "GET",
             auth: auth
@@ -70,8 +73,9 @@ export default class AgentAPI {
             return mockData.json()
         }
 
+        const redux = store.getState()
         const requestOptions = {
-            url: process.env.REACT_APP_API_BASE_URL + "agents/recentleads",
+            url: redux.config["url-api-base"] + "agents/recentleads",
             method: "GET",
             auth: auth
         }
@@ -79,6 +83,24 @@ export default class AgentAPI {
         
         return result
 
+    }
+
+    static async getClientData(auth) {
+        // Mock API responses for local dev
+        if (process.env.REACT_APP_QUERY_MODE === "development") {
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "//data//clientDTO.json")
+            
+            return mockData.json()
+        }
+
+        const redux = store.getState()
+        const requestOptions = {
+            url: redux.config["url-api-base"] + "agents/clientdata",
+            method: "GET",
+            auth: auth
+        }
+
+        return await sendRequest(requestOptions)
     }
 
 }

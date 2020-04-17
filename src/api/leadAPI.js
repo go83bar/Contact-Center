@@ -1,4 +1,5 @@
 import sendRequest from './fetch'
+import store from '../store'
 
 export default class LeadAPI {
     /**@typedef Auth
@@ -47,8 +48,9 @@ export default class LeadAPI {
      * @memberof LeadAPI
      */
     static async moduleSearch(auth, params) {
+        const redux = store.getState()
         const requestOptions = {
-            url: process.env.REACT_APP_API_BASE_URL + "leads/search",
+            url: redux.config["url-api-base"] + "leads/search",
             method: "GET",
             data: params,
             auth: auth
@@ -86,8 +88,9 @@ export default class LeadAPI {
             return mockData.json()
         }
 
+        const redux = store.getState()
         const requestOptions = {
-            url: process.env.REACT_APP_API_BASE_URL + "leads/next",
+            url: redux.config["url-api-base"] + "leads/next",
             method: "GET",
             auth: auth
         }
@@ -135,8 +138,9 @@ export default class LeadAPI {
             return mockData.json()
         }
 
+        const redux = store.getState()
         const requestOptions = {
-            url: process.env.REACT_APP_API_BASE_URL + "leads/" + params.leadID + "/preview",
+            url: redux.config["url-api-base"] + "leads/" + params.leadID + "/preview",
             data: { call_queue_id: params.callQueueID},
             method: "GET",
             auth: auth
@@ -171,8 +175,9 @@ export default class LeadAPI {
      * @memberof LeadAPI
      */
     static async startInteraction(auth, params) {
+        const redux = store.getState()
         const requestOptions = {
-            url: process.env.REACT_APP_API_BASE_URL + "leads/" + params.leadID + "/startinteraction",
+            url: redux.config["url-api-base"] + "leads/" + params.leadID + "/startinteraction",
             data: { 
                 call_queue_id: params.callQueueID,
                 preview_start_time: params.previewStartTime
@@ -209,8 +214,9 @@ export default class LeadAPI {
             return mockData.json()
         }
 
+        const redux = store.getState()
         const requestOptions = {
-            url: process.env.REACT_APP_API_BASE_URL + "leads/" + params.leadID + "/reactDTO",
+            url: redux.config["url-api-base"] + "leads/" + params.leadID + "/reactDTO",
             method: "GET",
             auth: auth
         }

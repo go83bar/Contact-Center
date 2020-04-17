@@ -9,7 +9,7 @@ import {
     MDBCol,
     MDBRotatingCard, MDBIcon
 } from 'mdbreact';
-
+import ConnectAPI from '../api/connectAPI'
 import {connect} from 'react-redux';
 
 //import ObjectId from '@tybys/oid'
@@ -22,25 +22,47 @@ class Login extends Component {
         this.login = this.login.bind(this)
         this.getPin = this.getPin.bind(this)
         this.state = {
+            email: "",
+            pin: "",
             flipped: false
         }
+
         //console.log(new ObjectId().toString())
     }
 
+    setPinValue(event) {
+        this.setState({
+            pin: event.target.value
+        })
+    }
+
+    setEmailValue(event) {
+        this.setState({
+            email: event.target.value
+        })
+    }
+
     getPin() {
-        this.setState({ flipped : true })
+        const email = this.state.email
+
+        ConnectAPI.getPin(email).then( (responseJson) => {
+            if (responseJson.success) {
+                this.setState({ flipped : true })
+            } else {
+                // TODO handle error with PIN fetch
+            }
+        })
     }
     login() {
-        // mock client load for now, this will be replaced by an API function
-        // to load from queryKey thru API Gateway
-        fetch(window.location.protocol + "//" + window.location.host + "//data//clientDTO.json")
-            .then(response => response.json())
+        // check supplied PIN, if successful log the user in and initiate the load of all
+        // client data associated with the agent's shifts for today
+        ConnectAPI.login()
             .then((responseJson) => {
-                this.props.dispatch({type: 'CLIENT.LOADSAMPLE',payload: responseJson})
+                this.props.dispatch({type: 'SHIFT.LOAD',payload: {clients: responseJson.clients}})
+                this.props.dispatch({type: 'LOG_IN_USER', payload: {user: responseJson.user, auth: responseJson.auth}})
+                this.props.history.push("/") 
             })
 
-        this.props.dispatch({type: 'LOG_IN_USER', payload: {}})
-        this.props.history.push("/") //this.props.location.state.from.pathname )
     }
 
     render() {
@@ -86,7 +108,6 @@ class Login extends Component {
 
 const mapStateToProps = state => {
     return {
-        auth: state.auth,
         localization: state.localization
     }
 }
