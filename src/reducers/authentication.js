@@ -14,15 +14,12 @@ const initialState = {
 export function authentication(state = initialState, action) {
     switch (action.type) {
         case 'LOG_IN_USER':
-            return {
-                ...state,
+            return Object.assign({}, state, {
+                ...action.payload,
                 isAuthenticated: true
-            }
+            })
         case 'LOG_OUT_USER':
-            return {
-                ...state,
-                isAuthenticated: false
-            }
+            return initialState
         default:
             return state
     }
