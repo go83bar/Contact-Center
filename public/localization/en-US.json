@@ -13,7 +13,25 @@
   },
   "interaction": {
     "survey": {
-      "tabTitle": "Surveys"
+      "tabTitle": "Survey"
+    },
+    "appointments": {
+      "tabTitle": "Appointments"
+    },
+    "booking": {
+      "tabTitle": "Booking"
+    },
+    "timeline": {
+      "tabTitle": "Timeline"
+    },
+    "queue": {
+      "tabTitle": "Queue"
+    },
+    "notes": {
+      "tabTitle": "Notes"
+    },
+    "documents": {
+      "tabTitle": "Documents"
     }
   },
   "login" : {

@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {MDBBox, MDBTabPane, MDBNav, MDBNavItem, MDBNavLink, MDBTabContent} from "mdbreact";
+import {MDBBox, MDBTabPane, MDBNav, MDBNavItem, MDBNavLink, MDBTabContent, MDBTooltip} from "mdbreact";
 import LeadSurvey from "./LeadSurvey";
 import LeadAppointments from "./LeadAppointments";
 import LeadBooking from "./LeadBooking";
@@ -35,7 +35,8 @@ class LeadDetail extends Component {
     }
 
     render() {
-        var slim = this.state.slim
+        let slim = this.state.slim
+        let localization = this.props.localization.interaction
         return (
             <MDBBox className={"h-100 w-100 p-0"}>
                 <MDBBox className="float-left border skin-secondary-background-color" style={{width: slim ? "50px": "100px", fontSize:"14px"}}>
@@ -52,6 +53,7 @@ class LeadDetail extends Component {
                             </MDBNavLink>
                         </MDBNavItem>
                         <MDBNavItem className="w-100">
+                            <MDBTooltip material placement="right">
                             <MDBNavLink className={"text-align-center skin-text p-0 py-3"}
                                         link
                                         to="#"
@@ -59,10 +61,11 @@ class LeadDetail extends Component {
                                         onClick={this.toggleTab("1")}
                                         role="tab"
                             >
-                                <FontAwesomeIcon className="skin-primary-color fa-2x" icon={faPoll} rotation={90}/>{!slim && <div>Survey</div>}
-                            </MDBNavLink>
+                                <FontAwesomeIcon className="skin-primary-color fa-2x" icon={faPoll} rotation={90}/>{!slim && <div>{localization.survey.tabTitle}</div>}
+                            </MDBNavLink><div>{localization.survey.tabTitle}</div></MDBTooltip>
                         </MDBNavItem>
                         <MDBNavItem className="w-100">
+                            <MDBTooltip material placement="right">
                             <MDBNavLink className={"text-align-center skin-text p-0 py-3"}
                                         link
                                         to="#"
@@ -70,10 +73,12 @@ class LeadDetail extends Component {
                                         onClick={this.toggleTab("2")}
                                         role="tab"
                             >
-                                <FontAwesomeIcon className="skin-primary-color fa-2x" icon={faCalendarCheck}/>{!slim && <div>Appointments</div>}
+                                <FontAwesomeIcon className="skin-primary-color fa-2x" icon={faCalendarCheck}/>{!slim && <div>{localization.appointments.tabTitle}</div>}
                             </MDBNavLink>
+                            <div>{localization.appointments.tabTitle}</div></MDBTooltip>
                         </MDBNavItem>
                         <MDBNavItem className="w-100">
+                            <MDBTooltip material placement="right">
                             <MDBNavLink className={"text-align-center skin-text p-0 py-3"}
                                         link
                                         to="#"
@@ -81,10 +86,11 @@ class LeadDetail extends Component {
                                         onClick={this.toggleTab("3")}
                                         role="tab"
                             >
-                                <FontAwesomeIcon className="skin-primary-color fa-2x" icon={faCalendarPlus}/>{!slim && <div>Booking</div>}
-                            </MDBNavLink>
+                                <FontAwesomeIcon className="skin-primary-color fa-2x" icon={faCalendarPlus}/>{!slim && <div>{localization.booking.tabTitle}</div>}
+                            </MDBNavLink><div>{localization.booking.tabTitle}</div></MDBTooltip>
                         </MDBNavItem>
                         <MDBNavItem className="w-100">
+                            <MDBTooltip material placement="right">
                             <MDBNavLink className={"text-align-center skin-text p-0 py-3"}
                                         link
                                         to="#"
@@ -92,10 +98,11 @@ class LeadDetail extends Component {
                                         onClick={this.toggleTab("4")}
                                         role="tab"
                             >
-                                <FontAwesomeIcon className="skin-primary-color fa-2x" icon={faStream}/>{!slim && <div>Timeline</div>}
-                            </MDBNavLink>
+                                <FontAwesomeIcon className="skin-primary-color fa-2x" icon={faStream}/>{!slim && <div>{localization.timeline.tabTitle}</div>}
+                            </MDBNavLink><div>{localization.timeline.tabTitle}</div></MDBTooltip>
                         </MDBNavItem>
                         <MDBNavItem className="w-100">
+                            <MDBTooltip material placement="right">
                             <MDBNavLink className={"text-align-center skin-text p-0 py-3"}
                                         link
                                         to="#"
@@ -103,10 +110,11 @@ class LeadDetail extends Component {
                                         onClick={this.toggleTab("5")}
                                         role="tab"
                             >
-                                <FontAwesomeIcon className="skin-primary-color fa-2x" icon={faList}/>{!slim && <div>Queue</div>}
-                            </MDBNavLink>
+                                <FontAwesomeIcon className="skin-primary-color fa-2x" icon={faList}/>{!slim && <div>{localization.queue.tabTitle}</div>}
+                            </MDBNavLink><div>{localization.queue.tabTitle}</div></MDBTooltip>
                         </MDBNavItem>
                         <MDBNavItem className="w-100">
+                            <MDBTooltip material placement="right">
                             <MDBNavLink className={"text-align-center skin-text p-0 py-3"}
                                         link
                                         to="#"
@@ -114,10 +122,11 @@ class LeadDetail extends Component {
                                         onClick={this.toggleTab("6")}
                                         role="tab"
                             >
-                                <FontAwesomeIcon className="skin-primary-color fa-2x" icon={faEdit}/>{!slim && <div>Notes</div>}
-                            </MDBNavLink>
+                                <FontAwesomeIcon className="skin-primary-color fa-2x" icon={faEdit}/>{!slim && <div>{localization.notes.tabTitle}</div>}
+                            </MDBNavLink><div>{localization.notes.tabTitle}</div></MDBTooltip>
                         </MDBNavItem>
                         <MDBNavItem className="w-100">
+                            <MDBTooltip material placement="right">
                             <MDBNavLink className={"text-align-center skin-text p-0 py-3"}
                                         link
                                         to="#"
@@ -125,8 +134,8 @@ class LeadDetail extends Component {
                                         onClick={this.toggleTab("7")}
                                         role="tab"
                             >
-                                <FontAwesomeIcon className="skin-primary-color fa-2x" icon={faFile}/>{!slim && <div>Documents</div>}
-                            </MDBNavLink>
+                                <FontAwesomeIcon className="skin-primary-color fa-2x" icon={faFile}/>{!slim && <div>{localization.documents.tabTitle}</div>}
+                            </MDBNavLink><div>{localization.documents.tabTitle}</div></MDBTooltip>
                         </MDBNavItem>
                     </MDBNav>
                 </MDBBox>
