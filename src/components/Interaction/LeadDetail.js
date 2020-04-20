@@ -10,6 +10,7 @@ import LeadNotes from "./LeadNotes";
 import {connect} from "react-redux";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faPoll, faCalendarCheck,faEdit,faCalendarPlus, faStream, faList, faFile, faBars} from '@fortawesome/pro-regular-svg-icons'
+
 class LeadDetail extends Component {
 
     constructor(props) {
@@ -39,7 +40,7 @@ class LeadDetail extends Component {
         let localization = this.props.localization.interaction
         return (
             <MDBBox className={"h-100 w-100 p-0"}>
-                <MDBBox className="float-left border skin-secondary-background-color" style={{width: slim ? "50px": "100px", fontSize:"14px"}}>
+                <MDBBox className="float-left border skin-secondary-background-color h-100" style={{width: slim ? "50px": "100px", fontSize:"14px"}}>
                     <MDBNav>
                         <MDBNavItem className="w-100">
                             <MDBNavLink className={"text-align-center skin-text p-0 py-3"}
@@ -139,31 +140,32 @@ class LeadDetail extends Component {
                         </MDBNavItem>
                     </MDBNav>
                 </MDBBox>
-                <MDBBox>
-                    <MDBTabContent className="p-3 w-100 mh-100" activeItem={this.state.activeItem}>
-                        <MDBTabPane tabId="1" role="tabpanel">
-                            <LeadSurvey/>
-                        </MDBTabPane>
-                        <MDBTabPane tabId="2" role="tabpanel">
-                            <LeadAppointments/>
-                        </MDBTabPane>
-                        <MDBTabPane tabId="3" role="tabpanel">
-                            <LeadBooking/>
-                        </MDBTabPane>
-                        <MDBTabPane tabId="4" role="tabpanel">
-                            <LeadTimeline/>
-                        </MDBTabPane>
-                        <MDBTabPane tabId="5" role="tabpanel">
-                            <LeadCallQueue/>
-                        </MDBTabPane>
-                        <MDBTabPane tabId="6" role="tabpanel">
-                            <LeadNotes/>
-                        </MDBTabPane>
-                        <MDBTabPane tabId="7" role="tabpanel">
-                            <LeadDocuments/>
-                        </MDBTabPane>
-                    </MDBTabContent>
+                <MDBBox className="w-100" >
+                        <MDBTabContent className="p-3 w-100" activeItem={this.state.activeItem} >
+                            <MDBTabPane tabId="1" role="tabpanel">
+                                <LeadSurvey/>
+                            </MDBTabPane>
+                            <MDBTabPane tabId="2" role="tabpanel">
+                                <LeadAppointments/>
+                            </MDBTabPane>
+                            <MDBTabPane tabId="3" role="tabpanel">
+                                <LeadBooking/>
+                            </MDBTabPane>
+                            <MDBTabPane tabId="4" role="tabpanel">
+                                <LeadTimeline/>
+                            </MDBTabPane>
+                            <MDBTabPane tabId="5" role="tabpanel">
+                                <LeadCallQueue/>
+                            </MDBTabPane>
+                            <MDBTabPane tabId="6" role="tabpanel">
+                                <LeadNotes/>
+                            </MDBTabPane>
+                            <MDBTabPane tabId="7" role="tabpanel">
+                                <LeadDocuments/>
+                            </MDBTabPane>
+                        </MDBTabContent>
                 </MDBBox>
+
             </MDBBox>
         )
     }

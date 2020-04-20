@@ -10,12 +10,17 @@ import {
     MDBCardBody,
     MDBCollapse,
     MDBCollapseHeader,
-    MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem
+    MDBDropdown,
+    MDBDropdownToggle,
+    MDBDropdownMenu,
+    MDBDropdownItem
+
 } from "mdbreact";
 import {connect} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCircle, faComment, faEnvelope, faUserCog, faEdit, faObjectGroup, faUserPlus, faMapMarkedAlt,faIdBadge} from "@fortawesome/pro-solid-svg-icons";
 import {faPhone, faTimes} from "@fortawesome/pro-solid-svg-icons";
+import CreateLead from "./modals/CreateLead";
 
 
 class LeadSummary extends Component {
@@ -24,13 +29,17 @@ class LeadSummary extends Component {
         super(props);
         this.toggleCollapse = this.toggleCollapse.bind(this)
         this.collapseClosed = this.collapseClosed.bind(this)
+        this.showModal = this.showModal.bind(this)
+        this.closeModal = this.closeModal.bind(this)
         const client = this.props.shift.clients[this.props.lead.client_index]
         const campaign = client.campaigns[this.props.lead.campaign_index]
         this.state = {
             collapsed: false,
             closed: false,
             clientName: client.name,
-            campaignName: campaign.name
+            campaignName: campaign.name,
+            modal : undefined
+
         };
     }
 
@@ -40,7 +49,15 @@ class LeadSummary extends Component {
     collapseClosed() {
         this.setState({closed : true} )
     }
+
+    showModal(modalName) {
+        this.setState({modal : modalName})
+    }
+    closeModal() {
+        this.setState({modal : undefined})
+    }
     render() {
+        //let localization = this.props.localization.interaction.summary
         return (
             <MDBBox className={'md-accordian p-0 w-100'}>
                 <MDBCard className='mt-3 skin-border-primary rounded'>
@@ -51,11 +68,11 @@ class LeadSummary extends Component {
                                 <span className=""><FontAwesomeIcon icon={faUserCog} size={"lg"} className={"skin-secondary-color"}/></span>
                             </MDBDropdownToggle>
                             <MDBDropdownMenu className={"rounded pr-2"}>
-                                <MDBDropdownItem href="#"><FontAwesomeIcon icon={faEdit} size={"lg"} className={"skin-primary-color pr-1"} /> Edit Lead Information</MDBDropdownItem>
-                                <MDBDropdownItem href="#"><FontAwesomeIcon icon={faObjectGroup} size={"lg"} className={"skin-primary-color pr-1"}/> Merge Lead Information</MDBDropdownItem>
-                                <MDBDropdownItem href="#"><FontAwesomeIcon icon={faUserPlus} size={"lg"} className={"skin-primary-color pr-1"}/> Create New Lead</MDBDropdownItem>
-                                <MDBDropdownItem href="#"><FontAwesomeIcon icon={faMapMarkedAlt} size={"lg"} className={"skin-primary-color pr-1"}/> Change Lead Region</MDBDropdownItem>
-                                <MDBDropdownItem href="#"><FontAwesomeIcon icon={faIdBadge} size={"lg"} className={"skin-primary-color pr-1"}/> Contact Preferences</MDBDropdownItem>
+                                <MDBDropdownItem href="#"><div><FontAwesomeIcon icon={faEdit} size={"lg"} className={"skin-primary-color pr-1"} /> Edit Lead Information</div></MDBDropdownItem>
+                                <MDBDropdownItem href="#"><div><FontAwesomeIcon icon={faObjectGroup} size={"lg"} className={"skin-primary-color pr-1"}/> Merge Lead Information</div></MDBDropdownItem>
+                                <MDBDropdownItem href="#"><div onClick={() => this.showModal("Create Lead")}><FontAwesomeIcon icon={faUserPlus} size={"lg"} className={"skin-primary-color pr-1"}/> Create New Lead</div></MDBDropdownItem>
+                                <MDBDropdownItem href="#"><div><FontAwesomeIcon icon={faMapMarkedAlt} size={"lg"} className={"skin-primary-color pr-1"}/> Change Lead Region</div></MDBDropdownItem>
+                                <MDBDropdownItem href="#"><div><FontAwesomeIcon icon={faIdBadge} size={"lg"} className={"skin-primary-color pr-1"}/> Contact Preferences</div></MDBDropdownItem>
                             </MDBDropdownMenu>
                         </MDBDropdown>
                         <div className={"d-inline-block ml-5"}>
@@ -112,7 +129,7 @@ class LeadSummary extends Component {
                     </MDBCollapse>
                 </MDBCard>
 
-
+                {this.state.modal === "Create Lead" && <CreateLead closeModal={this.closeModal}/>}
             </MDBBox>
         )
     }

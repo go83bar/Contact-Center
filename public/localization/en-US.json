@@ -32,6 +32,24 @@
     },
     "documents": {
       "tabTitle": "Documents"
+    },
+    "summary" : {
+      "createLead" : {
+        "title" : "Create New Lead",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "email" : "Email",
+        "cellPhone" : "Cell Phone",
+        "homePhone" : "Home Phone",
+        "workPhone" : "Work Phone",
+        "address" : "Address",
+        "address2" : "Address 2",
+        "city" : "City",
+        "state" : "State",
+        "zip" : "Zip",
+        "okButton" : "Save Changes",
+        "cancelButton" : "Close"
+      }
     }
   },
   "login" : {

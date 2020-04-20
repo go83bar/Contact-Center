@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {MDBContainer} from "mdbreact";
+import {MDBBox, MDBContainer} from "mdbreact";
 import LeadSummary from "./Interaction/LeadSummary";
 import LeadDetail from "./Interaction/LeadDetail";
 import CallBar from "./Interaction/CallBar";
@@ -27,12 +27,12 @@ class Interaction extends Component {
         }
 
         return (
-            <MDBContainer fluid className={"p-0"}>
+            <MDBContainer fluid className="p-0 h-100">
                 <LeadSummary toggleCallBar={this.toggleCallBar}/>
-                <MDBContainer fluid className="d-flex p-0 pt-3 flex-row">
+                <MDBBox className="d-flex p-0 pt-3 flex-row w-100">
                         <LeadDetail/>
                     {this.state.callBarVisible && <CallBar toggleCallBar={this.toggleCallBar} />}
-                </MDBContainer>
+                </MDBBox>
             </MDBContainer>
         )
     }
