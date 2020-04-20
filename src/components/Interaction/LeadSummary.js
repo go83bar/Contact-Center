@@ -21,6 +21,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCircle, faComment, faEnvelope, faUserCog, faEdit, faObjectGroup, faUserPlus, faMapMarkedAlt,faIdBadge} from "@fortawesome/pro-solid-svg-icons";
 import {faPhone, faTimes} from "@fortawesome/pro-solid-svg-icons";
 import CreateLead from "./modals/CreateLead";
+import ContactPreferences from "./modals/ContactPreferences";
 
 
 class LeadSummary extends Component {
@@ -72,7 +73,7 @@ class LeadSummary extends Component {
                                 <MDBDropdownItem href="#"><div><FontAwesomeIcon icon={faObjectGroup} size={"lg"} className={"skin-primary-color pr-1"}/> Merge Lead Information</div></MDBDropdownItem>
                                 <MDBDropdownItem href="#"><div onClick={() => this.showModal("Create Lead")}><FontAwesomeIcon icon={faUserPlus} size={"lg"} className={"skin-primary-color pr-1"}/> Create New Lead</div></MDBDropdownItem>
                                 <MDBDropdownItem href="#"><div><FontAwesomeIcon icon={faMapMarkedAlt} size={"lg"} className={"skin-primary-color pr-1"}/> Change Lead Region</div></MDBDropdownItem>
-                                <MDBDropdownItem href="#"><div><FontAwesomeIcon icon={faIdBadge} size={"lg"} className={"skin-primary-color pr-1"}/> Contact Preferences</div></MDBDropdownItem>
+                                <MDBDropdownItem href="#"><div onClick={() => this.showModal("Contact Preferences")}><FontAwesomeIcon icon={faIdBadge} size={"lg"} className={"skin-primary-color pr-1"}/> Contact Preferences</div></MDBDropdownItem>
                             </MDBDropdownMenu>
                         </MDBDropdown>
                         <div className={"d-inline-block ml-5"}>
@@ -130,6 +131,7 @@ class LeadSummary extends Component {
                 </MDBCard>
 
                 {this.state.modal === "Create Lead" && <CreateLead closeModal={this.closeModal}/>}
+                {this.state.modal === "Contact Preferences" && <ContactPreferences closeModal={this.closeModal}/>}
             </MDBBox>
         )
     }

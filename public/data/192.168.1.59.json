@@ -1,0 +1,7 @@
+{
+  "key" : "value",
+  "languages" : ["en-US"],
+  "language-default" : "en-US",
+  "url-api-base": "https://api.83bar.test/v3/",
+  "url-login-base": "https://api.83bar.test/react/"
+}

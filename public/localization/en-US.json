@@ -49,6 +49,13 @@
         "zip" : "Zip",
         "okButton" : "Save Changes",
         "cancelButton" : "Close"
+      },
+      "contactPreferences" : {
+        "title" : "Contact Preferences",
+        "cancelButton" : "Close",
+        "phone" : "Phone Calls",
+        "email" : "Emails",
+        "text" : "Texts"
       }
     }
   },
