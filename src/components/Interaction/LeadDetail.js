@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
-import {MDBBox, MDBTabPane, MDBNav, MDBTabContent} from "mdbreact";
-import LeadSurvey from "./LeadSurvey";
+import {MDBBox, MDBTabPane, MDBNav, MDBNavItem, MDBNavLink, MDBTabContent, MDBTooltip} from "mdbreact";
+import LeadSurvey from "./SurveyTab/LeadSurvey";
 import LeadAppointments from "./LeadAppointments";
 import LeadBooking from "./LeadBooking";
 import LeadTimeline from "./LeadTimeline";
@@ -53,30 +53,30 @@ class LeadDetail extends Component {
                         <SideNavItem active={this.state.activeItem === "7"} icon={faFile} label={localization.documents.tabTitle} slim={slim} onClick={this.toggleTab("7")}/>
                     </MDBNav>
                 </MDBBox>
-                <MDBBox className="w-100" >
-                        <MDBTabContent className="p-3 w-100" activeItem={this.state.activeItem} >
-                            <MDBTabPane tabId="1" role="tabpanel">
-                                <LeadSurvey/>
-                            </MDBTabPane>
-                            <MDBTabPane tabId="2" role="tabpanel">
-                                <LeadAppointments/>
-                            </MDBTabPane>
-                            <MDBTabPane tabId="3" role="tabpanel">
-                                <LeadBooking/>
-                            </MDBTabPane>
-                            <MDBTabPane tabId="4" role="tabpanel">
-                                <LeadTimeline/>
-                            </MDBTabPane>
-                            <MDBTabPane tabId="5" role="tabpanel">
-                                <LeadCallQueue/>
-                            </MDBTabPane>
-                            <MDBTabPane tabId="6" role="tabpanel">
-                                <LeadNotes/>
-                            </MDBTabPane>
-                            <MDBTabPane tabId="7" role="tabpanel">
-                                <LeadDocuments/>
-                            </MDBTabPane>
-                        </MDBTabContent>
+                <MDBBox className="mr-3">
+                    <MDBTabContent className="p-0 w-100 mh-100" activeItem={this.state.activeItem}>
+                        <MDBTabPane tabId="1" role="tabpanel">
+                            <LeadSurvey/>
+                        </MDBTabPane>
+                        <MDBTabPane tabId="2" role="tabpanel">
+                            <LeadAppointments/>
+                        </MDBTabPane>
+                        <MDBTabPane tabId="3" role="tabpanel">
+                            <LeadBooking/>
+                        </MDBTabPane>
+                        <MDBTabPane tabId="4" role="tabpanel">
+                            <LeadTimeline/>
+                        </MDBTabPane>
+                        <MDBTabPane tabId="5" role="tabpanel">
+                            <LeadCallQueue/>
+                        </MDBTabPane>
+                        <MDBTabPane tabId="6" role="tabpanel">
+                            <LeadNotes/>
+                        </MDBTabPane>
+                        <MDBTabPane tabId="7" role="tabpanel">
+                            <LeadDocuments/>
+                        </MDBTabPane>
+                    </MDBTabContent>
                 </MDBBox>
 
             </MDBBox>
