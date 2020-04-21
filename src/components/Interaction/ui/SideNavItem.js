@@ -13,7 +13,7 @@ class SideNavItem extends Component {
 
     render() {
         return (
-                <MDBNavItem className="w-100">
+                <MDBNavItem className="w-100" style={{zIndex:"10"}}>
                     {this.props.slim === true ?
                         <MDBTooltip material placement="right">
                             <MDBNavLink className={`text-align-center skin-text p-0 py-3 ${ this.props.active ? 'skin-primary-background-color' : ''}`}
