@@ -13,7 +13,7 @@
   },
   "interaction": {
     "survey": {
-      "tabTitle": "Survey"
+      "tabTitle": "Surveys"
     },
     "appointments": {
       "tabTitle": "Appointments"
@@ -53,9 +53,9 @@
       "contactPreferences" : {
         "title" : "Contact Preferences",
         "cancelButton" : "Close",
-        "phone" : "Phone Calls",
-        "email" : "Emails",
-        "text" : "Texts"
+        "phone_calls" : "Phone Calls",
+        "emails" : "Emails",
+        "texts" : "Texts"
       }
     }
   },

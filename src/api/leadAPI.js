@@ -224,5 +224,47 @@ export default class LeadAPI {
         
         return result
     }
+    /**
+     * @typedef ContactPreferenceParams
+     * @type {object}
+     * @property {number} leadID 
+     * @property {string} type 
+     * @property {boolean} preference 
+     */
+
+
+
+    /**
+     * Sets the lead contact preferences
+     *
+     * @static
+     * @param {Auth} auth
+     * @param {ContactPreferencesParams} params
+     * @returns {Promise}
+     * @memberof LeadAPI
+     */
+    static async setContactPreferences(auth, params) {
+        // Mock API responses for local dev
+        if (process.env.REACT_APP_QUERY_MODE === "development") {
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "//data//successTrue.json")
+            
+            return mockData.json()
+        }
+
+        const redux = store.getState()
+        const requestOptions = {
+            url: redux.config["url-api-base"] + "leads/" + params.leadID + "/optout",
+            method: "POST",
+            data: {
+                agent_id: auth.auth.userID,
+                type: params.type,
+                preference: params.preference
+            },
+            auth: auth
+        }
+        const result = await sendRequest(requestOptions)
+        
+        return result
+    }
 
 } 
