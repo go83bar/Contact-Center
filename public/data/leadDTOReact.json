@@ -23,13 +23,18 @@
     "timezone_short": "CDT",
 	"gender": null,
     "date_of_birth": null,
+    "contact_preferences": {
+        "phone_calls": true,
+        "texts": true,
+        "emails": true
+    },
 	"surveys": [
         {
             "id": 763,
             "campaign_id": 97,
             "score": 13,
             "disqualified": false,
-            "submission_date": "March 10, 2020",
+            "submission_date": "2020-03-10 14:00:00",
             "name": "GC - TELEMED - Risk Quiz - Insurance var C - Breast 45-50",
             "responses": [
                 {
@@ -184,7 +189,7 @@
             "campaign_id": 97,
             "score": 5,
             "disqualified": true,
-            "submission_date": "March 21, 2020",
+            "submission_date": "2019-03-21 17:30:00",
             "name": "Myriad - Testimonial Feedback-  NPS",
             "responses": [
                 {

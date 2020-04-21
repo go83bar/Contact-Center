@@ -2,62 +2,51 @@ import React, {Component} from 'react'
 import {MDBBtn, MDBCol, MDBModal, MDBModalBody, MDBModalFooter, MDBModalHeader, MDBRow} from 'mdbreact'
 import {connect} from "react-redux";
 import Switch from "../ui/Switch";
+import LeadAPI from '../../../api/leadAPI';
 
 class ContactPreferences extends Component {
 
-    constructor(props) {
-        super(props);
-        this.ok = this.ok.bind(this)
-        this.cancel = this.cancel.bind(this)
-        this.phoneChange=this.phoneChange.bind(this)
-        this.emailChange=this.emailChange.bind(this)
-        this.textChange=this.textChange.bind(this)
-        this.state = {
-            modalName : "Contact Preferences",
-            phone : false,
-            email : true,
-            text : false
-        };
-    }
+    updatePreference = field => {
+        const newPreference = !this.props.lead.contact_preferences[field]
+        const payload = {
+            leadID: this.props.lead.id,
+            type: field,
+            preference: newPreference
+        }
+        LeadAPI.setContactPreferences(this.props.auth.auth, payload)
+            .then( (response) => {
+                if (response.success) {
+                    this.props.dispatch({
+                        type:"LEAD.UPDATE_CONTACT_PREFERENCES", 
+                        data: { 
+                            field: field, 
+                            value: newPreference
+                        }
+                    })
+                }
+            })
 
-    phoneChange() {
-        this.setState({phone : !this.state.phone})
     }
-    emailChange(checked) {
-        this.setState({email : !this.state.email})
-    }
-    textChange(checked) {
-        this.setState({text : !this.state.text})
-    }
-
-    ok() {
-        //Process the data
-
-        this.props.closeModal(this.state.modalName)
-    }
-    cancel() {
-        this.props.closeModal(this.state.modalName)
+    cancel = () => {
+        this.props.closeModal("Contact Preferences")
     }
 
     render() {
-        let localization = this.props.localization.interaction.summary.contactPreferences
+        const localization = this.props.localization.interaction.summary.contactPreferences
+        const switches = ['phone_calls', 'emails', 'texts'].map( (field) => {
+            return (
+                <MDBCol size="4" key={field}>
+                    <label htmlFor={field} className="grey-text">{localization[field]}</label>
+                    <Switch checked={this.props.lead.contact_preferences[field]} offLabel={"Not Allowed"} onLabel={"Allowed"} onChange={() => this.updatePreference(field)}/>
+                </MDBCol>
+            )
+        })
         return (
             <MDBModal size="lg" isOpen={true} toggle={this.props.closeModal}>
                 <MDBModalHeader>{localization.title}</MDBModalHeader>
                 <MDBModalBody >
                     <MDBRow className="p-2">
-                        <MDBCol size="4">
-                            <label htmlFor="first_name" className="grey-text">{localization.phone}</label>
-                            <Switch checked={this.state.phone} offLabel={"Not Allowed"} onLabel={"Allowed"} onChange={this.phoneChange}/>
-                        </MDBCol>
-                        <MDBCol size="4">
-                            <label htmlFor="lead_id" className="grey-text">{localization.email}</label>
-                            <Switch checked={this.state.email} offLabel={"Not Allowed"} onLabel={"Allowed"} onChange={this.emailChange}/>
-                        </MDBCol>
-                        <MDBCol size="4">
-                            <label htmlFor="last_name" className="grey-text">{localization.text}</label>
-                            <Switch checked={this.state.text} offLabel={"Not Allowed"} onLabel={"Allowed"} onChange={this.textChange}/>
-                        </MDBCol>
+                        {switches}
                     </MDBRow>
                     <MDBModalFooter className="p-1"/>
                     <MDBRow>

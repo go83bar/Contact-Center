@@ -10,6 +10,14 @@ export function lead(state = initialState, action) {
                 ...action.payload
             })
 
+        case "LEAD.UPDATE_CONTACT_PREFERENCES":
+            console.log(state, action.data)
+            const contactPreferences = { ...state.contact_preferences }
+            contactPreferences[action.data.field] = action.data.value
+            return {
+                ...state,
+                contact_preferences: contactPreferences
+            }
         default:
             return state
     }
