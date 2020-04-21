@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {MDBBox, MDBTabPane, MDBNav, MDBNavItem, MDBNavLink, MDBTabContent, MDBTooltip} from "mdbreact";
+import {MDBBox, MDBTabPane, MDBNav, MDBTabContent} from "mdbreact";
 import LeadSurvey from "./LeadSurvey";
 import LeadAppointments from "./LeadAppointments";
 import LeadBooking from "./LeadBooking";
@@ -8,8 +8,9 @@ import LeadCallQueue from "./LeadCallQueue";
 import LeadDocuments from "./LeadDocuments";
 import LeadNotes from "./LeadNotes";
 import {connect} from "react-redux";
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+//import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faPoll, faCalendarCheck,faEdit,faCalendarPlus, faStream, faList, faFile, faBars} from '@fortawesome/pro-regular-svg-icons'
+import SideNavItem from "./ui/SideNavItem";
 
 class LeadDetail extends Component {
 
@@ -40,104 +41,16 @@ class LeadDetail extends Component {
         let localization = this.props.localization.interaction
         return (
             <MDBBox className={"h-100 w-100 p-0"}>
-                <MDBBox className="float-left border skin-secondary-background-color h-100" style={{width: slim ? "50px": "100px", fontSize:"14px"}}>
+                <MDBBox className="float-left border skin-secondary-background-color" style={{width: slim ? "50px": "100px", minHeight : "647px", fontSize:"14px"}}>
                     <MDBNav>
-                        <MDBNavItem className="w-100">
-                            <MDBNavLink className={"text-align-center skin-text p-0 py-3"}
-                                        link
-                                        to="#"
-                                        active={this.state.activeItem === "1"}
-                                        onClick={this.toggleNav}
-                                        role="tab"
-                            >
-                                <FontAwesomeIcon className="skin-text fa-2x" icon={faBars}/>
-                            </MDBNavLink>
-                        </MDBNavItem>
-                        <MDBNavItem className="w-100">
-                            <MDBTooltip material placement="right">
-                            <MDBNavLink className={"text-align-center skin-text p-0 py-3"}
-                                        link
-                                        to="#"
-                                        active={this.state.activeItem === "1"}
-                                        onClick={this.toggleTab("1")}
-                                        role="tab"
-                            >
-                                <FontAwesomeIcon className="skin-primary-color fa-2x" icon={faPoll} rotation={90}/>{!slim && <div>{localization.survey.tabTitle}</div>}
-                            </MDBNavLink><div>{localization.survey.tabTitle}</div></MDBTooltip>
-                        </MDBNavItem>
-                        <MDBNavItem className="w-100">
-                            <MDBTooltip material placement="right">
-                            <MDBNavLink className={"text-align-center skin-text p-0 py-3"}
-                                        link
-                                        to="#"
-                                        active={this.state.activeItem === "2"}
-                                        onClick={this.toggleTab("2")}
-                                        role="tab"
-                            >
-                                <FontAwesomeIcon className="skin-primary-color fa-2x" icon={faCalendarCheck}/>{!slim && <div>{localization.appointments.tabTitle}</div>}
-                            </MDBNavLink>
-                            <div>{localization.appointments.tabTitle}</div></MDBTooltip>
-                        </MDBNavItem>
-                        <MDBNavItem className="w-100">
-                            <MDBTooltip material placement="right">
-                            <MDBNavLink className={"text-align-center skin-text p-0 py-3"}
-                                        link
-                                        to="#"
-                                        active={this.state.activeItem === "3"}
-                                        onClick={this.toggleTab("3")}
-                                        role="tab"
-                            >
-                                <FontAwesomeIcon className="skin-primary-color fa-2x" icon={faCalendarPlus}/>{!slim && <div>{localization.booking.tabTitle}</div>}
-                            </MDBNavLink><div>{localization.booking.tabTitle}</div></MDBTooltip>
-                        </MDBNavItem>
-                        <MDBNavItem className="w-100">
-                            <MDBTooltip material placement="right">
-                            <MDBNavLink className={"text-align-center skin-text p-0 py-3"}
-                                        link
-                                        to="#"
-                                        active={this.state.activeItem === "4"}
-                                        onClick={this.toggleTab("4")}
-                                        role="tab"
-                            >
-                                <FontAwesomeIcon className="skin-primary-color fa-2x" icon={faStream}/>{!slim && <div>{localization.timeline.tabTitle}</div>}
-                            </MDBNavLink><div>{localization.timeline.tabTitle}</div></MDBTooltip>
-                        </MDBNavItem>
-                        <MDBNavItem className="w-100">
-                            <MDBTooltip material placement="right">
-                            <MDBNavLink className={"text-align-center skin-text p-0 py-3"}
-                                        link
-                                        to="#"
-                                        active={this.state.activeItem === "5"}
-                                        onClick={this.toggleTab("5")}
-                                        role="tab"
-                            >
-                                <FontAwesomeIcon className="skin-primary-color fa-2x" icon={faList}/>{!slim && <div>{localization.queue.tabTitle}</div>}
-                            </MDBNavLink><div>{localization.queue.tabTitle}</div></MDBTooltip>
-                        </MDBNavItem>
-                        <MDBNavItem className="w-100">
-                            <MDBTooltip material placement="right">
-                            <MDBNavLink className={"text-align-center skin-text p-0 py-3"}
-                                        link
-                                        to="#"
-                                        active={this.state.activeItem === "6"}
-                                        onClick={this.toggleTab("6")}
-                                        role="tab"
-                            >
-                                <FontAwesomeIcon className="skin-primary-color fa-2x" icon={faEdit}/>{!slim && <div>{localization.notes.tabTitle}</div>}
-                            </MDBNavLink><div>{localization.notes.tabTitle}</div></MDBTooltip>
-                        </MDBNavItem>
-                        <MDBNavItem className="w-100">
-                            <MDBTooltip material placement="right">
-                            <MDBNavLink className={"text-align-center skin-text p-0 py-3"}
-                                        link
-                                        to="#"
-                                        active={this.state.activeItem === "7"}
-                                        onClick={this.toggleTab("7")}
-                                        role="tab"
-                            >
-                                <FontAwesomeIcon className="skin-primary-color fa-2x" icon={faFile}/>{!slim && <div>{localization.documents.tabTitle}</div>}
-                            </MDBNavLink><div>{localization.documents.tabTitle}</div></MDBTooltip>
-                        </MDBNavItem>
+                        <SideNavItem active={false} icon={faBars} label={""} slim={false} onClick={this.toggleNav}/>
+                        <SideNavItem active={this.state.activeItem === "1"} icon={faPoll} label={localization.survey.tabTitle} rotation={90} slim={slim} onClick={this.toggleTab("1")}/>
+                        <SideNavItem active={this.state.activeItem === "2"} icon={faCalendarCheck} label={localization.appointments.tabTitle} slim={slim} onClick={this.toggleTab("2")}/>
+                        <SideNavItem active={this.state.activeItem === "3"} icon={faCalendarPlus} label={localization.booking.tabTitle} slim={slim} onClick={this.toggleTab("3")}/>
+                        <SideNavItem active={this.state.activeItem === "4"} icon={faStream} label={localization.timeline.tabTitle} slim={slim} onClick={this.toggleTab("4")}/>
+                        <SideNavItem active={this.state.activeItem === "5"} icon={faList} label={localization.queue.tabTitle} slim={slim} onClick={this.toggleTab("5")}/>
+                        <SideNavItem active={this.state.activeItem === "6"} icon={faEdit} label={localization.notes.tabTitle} slim={slim} onClick={this.toggleTab("6")}/>
+                        <SideNavItem active={this.state.activeItem === "7"} icon={faFile} label={localization.documents.tabTitle} slim={slim} onClick={this.toggleTab("7")}/>
                     </MDBNav>
                 </MDBBox>
                 <MDBBox className="w-100" >
