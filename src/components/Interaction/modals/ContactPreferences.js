@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {MDBBtn, MDBCol, MDBModal, MDBModalBody, MDBModalFooter, MDBModalHeader, MDBRow} from 'mdbreact'
 import {connect} from "react-redux";
-import Switch from "../ui/Switch";
+import Switch from "../../ui/Switch";
 import LeadAPI from '../../../api/leadAPI';
 
 class ContactPreferences extends Component {

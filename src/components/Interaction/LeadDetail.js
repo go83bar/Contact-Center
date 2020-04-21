@@ -10,7 +10,7 @@ import LeadNotes from "./LeadNotes";
 import {connect} from "react-redux";
 //import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faPoll, faCalendarCheck,faEdit,faCalendarPlus, faStream, faList, faFile, faBars} from '@fortawesome/pro-regular-svg-icons'
-import SideNavItem from "./ui/SideNavItem";
+import SideNavItem from "../ui/SideNavItem";
 
 class LeadDetail extends Component {
 

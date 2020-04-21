@@ -3,7 +3,7 @@ import {
     MDBBox,
 } from 'mdbreact';
 import {connect} from "react-redux";
-import ScrollLink from '../../Utils/ScrollLink'
+import ScrollLink from '../../ui/ScrollLink'
 import SurveyIcon from './SurveyIcon'
 import * as moment from 'moment'
 
