@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { MDBBox, MDBRow, MDBCol, MDBCard, MDBCardBody} from "mdbreact";
+import { MDBBox, MDBCard} from "mdbreact";
 import {connect} from "react-redux";
 import SurveyThumb from "./SurveyThumb"
 
@@ -20,8 +20,8 @@ class ThumbsContainer extends Component {
 
     render() {
         return (
-            <MDBBox className="mx-2" style={{width: "30%"}}>
-            <MDBCard border="light" className="p-2 rounded">                    
+            <MDBBox className="mr-2" style={{width: "30%"}}>
+            <MDBCard border="light" className="p-2 rounded">
                     <strong className="black-text">{this.props.localization.interaction.survey.tabTitle.toUpperCase()}</strong>
                     <MDBBox className="loopContainerPlaceholder">
                         {this.state.thumbs}
@@ -42,4 +42,3 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ThumbsContainer);
-    

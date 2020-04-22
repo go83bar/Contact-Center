@@ -27,7 +27,7 @@ class CallBar extends Component {
 
     render() {
         return (
-            <MDBBox className="rounded p-0 border float-right skin-border-primary skin-primary-faint-background-color callBar">
+            <MDBBox className="rounded p-0 mt-2 border float-right skin-border-primary skin-primary-faint-background-color callBar" style={{flex:"0 0 180px", order:2, background:"orange"}}>
                 <MDBNav className="">
                     <div className={"font-weight-bolder p-0 text-align-center w-100 "} onClick={this.props.toggleCallBar}>
                         <FontAwesomeIcon icon={faAngleUp} size={"2x"} className="skin-secondary-color"/>

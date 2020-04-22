@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { MDBBox, MDBRow, MDBCol, MDBCard, MDBCardBody} from "mdbreact";
+import { MDBBox} from "mdbreact";
 import {connect} from "react-redux";
 import SurveySubmission from "./SurveySubmission"
 
@@ -33,7 +33,7 @@ class SurveysContainer extends Component {
     render() {
         return (
             <MDBBox border="light" className="rounded" style={{ width: "70%"}}>
-                <div className="scrollbar smooth-scroll" style={{width: "100%", height: "650px"}}>
+                <div className="scrollbar smooth-scroll" style={{width: "100%", height: "100%"}}>
                     {this.state.surveys}
                 </div>
             </MDBBox>
@@ -51,4 +51,3 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SurveysContainer);
-    

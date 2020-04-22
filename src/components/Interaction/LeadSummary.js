@@ -4,12 +4,9 @@ import {
     MDBNavItem,
     MDBNavLink,
     MDBNav,
-    MDBIcon,
     MDBChip,
     MDBCard,
-    MDBCardBody,
-    MDBCollapse,
-    MDBCollapseHeader,
+
     MDBDropdown,
     MDBDropdownToggle,
     MDBDropdownMenu,
@@ -18,7 +15,7 @@ import {
 } from "mdbreact";
 import {connect} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCircle, faComment, faEnvelope, faUserCog, faEdit, faObjectGroup, faUserPlus, faMapMarkedAlt,faIdBadge} from "@fortawesome/pro-solid-svg-icons";
+import {faCircle, faComment, faEnvelope, faUserEdit, faEdit, faObjectGroup, faUserPlus, faMapMarkedAlt,faIdBadge,faEllipsisH} from "@fortawesome/pro-solid-svg-icons";
 import {faPhone, faTimes} from "@fortawesome/pro-solid-svg-icons";
 import CreateLead from "./modals/CreateLead";
 import ContactPreferences from "./modals/ContactPreferences";
@@ -35,7 +32,7 @@ class LeadSummary extends Component {
         const client = this.props.shift.clients[this.props.lead.client_index]
         const campaign = client.campaigns[this.props.lead.campaign_index]
         this.state = {
-            collapsed: false,
+            collapsed: true,
             closed: false,
             clientName: client.name,
             campaignName: campaign.name,
@@ -60,13 +57,14 @@ class LeadSummary extends Component {
     render() {
         //let localization = this.props.localization.interaction.summary
         return (
-            <MDBBox className={'md-accordian p-0 w-100'}>
-                <MDBCard className='mt-3 skin-border-primary rounded'>
-                    <MDBCollapseHeader className={"backgroundColorInherit border-0 p-0 m-0"}>
+            <MDBBox className='p-0 m-0 w-100 d-flex' style={{flex:"0 56px"}}>
+                <MDBCard className='skin-border-primary rounded w-100'>
+                    <MDBBox className={"backgroundColorInherit border-0 p-0 m-0 w-100"}>
                         <div className={"d-inline-block font-weight-bolder pl-3 pt-4"}>{this.props.lead.first_name} {this.props.lead.last_name}</div>
                         <MDBDropdown className={"d-inline-block"}>
                             <MDBDropdownToggle nav>
-                                <span className=""><FontAwesomeIcon icon={faUserCog} size={"lg"} className={"skin-secondary-color"}/></span>
+                                <span className="px-2"><FontAwesomeIcon icon={faUserEdit} size={"lg"} className={"skin-secondary-color"}/></span>
+                                <span className=""><FontAwesomeIcon icon={faEllipsisH} size={"lg"} className={"skin-secondary-color"}/></span>
                             </MDBDropdownToggle>
                             <MDBDropdownMenu className={"rounded pr-2"}>
                                 <MDBDropdownItem href="#"><div><FontAwesomeIcon icon={faEdit} size={"lg"} className={"skin-primary-color pr-1"} /> Edit Lead Information</div></MDBDropdownItem>
@@ -85,7 +83,7 @@ class LeadSummary extends Component {
                         <MDBChip className={"outlineChip ml-4 mb-0"}>Client: {this.state.clientName}</MDBChip>
                         <MDBChip className={"outlineChip ml-1 mb-0"}>{this.state.campaignName}</MDBChip>
 
-                        <MDBNav className={"justify-content-end float-right border-left skin-border-primary " + (!this.state.closed && "border-bottom ")}>
+                        <MDBNav className={"justify-content-end float-right border-left skin-border-primary "}>
                             <MDBNavItem className={"skin-primary-background-color"} onClick={this.props.toggleCallBar}>
                                 <MDBNavLink to="#" className={"py-0 px-2 align-middle"}>
                                     <span className="fa-layers fa-2x mt-2">
@@ -105,7 +103,7 @@ class LeadSummary extends Component {
                                 </MDBNavLink>
                             </MDBNavItem>
                             <MDBNavItem>
-                                <MDBNavLink to="#" className={"py-0 px-2 align-middle"}>
+                                <MDBNavLink to="/" className={"py-0 px-2 align-middle"}>
                                     <span className="fa-layers fa-2x mt-2">
                                         <FontAwesomeIcon icon={faCircle} className={"text-danger"}/>
                                         <FontAwesomeIcon icon={faTimes} transform={"shrink-8"} className={"skin-text"}/>
@@ -113,21 +111,7 @@ class LeadSummary extends Component {
                                 </MDBNavLink>
                             </MDBNavItem>
                         </MDBNav>
-                        <MDBNav className={"justify-content-end float-right border-0 px-4 mr-2 pt-4"} onClick={this.toggleCollapse}>
-                            <MDBIcon size={"lg"} icon={this.state.collapsed === true ? 'angle-up' : 'angle-down'} />
-                        </MDBNav>
-
-                    </MDBCollapseHeader>
-                    <MDBCollapse id='collapse1' isOpen={!this.state.collapsed} onClosed={this.collapseClosed}>
-                        <MDBCardBody className={"px-3"}>
-                            Pariatur cliche reprehenderit, enim eiusmod high life accusamus
-                            terry richardson ad squid. 3 wolf moon officia aute, non
-                            cupidatat skateboard dolor brunch. Food truck quinoa nesciunt
-                            laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a
-                            bird on it squid single-origin coffee nulla assumenda shoreditch
-                            et. Nihil anim keffiyeh helvetica, craft beer.
-                        </MDBCardBody>
-                    </MDBCollapse>
+                    </MDBBox>
                 </MDBCard>
 
                 {this.state.modal === "Create Lead" && <CreateLead closeModal={this.closeModal}/>}

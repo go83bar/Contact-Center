@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import {MDBContainer} from "mdbreact";
 import "./index.css";
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import Home from "./components/Home"
@@ -42,18 +41,15 @@ class ContactCenter extends Component {
     render() {
         return (
             <BrowserRouter>
-                <MDBContainer fluid className="skin-secondary-color">
-                    <Switch>
-                        <Route exact path="/login" component={Login}/>
-                        <ProtectedRoute exact path="/" component={Home}/>
-                        <ProtectedRoute exact path="/recent" component={RecentLeads}/>
-                        <ProtectedRoute exact path="/search" component={Search}/>
-                        <ProtectedRoute exact path="/preview" component={Preview}/>
-                        <ProtectedRoute exact path="/next" component={NextLead}/>
-                        <ProtectedRoute exact path="/interaction" component={Interaction}/>
-
-                    </Switch>
-                </MDBContainer>
+                <Switch>
+                    <Route exact path="/login" component={Login}/>
+                    <ProtectedRoute exact path="/" component={Home}/>
+                    <ProtectedRoute exact path="/recent" component={RecentLeads}/>
+                    <ProtectedRoute exact path="/search" component={Search}/>
+                    <ProtectedRoute exact path="/preview" component={Preview}/>
+                    <ProtectedRoute exact path="/next" component={NextLead}/>
+                    <ProtectedRoute exact path="/interaction" component={Interaction}/>
+                </Switch>
             </BrowserRouter>
         );
     }

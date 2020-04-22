@@ -12,6 +12,9 @@
     "handoffs" : "HANDOFFS MADE TODAY"
   },
   "interaction": {
+    "details" : {
+      "tabTitle" : "Details"
+    },
     "survey": {
       "tabTitle": "Surveys"
     },

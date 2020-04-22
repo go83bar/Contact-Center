@@ -1,8 +1,7 @@
 import React, {Component} from 'react'
-import { 
+import {
     MDBCard,
     MDBCardBody,
-    MDBCardHeader,
     MDBBox,
     MDBChip
 } from 'mdbreact';
@@ -20,7 +19,7 @@ class SurveySubmission extends Component {
         var client = props.shift.clients[props.lead.client_index]
         var campaign = client.campaigns.find((campaign) => {
             return campaign.id === props.survey.campaign_id
-        }) 
+        })
 
         const surveyItems = this.props.survey.responses.map( (response) => {
             const answers = response.answers.map( (answer, index) => {
@@ -54,12 +53,12 @@ class SurveySubmission extends Component {
                             <strong>{moment(this.props.survey.submission_date).format("MMM D, YYYY")}</strong>
                             &nbsp;{moment(this.props.survey.submission_date).format("h:mm a")}
                         </MDBBox>
-                        <h5 className="pt-1 pb-2">{this.props.survey.name}</h5> 
+                        <h5 className="pt-1 pb-2">{this.props.survey.name}</h5>
                         <MDBChip className="outlineChip">{this.state.campaignName}</MDBChip>
                         <MDBChip className="outlineChip">{this.props.survey.disqualified ? "Disqualified": "Qualified"}</MDBChip>
                         <MDBChip className="outlineChip">Score: {this.props.survey.score}</MDBChip>
                         {this.state.surveyItems}
-                        
+
                     </MDBBox>
                 </MDBCardBody>
             </MDBCard>

@@ -13,6 +13,8 @@ import Unauthorized from "./Unauthorized";
 import store from './store'
 
 const host = window.location.host.indexOf(":") ? window.location.host.substr(0, window.location.host.indexOf(":")) : window.location.host
+
+//                        <ContactCenter/>
 fetch(window.location.protocol + "//" + window.location.host + "//data//" + host + '.json')
     .then(response => response.json())
     .then((responseJson) => {
@@ -26,8 +28,8 @@ fetch(window.location.protocol + "//" + window.location.host + "//data//" + host
                 store.dispatch({type: 'LOCALIZE', payload: responseJson})
                 ReactDOM.render(
                     <Provider store={store}>
-                        <ContactCenter/>
-                    </Provider>,
+            <ContactCenter/>
+                 </Provider>,
                     document.getElementById('83Bar-Activate')
                 )
             })

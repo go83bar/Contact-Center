@@ -11,8 +11,8 @@ class LeadAppointments extends Component {
 
     render() {
         return (
-            <MDBBox className="w-100 p-0 m-0">
-                Appointments
+            <MDBBox className="d-flex border justify-content-around" >
+                <div className="w-100">Appointments</div>
             </MDBBox>
         )
     }

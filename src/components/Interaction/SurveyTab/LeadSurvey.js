@@ -1,11 +1,8 @@
 import React, {Component} from 'react'
-import { MDBBox, MDBRow, MDBCol, MDBCard, MDBSmoothScroll} from "mdbreact";
+import { MDBBox} from "mdbreact";
 import {connect} from "react-redux";
 import SurveysContainer from "./SurveysContainer"
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faPoll} from '@fortawesome/pro-solid-svg-icons'
-import {faCircle} from '@fortawesome/pro-light-svg-icons'
-import * as moment from 'moment'
+
 import ThumbsContainer from './ThumbsContainer';
 
 class LeadSurvey extends Component {

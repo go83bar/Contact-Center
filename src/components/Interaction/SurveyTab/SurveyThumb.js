@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { 
+import {
     MDBBox,
 } from 'mdbreact';
 import {connect} from "react-redux";
@@ -11,7 +11,7 @@ class SurveyThumb extends Component {
 
     constructor(props) {
         super(props)
-
+        this.state = {}
     }
 
     render() {

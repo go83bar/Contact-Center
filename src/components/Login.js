@@ -82,6 +82,7 @@ class Login extends Component {
                         </MDBCardImage>
                         <MDBCardBody cascade className='text-center'>
                             <div className={"text-left"}><MDBInput label={localization.frontPlaceholder} outline icon="envelope" iconClass={"skin-secondary-color"} className={"text-left"}/></div>
+                            <div className={"text-left"}><MDBInput label={"Password"} outline icon="key" iconClass={"skin-secondary-color"} className={"text-left"}/></div>
                             <MDBBtn className="rounded" onClick={this.getPin}><h5 style={{marginBottom:"0px"}}> {localization.frontButton} <MDBIcon icon="angle-double-right" style={{marginLeft : "10px"}}/> </h5></MDBBtn>
                         </MDBCardBody>
                     </MDBCard>
