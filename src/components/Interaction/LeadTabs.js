@@ -21,8 +21,8 @@ class LeadTabs extends Component {
     render() {
         return (
             <MDBBox className="d-flex flex-1 order-1 overflow-auto">
-                    <MDBTabContent className="d-flex overflow-auto p-0 mh-100 mw-100" activeItem={this.props.activeTab}>
-                        <MDBTabPane className="d-flex overflow-auto" tabId="1" role="tabpanel">
+                    <MDBTabContent className="d-flex overflow-auto p-0 w-100 h-100" activeItem={this.props.activeTab}>
+                        <MDBTabPane className="d-flex overflow-auto w-100" tabId="1" role="tabpanel">
                             <LeadSurvey/>
                         </MDBTabPane>
                         <MDBTabPane tabId="2" role="tabpanel">

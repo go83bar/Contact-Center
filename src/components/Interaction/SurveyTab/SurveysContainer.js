@@ -32,8 +32,8 @@ class SurveysContainer extends Component {
 
     render() {
         return (
-            <MDBBox border="light" className="rounded d-flex overflow-auto flex-1 order-1">
-                <div className="smooth-scroll flex-1 order-1 d-flex overflow-auto flex-column">
+            <MDBBox border="light" className="w-100 rounded d-flex overflow-auto flex-1 order-1">
+                <div className="w-100 smooth-scroll flex-1 order-1 d-flex overflow-auto flex-column">
                     {this.state.surveys}
                 </div>
             </MDBBox>
