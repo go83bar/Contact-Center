@@ -63,7 +63,7 @@ class Interaction extends Component {
         let localization = this.props.localization.interaction
 
         return(
-            <div className="d-flex w-100">
+            <div className="d-flex w-100 skin-secondary-color">
                 <MDBBox className="m-0 my-2 ml-2 border rounded skin-secondary-background-color" style={{flex: slim ? "0 0 50px" : "0 0 100px", order : 0,  fontSize:"14px"}}>
                     <MDBNav>
                         <SideNavItem active={false} toggle icon={faBars} label={""} slim={false} onClick={this.toggleNav}/>

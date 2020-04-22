@@ -28,7 +28,7 @@ fetch(window.location.protocol + "//" + window.location.host + "//data//" + host
                 store.dispatch({type: 'LOCALIZE', payload: responseJson})
                 ReactDOM.render(
                     <Provider store={store}>
-            <ContactCenter/>
+            <ContactCenter />
                  </Provider>,
                     document.getElementById('83Bar-Activate')
                 )

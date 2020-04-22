@@ -40,7 +40,7 @@ class ContactCenter extends Component {
 
     render() {
         return (
-            <BrowserRouter>
+            <BrowserRouter className="skin-secondary-color">
                 <Switch>
                     <Route exact path="/login" component={Login}/>
                     <ProtectedRoute exact path="/" component={Home}/>

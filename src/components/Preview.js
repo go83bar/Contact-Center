@@ -88,7 +88,7 @@ class Preview extends Component {
             )
         })
         return (
-            <MDBRow className="w-100" center style={{ marginTop: "10%" }}>
+            <MDBRow className="w-100 skin-secondary-color" center style={{ marginTop: "10%" }}>
                 <MDBCol size="6">
                     <MDBCard className="card-body">
                         <MDBCardHeader><h3>

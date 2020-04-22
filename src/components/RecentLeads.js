@@ -37,7 +37,7 @@ class RecentLeads extends Component {
             return <LoadingScreen />
         }
         return (
-            <MDBBox className="w-100">
+            <MDBBox className="w-100 skin-secondary-color">
                 <MDBRow>
                     <MDBCol size="3">
                         <CircularSideNav
