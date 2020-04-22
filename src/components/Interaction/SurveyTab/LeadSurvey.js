@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { MDBBox} from "mdbreact";
+import {MDBBox} from "mdbreact";
 import {connect} from "react-redux";
 import SurveysContainer from "./SurveysContainer"
 
@@ -11,20 +11,20 @@ class LeadSurvey extends Component {
         super(props);
 
 
-        this.state = {
-        };
+        this.state = {};
 
     }
 
     render() {
         return (
-            <MDBBox className="d-flex justify-content-around">
+            <MDBBox className="d-flex flex-1 overflow-auto">
                 <ThumbsContainer surveys={this.props.lead.surveys} />
                 <SurveysContainer surveys={this.props.lead.surveys} />
             </MDBBox>
         )
     }
 }
+
 const mapStateToProps = state => {
     return {
         localization: state.localization,
