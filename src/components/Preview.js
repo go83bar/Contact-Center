@@ -15,7 +15,7 @@ class Preview extends Component {
 
         console.log(props.previewData)
         let leadID = 0
-        
+
         // if this is a queued lead, we will already have preview data
         if (props.previewData.lead_name !== undefined) {
             this.state.leadData = props.previewData
@@ -37,7 +37,7 @@ class Preview extends Component {
 
         }
 
-        // no need to wait for interaction to start, we can start loading 
+        // no need to wait for interaction to start, we can start loading
         // lead data right here and put it into store ahead of time
         LeadAPI.getLeadDTO(this.props.auth.auth, {leadID: leadID})
             .then((responseJson) => {
@@ -71,8 +71,8 @@ class Preview extends Component {
 
     startInteraction() {
         // TODO make API call to startInteraction here
-        
-        this.props.history.push("/interaction") 
+
+        this.props.history.push("/interaction")
     }
 
     render() {
@@ -88,7 +88,7 @@ class Preview extends Component {
             )
         })
         return (
-            <MDBRow center style={{ marginTop: "10%" }}>
+            <MDBRow className="w-100" center style={{ marginTop: "10%" }}>
                 <MDBCol size="6">
                     <MDBCard className="card-body">
                         <MDBCardHeader><h3>
@@ -112,9 +112,9 @@ class Preview extends Component {
 }
 
 const mapStateToProps = state => {
-    return { 
-        auth: state.auth, 
-        localization : state.localization, 
+    return {
+        auth: state.auth,
+        localization : state.localization,
         previewData: state.preview,
         shift: state.shift
     }

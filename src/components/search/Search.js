@@ -1,11 +1,11 @@
 import React, {Component} from 'react'
 import {
-    MDBBtn, 
-    MDBRow, 
-    MDBCol, 
-    MDBBox, 
-    MDBAlert, 
-    MDBIcon, 
+    MDBBtn,
+    MDBRow,
+    MDBCol,
+    MDBBox,
+    MDBAlert,
+    MDBIcon,
     MDBCard,
     MDBCardBody,
     MDBCardTitle,
@@ -83,7 +83,7 @@ class Search extends Component {
             client_id: this.state.form.clientIDValue
         }
 
-        // conditionally add lead ID since the backend is stupid and 
+        // conditionally add lead ID since the backend is stupid and
         // will never return results with "undefined" as a query argument
         if (this.state.form.leadIDValue !== undefined) {
             payload["id"] = this.state.form.leadIDValue
@@ -142,7 +142,7 @@ class Search extends Component {
 
 
         return (
-            <MDBBox>
+            <MDBBox className="w-100">
                 <MDBRow>
                     <MDBCol size="3">
                         <CircularSideNav
@@ -159,7 +159,7 @@ class Search extends Component {
                             <MDBCardBody>
                                 <MDBCardTitle className={this.state.searchOpen ? "" : "d-flex justify-content-between"}>
                                     {localized.componentTitle}
-                                    {!this.state.searchOpen && 
+                                    {!this.state.searchOpen &&
                                         <MDBBtn color="primary" rounded onClick={() => this.toggleCollapse()}>New Search</MDBBtn>
                                     }
                                 </MDBCardTitle>
@@ -236,7 +236,7 @@ class Search extends Component {
                             <MDBCard className="mt-4">
                                 <MDBCardBody>
                                     <SearchResults results={this.state.searchResults} />
-                                    
+
                                 </MDBCardBody>
                             </MDBCard>
                         }
