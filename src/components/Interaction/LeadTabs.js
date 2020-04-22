@@ -22,27 +22,13 @@ class LeadTabs extends Component {
         return (
             <MDBBox className="d-flex flex-1 order-1 overflow-auto">
                     <MDBTabContent className="d-flex overflow-auto p-0 w-100 h-100" activeItem={this.props.activeTab}>
-                        <MDBTabPane className="d-flex overflow-auto w-100" tabId="1" role="tabpanel">
-                            <LeadSurvey/>
-                        </MDBTabPane>
-                        <MDBTabPane tabId="2" role="tabpanel">
-                            <LeadAppointments/>
-                        </MDBTabPane>
-                        <MDBTabPane tabId="3" role="tabpanel">
-                            <LeadBooking/>
-                        </MDBTabPane>
-                        <MDBTabPane tabId="4" role="tabpanel">
-                            <LeadTimeline/>
-                        </MDBTabPane>
-                        <MDBTabPane tabId="5" role="tabpanel">
-                            <LeadCallQueue/>
-                        </MDBTabPane>
-                        <MDBTabPane tabId="6" role="tabpanel">
-                            <LeadNotes/>
-                        </MDBTabPane>
-                        <MDBTabPane tabId="7" role="tabpanel">
-                            <LeadDocuments/>
-                        </MDBTabPane>
+                        {this.props.activeTab === '1' && <LeadSurvey/>}
+                        {this.props.activeTab === '2' &&  <LeadAppointments/>}
+                        {this.props.activeTab === '3' && <LeadBooking/>}
+                        {this.props.activeTab === '4' && <LeadTimeline/>}
+                        {this.props.activeTab === '5' && <LeadCallQueue/>}
+                        {this.props.activeTab === '6' &&  <LeadNotes/>}
+                        {this.props.activeTab === '7' && <LeadDocuments/>}
                     </MDBTabContent>
 
             </MDBBox>
