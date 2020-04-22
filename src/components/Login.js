@@ -68,8 +68,8 @@ class Login extends Component {
     render() {
         const localization = this.props.localization.login
         return (
-            <MDBContainer fluid style={{textAlign: "center"}}>
-                <MDBRotatingCard flipped={this.state.flipped} className="text-center h-100 w-100" style={{margin: "0 auto", marginTop: "10%", width: "500px"}}>
+            <MDBContainer className="d-flex w-auto justify-content-center flex-row" style={{textAlign: "center"}}>
+                <MDBRotatingCard flipped={this.state.flipped} className="text-center h-100 w-100 d-flex" style={{marginTop: "10%", width: "500px"}}>
                     <MDBCard className="face front" narrow >
                         <MDBCardImage
                             className='view view-cascade gradient-card-header skin-primary-background-color'

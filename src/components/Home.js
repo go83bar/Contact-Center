@@ -22,7 +22,7 @@ class Home extends Component {
     render() {
         const localization = this.props.localization.home
         return (
-            <MDBBox>
+            <MDBBox className="w-100 justify-content-center">
                 <MDBRow>
                     <MDBCol size="3">
                         <CircularSideNav
