@@ -1,15 +1,15 @@
-import React, {Component} from 'react'
-import { MDBBox } from "mdbreact";
-import {connect} from "react-redux";
+import React, { Component } from 'react'
+import { MDBBox } from "mdbreact"
+import { connect } from "react-redux"
 
 class DefaultComponent extends Component {
 
     constructor(props) {
-        super(props);
+        super(props)
 
 
         this.state = {
-        };
+        }
 
     }
 
@@ -21,14 +21,10 @@ class DefaultComponent extends Component {
         )
     }
 }
-const mapStateToProps = state => {
+const mapStateToProps = store => {
     return {
-        localization: state.localization
+        localization: store.localization
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {dispatch}
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(DefaultComponent);
+export default connect(mapStateToProps)(DefaultComponent);
