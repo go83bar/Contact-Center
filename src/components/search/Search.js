@@ -90,7 +90,7 @@ class Search extends Component {
         }
 
         // perform search
-        LeadAPI.moduleSearch(this.props.auth.auth, payload)
+        LeadAPI.moduleSearch(payload)
             .then((response) => {
                 let newStateOptions = {
                     isFetchingResults: false,
@@ -110,8 +110,6 @@ class Search extends Component {
 
                 this.setState(newStateOptions)
 
-                console.log("THUNK")
-                console.log(response)
             }).catch((reason) => {
                 console.log(reason)
             })
@@ -248,10 +246,8 @@ class Search extends Component {
 }
 
 
-const mapStateToProps = state => {
-    return { auth: state.auth, localization : state.localization }
+const mapStateToProps = store => {
+    return { localization : store.localization }
 }
 
-const mapDispatchToProps = dispatch => { return { dispatch }}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Search);
+export default connect(mapStateToProps)(Search);

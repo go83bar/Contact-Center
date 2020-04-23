@@ -2,12 +2,6 @@ import sendRequest from './fetch'
 import store from '../store'
 
 export default class LeadAPI {
-    /**@typedef Auth
-     * @type {object}
-     * @property {string} token - The token string
-     * @property {number} userID - The ID of the current User
-     * 
-     */
 
     /**
      * @typedef SearchParams
@@ -42,18 +36,17 @@ export default class LeadAPI {
      * }
      * 
      * @static
-     * @param {Auth} auth
      * @param {SearchParams} params
      * @returns {Promise}
      * @memberof LeadAPI
      */
-    static async moduleSearch(auth, params) {
+    static async moduleSearch(params) {
         const redux = store.getState()
         const requestOptions = {
             url: redux.config["url-api-base"] + "leads/search",
             method: "GET",
             data: params,
-            auth: auth
+            auth: redux.auth.auth
         }
         const result = await sendRequest(requestOptions)
         
@@ -76,11 +69,10 @@ export default class LeadAPI {
      * because reasons
      *
      * @static
-     * @param {Auth} auth
      * @returns {Promise}
      * @memberof LeadAPI
      */
-    static async getNextLead(auth) {
+    static async getNextLead() {
         // Mock API responses for local dev
         if (process.env.REACT_APP_QUERY_MODE === "development") {
             const mockData = await fetch(window.location.protocol + "//" + window.location.host + "//data//nextLead.json")
@@ -92,7 +84,7 @@ export default class LeadAPI {
         const requestOptions = {
             url: redux.config["url-api-base"] + "leads/next",
             method: "GET",
-            auth: auth
+            auth: redux.auth.auth
         }
         const result = await sendRequest(requestOptions)
         
@@ -125,12 +117,11 @@ export default class LeadAPI {
      * }
      * 
      * @static
-     * @param {Auth} auth 
      * @param {LeadPreviewParams} params 
      * @returns {Promise}
      * @memberof LeadAPI
      */
-    static async getLeadPreview(auth, params) {
+    static async getLeadPreview(params) {
         // Mock API responses for local dev
         if (process.env.REACT_APP_QUERY_MODE === "development") {
             const mockData = await fetch(window.location.protocol + "//" + window.location.host + "//data//nextLead.json")
@@ -143,7 +134,7 @@ export default class LeadAPI {
             url: redux.config["url-api-base"] + "leads/" + params.leadID + "/preview",
             data: { call_queue_id: params.callQueueID},
             method: "GET",
-            auth: auth
+            auth: redux.auth.auth
         }
         const result = await sendRequest(requestOptions)
         
@@ -169,7 +160,6 @@ export default class LeadAPI {
      * }
      *
      * @static
-     * @param {Auth} auth
      * @param {StartInteractionParams} params
      * @returns {Promise}
      * @memberof LeadAPI
@@ -183,7 +173,7 @@ export default class LeadAPI {
                 preview_start_time: params.previewStartTime
             },
             method: "GET",
-            auth: auth
+            auth: redux.auth.auth
         }
         const result = await sendRequest(requestOptions)
         
@@ -201,12 +191,11 @@ export default class LeadAPI {
      * Promise resolves to the large object structure represented in leadDTOReact.json
      *
      * @static
-     * @param {Auth} auth
      * @param {LeadDTOParams} params
      * @returns {Promise}
      * @memberof LeadAPI
      */
-    static async getLeadDTO(auth, params) {
+    static async getLeadDTO(params) {
         // Mock API responses for local dev
         if (process.env.REACT_APP_QUERY_MODE === "development") {
             const mockData = await fetch(window.location.protocol + "//" + window.location.host + "//data//leadDTOReact.json")
@@ -218,7 +207,7 @@ export default class LeadAPI {
         const requestOptions = {
             url: redux.config["url-api-base"] + "leads/" + params.leadID + "/reactDTO",
             method: "GET",
-            auth: auth
+            auth: redux.auth.auth
         }
         const result = await sendRequest(requestOptions)
         
@@ -232,18 +221,15 @@ export default class LeadAPI {
      * @property {boolean} preference 
      */
 
-
-
     /**
      * Sets the lead contact preferences
      *
      * @static
-     * @param {Auth} auth
      * @param {ContactPreferencesParams} params
      * @returns {Promise}
      * @memberof LeadAPI
      */
-    static async setContactPreferences(auth, params) {
+    static async setContactPreferences(params) {
         // Mock API responses for local dev
         if (process.env.REACT_APP_QUERY_MODE === "development") {
             const mockData = await fetch(window.location.protocol + "//" + window.location.host + "//data//successTrue.json")
@@ -256,11 +242,11 @@ export default class LeadAPI {
             url: redux.config["url-api-base"] + "leads/" + params.leadID + "/optout",
             method: "POST",
             data: {
-                agent_id: auth.auth.userID,
+                agent_id: redux.auth.auth.userID,
                 type: params.type,
                 preference: params.preference
             },
-            auth: auth
+            auth: redux.auth.auth
         }
         const result = await sendRequest(requestOptions)
         

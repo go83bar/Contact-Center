@@ -22,7 +22,7 @@ class NextLead extends Component {
         this.state = {}
 
         // fetch nextlead API response, and set it into state
-        LeadAPI.getNextLead(this.props.auth.auth)
+        LeadAPI.getNextLead()
             .then((response) => {
                 // the existing PHP endpoint has some irregular output for errors
                 // first check for APIException output
@@ -94,14 +94,11 @@ class NextLead extends Component {
     }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = store => {
     return { 
-        auth: state.auth, 
-        localization : state.localization, 
-        shift: state.shift
+        localization : store.localization, 
+        shift: store.shift
     }
 }
 
-const mapDispatchToProps = dispatch => { return { dispatch }}
-
-export default connect(mapStateToProps, mapDispatchToProps)(NextLead);
+export default connect(mapStateToProps)(NextLead);

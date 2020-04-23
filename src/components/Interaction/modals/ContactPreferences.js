@@ -13,7 +13,7 @@ class ContactPreferences extends Component {
             type: field,
             preference: newPreference
         }
-        LeadAPI.setContactPreferences(this.props.auth.auth, payload)
+        LeadAPI.setContactPreferences(payload)
             .then( (response) => {
                 if (response.success) {
                     this.props.dispatch({
@@ -59,16 +59,11 @@ class ContactPreferences extends Component {
         )
     }
 }
-const mapStateToProps = state => {
+const mapStateToProps = store => {
     return {
-        auth: state.auth,
-        localization: state.localization,
-        lead : state.lead,
+        localization: store.localization,
+        lead : store.lead,
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {dispatch}
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ContactPreferences);
+export default connect(mapStateToProps)(ContactPreferences);

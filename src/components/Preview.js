@@ -28,7 +28,7 @@ class Preview extends Component {
                 callQueueID: props.previewData.callQueueID
             }
             leadID = props.previewData.leadID
-            LeadAPI.getLeadPreview(props.auth.auth, previewPayload)
+            LeadAPI.getLeadPreview(previewPayload)
                 .then((response) => {
                     this.setState({
                         leadData: response.data
@@ -39,7 +39,7 @@ class Preview extends Component {
 
         // no need to wait for interaction to start, we can start loading
         // lead data right here and put it into store ahead of time
-        LeadAPI.getLeadDTO(this.props.auth.auth, {leadID: leadID})
+        LeadAPI.getLeadDTO({leadID: leadID})
             .then((responseJson) => {
                 console.log(responseJson);
                 const clientIndex = this.props.shift.clients.findIndex(client => client.id === responseJson.client_id)
@@ -111,15 +111,12 @@ class Preview extends Component {
     }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = store => {
     return {
-        auth: state.auth,
-        localization : state.localization,
-        previewData: state.preview,
-        shift: state.shift
+        localization : store.localization,
+        previewData: store.preview,
+        shift: store.shift
     }
 }
 
-const mapDispatchToProps = dispatch => { return { dispatch }}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Preview);
+export default connect(mapStateToProps)(Preview);
