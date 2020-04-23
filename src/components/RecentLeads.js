@@ -11,7 +11,7 @@ class RecentLeads extends Component {
     constructor(props) {
         super(props);
 
-        AgentAPI.getRecentLeads(this.props.auth.auth)
+        AgentAPI.getRecentLeads()
             .then((response) => {
                 if (response.success) {
                     const searchifiedResults = response.data.map( (item) => {
@@ -63,7 +63,7 @@ class RecentLeads extends Component {
     }
 }
 const mapStateToProps = state => {
-    return { auth: state.auth, localization : state.localization, previewData: state.preview }
+    return { localization : state.localization, previewData: state.preview }
 }
 
 const mapDispatchToProps = dispatch => { return { dispatch }}

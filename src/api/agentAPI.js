@@ -2,13 +2,6 @@ import sendRequest from './fetch'
 import store from '../store'
 
 export default class AgentAPI {
-    /**@typedef Auth
-     * @type {object}
-     * @property {string} token - The token string
-     * @property {number} userID - The ID of the current User
-     * 
-     */
-
      /**
      * getAppStats is called to fetch basic stats to display to the agent
      * Promise resolves to an object like
@@ -23,18 +16,17 @@ export default class AgentAPI {
      * }
      * 
      * @static
-     * @param {Auth} auth - the auth object
      * @return {Promise}
      * @memberof AgentAPI
      */
-    static async getAppStats(auth) {
+    static async getAppStats() {
         const redux = store.getState()
 
         const requestOptions = {
             url: redux.config["url-api-base"] + "agents/appstats",
             data: { agent_id: auth.userID},
             method: "GET",
-            auth: auth
+            auth: redux.auth.auth
         }
         const result = await sendRequest(requestOptions)
         
@@ -61,11 +53,10 @@ export default class AgentAPI {
      *  ]
      * }
      * @static
-     * @param {Auth} auth
      * @returns {Promise}
      * @memberof RecentAPI
      */
-    static async getRecentLeads(auth) {
+    static async getRecentLeads() {
         // Mock API responses for local dev
         if (process.env.REACT_APP_QUERY_MODE === "development") {
             const mockData = await fetch(window.location.protocol + "//" + window.location.host + "//data//recentLeads.json")
@@ -77,7 +68,7 @@ export default class AgentAPI {
         const requestOptions = {
             url: redux.config["url-api-base"] + "agents/recentleads",
             method: "GET",
-            auth: auth
+            auth: redux.auth.auth
         }
         const result = await sendRequest(requestOptions)
         
@@ -85,7 +76,7 @@ export default class AgentAPI {
 
     }
 
-    static async getClientData(auth) {
+    static async getClientData() {
         // Mock API responses for local dev
         if (process.env.REACT_APP_QUERY_MODE === "development") {
             const mockData = await fetch(window.location.protocol + "//" + window.location.host + "//data//clientDTO.json")
@@ -97,7 +88,7 @@ export default class AgentAPI {
         const requestOptions = {
             url: redux.config["url-api-base"] + "agents/clientdata",
             method: "GET",
-            auth: auth
+            auth: redux.auth.auth
         }
 
         return await sendRequest(requestOptions)
