@@ -22,7 +22,7 @@
 .callBar {
   min-width: 180px;
   width: 180px;
-  max-height: 650px;
+  max-height: 725px;
 }
 .callBarText {
   font-size: 14px;
@@ -56,8 +56,18 @@
 
 
 .timelineStepper li:not(:last-child):after {
-  left: 124px;
+  left: 118px;
   top: 45px;
   background-color: #d8d8d8;
+}
+.timelineChip {
+  height: 20px !important;
+  line-height: 20px !important;
+  margin: 2px !important;
+  color: #818A91 !important;
+}
+
+.disabledColor {
+  color : #cccccc
 }
 
