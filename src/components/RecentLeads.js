@@ -1,5 +1,12 @@
-import React, {Component} from 'react'
-import {MDBRow, MDBCol, MDBCard, MDBCardBody, MDBCardTitle, MDBBox} from "mdbreact"
+import React, { Component } from 'react'
+import {
+    MDBRow, 
+    MDBCol, 
+    MDBCard, 
+    MDBCardBody, 
+    MDBCardTitle, 
+    MDBBox
+} from "mdbreact"
 import AgentAPI from '../api/agentAPI';
 import LoadingScreen from './LoadingScreen'
 import SearchResults from './search/SearchResults'
@@ -24,7 +31,6 @@ class RecentLeads extends Component {
                 }
             }).catch((reason) => {
                 // TODO HANDLE ERRORS
-                console.log("BAMF")
                 console.log(reason)
             })
 
@@ -62,10 +68,11 @@ class RecentLeads extends Component {
         )
     }
 }
-const mapStateToProps = state => {
-    return { localization : state.localization, previewData: state.preview }
+const mapStateToProps = store => {
+    return { 
+        localization : store.localization, 
+        previewData: store.preview 
+    }
 }
 
-const mapDispatchToProps = dispatch => { return { dispatch }}
-
-export default connect(mapStateToProps, mapDispatchToProps)(RecentLeads);
+export default connect(mapStateToProps)(RecentLeads);

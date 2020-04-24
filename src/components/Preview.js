@@ -3,6 +3,7 @@ import { MDBCard, MDBCardBody, MDBCardText, MDBCardHeader, MDBBtn, MDBRow, MDBCo
 import { connect } from 'react-redux'
 import LoadingScreen from './LoadingScreen'
 import LeadAPI from '../api/leadAPI'
+import * as moment from 'moment'
 
 class Preview extends Component {
 
@@ -70,8 +71,27 @@ class Preview extends Component {
     }
 
     startInteraction() {
-        // TODO make API call to startInteraction here
+        // Make API call to start interaction
+        const payload = {
+            callQueueID: null,
+            leadID: this.props.previewData.leadID,
+            previewStartTime: moment().format()
 
+        }
+        LeadAPI.startInteraction(payload)
+            .then( response => {
+                if (response.success) {
+                    // set received interaction ID into store
+                    this.props.dispatch({
+                        type: "INTERACTION.LOAD",
+                        payload: {
+                            id: response.data.id
+                        }
+                    })
+                }
+            })
+
+        // Redirect to interaction view
         this.props.history.push("/interaction")
     }
 

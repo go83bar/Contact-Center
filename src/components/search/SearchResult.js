@@ -44,7 +44,7 @@ class SearchResult extends Component {
                 <td>{this.props.row.next_contact}</td>
                 <td className="align-middle">{!this.props.row.locked && (
                     <MDBBtn className="align-top" size="sm" color="indigo" onClick={this.handleResultClick}>
-                    {this.props.localization.search.resultButtonLabel}</MDBBtn>
+                    {this.props.localization.buttonLabels.load}</MDBBtn>
                 )}</td>
             </tr>
         )
@@ -52,10 +52,8 @@ class SearchResult extends Component {
     }
 }
 
-const mapStateToProps = state => {
-    return { localization : state.localization }
+const mapStateToProps = store => {
+    return { localization : store.localization }
 }
 
-const mapDispatchToProps = dispatch => { return { dispatch }}
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SearchResult))
+export default withRouter(connect(mapStateToProps)(SearchResult))

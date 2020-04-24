@@ -1,5 +1,11 @@
-import React, {Component} from 'react'
-import {MDBRow, MDBCol, MDBTable, MDBTableHead, MDBTableBody} from "mdbreact"
+import React, { Component } from 'react'
+import {
+    MDBRow,
+    MDBCol,
+    MDBTable,
+    MDBTableHead,
+    MDBTableBody
+} from "mdbreact"
 import SearchResult from './SearchResult'
 import { connect } from 'react-redux'
 
@@ -33,14 +39,14 @@ class SearchResults extends Component {
                     </MDBTable>
                 </MDBCol>
             </MDBRow>
-            )
+        )
     }
 }
 
-const mapStateToProps = state => {
-    return { auth: state.auth, localization : state.localization }
+const mapStateToProps = store => {
+    return {
+        localization: store.localization
+    }
 }
 
-const mapDispatchToProps = dispatch => { return { dispatch }}
-
-export default connect(mapStateToProps, mapDispatchToProps)(SearchResults);
+export default connect(mapStateToProps)(SearchResults);
