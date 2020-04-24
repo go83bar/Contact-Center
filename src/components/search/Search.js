@@ -127,12 +127,12 @@ class Search extends Component {
         let button
         if (isFetching) {
             button = (<MDBBtn color="indigo" disabled>
-                    {localized.searchButtonLabel} <MDBIcon icon="cog" spin className="ml-1" />
+                    {this.props.localization.buttonLabels.go} <MDBIcon icon="cog" spin className="ml-1" />
                 </MDBBtn>
             )
         } else {
             button = (<MDBBtn color="indigo" onClick={this.handleFormSubmit}>
-                    {localized.searchButtonLabel}
+                    {this.props.localization.buttonLabels.go}
                 </MDBBtn>
             )
         }
@@ -218,12 +218,17 @@ class Search extends Component {
                                                 {this.generateClientOptions()}
                                             </select>
                                             <div className="text-center mt-4">
-                                            {button}
-                                            {this.state.validationError &&
-                                                <MDBAlert color="danger" >
-                                                {this.state.validationMessage}
-                                            </MDBAlert>
-                                            }
+                                                <MDBBtn color="indigo" disabled={this.state.isFetchingResults} onClick={this.handleFormSubmit}>
+                                                    {this.props.localization.buttonLabels.go}
+                                                    {this.state.isFetchingResults && (
+                                                        <MDBIcon icon="cog" spin className="ml-1" />
+                                                    )}
+                                                </MDBBtn>
+                                                {this.state.validationError &&
+                                                    <MDBAlert color="danger" >
+                                                    {this.state.validationMessage}
+                                                </MDBAlert>
+                                                }
                                             </div>
                                         </MDBCol>
                                     </MDBRow>
