@@ -107,6 +107,9 @@ class LeadNotes extends Component {
                 interactionID: this.props.interaction.id
             }
 
+            this.setState({
+                isSaving: true
+            })
             LeadAPI.saveNote(payload)
                 .then(response => {
                     // dispatch new note into store

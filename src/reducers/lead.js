@@ -22,12 +22,14 @@ export function lead(state = initialState, action) {
 
         case "LEAD.NOTE_UPDATED":
             // called when user updates one of their previous notes
-            const notes = [ ...state.notes ]
-
-            const newNotes = notes.map( note => {
+            const newNotes = state.notes.map( note => {
                 if (note.id === action.data.noteID) {
-                    note.content = action.data.noteContent
+                    return {
+                        ...note,
+                        content: action.data.noteContent
+                    }
                 }
+
                 return note
             })
 
