@@ -27,3 +27,30 @@
 .callBarText {
   font-size: 14px;
 }
+
+.noteButtons {
+  cursor: pointer;
+  flex: 0 0 96px;
+  display: flex;
+  width: 100%;
+  height: 100%;
+
+}
+
+@mixin centeredContainer() {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.noteButtonEdit {
+  @include centeredContainer();
+  background-color: white;
+}
+
+.noteButtonDelete {
+  @include centeredContainer();
+  background-color: $red-darken-2;
+  color: white;
+}
+

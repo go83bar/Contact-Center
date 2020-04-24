@@ -2,6 +2,7 @@
     "user": {
         "id": 3,
         "first_name": "Matt",
+        "label_name": "Matt M",
         "full_title": "Lord Matthew Graham Mood"
     },
     "auth": {

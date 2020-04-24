@@ -5,6 +5,7 @@ import {configuration} from "./configuration"
 import {localization} from "./localization"
 import {lead} from "./lead";
 import {shift} from "./shift"
+import interaction from "./interaction"
 
 export default combineReducers({
     auth : authentication,
@@ -12,5 +13,6 @@ export default combineReducers({
     preview: preview,
     localization : localization,
     lead : lead,
-    shift: shift
+    shift: shift,
+    interaction: interaction
 })

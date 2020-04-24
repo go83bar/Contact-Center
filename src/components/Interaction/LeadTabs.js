@@ -6,7 +6,7 @@ import LeadBooking from "./LeadBooking";
 import LeadTimeline from "./LeadTimeline";
 import LeadCallQueue from "./LeadCallQueue";
 import LeadDocuments from "./LeadDocuments";
-import LeadNotes from "./LeadNotes";
+import LeadNotes from "./NotesTab/LeadNotes";
 import {connect} from "react-redux";
 
 

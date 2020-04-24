@@ -1,10 +1,12 @@
 {
-  "name" : "Activate",
-  "nav" : {
-    "fetch" : "FETCH NEW LEAD",
-    "search" : "FIND A LEAD",
-    "recent" : "RECENT LEADS",
-    "logout" : "SIGN OUT"
+  "buttonLabels": {
+    "load": "Load",
+    "save": "Save",
+    "update": "Update",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "search": "Search",
+    "go": "GO"
   },
   "home" : {
     "interactions" : "INTERACTIONS MADE TODAY",
@@ -69,6 +71,17 @@
     "backPlaceholder" : "Pin Code",
     "backButton" : "Sign In"
   },
+  "name" : "Activate",
+  "nav" : {
+    "fetch" : "FETCH NEW LEAD",
+    "search" : "FIND A LEAD",
+    "recent" : "RECENT LEADS",
+    "logout" : "SIGN OUT"
+  },
+  "notes": {
+    "deleteNoteModalHeader": "Delete Note?",
+    "deleteNoteModalBody": "Really delete note?  This cannot be undone."
+  },
   "search": {
     "componentTitle": "Search",
     "firstNameLabel": "First Name",
@@ -77,14 +90,12 @@
     "leadIDLabel": "Lead ID",
     "clientIDLabel": "Client",
     "clientIDSelect": "Select...",
-    "searchButtonLabel": "GO",
     "resultIDHeader": "ID",
     "resultNameHeader": "Name",
     "resultVerticalHeader": "Vertical",
     "resultPhaseHeader": "Phase",
     "resultNextContactHeader": "Next Contact",
     "resultLockedLabel": "LOCKED",
-    "resultButtonLabel": "Load",
     "noClientSelectedError": "You must select a client"
   }
 

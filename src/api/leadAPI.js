@@ -164,7 +164,14 @@ export default class LeadAPI {
      * @returns {Promise}
      * @memberof LeadAPI
      */
-    static async startInteraction(auth, params) {
+    static async startInteraction(params) {
+        // Mock API responses for local dev
+        if (process.env.REACT_APP_QUERY_MODE === "development") {
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "//data//startInteraction.json")
+            
+            return mockData.json()
+        }
+
         const redux = store.getState()
         const requestOptions = {
             url: redux.config["url-api-base"] + "leads/" + params.leadID + "/startinteraction",
@@ -213,6 +220,7 @@ export default class LeadAPI {
         
         return result
     }
+
     /**
      * @typedef ContactPreferenceParams
      * @type {object}
@@ -251,6 +259,125 @@ export default class LeadAPI {
         const result = await sendRequest(requestOptions)
         
         return result
+    }
+
+    /**
+     * @typedef UpdateNoteParams
+     * @type {object}
+     * @property {number} noteID
+     * @property {string} noteContent
+     *  
+     */
+
+     /**
+      * Updates a note previously saved in the interaction
+      * 
+      * @param {UpdateNoteParams} params 
+      * @returns {Promise}
+      * @memberof LeadAPI
+      */
+    static async updateNote(params) {
+        // Mock API responses for local dev
+        if (process.env.REACT_APP_QUERY_MODE === "development") {
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "//data//successTrue.json")
+            
+            return mockData.json()
+        }
+
+        const redux = store.getState()
+        const requestOptions = {
+            url: redux.config["url-api-base"] + "leads/" + params.leadID + "/notes/update",
+            method: "POST",
+            data: {
+                agent_id: redux.auth.auth.userID,
+                note_id: params.noteID,
+                note_content: params.noteContent
+            },
+            auth: redux.auth.auth
+        }
+        const result = await sendRequest(requestOptions)
+        
+        return result
+
+    }
+
+    /**
+     * @typedef SaveNoteParams
+     * @type {object}
+     * @property {number} leadID
+     * @property {string} noteContent
+     * @property {number} interactionID
+     *  
+     */
+
+     /**
+      * Updates a note previously saved in the interaction
+      * 
+      * @param {SaveNoteParams} params 
+      * @returns {Promise}
+      * @memberof LeadAPI
+      */
+     static async saveNote(params) {
+        // Mock API responses for local dev
+        if (process.env.REACT_APP_QUERY_MODE === "development") {
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "//data//saveNote.json")
+            
+            return mockData.json()
+        }
+
+        const redux = store.getState()
+        const requestOptions = {
+            url: redux.config["url-api-base"] + "leads/" + params.leadID + "/notes ",
+            method: "POST",
+            data: {
+                interaction_id: params.interactionID,
+                message: params.noteContent
+            },
+            auth: redux.auth.auth
+        }
+        const result = await sendRequest(requestOptions)
+        
+        return result
+
+    }
+
+    /**
+     * @typedef DeleteNoteParams
+     * @type {object}
+     * @property {number} leadID
+     * @property {number} noteID
+     *  
+     */
+
+
+     /**
+      * Deletes a note previously saved in the interaction
+      * 
+      * @param {DeleteNoteParams} params 
+      * @returns {Promise}
+      * @memberof LeadAPI
+      */
+     static async deleteNote(params) {
+        // Mock API responses for local dev
+        if (process.env.REACT_APP_QUERY_MODE === "development") {
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "//data//successTrue.json")
+            
+            return mockData.json()
+        }
+
+        const redux = store.getState()
+        const requestOptions = {
+            url: redux.config["url-api-base"] + "leads/" + params.leadID + "/notes/delete ",
+            method: "POST",
+            data: {
+                note_id: params.noteID,
+            },
+            auth: redux.auth.auth
+        }
+        const result = await sendRequest(requestOptions)
+        
+        return result
+
     }
 
 } 
