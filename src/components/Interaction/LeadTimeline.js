@@ -1,18 +1,13 @@
 import React, {Component} from 'react'
 import {
     MDBBox,
-    MDBStepper,
-    MDBStep,
     MDBCardHeader,
     MDBCardBody,
-    MDBCard,
-    MDBRow,
-    MDBCol
+    MDBCard
+
 } from "mdbreact";
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faCalendarCheck, faComment, faEnvelope, faPhone, faPoll} from '@fortawesome/pro-solid-svg-icons'
-import {faCircle} from '@fortawesome/pro-light-svg-icons'
-import {faCircle as faCircleSolid} from '@fortawesome/pro-solid-svg-icons'
+
+import TimelineTouchpoints from "./timeline/TimelineTouchpoints";
 
 class LeadTimeline extends Component {
 
@@ -23,79 +18,12 @@ class LeadTimeline extends Component {
 
     render() {
         return (
-            <MDBBox className={"p-0 m-0 w-auto"}>
-                <MDBRow>
-                    <MDBCol size={"4"}>
-                        <MDBCard className="mb-3">
-                            <MDBCardHeader className={"card-header-no-back-no-border"}>Touchpoints</MDBCardHeader>
-                            <MDBCardBody>
-                                <MDBStepper vertical>
-                                    <MDBStep>
-                        <span className="fa-layers fa-fw fa-4x">
-                            <FontAwesomeIcon icon={faCircleSolid} className="text-white"/>
-                            <FontAwesomeIcon icon={faCircle} className={"skin-accent-color"}/>
-                            <FontAwesomeIcon icon={faCalendarCheck} transform={"shrink-8"} className={"skin-secondary-color"}/>
-                            <span className="fa-layers-counter fa-layers-top-right skin-accent-background-color">3</span>
-                        </span>
-                                        <div style={{minHeight: "50px"}}
-                                             className={"step-content step-content-top"}>Test
-                                        </div>
-                                    </MDBStep>
-                                    <MDBStep>
-                        <span className="fa-layers fa-fw fa-4x">
-                            <FontAwesomeIcon icon={faCircle} className={"darkIcon"}/>
-                            <FontAwesomeIcon icon={faComment} transform={"shrink-8"} className={"dark"}/>
-                            <span className="fa-layers-counter fa-layers-top-right"
-                                  style={{background: "Tomato"}}>3</span>
-                        </span>
-                                        <div style={{minHeight: "50px"}}
-                                             className={"step-content step-content-top"}>Test
-                                        </div>
-                                    </MDBStep>
-                                    <MDBStep>
-                        <span className="fa-layers fa-fw fa-4x">
-                            <FontAwesomeIcon icon={faCircle} className={"darkIcon"}/>
-                            <FontAwesomeIcon icon={faEnvelope} transform={"shrink-8"} className={"dark"}/>
-                            <span className="fa-layers-counter fa-layers-top-right"
-                                  style={{background: "Tomato"}}>3</span>
-                        </span>
-                                        <div style={{minHeight: "50px"}}
-                                             className={"step-content step-content-top"}>Test
-                                        </div>
-                                    </MDBStep>
-                                    <MDBStep>
-                        <span className="fa-layers fa-fw fa-4x">
-                            <FontAwesomeIcon icon={faCircle} className={"darkIcon"}/>
-                            <FontAwesomeIcon icon={faPhone} transform={"shrink-8"} className={"dark"}/>
-                            <span className="fa-layers-counter fa-layers-top-right"
-                                  style={{background: "Tomato"}}>3</span>
-                        </span>
-                                        <div style={{minHeight: "50px"}}
-                                             className={"step-content step-content-top"}>Test
-                                        </div>
-                                    </MDBStep>
-                                    <MDBStep>
-                        <span className="fa-layers fa-fw fa-4x">
-                            <FontAwesomeIcon icon={faCircle} className={"darkIcon"}/>
-                            <FontAwesomeIcon icon={faPoll} transform={"shrink-8"} rotation={90} className={"darkIcon"}/>
-                            <span className="fa-layers-counter fa-layers-top-right"
-                                  style={{background: "Tomato"}}>3</span>
-                        </span>
-                                        <div style={{minHeight: "50px"}}
-                                             className={"step-content step-content-top"}>Test
-                                        </div>
-                                    </MDBStep>
-                                </MDBStepper>
-                            </MDBCardBody>
-                        </MDBCard>
-                    </MDBCol>
-                    <MDBCol size={"8"}>
-                        <MDBCard>
-                            <MDBCardHeader className={"card-header-no-back-no-border"}>All</MDBCardHeader>
+            <MDBBox className="d-flex flex-row overflow-auto flex-1 p-0 m-0 w-auto">
+                        <TimelineTouchpoints/>
+                        <MDBCard className="d-flex order-1 overflow-auto w-100 border-0">
+                            <MDBCardHeader className="card-header-no-back-no-border bg-white">All</MDBCardHeader>
                             <MDBCardBody></MDBCardBody>
                         </MDBCard>
-                    </MDBCol>
-                </MDBRow>
             </MDBBox>
         )
     }

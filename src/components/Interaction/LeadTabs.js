@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {MDBBox, MDBTabPane, MDBTabContent} from "mdbreact";
+import {MDBBox, MDBTabContent} from "mdbreact";
 import LeadSurvey from "./SurveyTab/LeadSurvey";
 import LeadAppointments from "./LeadAppointments";
 import LeadBooking from "./LeadBooking";
@@ -19,16 +19,37 @@ class LeadTabs extends Component {
     }
 
     render() {
+        var activeTab
+        switch(this.props.activeTab) {
+            case '1' :
+                activeTab = <LeadSurvey/>
+                break
+            case '2' :
+                activeTab = <LeadAppointments/>
+                break
+            case '3' :
+                activeTab = <LeadBooking/>
+                break
+            case '4' :
+                activeTab = <LeadTimeline/>
+                break
+            case '5' :
+                activeTab = <LeadCallQueue/>
+                break
+            case '6' :
+                activeTab = <LeadNotes/>
+                break
+            case '7' :
+                activeTab = <LeadDocuments/>
+                break
+            default :
+                activeTab = <div/>
+                break
+        }
         return (
             <MDBBox className="d-flex flex-1 order-1 overflow-auto">
                     <MDBTabContent className="d-flex overflow-auto p-0 w-100 h-100" activeItem={this.props.activeTab}>
-                        {this.props.activeTab === '1' && <LeadSurvey/>}
-                        {this.props.activeTab === '2' &&  <LeadAppointments/>}
-                        {this.props.activeTab === '3' && <LeadBooking/>}
-                        {this.props.activeTab === '4' && <LeadTimeline/>}
-                        {this.props.activeTab === '5' && <LeadCallQueue/>}
-                        {this.props.activeTab === '6' &&  <LeadNotes/>}
-                        {this.props.activeTab === '7' && <LeadDocuments/>}
+                        {activeTab}
                     </MDBTabContent>
 
             </MDBBox>

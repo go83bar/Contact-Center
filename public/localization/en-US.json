@@ -15,7 +15,14 @@
   },
   "interaction": {
     "details" : {
-      "tabTitle" : "Details"
+      "tabTitle" : "Details",
+      "cellPhone" : "Cell Phone",
+      "homePhone" : "Home Phone",
+      "address" : "Address",
+      "email" : "Email",
+      "client" : "Client",
+      "campaign" : "Campaign",
+      "phase" : "Phase"
     },
     "survey": {
       "tabTitle": "Surveys"
@@ -39,8 +46,27 @@
       "tabTitle": "Documents"
     },
     "summary" : {
+      "client" : "Client",
       "createLead" : {
         "title" : "Create New Lead",
+        "client" : "Client",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "email" : "Email",
+        "cellPhone" : "Cell Phone",
+        "homePhone" : "Home Phone",
+        "workPhone" : "Work Phone",
+        "address" : "Address",
+        "address2" : "Address 2",
+        "city" : "City",
+        "state" : "State",
+        "zip" : "Zip",
+        "okButton" : "Save Changes",
+        "cancelButton" : "Close"
+      },
+      "editLead" : {
+        "title" : "Edit Lead",
+        "client" : "Client",
         "firstName": "First Name",
         "lastName": "Last Name",
         "email" : "Email",
@@ -61,6 +87,19 @@
         "phone_calls" : "Phone Calls",
         "emails" : "Emails",
         "texts" : "Texts"
+      },
+      "changeRegion" : {
+        "title" : "Change Lead Region"
+      },
+      "mergeLead" : {
+        "title" : "Merge Lead Information",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "email" : "Email",
+        "cellPhone" : "Cell Phone",
+        "searchButton" : "Search",
+        "okButton" : "Save Changes",
+        "cancelButton" : "Close"
       }
     }
   },

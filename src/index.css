@@ -39,15 +39,6 @@
 
 }
 
-.darkIcon {
-    color: #7c7c7c !important;
-}
-.dark {
-    color: #7c7c7c !important;
-}
-.darkBack {
-    background: #7c7c7c;
-}
 .outlineIcon {
     margin-top: -12px;
     margin-left: -2px;
@@ -66,13 +57,16 @@
 }
 
 .step-content-top {
-    margin-top: -5rem !important;
-    margin-left: 5rem !important;
-    height: 150px;
+    margin-top: -4rem !important;
+    margin-left: 4rem !important;
+    height: 125px;
 }
 .card-header-no-back-no-border{
     background-color: inherit;
     border-bottom: none;
+}
+.mt--1 {
+    margin-top: -4px;
 }
 
 
@@ -99,10 +93,6 @@
     margin-left: 4%;
     margin-right: 4%;
     margin-top: -20px;
-}
-
-body {
-    background-color: #f9f9f9;
 }
 
 .scrollbar {
@@ -136,4 +126,5 @@ body {
     margin:0;
     display: flex;
     flex-direction: row;
+    background-color: #f9f9f9;
 }

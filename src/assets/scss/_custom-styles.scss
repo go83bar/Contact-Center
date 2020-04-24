@@ -54,3 +54,10 @@
   color: white;
 }
 
+
+.timelineStepper li:not(:last-child):after {
+  left: 124px;
+  top: 45px;
+  background-color: #d8d8d8;
+}
+

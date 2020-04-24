@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { MDBCard, MDBCardBody, MDBCardText, MDBCardHeader, MDBBtn, MDBRow, MDBCol } from "mdbreact";
+import { MDBCard, MDBCardBody, MDBCardHeader, MDBBtn, MDBRow, MDBCol } from "mdbreact";
 import { connect } from 'react-redux'
 import LoadingScreen from './LoadingScreen'
 import LeadAPI from '../api/leadAPI'
@@ -108,20 +108,17 @@ class Preview extends Component {
             )
         })
         return (
-            <MDBRow className="w-100 skin-secondary-color" center style={{ marginTop: "10%" }}>
+            <MDBRow className="w-100 skin-secondary-color justify-content-center" center style={{ marginTop: "10%" }}>
                 <MDBCol size="6">
                     <MDBCard className="card-body">
                         <MDBCardHeader><h3>
                             <strong>{this.state.leadData.lead_name}</strong> / {this.state.leadData.reason}
                             </h3></MDBCardHeader>
-                        <MDBCardBody>
-                            <MDBCardText className="ml-3">
-                                Broham we got some text for this!
-                            </MDBCardText>
+                        <MDBCardBody className='text-center'>
                                 <div><ul>
                                     {data}
                                 </ul></div>
-                        <MDBBtn color="primary-color" onClick={this.startInteraction}>Start Interaction</MDBBtn>
+                            <MDBBtn className="rounded skin-secondary-background-color" onClick={this.startInteraction}><h5 style={{marginBottom:"0px"}}>Start Interaction</h5></MDBBtn>
                         </MDBCardBody>
 
                     </MDBCard>
