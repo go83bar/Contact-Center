@@ -60,11 +60,67 @@
   top: 45px;
   background-color: #d8d8d8;
 }
+.timelineStepperRight li:not(:last-child):after {
+  left: 35px;
+  top: 20px;
+  height: calc(100% + 10px);
+  background-color: #d8d8d8;
+}
 .timelineChip {
-  height: 20px !important;
-  line-height: 20px !important;
-  margin: 2px !important;
+  height: 25px !important;
+  line-height: 25px !important;
+  margin-right: 4px !important;
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
   color: #818A91 !important;
+  font-size: 15px !important;
+}
+.timelineCardBody {
+  border: 1px solid;
+  border-top-width: 0px;
+  background-color: #E6E8E9;
+  //font-size: 14px;
+}
+
+.timelineCardHeader {
+  border-style: none !important;
+  border-left-width: 5px !important;
+  border-left-style: solid !important;
+  //border-bottom-width: 2px;
+  //border-bottom-color: #DCE0E3 !important;
+  //box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+
+}
+
+.f-s {
+  font-size: 12px;
+}
+.f-s {
+  font-size: 14px;
+}
+.f-m {
+  font-size: 16px;
+}
+.f-l {
+  font-size: 18px;
+}
+.f-xl {
+  font-size: 20px;
+}
+.f-s-i {
+  font-size: 12px !important;
+}
+.f-s-i {
+  font-size: 14px !important;
+}
+.f-m-i {
+  font-size: 16px !important;
+}
+.f-l-i {
+  font-size: 18px !important;
+}
+.f-xl-i {
+  font-size: 20px !important;
 }
 
 .disabledColor {

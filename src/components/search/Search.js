@@ -123,7 +123,7 @@ class Search extends Component {
 
     render() {
         const localized = this.props.localization.search
-        const isFetching = this.state.isFetchingResults
+/*        const isFetching = this.state.isFetchingResults
         let button
         if (isFetching) {
             button = (<MDBBtn color="indigo" disabled>
@@ -136,7 +136,7 @@ class Search extends Component {
                 </MDBBtn>
             )
         }
-
+*/
 
 
         return (
