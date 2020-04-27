@@ -1,9 +1,10 @@
 import React, {Component} from 'react'
-import { MDBCard, MDBCardBody, MDBCardHeader, MDBBtn, MDBRow, MDBCol } from "mdbreact";
+import {MDBCard, MDBCardBody, MDBCardHeader, MDBBtn, MDBBox, MDBCardFooter, MDBChip} from "mdbreact";
 import { connect } from 'react-redux'
 import LoadingScreen from './LoadingScreen'
 import LeadAPI from '../api/leadAPI'
 import * as moment from 'moment'
+import {preview} from "../reducers/preview";
 
 class Preview extends Component {
 
@@ -96,34 +97,40 @@ class Preview extends Component {
     }
 
     render() {
+        let localization = this.props.localization.preview
         // Display loading image until lead preview data is loaded
-        if (this.state.leadData === undefined) {
+        if (this.props.previewData === undefined) {
             return <LoadingScreen />
         }
+        let lead = this.props.previewData
 
         // Build list of preview data items
         const data = this.state.leadData.meta.map((item, i) => {
             return (
-                <li key={i}>{item.name}: {item.value}</li>
+                <div key={i}>{item.name}: {item.value}</div>
             )
         })
         return (
-            <MDBRow className="w-100 skin-secondary-color justify-content-center" center style={{ marginTop: "10%" }}>
-                <MDBCol size="6">
-                    <MDBCard className="card-body">
-                        <MDBCardHeader><h3>
+            <MDBBox className="d-flex justify-content-center" style={{margin: "10% auto"}} >
+                    <MDBCard className="d-flex card-body" style={{width:"585px", height:"450px"}}>
+                        <MDBCardHeader className="d-flex justify-content-start backgroundColorInherit">
+                            <h3>
                             <strong>{this.state.leadData.lead_name}</strong> / {this.state.leadData.reason}
-                            </h3></MDBCardHeader>
-                        <MDBCardBody className='text-center'>
-                                <div><ul>
+                            </h3>
+                        </MDBCardHeader>
+                        <MDBCardBody className='justify-content-start border skin-border-primary'>
+                                <div>
+                                    <MDBChip className={"outlineChip mb-2"}>{localization.id}: {lead.lead_id}</MDBChip>
+
                                     {data}
-                                </ul></div>
-                            <MDBBtn className="rounded skin-secondary-background-color" onClick={this.startInteraction}><h5 style={{marginBottom:"0px"}}>Start Interaction</h5></MDBBtn>
+                                </div>
                         </MDBCardBody>
+                        <MDBCardFooter className="d-flex justify-content-end">
+                            <MDBBtn className="rounded skin-primary-background-color f-l" onClick={this.startInteraction}>{localization.nextButton}</MDBBtn>
+                        </MDBCardFooter>
 
                     </MDBCard>
-                </MDBCol>
-            </MDBRow>
+            </MDBBox>
         )
     }
 }

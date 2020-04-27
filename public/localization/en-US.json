@@ -136,6 +136,10 @@
     "resultNextContactHeader": "Next Contact",
     "resultLockedLabel": "LOCKED",
     "noClientSelectedError": "You must select a client"
+  },
+  "preview" : {
+    "nextButton" : "Open Interaction",
+    "id" : "Lead ID"
   }
 
 }
