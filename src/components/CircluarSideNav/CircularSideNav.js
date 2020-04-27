@@ -6,7 +6,7 @@ import {
     faBars, faHeadphones, faList, faLock, faSearch
 } from '@fortawesome/pro-solid-svg-icons'
 import {Link} from "react-router-dom";
-import {faCircle} from "@fortawesome/pro-light-svg-icons";
+import {faCircle} from "@fortawesome/pro-solid-svg-icons";
 import {connect} from "react-redux";
 
 class CircularSideNav extends Component {
@@ -21,28 +21,28 @@ class CircularSideNav extends Component {
             outerCircleRadius: (window.innerHeight * (this.props.navSize / 100)) * 2.5,
             isHovering: true,
             elements : [
-                <Link to="/next" className={"circleNavLink skin-primary-color"}>
+                <Link to="/next" className={"circleNavLink skin-secondary-color"}>
                 <span className="fa-layers fa-fw fa-4x">
-                    <FontAwesomeIcon icon={faCircle}/>
-                    <FontAwesomeIcon icon={faHeadphones} transform={"shrink-8"} className={"skin-secondary-color"}/>
+                    <FontAwesomeIcon icon={faCircle} className="skin-primary-color"/>
+                    <FontAwesomeIcon icon={faHeadphones} transform={"shrink-8"} className={"skin-text"}/>
                 </span><br/>FETCH NEW LEAD
                 </Link>,
-                <Link to="/search" className={"circleNavLink skin-primary-color"}>
+                <Link to="/search" className={"circleNavLink skin-secondary-color"}>
                 <span className="fa-layers fa-fw fa-4x">
-                    <FontAwesomeIcon icon={faCircle}/>
-                    <FontAwesomeIcon icon={faSearch} transform={"shrink-8"} className={"skin-secondary-color"}/>
+                    <FontAwesomeIcon icon={faCircle} className="skin-primary-color"/>
+                    <FontAwesomeIcon icon={faSearch} transform={"shrink-8"} className={"skin-text"}/>
                 </span><br/>FIND A LEAD
                 </Link>,
-                <Link to="/recent" className={"circleNavLink skin-primary-color"}>
+                <Link to="/recent" className={"circleNavLink skin-secondary-color"}>
                 <span className="fa-layers fa-fw fa-4x">
-                    <FontAwesomeIcon icon={faCircle}/>
-                    <FontAwesomeIcon icon={faList} transform={"shrink-8"} className={"skin-secondary-color"}/>
+                    <FontAwesomeIcon icon={faCircle} className="skin-primary-color"/>
+                    <FontAwesomeIcon icon={faList} transform={"shrink-8"} className={"skin-text"}/>
                 </span><br/>RECENT LEADS
                 </Link>,
-                <Link to="#" onClick={this.logout} className={"circleNavLink skin-primary-color"}>
+                <Link to="#" onClick={this.logout} className={"circleNavLink skin-secondary-color"}>
                 <span className="fa-layers fa-fw fa-4x">
-                    <FontAwesomeIcon icon={faCircle} />
-                    <FontAwesomeIcon icon={faLock} transform={"shrink-8"} className={"skin-secondary-color"}/>
+                    <FontAwesomeIcon icon={faCircle} className="skin-primary-color"/>
+                    <FontAwesomeIcon icon={faLock} transform={"shrink-8"} className={"skin-text"}/>
                 </span><br/>SIGN OUT
                 </Link>
             ]

@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import LoadingScreen from './LoadingScreen'
 import LeadAPI from '../api/leadAPI'
 import * as moment from 'moment'
-import {preview} from "../reducers/preview";
+//import {preview} from "../reducers/preview";
 
 class Preview extends Component {
 
