@@ -31,11 +31,16 @@ class LeadTimeline extends Component {
                                 <MDBStepper vertical className="m-0 p-0 timelineStepperRight" >
                                     <MDBStep className="mb-4">
                                         <div className="" style={{width:"80px", zIndex:2}}>
-                                          <MDBChip className="m-0 timelineChip font-weight-bold">FEB 20</MDBChip>
+                                          <MDBChip className="m-0 timelineChip font-weight-bold">FEB 22</MDBChip>
                                         </div>
                                     </MDBStep>
                                     <MDBStep className="mb-4">
                                         <Interaction/>
+                                    </MDBStep>
+                                    <MDBStep className="mb-4">
+                                        <div className="" style={{width:"80px", zIndex:2}}>
+                                            <MDBChip className="m-0 timelineChip font-weight-bold">FEB 21</MDBChip>
+                                        </div>
                                     </MDBStep>
                                     <MDBStep className="mb-4">
                                         <Interaction/>
