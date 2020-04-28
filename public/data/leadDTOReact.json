@@ -1,33 +1,155 @@
 {
-    "id": 1058511,
+    "appointments": [
+        {
+            "id": 123,
+            "appointment_status_id": 1,
+            "appointment_type_id": 1,
+            "start_time": "2020-05-01 16:30:00",
+            "created_at": "2020-04-18 19:32:17",
+            "updated_at": "2020-04-18 19:32:17",
+            "created_by": "Matt M",
+            "interaction_id": 995,
+            "office_id": 1,
+            "region_id": 194,
+            "client_id": 10
+        }
+    ],
+	"campaign_id": 97,
 	"chrono_id": null,
 	"client_id": 10,
-	"region_id": 194,
-	"vertical_id": 88,
-	"campaign_id": 97,
-	"first_name": "Ruth",
-	"last_name": "Langmore",
-	"email": "sample@go83bar.com",
-	"cell_phone": "6159950274",
-	"home_phone": "2626755811",
-	"work_phone": null,
-	"preferred_phone": "cell",
-	"address_1": "1234 Jollyville Rd",
-	"address_2": null,
-	"city": "Lake Ozark",
-	"state": "MO",
-	"zip": "37211",
-	"country_id": null,
-	"language_id": null,
-    "timezone": "America\/Chicago",
-    "timezone_short": "CDT",
-	"gender": null,
-    "date_of_birth": null,
     "contact_preferences": {
         "phone_calls": true,
         "texts": true,
         "emails": true
     },
+	"details": {
+        "first_name": "Ruth",
+        "last_name": "Langmore",
+        "email": "sample@go83bar.com",
+        "cell_phone": "6159950274",
+        "home_phone": "2626755811",
+        "work_phone": null,
+        "preferred_phone": "cell",
+        "address_1": "1234 Jollyville Rd",
+        "address_2": null,
+        "city": "Lake Ozark",
+        "state": "MO",
+        "zip": "37211",
+        "country_id": null,
+        "language_id": null,
+        "timezone": "America\/Chicago",
+        "timezone_short": "CDT",
+        "gender": null,
+        "date_of_birth": null
+    },
+    "emails": [
+        {
+            "id": 1,
+            "direction": "outgoing",
+            "subject": "Your Appointment Information",
+            "created_at":"2018-01-01 11:44:07",
+            "events": [
+                {
+                    "time": "2020-04-01 12:35:00",
+                    "event": "Delivery"
+                },
+                {
+                    "time": "2020-04-01 12:37:00",
+                    "event": "Open"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "direction": "outgoing",
+            "subject": "Hi Dianne its lori",
+            "interaction_id": 995,
+            "created_at": "2019-03-02 14:44:07"
+        },
+        {
+            "id": 3,
+            "direction": "incoming",
+            "subject": "Who the ehll are you?",
+            "created_at": "2019-01-20 11:44:07"
+        }
+    ],
+    "id": 1058511,
+    "interactions": [
+        {
+            "id": 997,
+            "outcome_id": 27,
+            "created_at": "2020-04-28 22:22:34",
+
+        },
+        {
+            "id": 995,
+            "outcome_id": 1,
+            "outcome_reason_id": 1,
+            "created_by": "Braulio C",
+            "phase_id": 1,
+            "reason_id": 1,
+            "created_at": "2020-04-18 19:32:17"
+        }
+    ],
+    "notes": [
+        {
+            "id": 12,
+            "interaction_id": 997,
+            "content": "This is a cool note.  A really cool guy wrote it. I mean this is really an amazing awesome note, of epic proportions.  Bigly. It couldn't be any better, trust me.  Many people are saying it's the best note... ever. I don't think there's ever been a note as grand, as ambitious, in our country's history.  Maybe some of the classical poets? In the Mesozoical Era? But this is definitely really good, I'm looking into it.",
+            "created_by": "Matt M",
+            "created_at": "2019-03-21 17:30:00"
+        },
+        {
+            "id": 14,
+            "interaction_id": 991,
+            "content": "This is a previous cool note.  It was also written by a cool guy.",
+            "created_by": "Matt M",
+            "created_at": "2019-03-19 11:44:07"
+        },
+        {
+            "id": 16,
+            "interaction_id": 991,
+            "content": "This is a previous cool note.  It was also written by a cool guy.",
+            "created_by": "Matt M",
+            "created_at": "2019-03-20 11:44:07"
+        },
+        {
+            "id": 17,
+            "interaction_id": 991,
+            "content": "This is a previous cool note.  It was also written by a cool guy.",
+            "created_by": "Matt M",
+            "created_at": "2019-03-02 14:44:07"
+        },
+        {
+            "id": 18,
+            "interaction_id": 991,
+            "content": "This is a previous cool note.  It was also written by a cool guy.",
+            "created_by": "Matt M",
+            "created_at": "2019-03-20 11:44:07"
+        },
+        {
+            "id": 19,
+            "interaction_id": 991,
+            "content": "This is a previous cool note.  It was also written by a cool guy.",
+            "created_by": "Matt M",
+            "created_at": "2019-01-20 11:44:07"
+        },
+        {
+            "id": 20,
+            "interaction_id": 991,
+            "content": "This is a previous cool note.  It was also written by a cool guy.",
+            "created_by": "Matt M",
+            "created_at": "2019-03-20 11:44:07"
+        },
+        {
+            "id": 21,
+            "interaction_id": 991,
+            "content": "This is a previous cool note.  It was also written by a cool guy.",
+            "created_by": "Matt M",
+            "created_at": "2018-01-01 11:44:07"
+        }
+    ],
+	"region_id": 194,
 	"surveys": [
         {
             "id": 763,
@@ -341,63 +463,27 @@
 
         }
     ],
-    "notes": [
+    "texts": [
         {
-            "id": 12,
-            "interaction_id": 997,
-            "content": "This is a cool note.  A really cool guy wrote it. I mean this is really an amazing awesome note, of epic proportions.  Bigly. It couldn't be any better, trust me.  Many people are saying it's the best note... ever. I don't think there's ever been a note as grand, as ambitious, in our country's history.  Maybe some of the classical poets? In the Mesozoical Era? But this is definitely really good, I'm looking into it.",
-            "created_by": "Matt M",
-            "created_at": "2019-03-21 17:30:00"
+            "id": 1,
+            "content": "This is an outgoing manual text from an agent",
+            "direction": "outgoing",
+            "created_at": "2020-04-18 19:32:17",
+            "interaction_id": 995
         },
         {
-            "id": 14,
-            "interaction_id": 991,
-            "content": "This is a previous cool note.  It was also written by a cool guy.",
-            "created_by": "Matt M",
-            "created_at": "2019-03-19 11:44:07"
+            "id": 2,
+            "content": "This is an automated text that goes out between interactions",
+            "direction": "outgoing",
+            "created_at": "2020-04-28 22:22:34"
         },
         {
-            "id": 16,
-            "interaction_id": 991,
-            "content": "This is a previous cool note.  It was also written by a cool guy.",
-            "created_by": "Matt M",
-            "created_at": "2019-03-20 11:44:07"
-        },
-        {
-            "id": 17,
-            "interaction_id": 991,
-            "content": "This is a previous cool note.  It was also written by a cool guy.",
-            "created_by": "Matt M",
-            "created_at": "2019-03-02 14:44:07"
-        },
-        {
-            "id": 18,
-            "interaction_id": 991,
-            "content": "This is a previous cool note.  It was also written by a cool guy.",
-            "created_by": "Matt M",
-            "created_at": "2019-03-20 11:44:07"
-        },
-        {
-            "id": 19,
-            "interaction_id": 991,
-            "content": "This is a previous cool note.  It was also written by a cool guy.",
-            "created_by": "Matt M",
-            "created_at": "2019-01-20 11:44:07"
-        },
-        {
-            "id": 20,
-            "interaction_id": 991,
-            "content": "This is a previous cool note.  It was also written by a cool guy.",
-            "created_by": "Matt M",
-            "created_at": "2019-03-20 11:44:07"
-        },
-        {
-            "id": 21,
-            "interaction_id": 991,
-            "content": "This is a previous cool note.  It was also written by a cool guy.",
-            "created_by": "Matt M",
-            "created_at": "2018-01-01 11:44:07"
+            "id": 3,
+            "content": "This is an incoming text message from the lead",
+            "direction": "incoming",
+            "created_at": "2020-04-21 22:21:34"
         }
-   ]
 
+    ],
+	"vertical_id": 88
 }

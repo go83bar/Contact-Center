@@ -12,7 +12,13 @@
     "clients": [
         {
             "id": 8,
-            "name": "Arthrokinex"
+            "name": "Arthrokinex",
+            "outcomes": [
+                {
+                    "id": 9,
+                    "outcome_reasons": [ 1, 5 ]
+                }
+            ]
         },
         {
             "id": 10,
@@ -26,9 +32,105 @@
             "regions": [
                 {
                     "id": 194,
-                    "name": "Hell, MI"
+                    "name": "Hell, MI",
+                    "offices": [
+                        {
+                            "id": 1,
+                            "name": "Mary Delany-Hudzik, MS, LCGC"
+                        }
+                    ]
                 }
+            ],
+            "appointment_types": [
+                {
+                    "id": 1,
+                    "label": "Pre-test Counseling Session"
+                }
+            ],
+            "appointment_statuses": [
+                {
+                    "id": 1,
+                    "label": "Pending"
+                }
+            ],
+            "outcomes": [
+                {
+                    "id": 1,
+                    "outcome_reasons": [ 1 ]
+                },
+                {
+                    "id": 9,
+                    "outcome_reasons": [ 1 ]
+                }
+                
             ]
+        }
+    ],
+    "outcomes": [
+        {
+            "id": 1,
+            "label": "Booked",
+            "booking": 1
+        },
+        {
+            "id": 27,
+            "label": "Unfinished",
+            "booking": 0
+        },
+        {
+            "id": 9,
+            "label": "Not Interested",
+            "booking": 0
+        }
+    ],
+    "outcome_reasons": [
+        {
+            "id": 1,
+            "label": "Cost Concerns"
+        },
+        {
+            "id": 3,
+            "label": "Cost Concerns"
+        },
+        {
+            "id": 5,
+            "label": "Distance"
+        }
+    ],
+    "phases": [
+        {
+            "id": 1,
+            "label": "New Lead"
+        },
+        {
+            "id": 2,
+            "label": "Engagement"
+        },
+        {
+            "id": 3,
+            "label": "Post-Appointment"
+        },
+        {
+            "id": 4,
+            "label": "Nurture"
+        }
+    ],
+    "call_reasons": [
+        {
+            "id": 1,
+            "label": "Call Chain 1 (New Lead Phase)"
+        },
+        {
+            "id": 2,
+            "label": "Call Chain 2 (New Lead Phase)"
+        },
+        {
+            "id": 3,
+            "label": "Call Chain 3 (New Lead Phase)"
+        },
+        {
+            "id": 4,
+            "label": "Call Chain 4 (New Lead Phase)"
         }
     ]
 }
