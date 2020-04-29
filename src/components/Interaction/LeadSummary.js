@@ -58,11 +58,12 @@ class LeadSummary extends Component {
     }
     render() {
         let localization = this.props.localization.interaction.summary
+        let lead = this.props.lead
         return (
             <MDBBox className='p-0 m-0 w-100 d-flex' style={{flex:"0 53px", fontSize:"18px"}}>
                 <MDBCard className='skin-border-primary rounded w-100 h-100'>
                     <MDBBox className="backgroundColorInherit border-0 p-0 m-0 px-3 w-100">
-                        <span className={"d-inline-block font-weight-bolder p-0 m-0 mt-2"} style={{fontSize:"1.5rem"}}>{this.props.lead.first_name} {this.props.lead.last_name}</span>
+                        <span className={"d-inline-block font-weight-bolder p-0 m-0 mt-2"} style={{fontSize:"1.5rem"}}>{lead.details.first_name} {lead.details.last_name}</span>
                         <div className="d-inline-block pl-3 pr-2" onClick={()=>this.showModal("Edit Lead")}><FontAwesomeIcon icon={faUserEdit} size={"lg"} className={"skin-secondary-color"}/></div>
                         <MDBDropdown className={"d-inline-block"}>
                             <MDBDropdownToggle nav className="px-2">
@@ -77,10 +78,10 @@ class LeadSummary extends Component {
                         </MDBDropdown>
                         <div className="d-inline-block" style={{lineHeight:1.25}}>
                             <div className={"d-inline-block ml-5"}>
-                                {this.props.lead.city !== null ? this.props.lead.city + ", " : ""} {this.props.lead.state !== null ? this.props.lead.state : ""}
+                                {lead.details.city !== null ? lead.details.city + ", " : ""} {lead.details.state !== null ? lead.details.state : ""}
                             </div>
                             <div className={"d-inline-block font-weight-bolder ml-3"}>
-                                {this.props.lead.timezone_short}
+                                {lead.details.timezone_short}
                             </div>
                             <MDBChip className={"outlineChip ml-4 mb-0"}>{localization.client} : {this.state.clientName}</MDBChip>
                             <MDBChip className={"outlineChip ml-1 mb-0"}>{this.state.campaignName}</MDBChip>

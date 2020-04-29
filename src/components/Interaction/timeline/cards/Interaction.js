@@ -24,6 +24,7 @@ class Interaction extends Component {
     constructor(props) {
         super(props)
         this.toggleCollapse = this.toggleCollapse.bind(this)
+        this.renderEvents = this.renderEvents.bind(this)
 
         this.state = {
             collapsed: true
@@ -33,6 +34,53 @@ class Interaction extends Component {
 
     toggleCollapse() {
         this.setState({collapsed: !this.state.collapsed})
+    }
+
+    renderEvents() {
+        const events = this.props.data.events.map((item, index) => {
+
+            switch (item.type) {
+                case "interaction":
+                    return (
+                            <Interaction data={item} key={"int-event-" + index}/>
+                    )
+                case "appointment":
+                    return(
+                            <Appointment data={item} key={"int-event-" + index}/>
+                    )
+                case "note":
+                    return(
+                            <Note data={item} key={"int-event-" + index}/>
+                    )
+                case "call":
+                    return(
+                            <Call data={item} key={"int-event-" + index}/>
+                    )
+                case "document":
+                    return(
+                            <Document data={item} key={"int-event-" + index}/>
+                    )
+                case "email":
+                    return(
+                            <Email data={item} key={"int-event-" + index}/>
+                    )
+                case "survey":
+                    return(
+                            <Survey data={item} key={"int-event-" + index}/>
+                    )
+                case "text":
+                    return(
+                            <Text data={item} key={"int-event-" + index}/>
+                    )
+                case "lead":
+                    return(
+                        <Lead data={item} key={"int-event-" + index}/>
+                    )
+                default:
+                    return null
+            }
+        })
+        return events
     }
 
     render() {
@@ -76,14 +124,7 @@ class Interaction extends Component {
                 <MDBCollapse id='collapse1' isOpen={!this.state.collapsed} style={{}}>
                     <hr className="m-0" style={{height: "2px", backgroundColor: "#DCE0E3", borderTop: 0}}/>
                     <MDBCardBody className="timelineCardBody skin-border-primary pt-3 px-3 pb-0">
-                        <Email/>
-                        <Call/>
-                        <Text/>
-                        <Appointment/>
-                        <Survey/>
-                        <Document/>
-                        <Lead/>
-                        <Note/>
+                        {this.props.data && this.props.data.events && this.renderEvents()}
                     </MDBCardBody>
                 </MDBCollapse>
             </MDBCard>

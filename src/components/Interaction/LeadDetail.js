@@ -21,10 +21,10 @@ class LeadDetail extends Component {
         return (
             <MDBCard className="w-100 p-2 mb-2 d-flex border rounded skin-border-primary" style={{flex:"0 65px"}}>
                 <MDBCardBody>
-                    {localization.cellPhone}: {lead.cell_phone}
-                    {localization.homePhone}: {lead.home_phone}
-                    {localization.address}: {lead.address_1}
-                    {localization.email}: {lead.email}
+                    {localization.cellPhone}: {lead.details.cell_phone}
+                    {localization.homePhone}: {lead.details.home_phone}
+                    {localization.address}: {lead.details.address_1}
+                    {localization.email}: {lead.details.email}
                     <MDBChip className={"outlineChip ml-4 mb-0"}>{localization.client} : {this.state.clientName}</MDBChip>
                     <MDBChip className={"outlineChip ml-4 mb-0"}>{localization.campaign} : {this.state.campaign}</MDBChip>
                 </MDBCardBody>
