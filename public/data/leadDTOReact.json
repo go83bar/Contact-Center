@@ -17,35 +17,14 @@
 	"campaign_id": 97,
 	"chrono_id": null,
 	"client_id": 10,
-	"region_id": 194,
-	"vertical_id": 88,
-	"campaign_id": 97,
-	"first_name": "Marty",
-	"last_name": "Byrde",
-	"email": "sample@go83bar.com",
-	"cell_phone": "6159950274",
-	"home_phone": "2626755811",
-	"work_phone": null,
-	"preferred_phone": "cell",
-	"address_1": "1234 Jollyville Rd",
-	"address_2": null,
-	"city": "Lake Ozark",
-	"state": "MO",
-	"zip": "37211",
-	"country_id": null,
-	"language_id": null,
-    "timezone": "America\/Chicago",
-    "timezone_short": "CDT",
-	"gender": null,
-    "date_of_birth": null,
     "contact_preferences": {
         "phone_calls": true,
         "texts": true,
         "emails": true
     },
 	"details": {
-        "first_name": "Ruth",
-        "last_name": "Langmore",
+        "first_name": "Martin",
+        "last_name": "Byrde",
         "email": "sample@go83bar.com",
         "cell_phone": "6159950274",
         "home_phone": "2626755811",
@@ -99,8 +78,7 @@
         {
             "id": 997,
             "outcome_id": 27,
-            "created_at": "2020-04-28 22:22:34",
-
+            "created_at": "2020-04-28 22:22:34"
         },
         {
             "id": 995,
