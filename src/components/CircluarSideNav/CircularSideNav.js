@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import "./CircularSideNav.css";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {
-    faBars, faHeadphones, faList, faLock, faSearch
+    faBars, faHeadphones, faList, faSearch, faSignOut
 } from '@fortawesome/pro-solid-svg-icons'
 import {Link} from "react-router-dom";
 import {faCircle} from "@fortawesome/pro-solid-svg-icons";
@@ -42,7 +42,7 @@ class CircularSideNav extends Component {
                 <Link to="#" onClick={this.logout} className={"circleNavLink skin-secondary-color"}>
                 <span className="fa-layers fa-fw fa-4x">
                     <FontAwesomeIcon icon={faCircle} className="skin-primary-color"/>
-                    <FontAwesomeIcon icon={faLock} transform={"shrink-8"} className={"skin-text"}/>
+                    <FontAwesomeIcon icon={faSignOut} transform={"shrink-8"} className={"skin-text"}/>
                 </span><br/>SIGN OUT
                 </Link>
             ]

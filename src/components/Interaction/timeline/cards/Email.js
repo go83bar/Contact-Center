@@ -22,7 +22,7 @@ class Email extends Component {
 
     render() {
         return (
-            <MDBCard className='w-100 border-0 mb-3' style={{zIndex:2}}>
+            <MDBCard className='w-100 border-0 mb-3 z-2'>
                 <MDBBox className="backgroundColorInherit timelineCardHeader skin-border-primary f-m shadow-sm"
                                    onClick={this.toggleCollapse}
                 >

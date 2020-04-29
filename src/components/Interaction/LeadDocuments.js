@@ -12,7 +12,7 @@ class LeadDocuments extends Component {
     render() {
         return (
             <MDBBox className="w-100 p-0 m-0">
-                Lead Documents
+                Coming Soon ...
             </MDBBox>
         )
     }

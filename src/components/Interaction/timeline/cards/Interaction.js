@@ -16,6 +16,8 @@ import Text from "./Text";
 import Appointment from "./Appointment";
 import Lead from "./Lead";
 import Note from "./Note";
+import Survey from "./Survey";
+import Document from "./Document";
 
 class Interaction extends Component {
 
@@ -35,7 +37,7 @@ class Interaction extends Component {
 
     render() {
         return (
-            <MDBCard className='w-100 border-0' style={{zIndex: 2}}>
+            <MDBCard className='w-100 border-0 z-2'>
                 <MDBBox className="backgroundColorInherit timelineCardHeader skin-border-primary f-m shadow-sm"
                         onClick={this.toggleCollapse}
                 >
@@ -78,6 +80,8 @@ class Interaction extends Component {
                         <Call/>
                         <Text/>
                         <Appointment/>
+                        <Survey/>
+                        <Document/>
                         <Lead/>
                         <Note/>
                     </MDBCardBody>

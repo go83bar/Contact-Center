@@ -182,8 +182,8 @@ class LeadNotes extends Component {
         return (
             <MDBBox className="d-flex flex-1 flex-column overflow-auto">
                 <MDBBox
-                    className="py-2 px-3 mb-3 rounded"
-                    style={{ backgroundColor: "transparent", border: "1px solid #C2C2C2" }}
+                    className="py-2 px-3 mb-3 rounded gray-border"
+                    style={{ backgroundColor: "transparent" }}
                 >
                     <textarea className="form-control"
                         style={{ borderColor: "#dee2e6" }}

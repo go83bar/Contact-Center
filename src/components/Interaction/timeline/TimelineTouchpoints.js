@@ -36,7 +36,7 @@ class TimelineTouchpoints extends Component {
                             </div>
                             <span className="fa-layers fa-fw fa-4x ml-1" style={{zIndex: 2}}>
                             <FontAwesomeIcon icon={faCircleSolid} className="skin-primary-faint-color"/>
-                            <FontAwesomeIcon icon={faCircle} className={"skin-accent-color"}/>
+                            <FontAwesomeIcon icon={faCircle} className={"skin-primary-color"}/>
                             <FontAwesomeIcon icon={faCalendarCheck} transform={"shrink-8"}
                                              className={"skin-secondary-color"}/>
                         </span>
@@ -45,9 +45,9 @@ class TimelineTouchpoints extends Component {
                             <div style={{minHeight: "75px", width:"80px"}} className="text-right mt-2"/>
                             <span className="fa-layers fa-fw fa-4x ml-1" style={{zIndex: 2}}>
                             <FontAwesomeIcon icon={faCircleSolid} className="text-white"/>
-                            <FontAwesomeIcon icon={faCircle} className={"skin-accent-color"}/>
+                            <FontAwesomeIcon icon={faCircle} className={"skin-primary-color"}/>
                             <FontAwesomeIcon icon={faComment} transform={"shrink-8"} className={"dark"}/>
-                            <span className="fa-layers-counter fa-layers-top-right skin-accent-background-color"
+                            <span className="fa-layers-counter fa-layers-top-right skin-primary-background-color"
                                   >3</span>
                         </span>
                         </MDBStep>
@@ -55,9 +55,9 @@ class TimelineTouchpoints extends Component {
                             <div style={{minHeight: "75px", width:"80px"}} className="text-right mt-2"/>
                             <span className="fa-layers fa-fw fa-4x ml-1" style={{zIndex: 2}}>
                             <FontAwesomeIcon icon={faCircleSolid} className="text-white"/>
-                            <FontAwesomeIcon icon={faCircle} className={"skin-accent-color"}/>
+                            <FontAwesomeIcon icon={faCircle} className={"skin-primary-color"}/>
                             <FontAwesomeIcon icon={faExchange} transform={"shrink-8"} className={"dark"}/>
-                            <span className="fa-layers-counter fa-layers-top-right skin-accent-background-color"
+                            <span className="fa-layers-counter fa-layers-top-right skin-primary-background-color"
                             >3</span>
                         </span>
                         </MDBStep>
@@ -68,9 +68,9 @@ class TimelineTouchpoints extends Component {
                             </div>
                             <span className="fa-layers fa-fw fa-4x ml-1" style={{zIndex: 2}}>
                             <FontAwesomeIcon icon={faCircleSolid} className="text-white"/>
-                            <FontAwesomeIcon icon={faCircle} className={"skin-accent-color"}/>
+                            <FontAwesomeIcon icon={faCircle} className={"skin-primary-color"}/>
                             <FontAwesomeIcon icon={faEnvelope} transform={"shrink-8"} className={"dark"}/>
-                            <span className="fa-layers-counter fa-layers-top-right skin-accent-background-color"
+                            <span className="fa-layers-counter fa-layers-top-right skin-primary-background-color"
                                   >3</span>
                         </span>
                         </MDBStep>
@@ -89,9 +89,9 @@ class TimelineTouchpoints extends Component {
                             </div>
                             <span className="fa-layers fa-fw fa-4x ml-1" style={{zIndex: 2, marginLeft: "-5px"}}>
                             <FontAwesomeIcon icon={faCircleSolid} className="text-white"/>
-                            <FontAwesomeIcon icon={faCircle} className={"skin-accent-color"}/>
+                            <FontAwesomeIcon icon={faCircle} className={"skin-primary-color"}/>
                             <FontAwesomeIcon icon={faPhone} transform={"shrink-8"} className={"dark"}/>
-                            <span className="fa-layers-counter fa-layers-top-right skin-accent-background-color">3</span>
+                            <span className="fa-layers-counter fa-layers-top-right skin-primary-background-color">3</span>
                         </span>
                         </MDBStep>
                         <MDBStep className="flex-row">
@@ -101,7 +101,7 @@ class TimelineTouchpoints extends Component {
                             </div>
                             <span className="fa-layers fa-fw fa-4x ml-1" style={{zIndex: 2, marginLeft: "-5px"}}>
                             <FontAwesomeIcon icon={faCircleSolid} className="text-white"/>
-                            <FontAwesomeIcon icon={faCircle} className={"skin-accent-color"}/>
+                            <FontAwesomeIcon icon={faCircle} className={"skin-primary-color"}/>
                             <FontAwesomeIcon icon={faPoll} transform={"shrink-8"} rotation={90} className={"darkIcon"}/>
                             </span>
                         </MDBStep>

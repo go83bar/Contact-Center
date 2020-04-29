@@ -3,12 +3,11 @@ import {MDBBox, MDBCard} from "mdbreact"
 import { connect } from "react-redux"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
-
-    faCircle as faCircleSolid, faUserEdit
+    faCircle as faCircleSolid,faPoll
 } from "@fortawesome/pro-solid-svg-icons";
 import {faCircle} from "@fortawesome/pro-light-svg-icons";
 
-class Lead extends Component {
+class Survey extends Component {
 
     constructor(props) {
         super(props)
@@ -33,13 +32,13 @@ class Lead extends Component {
                         <span className="fa-layers fa-fw fa-3x mt-2">
                             <FontAwesomeIcon icon={faCircleSolid} className="text-white"/>
                             <FontAwesomeIcon icon={faCircle} className={"skin-primary-color"}/>
-                            <FontAwesomeIcon icon={faUserEdit} transform={"shrink-8"} className={"darkIcon"}/>
+                            <FontAwesomeIcon icon={faPoll} transform={"shrink-8"} rotation={90} className={"darkIcon"}/>
                         </span>
                         <div className="d-flex w-75 p-2 flex-column text-left">
-                            <span className="f-l font-weight-bold">
-                                Lead Information Updated
+                            <span className="f-l">
+                                Survey Stuff
                             </span>
-                            <span>List fields that were updated</span>
+                            <span>&nbsp;</span>
                         </div>
                         <div className="d-flex w-25 f-s flex-column text-right justify-content-start">
                             <span><span className="font-weight-bold">FEB 20</span>, 10:44am EST</span>
@@ -57,4 +56,4 @@ const mapStateToProps = store => {
     }
 }
 
-export default connect(mapStateToProps)(Lead);
+export default connect(mapStateToProps)(Survey);

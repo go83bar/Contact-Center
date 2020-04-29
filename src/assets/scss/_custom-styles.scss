@@ -82,6 +82,10 @@
   //font-size: 14px;
 }
 
+.gray-background {
+  background-color: #E6E8E9;
+}
+
 .timelineCardHeader {
   border-style: none !important;
   border-left-width: 5px !important;
@@ -122,8 +126,23 @@
 .f-xl-i {
   font-size: 20px !important;
 }
+.z-2 {
+  z-index: 2;
+}
+.z-3 {
+  z-index: 3;
+}
+.z-4 {
+  z-index: 4;
+}
+.z-5 {
+  z-index: 5;
+}
 
 .disabledColor {
   color : #cccccc
+}
+.gray-border {
+  border: 1px solid #c2c2c2;
 }
 

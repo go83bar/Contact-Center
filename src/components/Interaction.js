@@ -69,7 +69,7 @@ class Interaction extends Component {
                         <SideNavItem active={false} toggle icon={faBars} label={""} slim={false} onClick={this.toggleNav}/>
                         <SideNavItem active={this.state.details} toggle toggleIcon={faChevronRight} icon={faUser} label={localization.details.tabTitle} slim={slim} onClick={this.toggleDetails}/>
                         <SideNavItem active={this.state.activeItem === "1"} icon={faPoll} label={localization.survey.tabTitle} rotation={90} slim={slim} onClick={this.toggleTab("1")}/>
-                        <SideNavItem active={this.state.activeItem === "2"} icon={faCalendarCheck} label={localization.appointments.tabTitle} slim={slim} onClick={this.toggleTab("2")}/>
+                        <SideNavItem active={this.state.activeItem === "2"} icon={faCalendarCheck} label={localization.appointment.tabTitle} slim={slim} onClick={this.toggleTab("2")}/>
                         <SideNavItem active={this.state.activeItem === "3"} icon={faCalendarPlus} label={localization.booking.tabTitle} slim={slim} onClick={this.toggleTab("3")}/>
                         <SideNavItem active={this.state.activeItem === "4"} icon={faStream} label={localization.timeline.tabTitle} slim={slim} onClick={this.toggleTab("4")}/>
                         <SideNavItem active={this.state.activeItem === "5"} icon={faList} label={localization.queue.tabTitle} slim={slim} onClick={this.toggleTab("5")}/>

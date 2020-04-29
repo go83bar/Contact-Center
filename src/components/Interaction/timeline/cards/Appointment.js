@@ -4,7 +4,7 @@ import { connect } from "react-redux"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
  faCalendar,
-    faCircle as faCircleSolid
+    faCircle as faCircleSolid,
 } from "@fortawesome/pro-solid-svg-icons";
 import {faCircle} from "@fortawesome/pro-light-svg-icons";
 
@@ -25,7 +25,7 @@ class Appointment extends Component {
 
     render() {
         return (
-            <MDBCard className='w-100 border-0 mb-3' style={{zIndex:2}}>
+            <MDBCard className='w-100 border-0 mb-3 z-2'>
                 <MDBBox className="backgroundColorInherit timelineCardHeader skin-border-primary f-m shadow-sm"
                                    onClick={this.toggleCollapse}
                 >
