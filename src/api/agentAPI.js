@@ -14,7 +14,7 @@ export default class AgentAPI {
      *      queue: {number}
      *  }
      * }
-     * 
+     *
      * @static
      * @return {Promise}
      * @memberof AgentAPI
@@ -29,13 +29,13 @@ export default class AgentAPI {
             auth: redux.auth.auth
         }
         const result = await sendRequest(requestOptions)
-        
+
         return result
     }
 
     /**
      * Gets recently worked leads for the current user
-     * promise returns an object like 
+     * promise returns an object like
      * {
      *  success: {boolean},
      *  data: [
@@ -59,8 +59,8 @@ export default class AgentAPI {
     static async getRecentLeads() {
         // Mock API responses for local dev
         if (process.env.REACT_APP_QUERY_MODE === "development") {
-            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "//data//recentLeads.json")
-            
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "/data/recentLeads.json")
+
             return mockData.json()
         }
 
@@ -71,7 +71,7 @@ export default class AgentAPI {
             auth: redux.auth.auth
         }
         const result = await sendRequest(requestOptions)
-        
+
         return result
 
     }
@@ -79,8 +79,8 @@ export default class AgentAPI {
     static async getClientData() {
         // Mock API responses for local dev
         if (process.env.REACT_APP_QUERY_MODE === "development") {
-            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "//data//clientDTO.json")
-            
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "/data/clientDTO.json")
+
             return mockData.json()
         }
 

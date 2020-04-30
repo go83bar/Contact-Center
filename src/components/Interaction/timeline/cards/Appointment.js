@@ -42,7 +42,8 @@ class Appointment extends Component {
                             <span>from 04/10 to 04/20 10:00am EST / Office</span>
                         </div>
                         <div className="d-flex w-25 f-s flex-column text-right justify-content-start">
-                            <span><span className="font-weight-bold">FEB 20</span>, 10:44am EST</span>
+                            <span><span className="font-weight-bold">{this.props.data.created_at.format("MMM D")}</span>, {this.props.data.created_at.format("hh:mm a z")}</span>
+                            <span>{this.props.localization.created_by}: {this.props.data.created_by}</span>
                         </div>
                     </div>
                 </MDBBox>

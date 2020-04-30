@@ -25,6 +25,7 @@ class Interaction extends Component {
         super(props)
         this.toggleCollapse = this.toggleCollapse.bind(this)
         this.renderEvents = this.renderEvents.bind(this)
+        this.getEventCounts = this.getEventCounts.bind(this)
 
         this.state = {
             collapsed: true
@@ -80,8 +81,37 @@ class Interaction extends Component {
         })
         return events
     }
+    getEventCounts() {
+        let counts = {
+            emails : 0,
+            calls : 0,
+            appointments : 0,
+            documents : 0,
+            texts: 0,
+            notes: 0
+        }
+        this.props.data && this.props.data.events && this.props.data.events.forEach(event => {
+            switch (event.type) {
+                case "email" : counts.emails++
+                    break
+                case "call" : counts.calls++
+                    break
+                case "appointment" : counts.appointments++
+                    break
+                case "document" : counts.documents++
+                    break
+                case "text" : counts.texts++
+                    break
+                case "note" : counts.notes++
+                    break
+                default: break
+            }
+        })
+        return counts
+    }
 
     render() {
+        const counts = this.getEventCounts()
         return (
             <MDBCard className='w-100 border-0 z-2'>
                 <MDBBox className="backgroundColorInherit timelineCardHeader skin-border-primary f-m shadow-sm"
@@ -97,23 +127,17 @@ class Interaction extends Component {
                             <span className="f-l font-weight-bold">Outcome</span>
                             <span>Reason</span>
                             <div className="d-flex">
-                                <div><MDBChip className="m-0 timelineChip">1 <FontAwesomeIcon
-                                    icon={faEnvelope}/></MDBChip></div>
-                                <div><MDBChip className="m-0 timelineChip">1 <FontAwesomeIcon icon={faPhone}/></MDBChip>
-                                </div>
-                                <div><MDBChip className="m-0 timelineChip">1 <FontAwesomeIcon
-                                    icon={faCalendar}/></MDBChip></div>
-                                <div><MDBChip className="m-0 timelineChip">1 <FontAwesomeIcon icon={faFile}/></MDBChip>
-                                </div>
-                                <div><MDBChip className="m-0 timelineChip">1 <FontAwesomeIcon
-                                    icon={faComment}/></MDBChip></div>
-                                <div><MDBChip className="m-0 timelineChip">1 <FontAwesomeIcon icon={faEdit}/></MDBChip>
-                                </div>
+                                {counts.emails > 0 && <div><MDBChip className="m-0 timelineChip">1 <FontAwesomeIcon icon={faEnvelope}/></MDBChip></div>}
+                                {counts.calls > 0 && <div><MDBChip className="m-0 timelineChip">1 <FontAwesomeIcon icon={faPhone}/></MDBChip></div>}
+                                {counts.appointments > 0 && <div><MDBChip className="m-0 timelineChip">1 <FontAwesomeIcon icon={faCalendar}/></MDBChip></div>}
+                                {counts.documents > 0 && <div><MDBChip className="m-0 timelineChip">1 <FontAwesomeIcon icon={faFile}/></MDBChip></div>}
+                                {counts.texts > 0 && <div><MDBChip className="m-0 timelineChip">1 <FontAwesomeIcon icon={faComment}/></MDBChip></div>}
+                                {counts.notes > 0 && <div><MDBChip className="m-0 timelineChip">1 <FontAwesomeIcon icon={faEdit}/></MDBChip></div>}
                             </div>
                         </div>
                         <div className="d-flex w-25 f-s flex-column text-right justify-content-end">
-                            <span><span className="font-weight-bold">FEB 20</span>, 10:44am EST</span>
-                            <span>Agent: Claudia Brown</span>
+                            <span><span className="font-weight-bold">{this.props.data.created_at.format("MMM D")}</span>, {this.props.data.created_at.format("hh:mm a z")}</span>
+                            {this.props.data.created_by && <span>{this.props.localization.created_by}: {this.props.data.created_by}</span>}
                             <span>Call Reason / Phase</span>
                             <MDBIcon className="m-2" size={"lg"} icon={this.state.collapsed ? 'angle-down' : 'angle-up'}/>
                         </div>

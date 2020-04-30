@@ -2,7 +2,13 @@ import React, { Component } from 'react'
 import {MDBBox, MDBCard, MDBCardBody, MDBCollapse, MDBIcon} from "mdbreact"
 import { connect } from "react-redux"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCircle as faCircleSolid, faEnvelope, faEnvelopeOpen} from "@fortawesome/pro-solid-svg-icons";
+import {
+    faArrowLeft,
+    faArrowRight,
+    faCircle as faCircleSolid,
+    faEnvelope,
+    faEnvelopeOpen
+} from "@fortawesome/pro-solid-svg-icons";
 import {faCircle} from "@fortawesome/pro-light-svg-icons";
 
 class Email extends Component {
@@ -21,6 +27,7 @@ class Email extends Component {
     }
 
     render() {
+        const opened = this.props.data.events && this.props.data.events.find(event => event.event === "Open") ? true : false
         return (
             <MDBCard className='w-100 border-0 mb-3 z-2'>
                 <MDBBox className="backgroundColorInherit timelineCardHeader skin-border-primary f-m shadow-sm"
@@ -30,14 +37,17 @@ class Email extends Component {
                         <span className="fa-layers fa-fw fa-3x mt-2">
                             <FontAwesomeIcon icon={faCircleSolid} className="text-white"/>
                             <FontAwesomeIcon icon={faCircle} className={"skin-primary-color"}/>
-                            <FontAwesomeIcon icon={faEnvelope} transform={"shrink-8"} className={"darkIcon"}/>
+                            <FontAwesomeIcon icon={opened ? faEnvelopeOpen : faEnvelope} transform={"shrink-8"} />
+                            <span className="fa-layers-counter fa-layers-top-right skin-primary-background-color">
+                                <FontAwesomeIcon icon={this.props.data.direction === "outgoing" ? faArrowRight : faArrowLeft} className="skin-text"/>
+                            </span>
                         </span>
                         <div className="d-flex w-75 p-2 flex-column text-left">
-                            <span className="f-l font-weight-bold">Subject</span>
+                            <span className="f-l font-weight-bold">{this.props.data.subject}</span>
                             <span>View full email <FontAwesomeIcon className="ml-1" icon={faEnvelopeOpen} size="sm"/></span>
                         </div>
                         <div className="d-flex w-25 f-s flex-column text-right justify-content-between">
-                            <span><span className="font-weight-bold">FEB 20</span>, 10:44am EST</span>
+                            <span><span className="font-weight-bold">{this.props.data.created_at.format("MMM D")}</span>, {this.props.data.created_at.format("hh:mm a z")}</span>
                             <span><MDBIcon className="m-2" size={"lg"} icon={this.state.collapsed ? 'angle-down' : 'angle-up'}/></span>
                         </div>
                     </div>

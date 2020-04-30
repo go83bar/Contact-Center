@@ -18,13 +18,15 @@ class TimelineData {
         this.timeline.forEach(interaction =>  {
             interaction["events"] = []
             interaction["type"] = "interaction"
+            interaction.created_at = moment.utc(interaction.created_at).tz(lead.details.timezone)
         })
 
         this.generateTimeline(lead)
     }
-    processItems(type, items) {
+    processItems(type, items, timezone) {
         items.forEach(item => {
             item["type"] = type
+            item.created_at = moment.utc(item.created_at).tz(timezone)
             if (item.interaction_id) {
                 let interaction = this.timeline.find(i => i.id === item.interaction_id && i.type === "interaction")
                 if (interaction)
@@ -47,8 +49,8 @@ class TimelineData {
                     break
                 case "appointment":
                     this.touchpoints.appointments.total++
-                    this.touchpoints.appointments.date = moment(event.created_at).format("MMM Do")
-                    this.touchpoints.appointments.time = moment(event.created_at).tz(this.touchpoints.timezone).format("hh:mm a z")
+                    this.touchpoints.appointments.date = event.created_at.format("MMM Do")
+                    this.touchpoints.appointments.time = event.created_at.format("hh:mm a z")
                     break
                 case "note":
                     this.touchpoints.notes++
@@ -71,8 +73,8 @@ class TimelineData {
                     break
                 case "survey":
                     this.touchpoints.surveys.total++
-                    this.touchpoints.surveys.date = moment(event.created_at).format("MMM Do")
-                    this.touchpoints.surveys.time = moment(event.created_at).tz(this.touchpoints.timezone).format("hh:mm a z")
+                    this.touchpoints.surveys.date = event.created_at.format("MMM Do")
+                    this.touchpoints.surveys.time = event.created_at.format("hh:mm a z")
                     break
                 case "text":
                     this.touchpoints.texts.total++
@@ -84,18 +86,19 @@ class TimelineData {
     }
 
     generateTimeline(lead) {
-        this.processItems("appointment", lead.appointments)
-        this.processItems("email", lead.emails)
-        this.processItems("note", lead.notes)
-        this.processItems("survey", lead.surveys)
-        this.processItems("text", lead.texts)
+        const timezone = lead.details.timezone
+        this.processItems("appointment", lead.appointments, timezone)
+        this.processItems("email", lead.emails, timezone)
+        this.processItems("note", lead.notes, timezone)
+        this.processItems("survey", lead.surveys, timezone)
+        this.processItems("text", lead.texts, timezone)
         //Add Additional Sections here
 
         //Sort Main Level by date.
-        this.timeline.sort((a,b) => new Date(b.created_at) - new Date(a.created_at))
+        this.timeline.sort((a,b) => b.created_at -a.created_at)
         this.timeline.forEach(item => {
             if (item.type === "interaction") {
-                item.events.sort((a,b) => new Date(b.created_at) - new Date(a.created_at))
+                item.events.sort((a,b) => b.created_at - a.created_at)
             }
         })
         this.calculateTouchpoints(this.timeline)

@@ -15,7 +15,7 @@ export default class LeadAPI {
 
     /**
      * Performs the search module API call
-     * promise returns an object like 
+     * promise returns an object like
      * {
      *  success: {boolean},
      *  data: [
@@ -34,7 +34,7 @@ export default class LeadAPI {
      *  ],
      *  error: {string}
      * }
-     * 
+     *
      * @static
      * @param {SearchParams} params
      * @returns {Promise}
@@ -49,23 +49,23 @@ export default class LeadAPI {
             auth: redux.auth.auth
         }
         const result = await sendRequest(requestOptions)
-        
+
         return result
     }
 
     /**
      * Fetches the next lead for the current user, if any
-     * 
+     *
      * Promise resolves to the same object that LeadPreview returns, see below
-     * In addition to the standard error format, it's also possible to have no errors but there's 
-     * simply no leads left in the queue. In this case the response will resolve to an object 
+     * In addition to the standard error format, it's also possible to have no errors but there's
+     * simply no leads left in the queue. In this case the response will resolve to an object
      * exactly like this:
-     * 
+     *
      * {
      *  success: true,
      *  lead: null
      * }
-     * 
+     *
      * because reasons
      *
      * @static
@@ -75,8 +75,8 @@ export default class LeadAPI {
     static async getNextLead() {
         // Mock API responses for local dev
         if (process.env.REACT_APP_QUERY_MODE === "development") {
-            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "//data//nextLead.json")
-            
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "/data/nextLead.json")
+
             return mockData.json()
         }
 
@@ -87,7 +87,7 @@ export default class LeadAPI {
             auth: redux.auth.auth
         }
         const result = await sendRequest(requestOptions)
-        
+
         return result
 
     }
@@ -115,17 +115,17 @@ export default class LeadAPI {
      *      }]
      *  }
      * }
-     * 
+     *
      * @static
-     * @param {LeadPreviewParams} params 
+     * @param {LeadPreviewParams} params
      * @returns {Promise}
      * @memberof LeadAPI
      */
     static async getLeadPreview(params) {
         // Mock API responses for local dev
         if (process.env.REACT_APP_QUERY_MODE === "development") {
-            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "//data//nextLead.json")
-            
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "/data/nextLead.json")
+
             return mockData.json()
         }
 
@@ -137,11 +137,11 @@ export default class LeadAPI {
             auth: redux.auth.auth
         }
         const result = await sendRequest(requestOptions)
-        
+
         return result
     }
 
-    /** 
+    /**
      * @typedef StartInteractionParams
      * @type {object}
      * @property {number} leadID
@@ -151,7 +151,7 @@ export default class LeadAPI {
 
     /**
      * Performs the interaction start-up in the backend, returns the interaction ID
-     * Promise resolves to an object like 
+     * Promise resolves to an object like
      * {
      *  success: {boolean},
      *  data: {
@@ -167,15 +167,15 @@ export default class LeadAPI {
     static async startInteraction(params) {
         // Mock API responses for local dev
         if (process.env.REACT_APP_QUERY_MODE === "development") {
-            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "//data//startInteraction.json")
-            
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "/data/startInteraction.json")
+
             return mockData.json()
         }
 
         const redux = store.getState()
         const requestOptions = {
             url: redux.config["url-api-base"] + "leads/" + params.leadID + "/startinteraction",
-            data: { 
+            data: {
                 call_queue_id: params.callQueueID,
                 preview_start_time: params.previewStartTime
             },
@@ -183,14 +183,14 @@ export default class LeadAPI {
             auth: redux.auth.auth
         }
         const result = await sendRequest(requestOptions)
-        
+
         return result
     }
 
     /**
      * @typedef LeadDTOParams
      * @type {object}
-     * @property {number} leadID 
+     * @property {number} leadID
      */
 
     /**
@@ -205,8 +205,8 @@ export default class LeadAPI {
     static async getLeadDTO(params) {
         // Mock API responses for local dev
         if (process.env.REACT_APP_QUERY_MODE === "development") {
-            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "//data//leadDTOReact.json")
-            
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "/data/leadDTOReact.json")
+
             return mockData.json()
         }
 
@@ -217,16 +217,16 @@ export default class LeadAPI {
             auth: redux.auth.auth
         }
         const result = await sendRequest(requestOptions)
-        
+
         return result
     }
 
     /**
      * @typedef ContactPreferenceParams
      * @type {object}
-     * @property {number} leadID 
-     * @property {string} type 
-     * @property {boolean} preference 
+     * @property {number} leadID
+     * @property {string} type
+     * @property {boolean} preference
      */
 
     /**
@@ -240,8 +240,8 @@ export default class LeadAPI {
     static async setContactPreferences(params) {
         // Mock API responses for local dev
         if (process.env.REACT_APP_QUERY_MODE === "development") {
-            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "//data//successTrue.json")
-            
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "/data/successTrue.json")
+
             return mockData.json()
         }
 
@@ -257,7 +257,7 @@ export default class LeadAPI {
             auth: redux.auth.auth
         }
         const result = await sendRequest(requestOptions)
-        
+
         return result
     }
 
@@ -266,21 +266,21 @@ export default class LeadAPI {
      * @type {object}
      * @property {number} noteID
      * @property {string} noteContent
-     *  
+     *
      */
 
      /**
       * Updates a note previously saved in the interaction
-      * 
-      * @param {UpdateNoteParams} params 
+      *
+      * @param {UpdateNoteParams} params
       * @returns {Promise}
       * @memberof LeadAPI
       */
     static async updateNote(params) {
         // Mock API responses for local dev
         if (process.env.REACT_APP_QUERY_MODE === "development") {
-            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "//data//successTrue.json")
-            
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "/data/successTrue.json")
+
             return mockData.json()
         }
 
@@ -296,7 +296,7 @@ export default class LeadAPI {
             auth: redux.auth.auth
         }
         const result = await sendRequest(requestOptions)
-        
+
         return result
 
     }
@@ -307,21 +307,21 @@ export default class LeadAPI {
      * @property {number} leadID
      * @property {string} noteContent
      * @property {number} interactionID
-     *  
+     *
      */
 
      /**
       * Updates a note previously saved in the interaction
-      * 
-      * @param {SaveNoteParams} params 
+      *
+      * @param {SaveNoteParams} params
       * @returns {Promise}
       * @memberof LeadAPI
       */
      static async saveNote(params) {
         // Mock API responses for local dev
         if (process.env.REACT_APP_QUERY_MODE === "development") {
-            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "//data//saveNote.json")
-            
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "/data/saveNote.json")
+
             return mockData.json()
         }
 
@@ -336,7 +336,7 @@ export default class LeadAPI {
             auth: redux.auth.auth
         }
         const result = await sendRequest(requestOptions)
-        
+
         return result
 
     }
@@ -346,22 +346,22 @@ export default class LeadAPI {
      * @type {object}
      * @property {number} leadID
      * @property {number} noteID
-     *  
+     *
      */
 
 
      /**
       * Deletes a note previously saved in the interaction
-      * 
-      * @param {DeleteNoteParams} params 
+      *
+      * @param {DeleteNoteParams} params
       * @returns {Promise}
       * @memberof LeadAPI
       */
      static async deleteNote(params) {
         // Mock API responses for local dev
         if (process.env.REACT_APP_QUERY_MODE === "development") {
-            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "//data//successTrue.json")
-            
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "/data/successTrue.json")
+
             return mockData.json()
         }
 
@@ -375,9 +375,9 @@ export default class LeadAPI {
             auth: redux.auth.auth
         }
         const result = await sendRequest(requestOptions)
-        
+
         return result
 
     }
 
-} 
+}

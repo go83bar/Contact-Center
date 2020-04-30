@@ -12,17 +12,19 @@ import ContactCenter from "./ContactCenter";
 import Unauthorized from "./Unauthorized";
 import store from './store'
 
-const host = window.location.host.indexOf(":") ? window.location.host.substr(0, window.location.host.indexOf(":")) : window.location.host
+
+
+const host = window.location.host.indexOf(":") > 0 ? window.location.host.substr(0, window.location.host.indexOf(":")) : window.location.host
 
 //                        <ContactCenter/>
-fetch(window.location.protocol + "//" + window.location.host + "//data//" + host + '.json')
+fetch(window.location.protocol + "//" + window.location.host + "/data/" + host + '.json')
     .then(response => response.json())
     .then((responseJson) => {
         responseJson["cookies"] = new Cookies()
         store.dispatch({type: 'CONFIGURE',payload: responseJson})
         const lang = responseJson.languages && responseJson.languages.indexOf(window.navigator.language) !== -1 ? window.navigator.language : responseJson["language-default"]
 
-        fetch(window.location.protocol + "//" + window.location.host + "//localization//" + lang + '.json')
+        fetch(window.location.protocol + "//" + window.location.host + "/localization/" + lang + '.json')
             .then(response => response.json())
             .then((responseJson) => {
                 store.dispatch({type: 'LOCALIZE', payload: responseJson})
