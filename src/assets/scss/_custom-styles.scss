@@ -61,7 +61,7 @@
   background-color: #d8d8d8;
 }
 .timelineStepperRight li:not(:last-child):after {
-  left: 35px;
+  left: 48px;
   top: 20px;
   height: calc(100% + 10px);
   background-color: #d8d8d8;
@@ -81,7 +81,9 @@
   background-color: #E6E8E9;
   //font-size: 14px;
 }
-
+.pointer {
+  cursor: pointer;
+}
 .gray-background {
   background-color: #E6E8E9;
 }

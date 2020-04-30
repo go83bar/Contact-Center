@@ -10,11 +10,16 @@ class LeadDocuments extends Component {
     }
 
     render() {
-        return (
-            <MDBBox className="w-100 p-0 m-0">
-                Coming Soon ...
-            </MDBBox>
-        )
+        if (this.props.active === true) {
+            return (
+                <MDBBox className="w-100 p-0 m-0">
+                    Coming Soon ...
+                </MDBBox>
+            )
+        } else {
+            return null
+        }
+
     }
 }
 export default LeadDocuments;

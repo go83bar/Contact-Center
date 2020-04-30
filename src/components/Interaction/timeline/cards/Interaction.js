@@ -38,47 +38,45 @@ class Interaction extends Component {
 
     renderEvents() {
         const events = this.props.data.events.map((item, index) => {
-
-            switch (item.type) {
-                case "interaction":
-                    return (
-                            <Interaction data={item} key={"int-event-" + index}/>
-                    )
-                case "appointment":
-                    return(
+            if (this.props.filters.length === 0 || this.props.filters.includes("interactions") || this.props.filters.includes(item.type + "s")) {
+                switch (item.type) {
+                    case "appointment":
+                        return (
                             <Appointment data={item} key={"int-event-" + index}/>
-                    )
-                case "note":
-                    return(
+                        )
+                    case "note":
+                        return (
                             <Note data={item} key={"int-event-" + index}/>
-                    )
-                case "call":
-                    return(
+                        )
+                    case "call":
+                        return (
                             <Call data={item} key={"int-event-" + index}/>
-                    )
-                case "document":
-                    return(
+                        )
+                    case "document":
+                        return (
                             <Document data={item} key={"int-event-" + index}/>
-                    )
-                case "email":
-                    return(
+                        )
+                    case "email":
+                        return (
                             <Email data={item} key={"int-event-" + index}/>
-                    )
-                case "survey":
-                    return(
+                        )
+                    case "survey":
+                        return (
                             <Survey data={item} key={"int-event-" + index}/>
-                    )
-                case "text":
-                    return(
+                        )
+                    case "text":
+                        return (
                             <Text data={item} key={"int-event-" + index}/>
-                    )
-                case "lead":
-                    return(
-                        <Lead data={item} key={"int-event-" + index}/>
-                    )
-                default:
-                    return null
+                        )
+                    case "lead":
+                        return (
+                            <Lead data={item} key={"int-event-" + index}/>
+                        )
+                    default:
+                        return null
+                }
             }
+            else return null
         })
         return events
     }

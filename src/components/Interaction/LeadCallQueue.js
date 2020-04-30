@@ -10,11 +10,15 @@ class LeadCallQueue extends Component {
     }
 
     render() {
-        return (
-            <MDBBox className="w-100 p-0 m-0">
-                Call Queue
-            </MDBBox>
-        )
+        if (this.props.active === true) {
+            return (
+                <MDBBox className="w-100 p-0 m-0">
+                    Call Queue
+                </MDBBox>
+            )
+        } else {
+            return null
+        }
     }
 }
 export default LeadCallQueue;

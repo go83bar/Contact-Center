@@ -14,24 +14,13 @@ class TimelineData {
             calls : {total : 0, incoming:0, outgoing : 0},
             surveys: {total:0, date:"", time : ""}
         }
-        this.timeline = lead.interactions
+        this.timeline = [ ...lead.interactions]
         this.timeline.forEach(interaction =>  {
             interaction["events"] = []
             interaction["type"] = "interaction"
         })
 
         this.generateTimeline(lead)
-
-/*        this.touchpoints = {
-            appointments: {total:1, date:"May 1st 20", time: "4:30 pm CDT"},
-            texts: {total: 3, incoming : 0, outgoing: 3},
-            interactions: 3,
-            emails : {total : 3, delivered: 1, opened : 2},
-            notes : 1,
-            calls : {total : 4, incoming:2, outgoing : 2},
-            surveys: {total:2, date:"Mar 10th 20", time : "2:31 pm CDT"}
-        }*/
-
     }
     processItems(type, items) {
         items.forEach(item => {
@@ -50,16 +39,6 @@ class TimelineData {
     }
 
     calculateTouchpoints(events) {
-        /*        this.touchpoints = {
-                    timezone: "America/Chicago"
-                    appointments: {total:1, date:"May 1st 20", time: "4:30 pm CDT"},
-                    texts: {total: 3, incoming : 0, outgoing: 3},
-                    interactions: 3,
-                    emails : {total : 3, delivered: 1, opened : 2},
-                    notes : 1,
-                    calls : {total : 4, incoming:2, outgoing : 2},
-                    surveys: {total:2, date:"Mar 10th 20", time : "2:31 pm CDT"}
-                }*/
         events.forEach(event => {
             switch (event.type) {
                 case "interaction":
@@ -80,6 +59,15 @@ class TimelineData {
                     break
                 case "email":
                     this.touchpoints.emails.total++
+                    if (event.events && event.events.length > 0){
+                        event.events.forEach(e => {
+                            if (e.event === "Delivery")
+                                this.touchpoints.emails.delivered++
+                            else if (e.event === "Open")
+                                this.touchpoints.emails.opened++
+                        })
+                    }
+
                     break
                 case "survey":
                     this.touchpoints.surveys.total++

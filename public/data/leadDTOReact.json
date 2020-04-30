@@ -64,13 +64,25 @@
             "direction": "outgoing",
             "subject": "Hi Dianne its lori",
             "interaction_id": 995,
-            "created_at": "2019-03-02 14:44:07"
+            "created_at": "2019-03-02 14:44:07",
+            "events": [
+                {
+                    "time": "2020-04-01 12:35:00",
+                    "event": "Delivery"
+                }
+            ]
         },
         {
             "id": 3,
             "direction": "incoming",
             "subject": "Who the ehll are you?",
-            "created_at": "2019-01-20 11:44:07"
+            "created_at": "2019-01-20 11:44:07",
+            "events": [
+                {
+                    "time": "2020-04-01 12:35:00",
+                    "event": "Delivery"
+                }
+            ]
         }
     ],
     "id": 1058511,

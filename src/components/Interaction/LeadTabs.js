@@ -19,37 +19,16 @@ class LeadTabs extends Component {
     }
 
     render() {
-        var activeTab
-        switch(this.props.activeTab) {
-            case '1' :
-                activeTab = <LeadSurvey/>
-                break
-            case '2' :
-                activeTab = <LeadAppointments/>
-                break
-            case '3' :
-                activeTab = <LeadBooking/>
-                break
-            case '4' :
-                activeTab = <LeadTimeline/>
-                break
-            case '5' :
-                activeTab = <LeadCallQueue/>
-                break
-            case '6' :
-                activeTab = <LeadNotes/>
-                break
-            case '7' :
-                activeTab = <LeadDocuments/>
-                break
-            default :
-                activeTab = <div/>
-                break
-        }
         return (
             <MDBBox className="d-flex flex-1 order-1 overflow-auto">
                     <MDBTabContent className="d-flex overflow-auto p-0 w-100 h-100" activeItem={this.props.activeTab}>
-                        {activeTab}
+                        <LeadSurvey active={this.props.activeTab === '1'}/>
+                        <LeadAppointments active={this.props.activeTab === '2'}/>
+                        <LeadBooking active={this.props.activeTab === '3'}/>
+                        <LeadTimeline active={this.props.activeTab === '4'}/>
+                        <LeadCallQueue active={this.props.activeTab === '5'}/>
+                        <LeadNotes active={this.props.activeTab === '6'}/>
+                        <LeadDocuments active={this.props.activeTab === '7'}/>
                     </MDBTabContent>
 
             </MDBBox>

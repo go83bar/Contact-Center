@@ -179,82 +179,88 @@ class LeadNotes extends Component {
         })
     }
     render() {
-        return (
-            <MDBBox className="d-flex flex-1 flex-column overflow-auto">
-                <MDBBox
-                    className="py-2 px-3 mb-3 rounded gray-border"
-                    style={{ backgroundColor: "transparent" }}
-                >
+        if (this.props.active === true) {
+            return (
+                <MDBBox className="d-flex flex-1 flex-column overflow-auto">
+                    <MDBBox
+                        className="py-2 px-3 mb-3 rounded gray-border"
+                        style={{backgroundColor: "transparent"}}
+                    >
                     <textarea className="form-control"
-                        style={{ borderColor: "#dee2e6" }}
-                        rows="5"
-                        onChange={this.updateNoteContent}
-                        value={this.state.noteContent}
+                              style={{borderColor: "#dee2e6"}}
+                              rows="5"
+                              onChange={this.updateNoteContent}
+                              value={this.state.noteContent}
                     />
-                    <MDBBox>
-                        {this.state.isEditing && (
-                            <MDBBtn
-                                color="warning"
-                                className="float-left"
-                                disabled={this.state.isSaving}
-                                onClick={this.cancelUpdate}
-                            >
-                                {this.props.localization.buttonLabels.cancel}
-                            </MDBBtn>
-                        )}
-                        <MDBBtn
-                            color="primary"
-                            className="float-right"
-                            disabled={this.state.isSaving}
-                            onClick={this.saveNote}
-                        >
-                            {this.state.noteBtnLabel} {this.state.isSaving && (
-                                <MDBIcon icon="cog" spin className="ml-1" />
-                            )}
-                        </MDBBtn>
-                    </MDBBox>
-                </MDBBox>
-
-                <MDBBox className="d-flex flex-column p-4 rounded grey lighten-2 overflow-auto" style={{ border: "1px solid #C2C2C2" }}>
-                    {this.props.lead.notes.sort((a, b) => {
-                        return (a.created_at > b.created_at ? -1 : 1)
-                    }).map(note => {
-                        return (<LeadNote key={note.id} note={note} onEdit={this.onEdit} deleteNote={this.openDeleteModal} />)
-                    })}
-                </MDBBox>
-
-                <MDBModal size="lg" isOpen={this.state.showDeleteModal} toggle={this.closeModal}>
-                    <MDBModalHeader>{this.props.localization.notes.deleteNoteModalHeader}</MDBModalHeader>
-                    <MDBModalBody >
-                        <MDBRow className="p-2">
-                            {this.props.localization.notes.deleteNoteModalBody}
-                        </MDBRow>
-                        <MDBModalFooter className="p-1" />
-                        <MDBRow>
-                            <MDBCol size={"12"}>
+                        <MDBBox>
+                            {this.state.isEditing && (
                                 <MDBBtn
                                     color="warning"
                                     className="float-left"
                                     disabled={this.state.isSaving}
-                                    onClick={this.closeModal}
+                                    onClick={this.cancelUpdate}
                                 >
                                     {this.props.localization.buttonLabels.cancel}
                                 </MDBBtn>
-                                <MDBBtn
-                                    color="danger"
-                                    className="float-right"
-                                    disabled={this.state.isSaving}
-                                    onClick={this.deleteNote}
-                                >
-                                    {this.props.localization.buttonLabels.delete}
-                                </MDBBtn>
-                            </MDBCol>
-                        </MDBRow>
-                    </MDBModalBody>
-                </MDBModal>
+                            )}
+                            <MDBBtn
+                                color="primary"
+                                className="float-right"
+                                disabled={this.state.isSaving}
+                                onClick={this.saveNote}
+                            >
+                                {this.state.noteBtnLabel} {this.state.isSaving && (
+                                <MDBIcon icon="cog" spin className="ml-1"/>
+                            )}
+                            </MDBBtn>
+                        </MDBBox>
+                    </MDBBox>
 
-            </MDBBox>
-        )
+                    <MDBBox className="d-flex flex-column p-4 rounded grey lighten-2 overflow-auto"
+                            style={{border: "1px solid #C2C2C2"}}>
+                        {this.props.lead.notes.sort((a, b) => {
+                            return (a.created_at > b.created_at ? -1 : 1)
+                        }).map(note => {
+                            return (<LeadNote key={note.id} note={note} onEdit={this.onEdit}
+                                              deleteNote={this.openDeleteModal}/>)
+                        })}
+                    </MDBBox>
+
+                    <MDBModal size="lg" isOpen={this.state.showDeleteModal} toggle={this.closeModal}>
+                        <MDBModalHeader>{this.props.localization.notes.deleteNoteModalHeader}</MDBModalHeader>
+                        <MDBModalBody>
+                            <MDBRow className="p-2">
+                                {this.props.localization.notes.deleteNoteModalBody}
+                            </MDBRow>
+                            <MDBModalFooter className="p-1"/>
+                            <MDBRow>
+                                <MDBCol size={"12"}>
+                                    <MDBBtn
+                                        color="warning"
+                                        className="float-left"
+                                        disabled={this.state.isSaving}
+                                        onClick={this.closeModal}
+                                    >
+                                        {this.props.localization.buttonLabels.cancel}
+                                    </MDBBtn>
+                                    <MDBBtn
+                                        color="danger"
+                                        className="float-right"
+                                        disabled={this.state.isSaving}
+                                        onClick={this.deleteNote}
+                                    >
+                                        {this.props.localization.buttonLabels.delete}
+                                    </MDBBtn>
+                                </MDBCol>
+                            </MDBRow>
+                        </MDBModalBody>
+                    </MDBModal>
+
+                </MDBBox>
+            )
+        } else {
+            return null
+        }
     }
 }
 const mapStateToProps = store => {

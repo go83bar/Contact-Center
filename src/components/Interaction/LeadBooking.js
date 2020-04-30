@@ -11,17 +11,22 @@ class LeadBooking extends Component {
     }
 
     render() {
-        let localization = this.props.localization.interaction.booking
-        return (
-            <MDBBox className="d-flex w-100 flex-column bg-white f-m">
-                <div className="d-flex w-100 justify-content-end gray-border rounded p-2">
-                    <MDBBtn>{localization.bookButton}</MDBBtn>
-                </div>
-                <div className='d-flex flex-column p-1 px-3 gray-background gray-border mt-2 rounded'>
-                    Booking stuff
-                </div>
-            </MDBBox>
-        )
+        if (this.props.active === true) {
+
+            let localization = this.props.localization.interaction.booking
+            return (
+                <MDBBox className="d-flex w-100 flex-column bg-white f-m">
+                    <div className="d-flex w-100 justify-content-end gray-border rounded p-2">
+                        <MDBBtn>{localization.bookButton}</MDBBtn>
+                    </div>
+                    <div className='d-flex flex-column p-1 px-3 gray-background gray-border mt-2 rounded'>
+                        Booking stuff
+                    </div>
+                </MDBBox>
+            )
+        } else {
+            return null
+        }
     }
 }
 const mapStateToProps = state => {
