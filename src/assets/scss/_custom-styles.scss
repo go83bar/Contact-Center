@@ -37,6 +37,7 @@
 
 }
 
+
 @mixin centeredContainer() {
   display: flex;
   align-items: center;
@@ -52,6 +53,10 @@
   @include centeredContainer();
   background-color: $red-darken-2;
   color: white;
+}
+.red-darken-2 {
+  background-color: $red-darken-2;
+
 }
 
 

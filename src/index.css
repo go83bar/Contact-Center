@@ -128,3 +128,7 @@ body {
     flex-direction: row;
     background-color: #f9f9f9;
 }
+
+.react-grid-item.react-grid-placeholder {
+    background: darkgrey;
+}

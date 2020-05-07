@@ -33,7 +33,7 @@ class Appointment extends Component {
                         <span className="fa-layers fa-fw fa-3x mt-2">
                             <FontAwesomeIcon icon={faCircleSolid} className="text-white"/>
                             <FontAwesomeIcon icon={faCircle} className={"skin-primary-color"}/>
-                            <FontAwesomeIcon icon={faCalendar} transform={"shrink-8"} className={"darkIcon"}/>
+                            <FontAwesomeIcon icon={faCalendar} transform={"shrink-8"}/>
                         </span>
                         <div className="d-flex w-75 p-2 flex-column text-left">
                             <span className="f-l font-weight-bold">

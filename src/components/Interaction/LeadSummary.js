@@ -15,12 +15,24 @@ import {
 } from "mdbreact";
 import {connect} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCircle, faComment, faEnvelope, faUserEdit, faObjectGroup, faUserPlus, faMapMarkedAlt,faIdBadge,faEllipsisH} from "@fortawesome/pro-solid-svg-icons";
-import {faPhone, faTimes} from "@fortawesome/pro-solid-svg-icons";
+import {
+//    faCircle as faCircleSolid,
+    faSms,
+    faEnvelope,
+    faUserEdit,
+    faObjectGroup,
+    faUserPlus,
+    faMapMarkedAlt,
+    faIdBadge,
+    faEllipsisH,
+    faPhone, faCalendar
+} from "@fortawesome/pro-solid-svg-icons";
 import CreateLead from "./modals/CreateLead";
 import ContactPreferences from "./modals/ContactPreferences";
 import EditLead from "./modals/EditLead";
 import MergeLead from "./modals/MergeLead";
+import {faCircle} from "@fortawesome/pro-light-svg-icons";
+import Timer from 'react-compound-timer'
 
 
 class LeadSummary extends Component {
@@ -77,40 +89,57 @@ class LeadSummary extends Component {
                             </MDBDropdownMenu>
                         </MDBDropdown>
                         <div className="d-inline-block" style={{lineHeight:1.25}}>
-                            <div className={"d-inline-block ml-5"}>
-                                {lead.details.city !== null ? lead.details.city + ", " : ""} {lead.details.state !== null ? lead.details.state : ""}
-                            </div>
                             <div className={"d-inline-block font-weight-bolder ml-3"}>
                                 {lead.details.timezone_short}
                             </div>
                             <MDBChip className={"outlineChip ml-4 mb-0"}>{localization.client} : {this.state.clientName}</MDBChip>
                             <MDBChip className={"outlineChip ml-1 mb-0"}>{this.state.campaignName}</MDBChip>
                         </div>
-                        <MDBNav className={"justify-content-end float-right border-left skin-border-primary h-100"}>
-                            <MDBNavItem className="px-2 skin-primary-background-color h-100" onClick={this.props.toggleCallBar}>
+                        <MDBNav className="justify-content-end float-right skin-border-primary h-100">
+                            <div className="f-m border-right p-2 py-0 mt-2"><span className="text-danger">Recording: </span>
+                                <Timer formatValue={(value) => `${(value < 10 ? `0${value}` : value)}`}>
+                                    <Timer.Hours />:
+                                    <Timer.Minutes />:
+                                    <Timer.Seconds />
+                                </Timer>
+                            </div>
+                            <MDBNavItem className="px-2 h-100" onClick={this.props.toggleCallBar}>
                                 <MDBNavLink to="#" className={"py-0 px-2 align-middle"}>
                                     <span className="fa-layers fa-2x mt-2">
-                                        <FontAwesomeIcon icon={faCircle} className={"skin-text"}/>
+                                        <FontAwesomeIcon icon={faCircle} className={"skin-primary-color"}/>
                                         <FontAwesomeIcon icon={faPhone} transform={"shrink-8"} className={"skin-secondary-color"}/>
+                                        {true && <span className="fa-layers-counter fa-layers-top-left red-darken-2"></span>}
                                     </span>
                                 </MDBNavLink>
                             </MDBNavItem>
                             <MDBNavItem className="px-2">
-                                <MDBNavLink to="#" style={{padding:"12px"}}>
-                                    <FontAwesomeIcon icon={faEnvelope} size={"lg"} className={"skin-secondary-color"}/>
-                                </MDBNavLink>
-                            </MDBNavItem>
-                            <MDBNavItem className="px-2">
-                                <MDBNavLink to="#" style={{padding:"12px"}}>
-                                    <FontAwesomeIcon icon={faComment} size={"lg"} className={"skin-secondary-color"}/>
-                                </MDBNavLink>
-                            </MDBNavItem>
-                            <MDBNavItem className="px-2">
-                                <MDBNavLink to="/" className={"py-0 px-2 align-middle"}>
-                                    <span className="fa-layers fa-2x mt-2">
-                                        <FontAwesomeIcon icon={faCircle} className={"text-danger"}/>
-                                        <FontAwesomeIcon icon={faTimes} transform={"shrink-8"} className={"skin-text"}/>
+                                <MDBNavLink to="#" className="p-0">
+                                    <span className="fa-layers fa-2x mt-2 p-0 px-2">
+                                        <FontAwesomeIcon icon={faCircle} className={"skin-primary-color"}/>
+                                        <FontAwesomeIcon icon={faCalendar} transform={"shrink-8"} className={"skin-secondary-color"}/>
                                     </span>
+                                </MDBNavLink>
+                            </MDBNavItem>
+                            <MDBNavItem className="px-2">
+                                <MDBNavLink to="#" className="p-0" disabled={lead.contact_preferences.emails !== true}>
+                                    <span className="fa-layers fa-2x mt-2 p-0 px-2">
+                                        <FontAwesomeIcon icon={faCircle} className={lead.contact_preferences.emails === true ? "skin-primary-color" : "disabledColor"}/>
+                                        <FontAwesomeIcon icon={faEnvelope} transform={"shrink-8"} className={lead.contact_preferences.emails === true ? "skin-secondary-color" : "disabledColor"}/>
+                                    </span>
+                                </MDBNavLink>
+                            </MDBNavItem>
+                            <MDBNavItem className="px-2">
+                                <MDBNavLink to="#" className="p-0" disabled={lead.contact_preferences.texts !== true}>
+                                    <span className="fa-layers fa-2x mt-2 p-0 px-2">
+                                        <FontAwesomeIcon icon={faCircle} className={lead.contact_preferences.texts === true ? "skin-primary-color" : "disabledColor"}/>
+                                        <FontAwesomeIcon icon={faSms} transform={"shrink-8"} className={lead.contact_preferences.texts === true ? "skin-secondary-color" : "disabledColor"}/>
+                                    </span>
+                                </MDBNavLink>
+                            </MDBNavItem>
+                            <MDBNavItem className="rounded-pill m-2 red-darken-2 m-1">
+                                <MDBNavLink to="/" className="py-0 px-2 m-2 align-middle skin-text f-s font-weight-bold">
+                                    {localization.endInteraction}
+
                                 </MDBNavLink>
                             </MDBNavItem>
                         </MDBNav>

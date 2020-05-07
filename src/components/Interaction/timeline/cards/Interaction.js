@@ -112,6 +112,7 @@ class Interaction extends Component {
 
     render() {
         const counts = this.getEventCounts()
+        //const client = this.props.shift.clients.find(client => client.id === this.props.lead.client_id)
         return (
             <MDBCard className='w-100 border-0 z-2'>
                 <MDBBox className="backgroundColorInherit timelineCardHeader skin-border-primary f-m shadow-sm"
@@ -123,9 +124,9 @@ class Interaction extends Component {
                             <FontAwesomeIcon icon={faCircle} className={"skin-primary-color"}/>
                             <FontAwesomeIcon icon={faExchange} transform={"shrink-8"} className={"darkIcon"}/>
                         </span>
-                        <div className="d-flex w-75 p-2 flex-column text-left">
-                            <span className="f-l font-weight-bold">Outcome</span>
-                            <span>Reason</span>
+                        <div className="d-flex w-50 p-2 flex-column text-left">
+                            <span className="f-l font-weight-bold">{this.props.shift.outcomes.find(outcome => outcome.id === this.props.data.outcome_id).label}</span>
+                            {this.props.data.outcome_reason_id && <span>{this.props.shift.outcome_reasons.find(reason => reason.id === this.props.data.outcome_reason_id).label}</span>}
                             <div className="d-flex">
                                 {counts.emails > 0 && <div><MDBChip className="m-0 timelineChip">1 <FontAwesomeIcon icon={faEnvelope}/></MDBChip></div>}
                                 {counts.calls > 0 && <div><MDBChip className="m-0 timelineChip">1 <FontAwesomeIcon icon={faPhone}/></MDBChip></div>}
@@ -135,10 +136,10 @@ class Interaction extends Component {
                                 {counts.notes > 0 && <div><MDBChip className="m-0 timelineChip">1 <FontAwesomeIcon icon={faEdit}/></MDBChip></div>}
                             </div>
                         </div>
-                        <div className="d-flex w-25 f-s flex-column text-right justify-content-end">
+                        <div className="d-flex w-50 f-s flex-column text-right justify-content-end">
                             <span><span className="font-weight-bold">{this.props.data.created_at.format("MMM D")}</span>, {this.props.data.created_at.format("hh:mm a z")}</span>
                             {this.props.data.created_by && <span>{this.props.localization.created_by}: {this.props.data.created_by}</span>}
-                            <span>Call Reason / Phase</span>
+                            <span>{this.props.data.reason_id && this.props.shift.call_reasons.find(reason => reason.id === this.props.data.reason_id).label} / {this.props.data.phase_id && this.props.shift.phases.find(phase => phase.id === this.props.data.phase_id).label}</span>
                             <MDBIcon className="m-2" size={"lg"} icon={this.state.collapsed ? 'angle-down' : 'angle-up'}/>
                         </div>
                     </div>
@@ -157,7 +158,9 @@ class Interaction extends Component {
 
 const mapStateToProps = store => {
     return {
-        localization: store.localization
+        localization: store.localization,
+        shift : store.shift,
+        lead : store.lead
     }
 }
 

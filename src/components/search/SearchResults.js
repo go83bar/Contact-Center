@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import {
-    MDBRow,
-    MDBCol,
     MDBTable,
     MDBTableHead,
     MDBTableBody
@@ -20,8 +18,7 @@ class SearchResults extends Component {
         const localized = this.props.localization.search
 
         return (
-            <MDBRow center>
-                <MDBCol size="12">
+
                     <MDBTable striped>
                         <MDBTableHead color="primary-color" textWhite>
                             <tr>
@@ -37,8 +34,7 @@ class SearchResults extends Component {
                             {rows}
                         </MDBTableBody>
                     </MDBTable>
-                </MDBCol>
-            </MDBRow>
+
         )
     }
 }

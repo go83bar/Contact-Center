@@ -13,7 +13,8 @@ class Preview extends Component {
 
         this.startInteraction = this.startInteraction.bind(this)
 
-        this.state = {}
+        this.state = {
+        }
 
         console.log(props.previewData)
         let leadID = 0

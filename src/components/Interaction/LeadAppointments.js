@@ -7,10 +7,18 @@ class LeadAppointments extends Component {
 
     constructor(props) {
         super(props);
+        this.renderAppointments = this.renderAppointments.bind(this)
         this.state = {
         };
     }
 
+    renderAppointments()
+    {
+        const appts = this.props.lead.appointments.map((appt, index) => {
+            return <Active key={"appointment-" + index} data={appt}/>
+        })
+        return appts
+    }
     render() {
         if (this.props.active === true) {
 
@@ -18,8 +26,9 @@ class LeadAppointments extends Component {
             return (
                 <MDBBox className="d-flex w-100 flex-column bg-white f-m">
                     <div className='d-flex flex-column p-1 px-3 gray-background gray-border mt-2 rounded'>
-                        <span className="f-l font-weight-bold m-2">{localization.activeAppointments}</span>
-                        <Active/>
+                        <span className="f-l font-weight-bold m-2">{localization.appointments}</span>
+                        {this.props.lead.appointments && this.renderAppointments()}
+
                     </div>
                 </MDBBox>
             )

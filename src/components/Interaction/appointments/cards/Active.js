@@ -9,6 +9,7 @@ import {
 
 } from "@fortawesome/pro-solid-svg-icons";
 import {faCircle} from "@fortawesome/pro-light-svg-icons";
+import moment from 'moment-timezone'
 
 class Active extends Component {
 
@@ -35,10 +36,11 @@ class Active extends Component {
                         </span>
                         <div className="d-flex w-75 p-2 flex-column text-left">
                             <span className="f-l">Pre-Test Counseling Session</span>
-                            <span className="font-weight-bold">FEB 21, <span className="font-weight-normal">12:30am</span> EST</span>
+                            <span><span className="font-weight-bold">{moment(this.props.data.start_time).format("MMM D")}</span>, {moment(this.props.data.start_time).format("hh:mm a z")}</span>
                         </div>
-                        <div className="d-flex flex-row w-25 f-s justify-content-end">
+                        <div className="d-flex flex-column w-25 f-s justify-content-start">
                             <span className="font-weight-bold skin-primary-color f-l">RESERVED</span>
+                            {this.props.data.created_by && <span>{this.props.localization.created_by}: {this.props.data.created_by}</span>}
                         </div>
                     </div>
                 </MDBBox>

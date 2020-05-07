@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {MDBBox, MDBBtn} from 'mdbreact'
+import {MDBBox, MDBBtn, MDBCardBody, MDBCard, MDBSelect} from 'mdbreact'
 import {connect} from "react-redux";
 
 class LeadBooking extends Component {
@@ -7,6 +7,13 @@ class LeadBooking extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            apptType: [
+                { text : "type", value:"1"}
+            ],
+            office: [
+                { text : "type", value:"1"}
+            ]
+
         };
     }
 
@@ -19,9 +26,29 @@ class LeadBooking extends Component {
                     <div className="d-flex w-100 justify-content-end gray-border rounded p-2">
                         <MDBBtn>{localization.bookButton}</MDBBtn>
                     </div>
-                    <div className='d-flex flex-column p-1 px-3 gray-background gray-border mt-2 rounded'>
-                        Booking stuff
-                    </div>
+                    <MDBCard className="d-flex flex-column w-100 mt-2 bg-white gray-border">
+                        <div className="gray-background p-2">{localization.title}</div>
+                        <MDBCardBody className="d-flex w-100 flex-row flex-wrap justify-content-center">
+                            <MDBBox className="d-flex w-50">
+                                <MDBSelect className="w-100" options={this.state.apptType} selected={localization.selectAppointment}/>
+                            </MDBBox>
+                            <MDBBox className="d-flex w-50">
+                                <MDBSelect className="w-100" options={this.state.office} selected={localization.selectOffice}/>
+                            </MDBBox>
+                            <MDBBox className="d-flex w-100">
+                                <MDBBox className="d-flex flex-column w-50">
+                                    {localization.qualifyingTitle}
+                                    <MDBSelect className="d-flex w-50" options={this.state.apptType} selected={localization.selectAppointment}/>
+                                    <MDBSelect className="d-flex w-50" options={this.state.office} selected={localization.selectOffice}/>
+                                </MDBBox>
+                                <MDBBox className="d-flex flex-column w-50">
+                                    {localization.qualifyingTitle}
+                                    <MDBSelect className="d-flex w-50" options={this.state.apptType} selected={localization.selectAppointment}/>
+                                    <MDBSelect className="d-flex w-50" options={this.state.office} selected={localization.selectOffice}/>
+                                </MDBBox>
+                            </MDBBox>
+                        </MDBCardBody>
+                    </MDBCard>
                 </MDBBox>
             )
         } else {

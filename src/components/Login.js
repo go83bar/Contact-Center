@@ -58,7 +58,7 @@ class Login extends Component {
         // client data associated with the agent's shifts for today
         ConnectAPI.login()
             .then((responseJson) => {
-                this.props.dispatch({type: 'SHIFT.LOAD',payload: {clients: responseJson.clients}})
+                this.props.dispatch({type: 'SHIFT.LOAD',payload: {clients: responseJson.clients, outcomes: responseJson.outcomes, outcome_reasons: responseJson.outcome_reasons, phases: responseJson.phases, call_reasons: responseJson.call_reasons}})
                 this.props.dispatch({type: 'LOG_IN_USER', payload: {user: responseJson.user, auth: responseJson.auth}})
                 this.props.history.push("/")
             })

@@ -14,7 +14,7 @@ import {
 import LeadAPI from '../../api/leadAPI'
 import SearchResults from './SearchResults'
 import { connect } from 'react-redux'
-import CircularSideNav from "../CircluarSideNav/CircularSideNav";
+//import CircularSideNav from "../CircluarSideNav/CircularSideNav";
 
 class Search extends Component {
 
@@ -141,23 +141,10 @@ class Search extends Component {
 
         return (
             <MDBBox className="w-100">
-                <MDBRow>
-                    <MDBCol size="3">
-                        <CircularSideNav
-                            backgroundImg={"/images/nav.png"}
-                            backgroundColor={'#E0E0E0'}
-                            color={'#7c7c7c'}
-                            navSize={16}
-                            animation={''}
-                            animationPeriod={0.04}
-                        />
-                    </MDBCol>
-                    <MDBCol size="7" className="ml-4">
-                        <MDBCard style={{marginTop: "10%"}}>
-                            <MDBCardBody>
+                        <MDBCard>
+                            <MDBCardBody className="shadow-none">
                                 <MDBCardTitle className={this.state.searchOpen ? "" : "d-flex justify-content-between"}>
-                                    {localized.componentTitle}
-                                    {!this.state.searchOpen &&
+                                        {!this.state.searchOpen &&
                                         <MDBBtn color="primary" rounded onClick={() => this.toggleCollapse()}>New Search</MDBBtn>
                                     }
                                 </MDBCardTitle>
@@ -243,8 +230,6 @@ class Search extends Component {
                                 </MDBCardBody>
                             </MDBCard>
                         }
-                    </MDBCol>
-                </MDBRow>
             </MDBBox>
         )
     }

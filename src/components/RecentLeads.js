@@ -1,17 +1,15 @@
 import React, { Component } from 'react'
 import {
-    MDBRow, 
-    MDBCol, 
-    MDBCard, 
-    MDBCardBody, 
-    MDBCardTitle, 
-    MDBBox
+
+    MDBCard,
+    MDBCardBody,
+
 } from "mdbreact"
 import AgentAPI from '../api/agentAPI';
 import LoadingScreen from './LoadingScreen'
 import SearchResults from './search/SearchResults'
 import { connect } from 'react-redux';
-import CircularSideNav from "./CircluarSideNav/CircularSideNav";
+//import CircularSideNav from "./CircluarSideNav/CircularSideNav";
 
 class RecentLeads extends Component {
 
@@ -43,35 +41,18 @@ class RecentLeads extends Component {
             return <LoadingScreen />
         }
         return (
-            <MDBBox className="w-100 skin-secondary-color">
-                <MDBRow>
-                    <MDBCol size="3">
-                        <CircularSideNav
-                            backgroundImg={"/images/nav.png"}
-                            backgroundColor={'#E0E0E0'}
-                            color={'#7c7c7c'}
-                            navSize={16}
-                            animation={''}
-                            animationPeriod={0.04}
-                        />
-                    </MDBCol>
-                    <MDBCol size="7">
-                        <MDBCard style={{marginTop: "10%"}}>
-                            <MDBCardBody>
-                                <MDBCardTitle>Recent Leads</MDBCardTitle>
-                                <SearchResults results={this.state.recentData} />
-                            </MDBCardBody>
-                        </MDBCard>
-                    </MDBCol>
-                </MDBRow>
-            </MDBBox>
+            <MDBCard>
+                <MDBCardBody className="shadow-none">
+                    <SearchResults results={this.state.recentData} />
+                </MDBCardBody>
+            </MDBCard>
         )
     }
 }
 const mapStateToProps = store => {
-    return { 
-        localization : store.localization, 
-        previewData: store.preview 
+    return {
+        localization : store.localization,
+        previewData: store.preview
     }
 }
 

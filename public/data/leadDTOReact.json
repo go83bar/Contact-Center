@@ -19,8 +19,8 @@
 	"client_id": 10,
     "contact_preferences": {
         "phone_calls": true,
-        "texts": true,
-        "emails": true
+        "texts": false,
+        "emails": false
     },
 	"details": {
         "first_name": "Martin",

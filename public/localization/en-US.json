@@ -12,7 +12,10 @@
   "home" : {
     "interactions" : "INTERACTIONS MADE TODAY",
     "appointments" : "APPOINTMENTS MADE TODAY",
-    "handoffs" : "HANDOFFS MADE TODAY"
+    "handoffs" : "HANDOFFS MADE TODAY",
+    "signout" : "Sign Out",
+    "recent" : "Recent Leads",
+    "search" : "Find Leads"
   },
   "interaction": {
     "details" : {
@@ -27,15 +30,22 @@
     },
     "appointment" : {
       "tabTitle": "Appointments",
-      "activeAppointments" : "Active Appointments"
+      "appointments" : "Appointments"
     },
     "booking" : {
       "tabTitle": "Booking",
+      "title" : "Book a New Appointment",
+      "selectAppointment" : "Select appointment type",
+      "selectOffice" : "Select Office",
+      "qualifyingTitle" : "Qualifying Questions",
+      "bookingTitle" : "Booking Questions",
       "bookButton" : "Book an Appointment",
       "activeAppointments" : "Active Appointments"
-    },
+     },
     "survey": {
-      "tabTitle": "Surveys"
+      "tabTitle": "Surveys",
+      "score" : "Score",
+      "qualified" : "Qualified"
     },
     "timeline": {
       "tabTitle": "Timeline"
@@ -51,6 +61,7 @@
     },
     "summary" : {
       "client" : "Client",
+      "endInteraction" : "END",
       "createLead" : {
         "title" : "Create New Lead",
         "client" : "Client",

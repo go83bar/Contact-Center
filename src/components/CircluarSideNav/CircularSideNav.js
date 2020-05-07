@@ -131,7 +131,7 @@ class CircularSideNav extends Component {
         });
 
         return (
-            <div>
+            <div className="d-flex w-25">
                 <div className="m-cn-d skin-primary-background-color"
                      style={{
                          top: isHovering ? middleOfPage - mainCircleRadius : middleOfPage - mainCircleRadius,
