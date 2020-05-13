@@ -2,11 +2,12 @@
     "user": {
         "id": 3,
         "first_name": "Matt",
+        "last_name": "Mood",
         "label_name": "Matt M",
         "full_title": "Lord Matthew Graham Mood"
     },
     "auth": {
-        "userID" : 3, 
+        "userID" : 3,
         "token" : "fe41eea042cd5057d78cda9f1441a1d7"
     },
     "clients": [
@@ -62,7 +63,7 @@
                     "id": 9,
                     "outcome_reasons": [ 1 ]
                 }
-                
+
             ]
         }
     ],

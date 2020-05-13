@@ -40,6 +40,12 @@
     .skin-text {
       color: map-get($data, skin-text) !important;
     }
+
+    .react-calendar__tile--active {
+      background-color: map_get($data, skin-primary-color);
+      color: map_get($data, skin-text);
+      border-radius: 50%;
+    }
     // END  ****** Put Custom Classes Here ******
 
 

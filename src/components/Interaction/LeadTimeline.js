@@ -51,7 +51,7 @@ class LeadTimeline extends Component {
             let result = []
             let showInteraction = false
             if (item.type === "interaction") {
-                if (filters.length === 0 || ( filters.length === 1 && filters.includes("interactions")))
+                if (filters.length === 0 || ( filters.includes("interactions")))
                     showInteraction = true
                 else {
                     item.events.forEach(intItem => {
@@ -142,9 +142,10 @@ class LeadTimeline extends Component {
     render() {
         if (this.props.active === true) {
             const td = new TimelineData(this.props.lead)
+            const tp = td.getTouchpoints()
             return (
                 <MDBBox className="d-flex flex-row overflow-auto flex-1 p-0 m-0 w-auto">
-                    <TimelineTouchpoints data={td.getTouchpoints()}/>
+                    <TimelineTouchpoints data={tp} toggleFilter={this.toggleFilter} filters={this.state.filters}/>
                     <MDBCard className="d-flex order-1 overflow-auto w-100 border-0 backgroundColorInherit">
                         <MDBCardHeader
                             className="d-flex card-header-no-back-no-border bg-white mb-3 f-s py-2 px-3 justify-content-end">
@@ -154,38 +155,38 @@ class LeadTimeline extends Component {
                                     All
                                 </span>
                             <span
-                                className={"p-0 px-2 pointer " + (this.state.filters.includes("surveys") ? "skin-primary-color" : "skin-secondary-color")}
-                                onClick={() => this.toggleFilter("surveys")}>
+                                className={"p-0 px-2 pointer " + (tp.surveys.total > 0 ? (this.state.filters.includes("surveys") ? "skin-primary-color" : "skin-secondary-color") : "disabledColor")}
+                                onClick={tp.surveys.total > 0 ? () => this.toggleFilter("surveys") : null}>
                                     Surveys
                                 </span>
                             <span
-                                className={"p-0 px-2 pointer " + (this.state.filters.includes("interactions") ? "skin-primary-color" : "skin-secondary-color")}
-                                onClick={() => this.toggleFilter("interactions")}>
+                                className={"p-0 px-2 pointer " + (tp.interactions > 0 ? (this.state.filters.includes("interactions") ? "skin-primary-color" : "skin-secondary-color") : "disabledColor")}
+                                onClick={tp.interactions > 0 ? () => this.toggleFilter("interactions") : null}>
                                     Interactions
                                 </span>
                             <span
-                                className={"p-0 px-2 pointer " + (this.state.filters.includes("calls") ? "skin-primary-color" : "skin-secondary-color")}
-                                onClick={() => this.toggleFilter("calls")}>
+                                className={"p-0 px-2 pointer " + (tp.calls.total > 0 ? (this.state.filters.includes("calls") ? "skin-primary-color" : "skin-secondary-color") : "disabledColor")}
+                                onClick={tp.calls.total > 0 ? () => this.toggleFilter("calls") : null}>
                                     Calls
                                 </span>
                             <span
-                                className={"p-0 px-2 pointer " + (this.state.filters.includes("texts") ? "skin-primary-color" : "skin-secondary-color")}
-                                onClick={() => this.toggleFilter("texts")}>
+                                className={"p-0 px-2 pointer " + (tp.texts.total > 0 ? (this.state.filters.includes("texts") ? "skin-primary-color" : "skin-secondary-color") : "disabledColor")}
+                                onClick={tp.texts.total > 0 ? () => this.toggleFilter("texts") : null}>
                                     Texts
                                 </span>
                             <span
-                                className={"p-0 px-2 pointer " + (this.state.filters.includes("emails") ? "skin-primary-color" : "skin-secondary-color")}
-                                onClick={() => this.toggleFilter("emails")}>
+                                className={"p-0 px-2 pointer " + (tp.emails.total > 0 ? (this.state.filters.includes("emails") ? "skin-primary-color" : "skin-secondary-color") : "disabledColor")}
+                                onClick={tp.emails.total > 0 ? () => this.toggleFilter("emails") : null}>
                                     Emails
                                 </span>
                             <span
-                                className={"p-0 px-2 pointer " + (this.state.filters.includes("notes") ? "skin-primary-color" : "skin-secondary-color2")}
-                                onClick={() => this.toggleFilter("notes")}>
+                                className={"p-0 px-2 pointer " + (tp.notes > 0 ? (this.state.filters.includes("notes") ? "skin-primary-color" : "skin-secondary-color") : "disabledColor")}
+                                onClick={tp.notes > 0 ? () => this.toggleFilter("notes") : null}>
                                     Notes
                                 </span>
                             <span
-                                className={"p-0 px-2 pointer " + (this.state.filters.includes("appointments") ? "skin-primary-color" : "skin-secondary-color2")}
-                                onClick={() => this.toggleFilter("appointments")}>
+                                className={"p-0 px-2 pointer " + (tp.appointments.total > 0 ? (this.state.filters.includes("appointments") ? "skin-primary-color" : "skin-secondary-color") : "disabledColor")}
+                                onClick={tp.appointments.total > 0 ? () => this.toggleFilter("appointments") : null}>
                                     Appointments
                                 </span>
                         </MDBCardHeader>

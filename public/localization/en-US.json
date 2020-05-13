@@ -15,7 +15,8 @@
     "handoffs" : "HANDOFFS MADE TODAY",
     "signout" : "Sign Out",
     "recent" : "Recent Leads",
-    "search" : "Find Leads"
+    "search" : "Find Leads",
+    "profile" : "User Profile"
   },
   "interaction": {
     "details" : {
@@ -155,6 +156,21 @@
   "preview" : {
     "nextButton" : "Open Interaction",
     "id" : "Lead ID"
+  },
+  "profile" : {
+    "settings" : "ACCOUNT SETTINGS",
+    "profile" : "Profile",
+    "schedule" : "Schedule",
+    "theme" : "Color Theme",
+    "music" : "Music",
+    "account": {
+      "first_name" : "First Name",
+      "last_name" : "Last Name",
+      "email" : "Email",
+      "phone" : "Phone",
+      "password" : "Password",
+      "confirm_password" : "Confirm Password"
+    }
   }
 
 }

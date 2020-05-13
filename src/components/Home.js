@@ -26,6 +26,7 @@ import { WidthProvider, Responsive } from "react-grid-layout";
 //import SearchResults from "./search/SearchResults";
 import RecentLeads from "./RecentLeads";
 import Search from "./search/Search";
+import Profile from "./Profile";
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 class Home extends Component {
@@ -36,10 +37,11 @@ class Home extends Component {
         this.logout = this.logout.bind(this)
         this.toggleRecent = this.toggleRecent.bind(this)
         this.toggleSearch = this.toggleSearch.bind(this)
-
+        this.toggleProfile = this.toggleProfile.bind(this)
         this.state = {
             showRecent : false,
-            showSearch : false
+            showSearch : false,
+            showProfile : false
         };
     }
 
@@ -52,6 +54,9 @@ class Home extends Component {
     }
     toggleSearch() {
         this.setState({showSearch : !this.state.showSearch})
+    }
+    toggleProfile() {
+        this.setState({showProfile : !this.state.showProfile})
     }
 
     profileClick() {
@@ -71,7 +76,7 @@ class Home extends Component {
                         <span>Welcome Agent!</span>
                     </MDBBox>
                     <MDBBox className="d-flex justify-content-end w-50 mr-4 align-items-center">
-                        <Link to="#" onClick={this.profileClick} className="f-xl px-3">
+                        <Link to="#" onClick={this.toggleProfile} className="f-xl px-3">
                             <span className="fa-layers fa-fw fa-2x m-0">
                                 <FontAwesomeIcon icon={faCircle} className={"skin-text"}/>
                                 <FontAwesomeIcon icon={faUserCircle} transform={"shrink-6"}  className={"skin-text"}/>
@@ -194,7 +199,7 @@ class Home extends Component {
                           <RecentLeads />
                     </MDBModalBody>
                     <MDBModalFooter>
-                        <MDBBtn color="secondary" onClick={this.toggleRecent}>Close</MDBBtn>
+                        <MDBBtn rounded color="secondary" onClick={this.toggleRecent}>Close</MDBBtn>
                     </MDBModalFooter>
                 </MDBModal>
                 <MDBModal isOpen={this.state.showSearch} toggle={this.toggleSearch} centered size={"lg"}>
@@ -203,8 +208,14 @@ class Home extends Component {
                         <Search />
                     </MDBModalBody>
                     <MDBModalFooter>
-                        <MDBBtn color="secondary" onClick={this.toggleSearch}>Close</MDBBtn>
+                        <MDBBtn rounded color="secondary" onClick={this.toggleSearch}>Close</MDBBtn>
                     </MDBModalFooter>
+                </MDBModal>
+                <MDBModal isOpen={this.state.showProfile} toggle={this.toggleProfile} centered size={"lg"}>
+                    <MDBModalHeader toggle={this.toggleProfile}>{localization.profile}</MDBModalHeader>
+                    <MDBModalBody className="p-0">
+                        <Profile onClose={this.toggleProfile}/>
+                    </MDBModalBody>
                 </MDBModal>
             </MDBBox>
         )

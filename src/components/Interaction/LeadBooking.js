@@ -24,7 +24,7 @@ class LeadBooking extends Component {
             return (
                 <MDBBox className="d-flex w-100 flex-column bg-white f-m">
                     <div className="d-flex w-100 justify-content-end gray-border rounded p-2">
-                        <MDBBtn>{localization.bookButton}</MDBBtn>
+                        <MDBBtn rounded>{localization.bookButton}</MDBBtn>
                     </div>
                     <MDBCard className="d-flex flex-column w-100 mt-2 bg-white gray-border">
                         <div className="gray-background p-2">{localization.title}</div>

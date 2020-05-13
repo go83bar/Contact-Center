@@ -83,7 +83,7 @@ class Login extends Component {
                         <MDBCardBody cascade className='text-center'>
                             <div className={"text-left"}><MDBInput label={localization.frontPlaceholder} outline icon="envelope" iconClass={"skin-secondary-color"} className={"text-left"}/></div>
                             <div className={"text-left"}><MDBInput label={"Password"} outline icon="key" iconClass={"skin-secondary-color"} className={"text-left"}/></div>
-                            <MDBBtn className="rounded" onClick={this.getPin}><h5 style={{marginBottom:"0px"}}> {localization.frontButton} <MDBIcon icon="angle-double-right" style={{marginLeft : "10px"}}/> </h5></MDBBtn>
+                            <MDBBtn rounded onClick={this.getPin}><h5 style={{marginBottom:"0px"}}> {localization.frontButton} <MDBIcon icon="angle-double-right" style={{marginLeft : "10px"}}/> </h5></MDBBtn>
                         </MDBCardBody>
                     </MDBCard>
                     <MDBCard className="face back" narrow >
@@ -98,7 +98,7 @@ class Login extends Component {
                         </MDBCardImage>
                         <MDBCardBody cascade className='text-center'>
                             <div className={"text-left"}><MDBInput label={localization.backPlaceholder} outline icon="lock" iconClass={"skin-secondary-color"} className={"text-left"}/></div>
-                            <MDBBtn className="rounded" onClick={this.login}><h5 style={{marginBottom:"0px"}}> <MDBIcon icon="unlock" style={{marginRight : "10px"}}/> {localization.backButton} </h5></MDBBtn>
+                            <MDBBtn rounded onClick={this.login}><h5 style={{marginBottom:"0px"}}> <MDBIcon icon="unlock" style={{marginRight : "10px"}}/> {localization.backButton} </h5></MDBBtn>
                         </MDBCardBody>
                     </MDBCard>
                 </MDBRotatingCard>

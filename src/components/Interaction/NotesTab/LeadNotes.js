@@ -204,6 +204,7 @@ class LeadNotes extends Component {
                                 </MDBBtn>
                             )}
                             <MDBBtn
+                                rounded
                                 color="primary"
                                 className="float-right"
                                 disabled={this.state.isSaving}

@@ -25,13 +25,14 @@ import {
     faMapMarkedAlt,
     faIdBadge,
     faEllipsisH,
-    faPhone, faCalendar
+    faPhone
 } from "@fortawesome/pro-solid-svg-icons";
 import CreateLead from "./modals/CreateLead";
 import ContactPreferences from "./modals/ContactPreferences";
 import EditLead from "./modals/EditLead";
 import MergeLead from "./modals/MergeLead";
 import {faCircle} from "@fortawesome/pro-light-svg-icons";
+import {faCalendar} from "@fortawesome/pro-regular-svg-icons"
 import Timer from 'react-compound-timer'
 
 
@@ -112,15 +113,16 @@ class LeadSummary extends Component {
                                     </span>
                                 </MDBNavLink>
                             </MDBNavItem>
-                            <MDBNavItem className="px-2">
+                            <MDBNavItem className="px-2" onClick={this.props.toggleCallback}>
                                 <MDBNavLink to="#" className="p-0">
                                     <span className="fa-layers fa-2x mt-2 p-0 px-2">
                                         <FontAwesomeIcon icon={faCircle} className={"skin-primary-color"}/>
                                         <FontAwesomeIcon icon={faCalendar} transform={"shrink-8"} className={"skin-secondary-color"}/>
+                                        <FontAwesomeIcon icon={faPhone} transform={"shrink-12 down-1"} className={"skin-secondary-color"}/>
                                     </span>
                                 </MDBNavLink>
                             </MDBNavItem>
-                            <MDBNavItem className="px-2">
+                            <MDBNavItem className="px-2" onClick={this.props.toggleEmail}>
                                 <MDBNavLink to="#" className="p-0" disabled={lead.contact_preferences.emails !== true}>
                                     <span className="fa-layers fa-2x mt-2 p-0 px-2">
                                         <FontAwesomeIcon icon={faCircle} className={lead.contact_preferences.emails === true ? "skin-primary-color" : "disabledColor"}/>
@@ -128,7 +130,7 @@ class LeadSummary extends Component {
                                     </span>
                                 </MDBNavLink>
                             </MDBNavItem>
-                            <MDBNavItem className="px-2">
+                            <MDBNavItem className="px-2" onClick={this.props.toggleText}>
                                 <MDBNavLink to="#" className="p-0" disabled={lead.contact_preferences.texts !== true}>
                                     <span className="fa-layers fa-2x mt-2 p-0 px-2">
                                         <FontAwesomeIcon icon={faCircle} className={lead.contact_preferences.texts === true ? "skin-primary-color" : "disabledColor"}/>
@@ -136,10 +138,9 @@ class LeadSummary extends Component {
                                     </span>
                                 </MDBNavLink>
                             </MDBNavItem>
-                            <MDBNavItem className="rounded-pill m-2 red-darken-2 m-1">
-                                <MDBNavLink to="/" className="py-0 px-2 m-2 align-middle skin-text f-s font-weight-bold">
+                            <MDBNavItem className="rounded-pill m-2 red-darken-2 m-1" onClick={this.props.toggleEndInteraction}>
+                                <MDBNavLink to="#" className="py-0 px-2 m-2 align-middle skin-text f-s font-weight-bold">
                                     {localization.endInteraction}
-
                                 </MDBNavLink>
                             </MDBNavItem>
                         </MDBNav>

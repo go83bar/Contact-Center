@@ -205,7 +205,7 @@ class Search extends Component {
                                                 {this.generateClientOptions()}
                                             </select>
                                             <div className="text-center mt-4">
-                                                <MDBBtn color="indigo" disabled={this.state.isFetchingResults} onClick={this.handleFormSubmit}>
+                                                <MDBBtn rounded disabled={this.state.isFetchingResults} onClick={this.handleFormSubmit}>
                                                     {this.props.localization.buttonLabels.go}
                                                     {this.state.isFetchingResults && (
                                                         <MDBIcon icon="cog" spin className="ml-1" />

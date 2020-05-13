@@ -98,6 +98,20 @@ class Preview extends Component {
     }
 
     render() {
+        /*let formatPhoneNumber = (str) => {
+            //Filter only numbers from the input
+            let cleaned = ('' + str).replace(/\D/g, '');
+
+            //Check if the input is of correct length
+            let match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
+
+            if (match) {
+                return '(' + match[1] + ') ' + match[2] + '-' + match[3]
+            };
+
+            return null
+        };*/
+
         let localization = this.props.localization.preview
         // Display loading image until lead preview data is loaded
         if (this.props.previewData === undefined) {
@@ -127,7 +141,7 @@ class Preview extends Component {
                                 </div>
                         </MDBCardBody>
                         <MDBCardFooter className="d-flex justify-content-end">
-                            <MDBBtn className="rounded skin-primary-background-color f-l" onClick={this.startInteraction}>{localization.nextButton}</MDBBtn>
+                            <MDBBtn rounded className="skin-primary-background-color f-l" onClick={this.startInteraction}>{localization.nextButton}</MDBBtn>
                         </MDBCardFooter>
 
                     </MDBCard>

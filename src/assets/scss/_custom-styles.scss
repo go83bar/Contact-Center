@@ -153,3 +153,13 @@
   border: 1px solid #c2c2c2;
 }
 
+.CalendarDay__default {
+  border: none;
+}
+.CalendarDay__selected {
+  border-radius: 50%;
+}
+
+.customStepper li:not(:last-child):after {
+    background-color: #d8d8d8;
+}

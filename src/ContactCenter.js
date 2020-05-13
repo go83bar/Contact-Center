@@ -24,7 +24,8 @@ class ContactCenter extends Component {
             sideNavToggled: false,
             breakWidth: 1400,
         };
-        this.changeSkin()
+        let theme = this.props.config.cookies.get("theme")
+        document.body.className =  theme !== undefined ? theme : 'eightthree-skin';
     }
     toggle = tab => () => {
         if (this.state.activeItem !== tab) {
@@ -32,10 +33,6 @@ class ContactCenter extends Component {
                 activeItem: tab
             });
         }
-    }
-
-    changeSkin() {
-        document.body.className = 'eightthree-skin';
     }
 
     render() {
@@ -55,7 +52,10 @@ class ContactCenter extends Component {
     }
 }
 const mapStateToProps = state => {
-    return { auth : state.auth }
+    return {
+        auth : state.auth,
+        config : state.config
+    }
 }
 export default connect(mapStateToProps)(ContactCenter);
 

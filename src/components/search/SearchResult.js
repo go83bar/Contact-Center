@@ -28,7 +28,7 @@ class SearchResult extends Component {
     // when user clicks on a result, we load the preview screen for that lead
     handleResultClick() {
         this.props.dispatch({type: "PREVIEW.LOAD", payload: {
-            leadID: this.props.row.id, 
+            leadID: this.props.row.id,
             callQueueID: "search"
         }})
         this.props.history.push('/preview')
@@ -43,7 +43,7 @@ class SearchResult extends Component {
                 <td>{this.props.row.phase_name}</td>
                 <td>{this.props.row.next_contact}</td>
                 <td className="align-middle">{!this.props.row.locked && (
-                    <MDBBtn className="align-top" size="sm" color="indigo" onClick={this.handleResultClick}>
+                    <MDBBtn className="align-top" size="sm" rounded onClick={this.handleResultClick}>
                     {this.props.localization.buttonLabels.load}</MDBBtn>
                 )}</td>
             </tr>
