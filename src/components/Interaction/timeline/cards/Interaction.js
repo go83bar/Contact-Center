@@ -139,7 +139,7 @@ class Interaction extends Component {
                         <div className="d-flex w-50 f-s flex-column text-right justify-content-end">
                             <span><span className="font-weight-bold">{this.props.data.created_at.format("MMM D")}</span>, {this.props.data.created_at.format("hh:mm a z")}</span>
                             {this.props.data.created_by && <span>{this.props.localization.created_by}: {this.props.data.created_by}</span>}
-                            <span>{this.props.data.reason_id && this.props.shift.call_reasons.find(reason => reason.id === this.props.data.reason_id).label} / {this.props.data.phase_id && this.props.shift.phases.find(phase => phase.id === this.props.data.phase_id).label}</span>
+                            <span>{this.props.data.reason_id && this.props.shift.call_reasons.find(reason => reason.id === this.props.data.reason_id).text} / {this.props.data.phase_id && this.props.shift.phases.find(phase => phase.id === this.props.data.phase_id).label}</span>
                             <MDBIcon className="m-2" size={"lg"} icon={this.state.collapsed ? 'angle-down' : 'angle-up'}/>
                         </div>
                     </div>

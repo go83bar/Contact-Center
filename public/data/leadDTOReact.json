@@ -18,7 +18,7 @@
 	"chrono_id": null,
 	"client_id": 10,
     "contact_preferences": {
-        "phone_calls": true,
+        "phone_calls": false,
         "texts": true,
         "emails": true
     },
@@ -89,7 +89,7 @@
     "interactions": [
         {
             "id": 997,
-            "outcome_id": 27,
+            "outcome_id": 7,
             "created_at": "2020-04-28 22:22:34"
         },
         {
@@ -160,6 +160,7 @@
             "created_at": "2018-01-01 11:44:07"
         }
     ],
+    "phase_id": 1,
 	"region_id": 194,
 	"surveys": [
         {

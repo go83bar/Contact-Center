@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import {MDBNav, MDBNavLink} from 'mdbreact'
+import {MDBBox, MDBIcon, MDBNavLink} from 'mdbreact'
 
 class Switch extends Component {
 
@@ -16,24 +16,24 @@ class Switch extends Component {
     }
     render() {
         return (
-            <MDBNav pills color={this.props.checked ? "success" : "danger"} className="nav-justified ">
-                    <MDBNavLink className="text-nowrap"
+            <MDBBox className="d-flex flex-nowrap mr-2 mb-2 border rounded skin-border-primary">
+                    <MDBNavLink className={ "text-nowrap rounded " + (this.props.checked ? "skin-primary-background-color skin-text" : "backgroundColorInherit")}
                         link
                         to="#"
                         active={this.props.checked}
                         onClick={this.toggle}
                     >
-                        {this.props.onLabel}
+                        <MDBIcon icon={this.props.icon}/> {this.props.onLabel}
                     </MDBNavLink>
-                    <MDBNavLink className="text-nowrap"
+                <MDBNavLink className={ "text-nowrap rounded " + (!this.props.checked ? "background-red skin-secondary-color" : "backgroundColorInherit")}
                         link
                         to="#"
                         active={!this.props.checked}
                         onClick={this.toggle}
                     >
-                        {this.props.offLabel}
+                        <MDBIcon icon={this.props.icon}/> {this.props.offLabel}
                     </MDBNavLink>
-            </MDBNav>
+            </MDBBox>
         )
     }
 }

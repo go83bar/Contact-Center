@@ -1,137 +1,577 @@
 {
-    "user": {
-        "id": 3,
-        "first_name": "Matt",
-        "last_name": "Mood",
-        "label_name": "Matt M",
-        "full_title": "Lord Matthew Graham Mood"
+  "user": {
+    "id": 3,
+    "first_name": "Matt",
+    "last_name": "Mood",
+    "label_name": "Matt M",
+    "full_title": "Lord Matthew Graham Mood"
+  },
+  "auth": {
+    "userID": 3,
+    "token": "fe41eea042cd5057d78cda9f1441a1d7"
+  },
+  "clients": [
+    {
+      "id": 8,
+      "name": "Arthrokinex",
+      "outcomes": [
+        {
+          "id": 9,
+          "outcome_reasons": [
+            1,
+            5
+          ]
+        }
+      ]
     },
-    "auth": {
-        "userID" : 3,
-        "token" : "fe41eea042cd5057d78cda9f1441a1d7"
+    {
+      "id": 10,
+      "name": "Myriad",
+      "campaigns": [
+        {
+          "id": 97,
+          "name": "Genetic Counseling"
+        }
+      ],
+      "regions": [
+        {
+          "id": 194,
+          "name": "Hell, MI",
+          "offices": [
+            {
+              "id": 1,
+              "name": "Mary Delany-Hudzik, MS, LCGC"
+            }
+          ]
+        }
+      ],
+      "appointment_types": [
+        {
+          "id": 1,
+          "label": "Pre-test Counseling Session"
+        }
+      ],
+      "appointment_statuses": [
+        {
+          "id": 1,
+          "label": "Pending"
+        }
+      ],
+      "phases" : [
+        {
+          "id" : 1,
+          "outcomes": [
+            {
+              "id": 1,
+              "outcome_reasons": [
+                63,
+                64,
+                65,
+                595,
+                596,
+                597,
+                598,
+                599,
+                600,
+                601
+              ]
+            },
+            {
+              "id": 148
+            },
+            {
+              "id": 3,
+              "outcome_reasons": [
+                63,
+                64,
+                65,
+                595,
+                596,
+                597,
+                598,
+                599,
+                600,
+                601
+              ]
+            },
+            {
+              "id": 5,
+              "outcome_reasons": [
+                72,
+                74,
+                174,
+                175,
+                241,
+                2301
+              ]
+            },
+            {
+              "id": 37
+            },
+            {
+              "id": 10
+            },
+            {
+              "id": 23
+            },
+            {
+              "id": 11
+            },
+            {
+              "id": 8
+            },
+            {
+              "id": 12
+            },
+            {
+              "id": 7
+            },
+            {
+              "id": 205,
+              "outcome_reasons": [
+                2286,
+                2887
+              ]
+            },
+            {
+              "id": 9
+            },
+            {
+              "id": 15
+            },
+            {
+              "id": 4,
+              "outcome_reasons": [
+                66,
+                67,
+                69,
+                172,
+                173,
+                342,
+                582,
+                584,
+                585,
+                587,
+                2154,
+                2967
+              ]
+            },
+            {
+              "id": 143
+            },
+            {
+              "id": 31,
+              "outcome_reasons": [
+                242,
+                243,
+                244,
+                2151
+              ]
+            },
+            {
+              "id": 22
+            },
+            {
+              "id": 17
+            },
+            {
+              "id": 18
+            },
+            {
+              "id": 26
+            },
+            {
+              "id": 38
+            },
+            {
+              "id": 203
+            },
+            {
+              "id": 6
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": 1,
+      "slug": "booked",
+      "label": "Booked",
+      "requires_appointment": true,
+      "requires_office": true,
+      "enable_speed_save": false
     },
-    "clients": [
-        {
-            "id": 8,
-            "name": "Arthrokinex",
-            "outcomes": [
-                {
-                    "id": 9,
-                    "outcome_reasons": [ 1, 5 ]
-                }
-            ]
-        },
-        {
-            "id": 10,
-            "name": "Myriad",
-            "campaigns": [
-                {
-                    "id": 97,
-                    "name": "Genetic Counseling"
-                }
-            ],
-            "regions": [
-                {
-                    "id": 194,
-                    "name": "Hell, MI",
-                    "offices": [
-                        {
-                            "id": 1,
-                            "name": "Mary Delany-Hudzik, MS, LCGC"
-                        }
-                    ]
-                }
-            ],
-            "appointment_types": [
-                {
-                    "id": 1,
-                    "label": "Pre-test Counseling Session"
-                }
-            ],
-            "appointment_statuses": [
-                {
-                    "id": 1,
-                    "label": "Pending"
-                }
-            ],
-            "outcomes": [
-                {
-                    "id": 1,
-                    "outcome_reasons": [ 1 ]
-                },
-                {
-                    "id": 9,
-                    "outcome_reasons": [ 1 ]
-                }
-
-            ]
-        }
-    ],
-    "outcomes": [
-        {
-            "id": 1,
-            "label": "Booked",
-            "booking": 1
-        },
-        {
-            "id": 27,
-            "label": "Unfinished",
-            "booking": 0
-        },
-        {
-            "id": 9,
-            "label": "Not Interested",
-            "booking": 0
-        }
-    ],
-    "outcome_reasons": [
-        {
-            "id": 1,
-            "label": "Cost Concerns"
-        },
-        {
-            "id": 3,
-            "label": "Cost Concerns"
-        },
-        {
-            "id": 5,
-            "label": "Distance"
-        }
-    ],
-    "phases": [
-        {
-            "id": 1,
-            "label": "New Lead"
-        },
-        {
-            "id": 2,
-            "label": "Engagement"
-        },
-        {
-            "id": 3,
-            "label": "Post-Appointment"
-        },
-        {
-            "id": 4,
-            "label": "Nurture"
-        }
-    ],
-    "call_reasons": [
-        {
-            "id": 1,
-            "label": "Call Chain 1 (New Lead Phase)"
-        },
-        {
-            "id": 2,
-            "label": "Call Chain 2 (New Lead Phase)"
-        },
-        {
-            "id": 3,
-            "label": "Call Chain 3 (New Lead Phase)"
-        },
-        {
-            "id": 4,
-            "label": "Call Chain 4 (New Lead Phase)"
-        }
-    ]
+    {
+      "id": 148,
+      "slug": "call_failed",
+      "label": "Call Failed",
+      "requires_appointment": false,
+      "requires_office": false,
+      "enable_speed_save": false
+    },
+    {
+      "id": 3,
+      "slug": "callback",
+      "label": "Callback",
+      "requires_appointment": false,
+      "requires_office": false,
+      "enable_speed_save": false
+    },
+    {
+      "id": 5,
+      "slug": "disqualified",
+      "label": "Disqualified",
+      "requires_appointment": false,
+      "requires_office": false,
+      "enable_speed_save": false
+    },
+    {
+      "id": 37,
+      "slug": "do_not_call_ever",
+      "label": "Do Not Call Ever",
+      "requires_appointment": false,
+      "requires_office": false,
+      "enable_speed_save": false
+    },
+    {
+      "id": 10,
+      "slug": "handoff_not_recorded",
+      "label": "Handoff - Not Recorded",
+      "requires_appointment": false,
+      "requires_office": true,
+      "enable_speed_save": false
+    },
+    {
+      "id": 23,
+      "slug": "handoff_recorded",
+      "label": "Handoff - Recorded",
+      "requires_appointment": true,
+      "requires_office": true,
+      "enable_speed_save": false
+    },
+    {
+      "id": 11,
+      "slug": "handoff_voicemail",
+      "label": "Handoff - Voicemail",
+      "requires_appointment": false,
+      "requires_office": true,
+      "enable_speed_save": false
+    },
+    {
+      "id": 8,
+      "slug": "hung_up",
+      "label": "Hung Up",
+      "requires_appointment": false,
+      "requires_office": false,
+      "enable_speed_save": false
+    },
+    {
+      "id": 12,
+      "slug": "left_message_auto",
+      "label": "Left Auto Message",
+      "requires_appointment": false,
+      "requires_office": false,
+      "enable_speed_save": false
+    },
+    {
+      "id": 7,
+      "slug": "left_message",
+      "label": "Left Message",
+      "requires_appointment": false,
+      "requires_office": false,
+      "enable_speed_save": false
+    },
+    {
+      "id": 205,
+      "slug": "needs_to_call_us",
+      "label": "Needs To Call Us",
+      "requires_appointment": false,
+      "requires_office": false,
+      "enable_speed_save": false
+    },
+    {
+      "id": 9,
+      "slug": "no_answer",
+      "label": "No Answer",
+      "requires_appointment": false,
+      "requires_office": false,
+      "enable_speed_save": false
+    },
+    {
+      "id": 15,
+      "slug": "no_change",
+      "label": "No Changes",
+      "requires_appointment": false,
+      "requires_office": false,
+      "enable_speed_save": false
+    },
+    {
+      "id": 4,
+      "slug": "not_interested",
+      "label": "Not Interested",
+      "requires_appointment": false,
+      "requires_office": false,
+      "enable_speed_save": false
+    },
+    {
+      "id": 143,
+      "slug": "notify_clinic",
+      "label": "Notify Clinic",
+      "requires_appointment": false,
+      "requires_office": true,
+      "enable_speed_save": false
+    },
+    {
+      "id": 31,
+      "slug": "education",
+      "label": "Physician Finder",
+      "requires_appointment": false,
+      "requires_office": false,
+      "enable_speed_save": false
+    },
+    {
+      "id": 22,
+      "slug": "problem_lead",
+      "label": "Problem Lead",
+      "requires_appointment": false,
+      "requires_office": false,
+      "enable_speed_save": false
+    },
+    {
+      "id": 17,
+      "slug": "sent_email",
+      "label": "Replied to Email",
+      "requires_appointment": false,
+      "requires_office": false,
+      "enable_speed_save": false
+    },
+    {
+      "id": 18,
+      "slug": "sent_text",
+      "label": "Replied to Text",
+      "requires_appointment": false,
+      "requires_office": false,
+      "enable_speed_save": false
+    },
+    {
+      "id": 26,
+      "slug": "telemarketer",
+      "label": "Telemarketer",
+      "requires_appointment": false,
+      "requires_office": false,
+      "enable_speed_save": false
+    },
+    {
+      "id": 38,
+      "slug": "update_lead",
+      "label": "Updated Lead Info",
+      "requires_appointment": false,
+      "requires_office": false,
+      "enable_speed_save": false
+    },
+    {
+      "id": 203,
+      "slug": "waitlist",
+      "label": "Waitlist",
+      "requires_appointment": false,
+      "requires_office": false,
+      "enable_speed_save": false
+    },
+    {
+      "id": 6,
+      "slug": "wrong_number",
+      "label": "Wrong Number",
+      "requires_appointment": false,
+      "requires_office": false,
+      "enable_speed_save": false
+    }
+  ],
+  "outcome_reasons": [
+    {
+      "id": 1,
+      "text": "Cost Concerns"
+    },
+    {
+      "id": 3,
+      "text": "Cost Concerns"
+    },
+    {
+      "id": 5,
+      "text": "Distance"
+    },
+    {
+      "id": 63,
+      "text": "Not Available"
+    },
+    {
+      "id": 64,
+      "text": "No Time To Talk"
+    },
+    {
+      "id": 65,
+      "text": "Weak Interest"
+    },
+    {
+      "id": 595,
+      "text": "Wouldn't engage"
+    },
+    {
+      "id": 596,
+      "text": "Couldn't finish call"
+    },
+    {
+      "id": 597,
+      "text": "Needs to think about it"
+    },
+    {
+      "id": 598,
+      "text": "Needs to check insurance"
+    },
+    {
+      "id": 599,
+      "text": "Clinic closing - can't do a handoff"
+    },
+    {
+      "id": 600,
+      "text": "Another person answered the phone"
+    },
+    {
+      "id": 601,
+      "text": "Needs a Spanish speaking agent"
+    },
+    {
+      "id": 72,
+      "text": "No Insurance"
+    },
+    {
+      "id": 74,
+      "text": "Doesn't Speak English"
+    },
+    {
+      "id": 174,
+      "text": "Currently Has Cancer"
+    },
+    {
+      "id": 175,
+      "text": "No Genetic Risk\/No Medical Need"
+    },
+    {
+      "id": 241,
+      "text": "Insurance Not Accepted"
+    },
+    {
+      "id": 2301,
+      "text": "Lead is a Minor"
+    },
+    {
+      "id": 2886,
+      "text": "Needs to call us"
+    },
+    {
+      "id": 2887,
+      "text": "Covid"
+    },
+    {
+      "id": 66,
+      "text": "Doesn't See Value"
+    },
+    {
+      "id": 67,
+      "text": "Prefers Own Doctor"
+    },
+    {
+      "id": 69,
+      "text": "Other"
+    },
+    {
+      "id": 172,
+      "text": "Not Ready"
+    },
+    {
+      "id": 173,
+      "text": "Doesn't Want to Know"
+    },
+    {
+      "id": 342,
+      "text": "Too many callbacks"
+    },
+    {
+      "id": 582,
+      "text": "Wouldn't engage"
+    },
+    {
+      "id": 584,
+      "text": "Needs to think about it"
+    },
+    {
+      "id": 585,
+      "text": "Needs to check insurance"
+    },
+    {
+      "id": 587,
+      "text": "Already tried our treatment"
+    },
+    {
+      "id": 2154,
+      "text": "Cost (co-pay\/deductible)"
+    },
+    {
+      "id": 2967,
+      "text": "Covid-19 Concerns"
+    },
+    {
+      "id": 242,
+      "text": "Medicare"
+    },
+    {
+      "id": 243,
+      "text": "Medicaid"
+    },
+    {
+      "id": 244,
+      "text": "Distance"
+    },
+    {
+      "id": 2151,
+      "text": "No Insurance"
+    }
+  ],
+  "phases": [
+    {
+      "id": 1,
+      "label": "New Lead"
+    },
+    {
+      "id": 2,
+      "label": "Engagement"
+    },
+    {
+      "id": 3,
+      "label": "Post-Appointment"
+    },
+    {
+      "id": 4,
+      "label": "Nurture"
+    }
+  ],
+  "call_reasons": [
+    {
+      "id": 1,
+      "label": "Call Chain 1 (New Lead Phase)"
+    },
+    {
+      "id": 2,
+      "label": "Call Chain 2 (New Lead Phase)"
+    },
+    {
+      "id": 3,
+      "label": "Call Chain 3 (New Lead Phase)"
+    },
+    {
+      "id": 4,
+      "label": "Call Chain 4 (New Lead Phase)"
+    }
+  ]
 }

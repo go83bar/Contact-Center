@@ -124,6 +124,7 @@
     "frontPlaceholder" : "Email Address",
     "frontButton" : "Get Pin",
     "backPlaceholder" : "Pin Code",
+    "remember": "Remember me",
     "backButton" : "Sign In"
   },
   "name" : "Activate",

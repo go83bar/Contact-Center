@@ -17,7 +17,7 @@ export default class ConnectAPI {
      * @param {string} loginEmail
      * @return {boolean}
      */
-    static async getPin(loginEmail) {
+    static async getPin(loginEmail, loginPassword) {
         // Mock API responses for local dev
         if (process.env.REACT_APP_QUERY_MODE === "development") {
             const mockData = await fetch(window.location.protocol + "//" + window.location.host + "/data/getPin.json")
@@ -28,7 +28,7 @@ export default class ConnectAPI {
         const redux = store.getState()
         const requestOptions = {
             url: redux.config["url-login-base"] + "pin",
-            data: { email: loginEmail},
+            data: { email: loginEmail, password: loginPassword},
         }
         return await sendRequest(requestOptions)
 

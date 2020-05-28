@@ -12,6 +12,7 @@ import {
 import ConnectAPI from '../api/connectAPI'
 import {connect} from 'react-redux';
 
+
 //import ObjectId from '@tybys/oid'
 
 class Login extends Component {
@@ -21,9 +22,11 @@ class Login extends Component {
 
         this.login = this.login.bind(this)
         this.getPin = this.getPin.bind(this)
+        this.toggleRemember = this.toggleRemember.bind(this)
         this.state = {
             email: "",
             pin: "",
+            remember: false,
             flipped: false
         }
 
@@ -53,6 +56,10 @@ class Login extends Component {
             }
         })
     }
+    toggleRemember(event) {
+        console.log("Toggle Remember")
+        this.setState({remember : !this.state.remember})
+    }
     login() {
         // check supplied PIN, if successful log the user in and initiate the load of all
         // client data associated with the agent's shifts for today
@@ -81,8 +88,11 @@ class Login extends Component {
                             <h2 className='h2-responsive' style={{marginTop: "10px"}}>{localization.title}</h2>
                         </MDBCardImage>
                         <MDBCardBody cascade className='text-center'>
-                            <div className={"text-left"}><MDBInput label={localization.frontPlaceholder} outline icon="envelope" iconClass={"skin-secondary-color"} className={"text-left"}/></div>
-                            <div className={"text-left"}><MDBInput label={"Password"} outline icon="key" iconClass={"skin-secondary-color"} className={"text-left"}/></div>
+                            <div className={"text-left"}><MDBInput label={localization.frontPlaceholder} outline icon="envelope" iconClass={"skin-secondary-color"} className={"text-left skin-border-primary"} containerClass="my-3"/></div>
+                            <div className={"text-left"}><MDBInput label={"Password"} outline icon="key" iconClass={"skin-secondary-color"} className={"text-left skin-border-primary"} containerClass="my-3"/></div>
+                            <div className="mb-2">
+                                <MDBInput id="remember" type="checkbox" checked={this.state.remember} label={localization.remember} onChange={this.toggleRemember} className="skin-border-primary" labelClass="skin-primary-color" containerClass="p-0"/>
+                            </div>
                             <MDBBtn rounded onClick={this.getPin}><h5 style={{marginBottom:"0px"}}> {localization.frontButton} <MDBIcon icon="angle-double-right" style={{marginLeft : "10px"}}/> </h5></MDBBtn>
                         </MDBCardBody>
                     </MDBCard>
@@ -97,7 +107,7 @@ class Login extends Component {
                             <h2 className='h2-responsive' style={{marginTop: "10px"}}>{localization.title}</h2>
                         </MDBCardImage>
                         <MDBCardBody cascade className='text-center'>
-                            <div className={"text-left"}><MDBInput label={localization.backPlaceholder} outline icon="lock" iconClass={"skin-secondary-color"} className={"text-left"}/></div>
+                            <div className={"text-left"}><MDBInput label={localization.backPlaceholder} outline icon="lock" iconClass={"skin-secondary-color"} className={"text-left skin-border-primary"} containerClass="my-3"/></div>
                             <MDBBtn rounded onClick={this.login}><h5 style={{marginBottom:"0px"}}> <MDBIcon icon="unlock" style={{marginRight : "10px"}}/> {localization.backButton} </h5></MDBBtn>
                         </MDBCardBody>
                     </MDBCard>

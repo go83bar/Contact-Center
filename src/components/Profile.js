@@ -21,6 +21,36 @@ class Profile extends Component {
                     checked: document.body.className.includes("eightthree-skin") ? true : false
                 },
                 {
+                    text: "83Bar - B",
+                    value: "eightthreeb-skin",
+                    checked: document.body.className.includes("eightthreeb-skin") ? true : false
+                },
+                {
+                    text: "83Bar - C",
+                    value: "eightthreec-skin",
+                    checked: document.body.className.includes("eightthreec-skin") ? true : false
+                },
+                {
+                    text: "83Bar - D",
+                    value: "eightthreed-skin",
+                    checked: document.body.className.includes("eightthreed-skin") ? true : false
+                },
+                {
+                    text: "83Bar - E",
+                    value: "eightthreee-skin",
+                    checked: document.body.className.includes("eightthreee-skin") ? true : false
+                },
+                {
+                    text: "83Bar - F",
+                    value: "eightthreef-skin",
+                    checked: document.body.className.includes("eightthreef-skin") ? true : false
+                },
+                {
+                    text: "83Bar - G",
+                    value: "eightthreeg-skin",
+                    checked: document.body.className.includes("eightthreeg-skin") ? true : false
+                },
+                {
                     text: "Black",
                     value: "black-skin",
                     checked: document.body.className.includes("black-skin") ? true : false

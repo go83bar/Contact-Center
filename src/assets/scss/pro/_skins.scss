@@ -34,17 +34,40 @@
     .skin-accent-background-color {
       background-color:map-get($data, skin-accent) !important;
     }
-    .skin-accent-secondary {
+    .skin-border-accent {
       border-color: map-get($data, skin-accent) !important;
+    }
+    .skin-border-text {
+      border-color: map-get($data, skin-text) !important;
     }
     .skin-text {
       color: map-get($data, skin-text) !important;
+    }
+    .skin-text-background-color {
+      background-color:map-get($data, skin-text) !important;
     }
 
     .react-calendar__tile--active {
       background-color: map_get($data, skin-primary-color);
       color: map_get($data, skin-text);
       border-radius: 50%;
+    }
+    .calendar .body .selected {
+      background-color: map_get($data, skin-accent);
+      color : map_get($data, skin-btn-secondary);
+      border-radius: 50%;
+    }
+    .calendar .body .cell .bg {
+     color: map_get($data, skin-primary-color);
+    }
+    .calendar .body .selected .bg {
+      color: map_get($data, skin-btn-secondary);
+    }
+    .calendar .header .icon {
+      color: map_get($data, skin-primary-color);
+    }
+    .calendar .body .selected:hover {
+      background-color: map_get($data, skin-primary-color);
     }
     // END  ****** Put Custom Classes Here ******
 

@@ -12,6 +12,8 @@
     "@fortawesome/pro-solid-svg-icons": "^5.13.0",
     "@fortawesome/react-fontawesome": "^0.1.9",
     "bson-objectid": "^1.3.0",
+    "date-fns": "^2.13.0",
+    "mdb-react-calendar": "file:mdb-full-calendar-4.16.5.tgz",
     "mdb-react-wysiwyg": "file:mdb-react-wysiwyg-4.16.0.tgz",
     "mdbreact": "./mdbreact-4.26.0.tgz",
     "moment": "^2.25.3",
