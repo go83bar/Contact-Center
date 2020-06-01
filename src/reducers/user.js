@@ -1,21 +1,18 @@
-
-// src/redux/reducers.js
-
-//import {LOG_IN_USER, LOG_OUT_USER} from './actions'
-//let user = JSON.parse(localStorage.getItem('user'));
-//const initialState = user ? { loggedIn: true, user } : {};
 const initialState = {
+        id: 0,
         isAuthenticated: false,
         roles : [],
         auth : { userID : undefined, token : undefined }
       }
 
 // Reducer for handling auth actions
-export function authentication(state = initialState, action) {
+export function user(state = initialState, action) {
     switch (action.type) {
         case 'LOG_IN_USER':
+            let user = action.payload.user
+            user.auth = action.payload.auth
             return Object.assign({}, state, {
-                ...action.payload,
+                ...user,
                 isAuthenticated: true
             })
         case 'LOG_OUT_USER':

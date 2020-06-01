@@ -34,6 +34,7 @@ import MergeLead from "./modals/MergeLead";
 import {faCircle} from "@fortawesome/pro-light-svg-icons";
 import {faCalendar} from "@fortawesome/pro-regular-svg-icons"
 import Timer from 'react-compound-timer'
+import { TwilioDevice } from '../../twilio/TwilioDevice'
 
 
 class LeadSummary extends Component {
@@ -61,6 +62,10 @@ class LeadSummary extends Component {
     }
     collapseClosed() {
         this.setState({closed : true} )
+    }
+
+    openTwilio = () => {
+        TwilioDevice.openAgentConnection()
     }
 
     showModal(modalName) {
@@ -104,7 +109,7 @@ class LeadSummary extends Component {
                                     <Timer.Seconds />
                                 </Timer>
                             </div>
-                            <MDBNavItem className="px-2 h-100" onClick={this.props.toggleCallBar}>
+                            <MDBNavItem className="px-2 h-100" onClick={this.openTwilio}>
                                 <MDBNavLink to="#" className={"py-0 px-2 align-middle"}>
                                     <span className="fa-layers fa-2x mt-2">
                                         <FontAwesomeIcon icon={faCircle} className={"skin-primary-color"}/>
@@ -161,12 +166,9 @@ const mapStateToProps = state => {
         auth: state.auth,
         localization: state.localization,
         lead : state.lead,
-        shift: state.shift
+        shift: state.shift,
+        twilio: state.twilio
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {dispatch}
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(LeadSummary);
+export default connect(mapStateToProps)(LeadSummary);

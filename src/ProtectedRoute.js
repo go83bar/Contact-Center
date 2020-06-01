@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 // eslint-disable-next-line
-const PrivateRoute = ({ component: Component, auth: auth, ...rest }) => (
+const PrivateRoute = ({ component: Component, user: user, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-      auth.isAuthenticated === true ? (
+      user.isAuthenticated === true ? (
         <Component {...props} />
       ) : (
         <Redirect to={{
@@ -22,11 +22,11 @@ const PrivateRoute = ({ component: Component, auth: auth, ...rest }) => (
 );
 
 PrivateRoute.propTypes = {
-  auth: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => {
-    return { auth : state.auth }
+    return { user : state.user }
 }
 
 export default connect(mapStateToProps)(PrivateRoute);

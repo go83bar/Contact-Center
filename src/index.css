@@ -129,6 +129,10 @@ body {
     background-color: #f9f9f9;
 }
 
+.hidden {
+    display: none !important;
+}
+
 .react-grid-item.react-grid-placeholder {
     background: darkgrey;
 }

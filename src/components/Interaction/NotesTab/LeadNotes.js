@@ -118,7 +118,7 @@ class LeadNotes extends Component {
                             id: response.data.id,
                             interaction_id: payload.interactionID,
                             content: payload.noteContent,
-                            created_by: this.props.auth.user.label_name,
+                            created_by: this.props.user.label_name,
                             created_at: moment().format()
                         }
                         this.props.dispatch({

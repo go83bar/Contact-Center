@@ -35,12 +35,12 @@ export default async function (options) {
     let fetchOptions = {
         method: options.method,
         cache: "no-cache",
-        credentials: "include",
+        //credentials: "include",
         headers: {}
     }
     if (options.auth.token !== undefined) {
         fetchOptions.headers = {
-            "X-API-KEY": options.auth.token,
+            "X-AUTH-TOKEN": options.auth.token,
             "X-USER-ID": options.auth.userID
         }
     }

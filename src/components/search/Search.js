@@ -14,7 +14,6 @@ import {
 import LeadAPI from '../../api/leadAPI'
 import SearchResults from './SearchResults'
 import { connect } from 'react-redux'
-//import CircularSideNav from "../CircluarSideNav/CircularSideNav";
 
 class Search extends Component {
 

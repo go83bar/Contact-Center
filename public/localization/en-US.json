@@ -121,9 +121,10 @@
   },
   "login" : {
     "title" : "Sign in to start your session.",
-    "frontPlaceholder" : "Email Address",
+    "emailLabel" : "Email Address",
+    "passwordLabel": "Password",
     "frontButton" : "Get Pin",
-    "backPlaceholder" : "Pin Code",
+    "pinLabel" : "Pin Code",
     "remember": "Remember me",
     "backButton" : "Sign In"
   },

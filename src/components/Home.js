@@ -10,7 +10,6 @@ import {
     MDBModalHeader, MDBModalBody, MDBModalFooter, MDBBtn
 } from "mdbreact";
 import {connect} from "react-redux";
-//import CircularSideNav from "./CircluarSideNav/CircularSideNav";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
     faCircle as faCircleSolid,
@@ -23,10 +22,13 @@ import {faCircle} from "@fortawesome/pro-light-svg-icons";
 import {Link} from "react-router-dom";
 
 import { WidthProvider, Responsive } from "react-grid-layout";
-//import SearchResults from "./search/SearchResults";
 import RecentLeads from "./RecentLeads";
 import Search from "./search/Search";
 import Profile from "./Profile";
+import {websocketDevice} from "../websocket/WebSocketDevice"
+import {TwilioDevice} from "../twilio/TwilioDevice"
+import AgentAPI from '../api/agentAPI';
+
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 class Home extends Component {
@@ -34,6 +36,16 @@ class Home extends Component {
     constructor(props) {
         super(props);
 
+        // kick off shift data load if we don't have it
+        if (!props.shift.loaded) {
+            AgentAPI.getShiftData().then ( response => {
+                if (response.success) {
+                    props.dispatch({type: 'SHIFT.LOAD', payload: response.data})
+                }
+            }).catch( reason => {
+                console.log("COULD NOT LOAD SHIFT: ", reason)
+            })
+        }
         this.logout = this.logout.bind(this)
         this.toggleRecent = this.toggleRecent.bind(this)
         this.toggleSearch = this.toggleSearch.bind(this)
@@ -46,6 +58,9 @@ class Home extends Component {
     }
 
     logout() {
+        websocketDevice.disconnect()
+        TwilioDevice.cleanup()
+        
         this.props.dispatch({type: 'LOG_OUT_USER', payload: {}})
     }
 
@@ -225,7 +240,8 @@ class Home extends Component {
 const mapStateToProps = state => {
     return {
         auth: state.auth,
-        localization: state.localization
+        localization: state.localization,
+        shift: state.shift
     }
 }
 

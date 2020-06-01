@@ -3,5 +3,7 @@
   "languages" : ["en-US"],
   "language-default" : "en-US",
   "url-api-base": "https://api.83bar.test/v3/",
-  "url-login-base": "https://api.83bar.test/react/"
+  "url-react-base": "https://api.83bar.test/react/",
+  "url-twilio-base": "https://l934ludyig.execute-api.us-east-1.amazonaws.com/test/",
+  "url-websocket": "wss://velrid4tud.execute-api.us-east-1.amazonaws.com/prod"
 }

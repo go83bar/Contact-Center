@@ -11,61 +11,90 @@ import {
 } from 'mdbreact';
 import ConnectAPI from '../api/connectAPI'
 import {connect} from 'react-redux';
+import {TwilioDevice} from "../twilio/TwilioDevice"
+import {websocketDevice} from "../websocket/WebSocketDevice"
 
-
-//import ObjectId from '@tybys/oid'
 
 class Login extends Component {
 
     constructor(props) {
         super(props);
 
-        this.login = this.login.bind(this)
-        this.getPin = this.getPin.bind(this)
-        this.toggleRemember = this.toggleRemember.bind(this)
         this.state = {
+            password: "",
             email: "",
             pin: "",
             remember: false,
+            hasErrors: false,
+            errorMessage: "",
             flipped: false
         }
-
-        //console.log(new ObjectId().toString())
     }
 
-    setPinValue(event) {
+    updatePin = (event) => {
         this.setState({
             pin: event.target.value
         })
     }
 
-    setEmailValue(event) {
+    updateEmail = (event) => {
         this.setState({
             email: event.target.value
         })
     }
 
-    getPin() {
-        const email = this.state.email
+    updatePassword = (event) => {
+        this.setState({
+            password: event.target.value
+        })
+    }
 
-        ConnectAPI.getPin(email).then( (responseJson) => {
+    getPin = () => {
+        const email = this.state.email
+        const pass = this.state.password
+        ConnectAPI.getPin(email, pass).then( (responseJson) => {
             if (responseJson.success) {
                 this.setState({ flipped : true })
             } else {
-                // TODO handle error with PIN fetch
+                this.setState({
+                    hasErrors: true,
+                    errorMessage: responseJson.error
+                })
             }
         })
     }
-    toggleRemember(event) {
+
+    toggleRemember = () => {
         console.log("Toggle Remember")
         this.setState({remember : !this.state.remember})
     }
-    login() {
+
+    login = () => {
+        // do nothing if pin is empty, in case of mistaken clicks
+        if (this.state.pin === "") {
+            return
+        }
+
         // check supplied PIN, if successful log the user in and initiate the load of all
         // client data associated with the agent's shifts for today
-        ConnectAPI.login()
+        ConnectAPI.login(this.state.pin, this.state.email)
             .then((responseJson) => {
-                this.props.dispatch({type: 'SHIFT.LOAD',payload: {clients: responseJson.clients, outcomes: responseJson.outcomes, outcome_reasons: responseJson.outcome_reasons, phases: responseJson.phases, call_reasons: responseJson.call_reasons}})
+                // if login failed, there will be just an empty response
+                if (responseJson.user === undefined) {
+                    this.setState({
+                        hasErrors: true,
+                        errorMessage: "Invalid PIN",
+                        flipped: false
+                    })
+                    return
+                }
+                // initialize the Twilio Device
+                TwilioDevice.bootstrap(responseJson.user.id, responseJson.auth.token)
+
+                // initialize the websocket connection
+                websocketDevice.bootstrap(responseJson.user.id, responseJson.auth.token)
+
+                // set user and shift data into store
                 this.props.dispatch({type: 'LOG_IN_USER', payload: {user: responseJson.user, auth: responseJson.auth}})
                 this.props.history.push("/")
             })
@@ -88,8 +117,9 @@ class Login extends Component {
                             <h2 className='h2-responsive' style={{marginTop: "10px"}}>{localization.title}</h2>
                         </MDBCardImage>
                         <MDBCardBody cascade className='text-center'>
-                            <div className={"text-left"}><MDBInput label={localization.frontPlaceholder} outline icon="envelope" iconClass={"skin-secondary-color"} className={"text-left skin-border-primary"} containerClass="my-3"/></div>
-                            <div className={"text-left"}><MDBInput label={"Password"} outline icon="key" iconClass={"skin-secondary-color"} className={"text-left skin-border-primary"} containerClass="my-3"/></div>
+                            {this.state.hasErrors && <div className="danger-text">{this.state.errorMessage}</div>}
+                            <div className={"text-left"}><MDBInput label={localization.emailLabel} outline icon="envelope" iconClass={"skin-secondary-color"} className={"text-left skin-border-primary"} containerClass="my-3" onChange={this.updateEmail} /></div>
+                            <div className={"text-left"}><MDBInput label={localization.passwordLabel} outline icon="key" iconClass={"skin-secondary-color"} type="password" className={"text-left skin-border-primary"} containerClass="my-3" onChange={this.updatePassword} /></div>
                             <div className="mb-2">
                                 <MDBInput id="remember" type="checkbox" checked={this.state.remember} label={localization.remember} onChange={this.toggleRemember} className="skin-border-primary" labelClass="skin-primary-color" containerClass="p-0"/>
                             </div>
@@ -107,7 +137,7 @@ class Login extends Component {
                             <h2 className='h2-responsive' style={{marginTop: "10px"}}>{localization.title}</h2>
                         </MDBCardImage>
                         <MDBCardBody cascade className='text-center'>
-                            <div className={"text-left"}><MDBInput label={localization.backPlaceholder} outline icon="lock" iconClass={"skin-secondary-color"} className={"text-left skin-border-primary"} containerClass="my-3"/></div>
+                            <div className={"text-left"}><MDBInput label={localization.pinLabel} outline icon="lock" iconClass={"skin-secondary-color"} className={"text-left skin-border-primary"} containerClass="my-3" onChange={this.updatePin} /></div>
                             <MDBBtn rounded onClick={this.login}><h5 style={{marginBottom:"0px"}}> <MDBIcon icon="unlock" style={{marginRight : "10px"}}/> {localization.backButton} </h5></MDBBtn>
                         </MDBCardBody>
                     </MDBCard>

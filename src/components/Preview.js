@@ -16,7 +16,7 @@ class Preview extends Component {
         this.state = {
         }
 
-        console.log(props.previewData)
+        //console.log(props.previewData)
         let leadID = 0
 
         // if this is a queued lead, we will already have preview data
@@ -44,7 +44,7 @@ class Preview extends Component {
         // lead data right here and put it into store ahead of time
         LeadAPI.getLeadDTO({leadID: leadID})
             .then((responseJson) => {
-                console.log(responseJson);
+                //console.log(responseJson);
                 const clientIndex = this.props.shift.clients.findIndex(client => client.id === responseJson.client_id)
                 responseJson["client_index"] = clientIndex
                 if (clientIndex === -1) {

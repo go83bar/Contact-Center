@@ -46,7 +46,7 @@ export default class LeadAPI {
             url: redux.config["url-api-base"] + "leads/search",
             method: "GET",
             data: params,
-            auth: redux.auth.auth
+            auth: redux.user.auth
         }
         const result = await sendRequest(requestOptions)
 
@@ -84,7 +84,7 @@ export default class LeadAPI {
         const requestOptions = {
             url: redux.config["url-api-base"] + "leads/next",
             method: "GET",
-            auth: redux.auth.auth
+            auth: redux.user.auth
         }
         const result = await sendRequest(requestOptions)
 
@@ -134,7 +134,7 @@ export default class LeadAPI {
             url: redux.config["url-api-base"] + "leads/" + params.leadID + "/preview",
             data: { call_queue_id: params.callQueueID},
             method: "GET",
-            auth: redux.auth.auth
+            auth: redux.user.auth
         }
         const result = await sendRequest(requestOptions)
 
@@ -180,7 +180,7 @@ export default class LeadAPI {
                 preview_start_time: params.previewStartTime
             },
             method: "GET",
-            auth: redux.auth.auth
+            auth: redux.user.auth
         }
         const result = await sendRequest(requestOptions)
 
@@ -214,7 +214,7 @@ export default class LeadAPI {
         const requestOptions = {
             url: redux.config["url-api-base"] + "leads/" + params.leadID + "/reactDTO",
             method: "GET",
-            auth: redux.auth.auth
+            auth: redux.user.auth
         }
         const result = await sendRequest(requestOptions)
 
@@ -250,11 +250,11 @@ export default class LeadAPI {
             url: redux.config["url-api-base"] + "leads/" + params.leadID + "/optout",
             method: "POST",
             data: {
-                agent_id: redux.auth.auth.userID,
+                agent_id: redux.user.ID,
                 type: params.type,
                 preference: params.preference
             },
-            auth: redux.auth.auth
+            auth: redux.user.auth
         }
         const result = await sendRequest(requestOptions)
 
@@ -289,11 +289,11 @@ export default class LeadAPI {
             url: redux.config["url-api-base"] + "leads/" + params.leadID + "/notes/update",
             method: "POST",
             data: {
-                agent_id: redux.auth.auth.userID,
+                agent_id: redux.user.id,
                 note_id: params.noteID,
                 note_content: params.noteContent
             },
-            auth: redux.auth.auth
+            auth: redux.user.auth
         }
         const result = await sendRequest(requestOptions)
 
@@ -333,7 +333,7 @@ export default class LeadAPI {
                 interaction_id: params.interactionID,
                 message: params.noteContent
             },
-            auth: redux.auth.auth
+            auth: redux.user.auth
         }
         const result = await sendRequest(requestOptions)
 
@@ -372,7 +372,7 @@ export default class LeadAPI {
             data: {
                 note_id: params.noteID,
             },
-            auth: redux.auth.auth
+            auth: redux.user.auth
         }
         const result = await sendRequest(requestOptions)
 

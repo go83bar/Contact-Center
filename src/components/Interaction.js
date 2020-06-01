@@ -49,7 +49,6 @@ class Interaction extends Component {
         this.handleDateClick = this.handleDateClick.bind(this);
         this.handleTimeClick = this.handleTimeClick.bind(this);
         this.state = {
-            callBarVisible : true,
             emailVisible: false,
             textVisible: false,
             callbackVisible: false,
@@ -71,9 +70,6 @@ class Interaction extends Component {
     }
     toggleCallback() {
         this.setState({callbackVisible : !this.state.callbackVisible})
-    }
-    toggleCallBar() {
-        this.setState({callBarVisible : !this.state.callBarVisible})
     }
     toggleEndInteraction() {
         this.setState({endInteractionVisible : !this.state.endInteractionVisible})
@@ -132,8 +128,7 @@ class Interaction extends Component {
                             {this.state.details && <LeadDetail />}
                             <LeadTabs activeTab={this.state.activeItem}/>
                         </MDBBox>
-                        {this.state.callBarVisible && <CallBar toggleCallBar={this.toggleCallBar} />}
-
+                        <CallBar />
                     </MDBBox>
                 </MDBBox>
                 {this.state.emailVisible === true && <Draggable handle={".card-header"}>

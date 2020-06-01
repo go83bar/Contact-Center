@@ -88,8 +88,8 @@
     "id": 1058511,
     "interactions": [
         {
-            "id": 997,
-            "outcome_id": 7,
+            "id": 1473484,
+            "outcome_id": 27,
             "created_at": "2020-04-28 22:22:34"
         },
         {
@@ -105,7 +105,7 @@
     "notes": [
         {
             "id": 12,
-            "interaction_id": 997,
+            "interaction_id": 1473484,
             "content": "This is a cool note.  A really cool guy wrote it. I mean this is really an amazing awesome note, of epic proportions.  Bigly. It couldn't be any better, trust me.  Many people are saying it's the best note... ever. I don't think there's ever been a note as grand, as ambitious, in our country's history.  Maybe some of the classical poets? In the Mesozoical Era? But this is definitely really good, I'm looking into it.",
             "created_by": "Matt M",
             "created_at": "2019-03-21 17:30:00"

@@ -1,18 +1,20 @@
 import { combineReducers } from 'redux'
-import {authentication} from './authentication'
+import {user} from './user'
 import {preview} from "./preview"
 import {configuration} from "./configuration"
 import {localization} from "./localization"
 import {lead} from "./lead";
 import {shift} from "./shift"
-import interaction from "./interaction"
+import {interaction} from "./interaction"
+import {twilio} from "./twilio"
 
 export default combineReducers({
-    auth : authentication,
+    user : user,
     config : configuration,
     preview: preview,
     localization : localization,
     lead : lead,
     shift: shift,
-    interaction: interaction
+    interaction: interaction,
+    twilio: twilio
 })

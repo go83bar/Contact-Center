@@ -27,7 +27,7 @@ export default class ConnectAPI {
 
         const redux = store.getState()
         const requestOptions = {
-            url: redux.config["url-login-base"] + "pin",
+            url: redux.config["url-react-base"] + "connect/pin",
             data: { email: loginEmail, password: loginPassword},
         }
         return await sendRequest(requestOptions)
@@ -35,7 +35,7 @@ export default class ConnectAPI {
     }
 
     /**
-     * Performs login auth call, and if successful will set auth info into this.auth
+     * Performs login auth call
      * Promise resolves to an object like this:
      * {
      *  "success": {bool},
@@ -50,7 +50,7 @@ export default class ConnectAPI {
     static async login(loginPIN, loginEmail) {
         // Mock API responses for local dev
         if (process.env.REACT_APP_QUERY_MODE === "development") {
-            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "/data/shiftDTO.json")
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "/data/userLogin.json")
 
             return mockData.json()
         }
@@ -62,7 +62,7 @@ export default class ConnectAPI {
         }
 
         const requestOptions = {
-            url: redux.config["url-login-base"] + "login",
+            url: redux.config["url-react-base"] + "connect/login",
             data: payload
         }
         return await sendRequest(requestOptions)
@@ -80,7 +80,7 @@ export default class ConnectAPI {
 
         const redux = store.getState()
         const requestOptions = {
-            url: redux.config["url-login-base"] + "logout",
+            url: redux.config["url-react-base"] + "connect/logout",
             auth: auth
         }
         return await sendRequest(requestOptions)

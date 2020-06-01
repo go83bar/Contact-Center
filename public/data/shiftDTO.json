@@ -1,15 +1,4 @@
 {
-  "user": {
-    "id": 3,
-    "first_name": "Matt",
-    "last_name": "Mood",
-    "label_name": "Matt M",
-    "full_title": "Lord Matthew Graham Mood"
-  },
-  "auth": {
-    "userID": 3,
-    "token": "fe41eea042cd5057d78cda9f1441a1d7"
-  },
   "clients": [
     {
       "id": 8,
@@ -200,192 +189,168 @@
       "slug": "booked",
       "label": "Booked",
       "requires_appointment": true,
-      "requires_office": true,
-      "enable_speed_save": false
+      "requires_office": true
     },
     {
       "id": 148,
       "slug": "call_failed",
       "label": "Call Failed",
       "requires_appointment": false,
-      "requires_office": false,
-      "enable_speed_save": false
+      "requires_office": false
     },
     {
       "id": 3,
       "slug": "callback",
       "label": "Callback",
       "requires_appointment": false,
-      "requires_office": false,
-      "enable_speed_save": false
+      "requires_office": false
     },
     {
       "id": 5,
       "slug": "disqualified",
       "label": "Disqualified",
       "requires_appointment": false,
-      "requires_office": false,
-      "enable_speed_save": false
+      "requires_office": false
     },
     {
       "id": 37,
       "slug": "do_not_call_ever",
       "label": "Do Not Call Ever",
       "requires_appointment": false,
-      "requires_office": false,
-      "enable_speed_save": false
+      "requires_office": false
     },
     {
       "id": 10,
       "slug": "handoff_not_recorded",
       "label": "Handoff - Not Recorded",
       "requires_appointment": false,
-      "requires_office": true,
-      "enable_speed_save": false
+      "requires_office": true
     },
     {
       "id": 23,
       "slug": "handoff_recorded",
       "label": "Handoff - Recorded",
       "requires_appointment": true,
-      "requires_office": true,
-      "enable_speed_save": false
+      "requires_office": true
     },
     {
       "id": 11,
       "slug": "handoff_voicemail",
       "label": "Handoff - Voicemail",
       "requires_appointment": false,
-      "requires_office": true,
-      "enable_speed_save": false
+      "requires_office": true
     },
     {
       "id": 8,
       "slug": "hung_up",
       "label": "Hung Up",
       "requires_appointment": false,
-      "requires_office": false,
-      "enable_speed_save": false
+      "requires_office": false
     },
     {
       "id": 12,
       "slug": "left_message_auto",
       "label": "Left Auto Message",
       "requires_appointment": false,
-      "requires_office": false,
-      "enable_speed_save": false
+      "requires_office": false
     },
     {
       "id": 7,
       "slug": "left_message",
       "label": "Left Message",
       "requires_appointment": false,
-      "requires_office": false,
-      "enable_speed_save": false
+      "requires_office": false
     },
     {
       "id": 205,
       "slug": "needs_to_call_us",
       "label": "Needs To Call Us",
       "requires_appointment": false,
-      "requires_office": false,
-      "enable_speed_save": false
+      "requires_office": false
     },
     {
       "id": 9,
       "slug": "no_answer",
       "label": "No Answer",
       "requires_appointment": false,
-      "requires_office": false,
-      "enable_speed_save": false
+      "requires_office": false
     },
     {
       "id": 15,
       "slug": "no_change",
       "label": "No Changes",
       "requires_appointment": false,
-      "requires_office": false,
-      "enable_speed_save": false
+      "requires_office": false
     },
     {
       "id": 4,
       "slug": "not_interested",
       "label": "Not Interested",
       "requires_appointment": false,
-      "requires_office": false,
-      "enable_speed_save": false
+      "requires_office": false
     },
     {
       "id": 143,
       "slug": "notify_clinic",
       "label": "Notify Clinic",
       "requires_appointment": false,
-      "requires_office": true,
-      "enable_speed_save": false
+      "requires_office": true
     },
     {
       "id": 31,
       "slug": "education",
       "label": "Physician Finder",
       "requires_appointment": false,
-      "requires_office": false,
-      "enable_speed_save": false
+      "requires_office": false
     },
     {
       "id": 22,
       "slug": "problem_lead",
       "label": "Problem Lead",
       "requires_appointment": false,
-      "requires_office": false,
-      "enable_speed_save": false
+      "requires_office": false
     },
     {
       "id": 17,
       "slug": "sent_email",
       "label": "Replied to Email",
       "requires_appointment": false,
-      "requires_office": false,
-      "enable_speed_save": false
+      "requires_office": false
     },
     {
       "id": 18,
       "slug": "sent_text",
       "label": "Replied to Text",
       "requires_appointment": false,
-      "requires_office": false,
-      "enable_speed_save": false
+      "requires_office": false
     },
     {
       "id": 26,
       "slug": "telemarketer",
       "label": "Telemarketer",
       "requires_appointment": false,
-      "requires_office": false,
-      "enable_speed_save": false
+      "requires_office": false
     },
     {
       "id": 38,
       "slug": "update_lead",
       "label": "Updated Lead Info",
       "requires_appointment": false,
-      "requires_office": false,
-      "enable_speed_save": false
+      "requires_office": false
     },
     {
       "id": 203,
       "slug": "waitlist",
       "label": "Waitlist",
       "requires_appointment": false,
-      "requires_office": false,
-      "enable_speed_save": false
+      "requires_office": false
     },
     {
       "id": 6,
       "slug": "wrong_number",
       "label": "Wrong Number",
       "requires_appointment": false,
-      "requires_office": false,
-      "enable_speed_save": false
+      "requires_office": false
     }
   ],
   "outcome_reasons": [

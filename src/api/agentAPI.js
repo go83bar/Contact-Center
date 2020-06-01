@@ -24,9 +24,9 @@ export default class AgentAPI {
 
         const requestOptions = {
             url: redux.config["url-api-base"] + "agents/appstats",
-            data: { agent_id: redux.auth.auth.userID},
+            data: { agent_id: redux.user.id},
             method: "GET",
-            auth: redux.auth.auth
+            auth: redux.user.auth
         }
         const result = await sendRequest(requestOptions)
 
@@ -68,7 +68,7 @@ export default class AgentAPI {
         const requestOptions = {
             url: redux.config["url-api-base"] + "agents/recentleads",
             method: "GET",
-            auth: redux.auth.auth
+            auth: redux.user.auth
         }
         const result = await sendRequest(requestOptions)
 
@@ -76,19 +76,19 @@ export default class AgentAPI {
 
     }
 
-    static async getClientData() {
+    static async getShiftData() {
         // Mock API responses for local dev
         if (process.env.REACT_APP_QUERY_MODE === "development") {
-            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "/data/clientDTO.json")
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "/data/shiftDTO.json")
 
             return mockData.json()
         }
 
         const redux = store.getState()
         const requestOptions = {
-            url: redux.config["url-api-base"] + "agents/clientdata",
-            method: "GET",
-            auth: redux.auth.auth
+            url: redux.config["url-react-base"] + "activate/shift",
+            method: "POST",
+            auth: redux.user.auth
         }
 
         return await sendRequest(requestOptions)
