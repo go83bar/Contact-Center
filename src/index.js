@@ -18,7 +18,6 @@ import Unauthorized from "./Unauthorized";
 import store from './store'
 
 
-
 const host = window.location.host.indexOf(":") > 0 ? window.location.host.substr(0, window.location.host.indexOf(":")) : window.location.host
 
 //                        <ContactCenter/>
@@ -26,7 +25,7 @@ fetch(window.location.protocol + "//" + window.location.host + "/data/" + host +
     .then(response => response.json())
     .then((responseJson) => {
         responseJson["cookies"] = new Cookies()
-        store.dispatch({type: 'CONFIGURE',payload: responseJson})
+        store.dispatch({type: 'CONFIGURE', payload: responseJson})
         const lang = responseJson.languages && responseJson.languages.indexOf(window.navigator.language) !== -1 ? window.navigator.language : responseJson["language-default"]
 
         fetch(window.location.protocol + "//" + window.location.host + "/localization/" + lang + '.json')
@@ -35,8 +34,8 @@ fetch(window.location.protocol + "//" + window.location.host + "/data/" + host +
                 store.dispatch({type: 'LOCALIZE', payload: responseJson})
                 ReactDOM.render(
                     <Provider store={store}>
-            <ContactCenter />
-                 </Provider>,
+                        <ContactCenter/>
+                    </Provider>,
                     document.getElementById('83Bar-Activate')
                 )
             })

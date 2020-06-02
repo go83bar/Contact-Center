@@ -40,6 +40,23 @@
   width: 900px;
 }
 
+.bookingStepper {
+  padding-left : 50px !important;
+  padding-right: 50px !important;
+}
+.bookingStepper li:hover {
+  background-color: inherit;
+}
+.bookingStepper li:first-child {
+  //padding-left: 100px;
+}
+.bookingStepper li:not(:last-child):after {
+  //flex-basis: 50%;
+}
+.bookingStepper li:not(:first-child):before {
+  //flex-grow : 0;
+}
+
 .break {
   flex-basis: 100%;
   height: 0;

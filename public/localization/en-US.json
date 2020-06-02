@@ -31,7 +31,13 @@
     },
     "appointment" : {
       "tabTitle": "Appointments",
-      "appointments" : "Appointments"
+      "appointments" : "Appointments",
+      "selectAppointment" : "Select appointment type",
+      "selectOffice" : "Select Office",
+      "qualifyingTitle" : "Qualifying Questions",
+      "bookingTitle" : "Booking Questions",
+      "bookButton" : "Book an Appointment",
+      "activeAppointments" : "Active Appointments"
     },
     "booking" : {
       "tabTitle": "Booking",

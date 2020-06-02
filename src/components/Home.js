@@ -28,6 +28,7 @@ import Profile from "./Profile";
 import {websocketDevice} from "../websocket/WebSocketDevice"
 import {TwilioDevice} from "../twilio/TwilioDevice"
 import AgentAPI from '../api/agentAPI';
+import ConnectAPI from "../api/connectAPI";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
@@ -60,8 +61,10 @@ class Home extends Component {
     logout() {
         websocketDevice.disconnect()
         TwilioDevice.cleanup()
-        
-        this.props.dispatch({type: 'LOG_OUT_USER', payload: {}})
+        this.props.config.cookies.remove("auth")
+        ConnectAPI.logout(this.props.user.auth).then(responseJson => {
+            this.props.dispatch({type: 'LOG_OUT_USER', payload: {}})
+        })
     }
 
     toggleRecent() {
@@ -239,8 +242,9 @@ class Home extends Component {
 
 const mapStateToProps = state => {
     return {
-        auth: state.auth,
+        user: state.user,
         localization: state.localization,
+        config : state.config,
         shift: state.shift
     }
 }

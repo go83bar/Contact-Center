@@ -19,7 +19,6 @@ import SideNavItem from "./ui/SideNavItem";
 import {
     faBars,
     faCalendarCheck,
-    faCalendarPlus,
     faEdit, faFile,
     faPoll, faStream
 } from "@fortawesome/pro-regular-svg-icons";
@@ -107,6 +106,7 @@ class Interaction extends Component {
         let slim = this.state.slim
         let localization = this.props.localization.interaction
 
+//            <SideNavItem active={this.state.activeItem === "3"} icon={faCalendarPlus} label={localization.booking.tabTitle} slim={slim} onClick={this.toggleTab("3")}/>
         return(
             <MDBBox className="d-flex w-100 skin-secondary-color">
                 <MDBBox className="m-0 my-2 ml-2 border rounded skin-secondary-background-color" style={{flex: slim ? "0 0 50px" : "0 0 100px", order : 0,  fontSize:"14px"}}>
@@ -116,7 +116,6 @@ class Interaction extends Component {
                         <SideNavItem active={this.state.activeItem === "1"} icon={faPoll} label={localization.survey.tabTitle} rotation={90} slim={slim} onClick={this.toggleTab("1")}/>
                         <SideNavItem active={this.state.activeItem === "4"} icon={faStream} label={localization.timeline.tabTitle} slim={slim} onClick={this.toggleTab("4")}/>
                         <SideNavItem active={this.state.activeItem === "2"} icon={faCalendarCheck} label={localization.appointment.tabTitle} slim={slim} onClick={this.toggleTab("2")}/>
-                        <SideNavItem active={this.state.activeItem === "3"} icon={faCalendarPlus} label={localization.booking.tabTitle} slim={slim} onClick={this.toggleTab("3")}/>
                         <SideNavItem active={this.state.activeItem === "6"} icon={faEdit} label={localization.notes.tabTitle} slim={slim} onClick={this.toggleTab("6")}/>
                         <SideNavItem active={this.state.activeItem === "7"} icon={faFile} label={localization.documents.tabTitle} slim={slim} onClick={this.toggleTab("7")}/>
                     </MDBNav>

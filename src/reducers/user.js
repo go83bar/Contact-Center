@@ -11,6 +11,8 @@ export function user(state = initialState, action) {
         case 'LOG_IN_USER':
             let user = action.payload.user
             user.auth = action.payload.auth
+            if (action.payload.cookies !== undefined)
+              action.payload.cookies.set("auth",user.auth)
             return Object.assign({}, state, {
                 ...user,
                 isAuthenticated: true

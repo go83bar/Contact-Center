@@ -68,6 +68,28 @@ export default class ConnectAPI {
         return await sendRequest(requestOptions)
     }
 
+    static async validateAuth(auth) {
+        // Mock API responses for local dev
+        if (process.env.REACT_APP_QUERY_MODE === "development") {
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "/data/userLogin.json")
+
+            return mockData.json()
+        }
+
+        const redux = store.getState()
+        const payload = {
+            user_id: auth.userID,
+            token: auth.token
+        }
+
+        const requestOptions = {
+            url: redux.config["url-react-base"] + "connect/validateauth",
+            data: payload
+        }
+        return await sendRequest(requestOptions)
+
+    }
+
     /**
      * Performs logout call
      *

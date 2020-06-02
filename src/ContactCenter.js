@@ -11,7 +11,6 @@ import ProtectedRoute from "./ProtectedRoute"
 import Preview from "./components/Preview"
 import { connect } from 'react-redux';
 
-
 class ContactCenter extends Component {
     constructor(props) {
         super(props);
@@ -27,6 +26,7 @@ class ContactCenter extends Component {
         let theme = this.props.config.cookies.get("theme")
         document.body.className =  theme !== undefined ? theme : 'eightthree-skin';
     }
+
     toggle = tab => () => {
         if (this.state.activeItem !== tab) {
             this.setState({
@@ -57,5 +57,10 @@ const mapStateToProps = state => {
         config : state.config
     }
 }
-export default connect(mapStateToProps)(ContactCenter);
+
+const mapDispatchToProps = dispatch => {
+    return {dispatch}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContactCenter);
 

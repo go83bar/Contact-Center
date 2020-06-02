@@ -24,11 +24,14 @@ class Login extends Component {
             password: "",
             email: "",
             pin: "",
-            remember: false,
+            remember: true,
             hasErrors: false,
             errorMessage: "",
-            flipped: false
+            flipped: false,
+            auth : this.props.config.cookies.get("auth")
         }
+        this.props.config.cookies.remove("auth")
+        if (this.state.auth !== undefined) this.login()
     }
 
     updatePin = (event) => {
@@ -39,13 +42,13 @@ class Login extends Component {
 
     updateEmail = (event) => {
         this.setState({
-            email: event.target.value
+            email: event.target.value, auth : undefined
         })
     }
 
     updatePassword = (event) => {
         this.setState({
-            password: event.target.value
+            password: event.target.value, auth : undefined
         })
     }
 
@@ -65,20 +68,19 @@ class Login extends Component {
     }
 
     toggleRemember = () => {
-        console.log("Toggle Remember")
         this.setState({remember : !this.state.remember})
     }
 
     login = () => {
-        // do nothing if pin is empty, in case of mistaken clicks
-        if (this.state.pin === "") {
+        if (this.state.pin === "" && this.state.auth === undefined) {
             return
         }
 
         // check supplied PIN, if successful log the user in and initiate the load of all
         // client data associated with the agent's shifts for today
-        ConnectAPI.login(this.state.pin, this.state.email)
-            .then((responseJson) => {
+        let loginMethod = this.state.auth !== undefined ?  ConnectAPI.validateAuth(this.state.auth) : ConnectAPI.login(this.state.pin, this.state.email)
+
+           loginMethod.then((responseJson) => {
                 // if login failed, there will be just an empty response
                 if (responseJson.user === undefined) {
                     this.setState({
@@ -95,14 +97,15 @@ class Login extends Component {
                 websocketDevice.bootstrap(responseJson.user.id, responseJson.auth.token)
 
                 // set user and shift data into store
-                this.props.dispatch({type: 'LOG_IN_USER', payload: {user: responseJson.user, auth: responseJson.auth}})
+                this.props.dispatch({type: 'LOG_IN_USER', payload: {user: responseJson.user, auth: responseJson.auth, cookies: this.state.remember === true ? this.props.config.cookies : undefined}})
                 this.props.history.push("/")
             })
-
     }
 
     render() {
         const localization = this.props.localization.login
+        if (this.state.auth !== undefined)
+            return null
         return (
             <MDBContainer className="d-flex w-auto justify-content-center flex-row skin-secondary-color">
                 <MDBRotatingCard flipped={this.state.flipped} className="text-center h-100 d-flex" style={{marginTop: "30%", width: "500px"}}>
@@ -149,7 +152,8 @@ class Login extends Component {
 
 const mapStateToProps = state => {
     return {
-        localization: state.localization
+        localization: state.localization,
+        config : state.config
     }
 }
 

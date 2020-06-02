@@ -10,6 +10,7 @@ class LeadBooking extends Component {
     constructor(props) {
         super(props);
         this.onCalendarChange = this.onCalendarChange.bind(this)
+        this.toggleBooking = this.toggleBooking.bind(this)
         this.state = {
             apptType: [
                 { text : "type", value:"1"}
@@ -17,6 +18,7 @@ class LeadBooking extends Component {
             office: [
                 { text : "type", value:"1"}
             ],
+            booking : false,
             dateSelected: moment().format("YYYY-MM-DD")
 
         };
@@ -24,6 +26,9 @@ class LeadBooking extends Component {
 
     onCalendarChange(date) {
         this.setState({dateSelected : date})
+    }
+    toggleBooking() {
+        this.setState({booking : !this.state.booking})
     }
 
     render() {
@@ -49,7 +54,7 @@ class LeadBooking extends Component {
             return (
                 <MDBBox className="d-flex w-100 flex-column bg-white f-m">
                     <div className="d-flex w-100 justify-content-end gray-border rounded p-2">
-                        <MDBBtn rounded>{localization.bookButton}</MDBBtn>
+                        <MDBBtn rounded onClick={this.toggleBooking}>{localization.bookButton}</MDBBtn>
                     </div>
                     <MDBCard className="d-flex flex-column w-100 mt-2 border">
                         <div className="bg-white p-3">{localization.title}</div>
