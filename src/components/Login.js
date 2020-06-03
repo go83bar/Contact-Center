@@ -86,6 +86,7 @@ class Login extends Component {
                     this.setState({
                         hasErrors: true,
                         errorMessage: "Invalid PIN",
+                        auth : undefined,
                         flipped: false
                     })
                     return
