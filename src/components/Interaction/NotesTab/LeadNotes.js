@@ -219,7 +219,7 @@ class LeadNotes extends Component {
 
                     <MDBBox className="d-flex flex-column p-4 rounded grey lighten-2 overflow-auto"
                             style={{border: "1px solid #C2C2C2"}}>
-                        {this.props.lead.notes.sort((a, b) => {
+                        {this.props.lead.notes && this.props.lead.notes.sort((a, b) => {
                             return (a.created_at > b.created_at ? -1 : 1)
                         }).map(note => {
                             return (<LeadNote key={note.id} note={note} onEdit={this.onEdit}
@@ -266,7 +266,7 @@ class LeadNotes extends Component {
 }
 const mapStateToProps = store => {
     return {
-        auth: store.auth,
+        user: store.user,
         localization: store.localization,
         lead: store.lead,
         interaction: store.interaction

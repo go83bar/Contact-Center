@@ -44,31 +44,37 @@ class Preview extends Component {
         // lead data right here and put it into store ahead of time
         LeadAPI.getLeadDTO({leadID: leadID})
             .then((responseJson) => {
-                //console.log(responseJson);
-                const clientIndex = this.props.shift.clients.findIndex(client => client.id === responseJson.client_id)
-                responseJson["client_index"] = clientIndex
-                if (clientIndex === -1) {
-                    // serious problem, lead's client doesn't exist in agent's shift data
-                    // TODO handle error
-                    return
+                if (responseJson.success) {
+                    let leadData = responseJson.data
+                    const clientIndex = this.props.shift.clients.findIndex(client => client.id === leadData.client_id)
+                    leadData["client_index"] = clientIndex
+                    if (clientIndex === -1) {
+                        // serious problem, lead's client doesn't exist in agent's shift data
+                        // TODO handle error
+                        return
+                    }
+
+                    const campaignIndex = this.props.shift.clients[clientIndex].campaigns.findIndex(campaign => campaign.id === leadData.campaign_id);
+                    leadData["campaign_index"] = campaignIndex
+                    if (campaignIndex === -1) {
+                        // lead's campaign doesn't exist in agent's shift data
+                        // TODO handle error
+                        return
+                    }
+
+                    const regionIndex = this.props.shift.clients[clientIndex].regions.findIndex(region => region.id === leadData.region_id);
+                    leadData["region_index"] = regionIndex
+                    if (regionIndex === -1) {
+                        // lead's region doesn't exist in agent's shift data
+                        // TODO handle error
+                        return
+                    }
+                    this.props.dispatch({type: 'LEAD.LOAD',payload: leadData})
+                } else {
+                    // TODO Problem with loading lead data
+                    console.log("Error loading lead: ", responseJson);
                 }
 
-                const campaignIndex = this.props.shift.clients[clientIndex].campaigns.findIndex(campaign => campaign.id === responseJson.campaign_id);
-                responseJson["campaign_index"] = campaignIndex
-                if (campaignIndex === -1) {
-                    // lead's campaign doesn't exist in agent's shift data
-                    // TODO handle error
-                    return
-                }
-
-                const regionIndex = this.props.shift.clients[clientIndex].regions.findIndex(region => region.id === responseJson.region_id);
-                responseJson["region_index"] = regionIndex
-                if (regionIndex === -1) {
-                    // lead's region doesn't exist in agent's shift data
-                    // TODO handle error
-                    return
-                }
-                this.props.dispatch({type: 'LEAD.LOAD',payload: responseJson})
             })
     }
 
@@ -114,7 +120,7 @@ class Preview extends Component {
 
         let localization = this.props.localization.preview
         // Display loading image until lead preview data is loaded
-        if (this.props.previewData === undefined) {
+        if (this.state.leadData === undefined) {
             return <LoadingScreen />
         }
         let lead = this.props.previewData

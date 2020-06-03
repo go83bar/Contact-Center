@@ -212,8 +212,11 @@ export default class LeadAPI {
 
         const redux = store.getState()
         const requestOptions = {
-            url: redux.config["url-api-base"] + "leads/" + params.leadID + "/reactDTO",
-            method: "GET",
+            url: redux.config["url-react-base"] + "activate/lead",
+            method: "POST",
+            data: {
+                lead_id: params.leadID
+            },
             auth: redux.user.auth
         }
         const result = await sendRequest(requestOptions)
@@ -286,7 +289,7 @@ export default class LeadAPI {
 
         const redux = store.getState()
         const requestOptions = {
-            url: redux.config["url-api-base"] + "leads/" + params.leadID + "/notes/update",
+            url: redux.config["url-api-base"] + "leads/" + redux.lead.id + "/notes/update",
             method: "POST",
             data: {
                 agent_id: redux.user.id,
@@ -304,7 +307,6 @@ export default class LeadAPI {
     /**
      * @typedef SaveNoteParams
      * @type {object}
-     * @property {number} leadID
      * @property {string} noteContent
      * @property {number} interactionID
      *
@@ -327,7 +329,7 @@ export default class LeadAPI {
 
         const redux = store.getState()
         const requestOptions = {
-            url: redux.config["url-api-base"] + "leads/" + params.leadID + "/notes ",
+            url: redux.config["url-api-base"] + "leads/" + redux.lead.id + "/notes ",
             method: "POST",
             data: {
                 interaction_id: params.interactionID,

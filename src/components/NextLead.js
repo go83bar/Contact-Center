@@ -4,14 +4,11 @@ import {
     MDBCardBody, 
     MDBCardText, 
     MDBCardHeader, 
-    MDBRow, 
-    MDBCol,
     MDBBox
 } from "mdbreact";
 import { connect } from 'react-redux'
 import LoadingScreen from './LoadingScreen'
 import LeadAPI from '../api/leadAPI'
-import CircularSideNav from "./CircluarSideNav/CircularSideNav";
 
 class NextLead extends Component {
 
@@ -64,31 +61,16 @@ class NextLead extends Component {
 
         return (
             <MDBBox>
-                <MDBRow>
-                    <MDBCol size="3">
-                        <CircularSideNav
-                            backgroundImg={"/images/nav.png"}
-                            backgroundColor={'#E0E0E0'}
-                            color={'#7c7c7c'}
-                            navSize={16}
-                            animation={''}
-                            animationPeriod={0.04}
-                        />
-                    </MDBCol>
-                    <MDBCol size="7">
-                    
-                        <MDBCard className="card-body">
-                            <MDBCardHeader><h3>
-                                <strong>No Leads For You</strong>
-                                </h3></MDBCardHeader>
-                            <MDBCardBody>
-                                <MDBCardText className="ml-3">
-                                    {this.state.nextLeadMessage}
-                                </MDBCardText>
-                            </MDBCardBody>
-                        </MDBCard>
-                    </MDBCol>
-                </MDBRow>
+                <MDBCard className="card-body">
+                    <MDBCardHeader><h3>
+                        <strong>No Leads For You</strong>
+                        </h3></MDBCardHeader>
+                    <MDBCardBody>
+                        <MDBCardText className="ml-3">
+                            {this.state.nextLeadMessage}
+                        </MDBCardText>
+                    </MDBCardBody>
+                </MDBCard>
             </MDBBox>
         )
     }

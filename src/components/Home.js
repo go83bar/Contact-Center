@@ -36,12 +36,14 @@ class Home extends Component {
 
     constructor(props) {
         super(props);
-
+        console.log(props.shift)
         // kick off shift data load if we don't have it
         if (!props.shift.loaded) {
             AgentAPI.getShiftData().then ( response => {
-                if (response.success) {
-                    props.dispatch({type: 'SHIFT.LOAD', payload: response.data})
+                if (response.clients) {
+                    props.dispatch({type: 'SHIFT.LOAD', payload: response})
+                } else {
+                    // SHIFT LOAD RETURNED A NON-POSITIVE RESULT
                 }
             }).catch( reason => {
                 console.log("COULD NOT LOAD SHIFT: ", reason)
@@ -249,8 +251,5 @@ const mapStateToProps = state => {
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {dispatch}
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps)(Home);

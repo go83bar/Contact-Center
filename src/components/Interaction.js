@@ -37,7 +37,6 @@ class Interaction extends Component {
 
     constructor(props) {
         super(props);
-        this.toggleCallBar=this.toggleCallBar.bind(this)
         this.toggleEmail=this.toggleEmail.bind(this)
         this.toggleText=this.toggleText.bind(this)
         this.toggleCallback=this.toggleCallback.bind(this)

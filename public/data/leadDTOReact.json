@@ -10,7 +10,6 @@
             "created_by": "Matt M",
             "interaction_id": 995,
             "office_id": 1,
-            "region_id": 194,
             "client_id": 10
         }
     ],
@@ -28,7 +27,6 @@
         "email": "sample@go83bar.com",
         "cell_phone": "6159950274",
         "home_phone": "2626755811",
-        "work_phone": null,
         "preferred_phone": "cell",
         "address_1": "1234 Jollyville Rd",
         "address_2": null,

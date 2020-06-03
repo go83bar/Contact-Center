@@ -208,8 +208,10 @@ class TwilioDeviceSingleton {
     }
 
     cleanup = () => {
-        this.device.destroy()
-        delete this.device
+        if (this.device !== undefined) {
+            this.device.destroy()
+            delete this.device
+        }
     }
 
 }
