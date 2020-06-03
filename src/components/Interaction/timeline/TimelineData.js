@@ -15,7 +15,7 @@ class TimelineData {
             surveys: {total:0, date:"", time : ""}
         }
         this.timeline = [ ...lead.interactions]
-        this.timeline.forEach(interaction =>  {
+        this.timeline && this.timeline.forEach(interaction =>  {
             interaction["events"] = []
             interaction["type"] = "interaction"
             interaction.created_at = moment.utc(interaction.created_at).tz(lead.details.timezone)
@@ -24,7 +24,7 @@ class TimelineData {
         this.generateTimeline(lead)
     }
     processItems(type, items, timezone) {
-        items.forEach(item => {
+        items && items.forEach(item => {
             item["type"] = type
             item.created_at = moment.utc(item.created_at).tz(timezone)
             if (item.interaction_id) {

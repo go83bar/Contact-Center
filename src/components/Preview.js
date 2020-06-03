@@ -141,7 +141,7 @@ class Preview extends Component {
                         </MDBCardHeader>
                         <MDBCardBody className='justify-content-start border skin-border-primary'>
                                 <div>
-                                    <MDBChip className={"outlineChip mb-2"}>{localization.id}: {lead.lead_id}</MDBChip>
+                                    <MDBChip className={"outlineChip mb-2"}>{localization.id}: {lead.leadID}</MDBChip>
 
                                     {data}
                                 </div>
