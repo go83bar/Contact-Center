@@ -35,6 +35,9 @@ import {faCircle} from "@fortawesome/pro-light-svg-icons";
 import {faCalendar} from "@fortawesome/pro-regular-svg-icons"
 import Timer from 'react-compound-timer'
 import { TwilioDevice } from '../../twilio/TwilioDevice'
+import EmailForm from './messaging/EmailForm'
+import TextForm from './messaging/TextForm'
+import CallbackForm from './messaging/CallbackForm'
 
 
 class LeadSummary extends Component {
@@ -52,7 +55,10 @@ class LeadSummary extends Component {
             closed: false,
             clientName: client.name,
             campaignName: campaign.name,
-            modal : undefined
+            modal : undefined,
+            emailVisible: false,
+            textVisible: false,
+            callbackVisible: false,
 
         };
     }
@@ -66,6 +72,16 @@ class LeadSummary extends Component {
 
     openTwilio = () => {
         TwilioDevice.openAgentConnection()
+    }
+
+    toggleEmail = () => {
+        this.setState({emailVisible : !this.state.emailVisible})
+    }
+    toggleText = () => {
+        this.setState({textVisible : !this.state.textVisible})
+    }
+    toggleCallback = () => {
+        this.setState({callbackVisible : !this.state.callbackVisible})
     }
 
     showModal(modalName) {
@@ -118,7 +134,7 @@ class LeadSummary extends Component {
                                     </span>
                                 </MDBNavLink>
                             </MDBNavItem>
-                            <MDBNavItem className="px-2" onClick={this.props.toggleCallback}>
+                            <MDBNavItem className="px-2" onClick={this.toggleCallback}>
                                 <MDBNavLink to="#" className="p-0">
                                     <span className="fa-layers fa-2x mt-2 p-0 px-2">
                                         <FontAwesomeIcon icon={faCircle} className={"skin-primary-color"}/>
@@ -127,7 +143,7 @@ class LeadSummary extends Component {
                                     </span>
                                 </MDBNavLink>
                             </MDBNavItem>
-                            <MDBNavItem className="px-2" onClick={this.props.toggleEmail}>
+                            <MDBNavItem className="px-2" onClick={this.toggleEmail}>
                                 <MDBNavLink to="#" className="p-0" disabled={lead.contact_preferences.emails !== true}>
                                     <span className="fa-layers fa-2x mt-2 p-0 px-2">
                                         <FontAwesomeIcon icon={faCircle} className={lead.contact_preferences.emails === true ? "skin-primary-color" : "disabledColor"}/>
@@ -135,7 +151,7 @@ class LeadSummary extends Component {
                                     </span>
                                 </MDBNavLink>
                             </MDBNavItem>
-                            <MDBNavItem className="px-2" onClick={this.props.toggleText}>
+                            <MDBNavItem className="px-2" onClick={this.toggleText}>
                                 <MDBNavLink to="#" className="p-0" disabled={lead.contact_preferences.texts !== true}>
                                     <span className="fa-layers fa-2x mt-2 p-0 px-2">
                                         <FontAwesomeIcon icon={faCircle} className={lead.contact_preferences.texts === true ? "skin-primary-color" : "disabledColor"}/>
@@ -156,6 +172,10 @@ class LeadSummary extends Component {
                 {this.state.modal === "Edit Lead" && <EditLead closeModal={this.closeModal}/>}
                 {this.state.modal === "Create Lead" && <CreateLead closeModal={this.closeModal}/>}
                 {this.state.modal === "Contact Preferences" && <ContactPreferences closeModal={this.closeModal}/>}
+                {this.state.emailVisible === true && <EmailForm toggle={this.toggleEmail} />}
+                {this.state.textVisible === true && <TextForm toggle={this.toggleText} />}
+                {this.state.callbackVisible === true && <CallbackForm toggle={this.toggleCallback} />}
+
             </MDBBox>
         )
     }
