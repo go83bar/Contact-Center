@@ -166,10 +166,10 @@ class Profile extends Component {
                 <MDBBox className="d-flex flex-column" style={{width:"500px", minHeight:"450px"}}>
                     <MDBTabContent className="p-3" activeItem={this.state.activeTab}>
                         <MDBTabPane tabId="profile">
-                            <MDBInput label={localization.account.first_name} value={this.props.auth.user.first_name} />
-                            <MDBInput label={localization.account.last_name} value={this.props.auth.user.last_name}/>
-                            <MDBInput label={localization.account.phone} />
-                            <MDBInput label={localization.account.email} />
+                            <MDBInput label={localization.account.first_name} value={this.props.user.first_name} />
+                            <MDBInput label={localization.account.last_name} value={this.props.user.last_name}/>
+                            <MDBInput label={localization.account.phone} value={this.props.user.phone}/>
+                            <MDBInput label={localization.account.email} value={this.props.user.email}/>
                             <MDBInput label={localization.account.password} />
                             <MDBInput label={localization.account.confirm_password} />
                         </MDBTabPane>
@@ -201,7 +201,7 @@ class Profile extends Component {
 const mapStateToProps = store => {
     return {
         localization: store.localization,
-        auth : store.auth,
+        user : store.user,
         config : store.config
     }
 }
