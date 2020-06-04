@@ -27,10 +27,6 @@ class Search extends Component {
                 phoneValue: "",
                 clientIDValue: ""
             },
-            clients: [
-                {name: "Myriad", id: 10},
-                {name: "Bob", id: 20}
-            ],
             validationError: false,
             validationMessage: "",
             isFetchingResults: false,
@@ -44,7 +40,7 @@ class Search extends Component {
     }
 
     generateClientOptions() {
-        let clientOptions = this.state.clients.map((client, key) =>
+        let clientOptions = this.props.shift.clients.map((client, key) =>
             <option key={client.id} value={client.id}>{client.name}</option>
         )
         return clientOptions
@@ -236,7 +232,10 @@ class Search extends Component {
 
 
 const mapStateToProps = store => {
-    return { localization : store.localization }
+    return { 
+        localization : store.localization,
+        shift: store.shift 
+    }
 }
 
 export default connect(mapStateToProps)(Search);
