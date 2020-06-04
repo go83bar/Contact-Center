@@ -148,7 +148,7 @@ export default class TwilioAPI {
         const payload = {
             token: redux.user.auth.token,
             action: action,
-            conference_oid: redux.twilio.conferenceOID
+            conference_sid: redux.twilio.conferenceSID
         }
 
         const requestOptions = {

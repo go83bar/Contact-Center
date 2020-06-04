@@ -10,6 +10,7 @@ const initialState = {
     leadCallStatus: "Not Connected",
     providerCallSID: "",
     providerCallStatus: "Not Connected",
+    recordingPaused: false,
     leadDialButtonEnabled: false,
     leadHoldButtonEnabled: false,
     leadUnHoldButtonEnabled: false,
@@ -66,6 +67,7 @@ export function twilio(state = initialState, action) {
                 agentResumeButtonEnabled: true,
                 leadDisconnectButtonEnabled: false,
                 agentDisconnectButtonEnabled: false,
+                recordingPaused: true,
             })
         case 'TWILIO.RECORDING.RESUME':
             // definitely do these
@@ -73,6 +75,7 @@ export function twilio(state = initialState, action) {
                 agentPauseButtonEnabled: true,
                 agentResumeButtonEnabled: false,
                 agentDisconnectButtonEnabled: true,
+                recordingPaused: false,
             }
 
             // determine if we need to light up the lead disconnect
@@ -131,6 +134,7 @@ export function twilio(state = initialState, action) {
                 leadVoicemailButtonEnabled: true,
                 leadHoldButtonEnabled: true,
                 leadUnHoldButtonEnabled: false,
+                agentPauseButtonEnabled: true,
             })
         case 'TWILIO.LEAD.DISCONNECTED':
             return Object.assign({}, state, {
@@ -141,6 +145,8 @@ export function twilio(state = initialState, action) {
                 leadHoldButtonEnabled: false,
                 leadUnHoldButtonEnabled: false,
                 leadVoicemailButtonEnabled: false,
+                agentPauseButtonEnabled: false,
+                agentResumeButtonEnabled: false
             })
         
         // Provider connection actions    

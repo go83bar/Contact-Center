@@ -102,7 +102,7 @@ class LeadSummary extends Component {
                             <MDBChip className={"outlineChip ml-1 mb-0"}>{this.state.campaignName}</MDBChip>
                         </div>
                         <MDBNav className="justify-content-end float-right skin-border-primary h-100">
-                            { this.props.twilio.conferenceSID && <div className="f-m border-right p-2 py-0 mt-2"><span className="text-danger">Recording: </span>
+                            { this.props.twilio.conferenceSID && <div className="f-m border-right p-2 py-0 mt-2"><span className={ this.props.twilio.recordingPaused ? "text-success" : "text-danger"}>{ this.props.twilio.recordingPaused ? "Paused" : "Recording"}: </span>
                                 <Timer formatValue={(value) => `${(value < 10 ? `0${value}` : value)}`}>
                                     <Timer.Hours />:
                                     <Timer.Minutes />:
@@ -114,7 +114,7 @@ class LeadSummary extends Component {
                                     <span className="fa-layers fa-2x mt-2">
                                         <FontAwesomeIcon icon={faCircle} className={"skin-primary-color"}/>
                                         <FontAwesomeIcon icon={faPhone} transform={"shrink-8"} className={"skin-secondary-color"}/>
-                                        {true && <span className="fa-layers-counter fa-layers-top-left red-darken-2"></span>}
+                                        {this.props.twilio.conferenceSID && <span className="fa-layers-counter fa-layers-top-left red-darken-2"></span>}
                                     </span>
                                 </MDBNavLink>
                             </MDBNavItem>
