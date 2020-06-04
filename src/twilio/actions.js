@@ -7,6 +7,13 @@ export function setCallbarVisibility(visible) {
     }
 }
 
+export function conferenceStarted(conferenceSID) {
+    return {
+        type: "TWILIO.CONFERENCE.STARTED",
+        conferenceSID: conferenceSID
+    }
+}
+
 export function leadDialed(callSID) {
     return {
         type: "TWILIO.LEAD.DIALED",

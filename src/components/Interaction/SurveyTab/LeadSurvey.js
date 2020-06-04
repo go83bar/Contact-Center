@@ -17,7 +17,7 @@ class LeadSurvey extends Component {
                         <MDBCard border="light" className="p-2 rounded">
                             <strong className="black-text">{this.props.localization.interaction.survey.tabTitle.toUpperCase()}</strong>
                             <MDBBox>
-                                {this.props.lead.surveys.map((submission) => {
+                                {this.props.lead.surveys && this.props.lead.surveys.map((submission) => {
                                     return <SurveyThumb
                                         key={submission.id}
                                         submission={submission}
@@ -28,7 +28,7 @@ class LeadSurvey extends Component {
                     </MDBBox>
                     <MDBBox border="light" className="w-100 rounded d-flex overflow-auto flex-1 order-1">
                         <div className="w-100 smooth-scroll flex-1 order-1 d-flex overflow-auto flex-column">
-                            {this.props.lead.surveys.map( (submission) => {
+                            {this.props.lead.surveys && this.props.lead.surveys.map( (submission) => {
                                 return <SurveySubmission
                                     key={submission.id}
                                     survey={submission}

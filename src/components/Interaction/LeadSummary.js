@@ -102,13 +102,13 @@ class LeadSummary extends Component {
                             <MDBChip className={"outlineChip ml-1 mb-0"}>{this.state.campaignName}</MDBChip>
                         </div>
                         <MDBNav className="justify-content-end float-right skin-border-primary h-100">
-                            <div className="f-m border-right p-2 py-0 mt-2"><span className="text-danger">Recording: </span>
+                            { this.props.twilio.conferenceSID && <div className="f-m border-right p-2 py-0 mt-2"><span className="text-danger">Recording: </span>
                                 <Timer formatValue={(value) => `${(value < 10 ? `0${value}` : value)}`}>
                                     <Timer.Hours />:
                                     <Timer.Minutes />:
                                     <Timer.Seconds />
                                 </Timer>
-                            </div>
+                            </div>}
                             <MDBNavItem className="px-2 h-100" onClick={this.openTwilio}>
                                 <MDBNavLink to="#" className={"py-0 px-2 align-middle"}>
                                     <span className="fa-layers fa-2x mt-2">

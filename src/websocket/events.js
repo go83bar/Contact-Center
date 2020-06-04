@@ -1,5 +1,6 @@
 import store from '../store'
 import {
+    conferenceStarted,
     callRinging,
     callConnected,
     callDisconnected
@@ -45,4 +46,9 @@ export function processCallEvent(eventData) {
             return
     }
 
+}
+
+export function processConferenceStart(conferenceSID) {
+    store.dispatch(conferenceStarted(conferenceSID))
+    return
 }

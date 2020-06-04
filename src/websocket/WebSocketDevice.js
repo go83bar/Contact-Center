@@ -1,5 +1,5 @@
 import store from '../store'
-import { processCallEvent } from './events'
+import { processCallEvent, processConferenceStart } from './events'
 
 class WebSocketDevice {
 
@@ -19,6 +19,9 @@ class WebSocketDevice {
             switch (payload.event) {
                 case "callevent":
                     processCallEvent(payload.data)
+                break
+                case "conferencestart":
+                    processConferenceStart(payload.conference_sid)
                 break
                 default:
                     console.log("Unknown websocket event: ", evt)

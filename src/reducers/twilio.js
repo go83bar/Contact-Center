@@ -55,6 +55,11 @@ export function twilio(state = initialState, action) {
                 callbarVisible: false,
                 dialpadVisible: false,
             }) 
+        case 'TWILIO.CONFERENCE.STARTED':
+            return Object.assign({}, state, {
+                conferenceSID: action.conferenceSID
+            }) 
+
         case 'TWILIO.RECORDING.PAUSE':
             return Object.assign({}, state, {
                 agentPauseButtonEnabled: false,
