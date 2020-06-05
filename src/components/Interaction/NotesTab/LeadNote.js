@@ -30,10 +30,10 @@ class LeadNote extends Component {
 
     render() {
         return (
-            <MDBBox className="d-flex align-items-center mb-3 yellow rounded lighten-5 w-100">
+            <MDBBox className="d-flex align-items-center mb-3 rounded lighten-5 w-100" style={{backgroundColor : "#FEFCF5"}}>
                 <MDBBox className="d-flex align-items-start w-100 p-3">
                     <span className={"fa-layers fa-fw fa-3x"} style={{ flex: "0 0 48px" }}>
-                        <FontAwesomeIcon icon={faCircle} color="#FFa000" />
+                        <FontAwesomeIcon icon={faCircle} className="skin-primary-color"/>
                         <FontAwesomeIcon icon={faComment} transform={"shrink-8"} />
                     </span>
                     <MDBBox className="flex-1 ml-3">
@@ -47,15 +47,15 @@ class LeadNote extends Component {
                 </MDBBox>
                 {this.props.note.interaction_id === this.props.interaction.id && (
                     <MDBBox className="noteButtons">
-                        <MDBBox 
-                            className="noteButtonEdit" 
+                        <MDBBox
+                            className="noteButtonEdit"
                             onClick={this.editClick}
                             style={{ flex: "0 0 48px"}}
                             >
                             <FontAwesomeIcon icon={faEdit} transform={"shrink-2"} />
                         </MDBBox>
-                        <MDBBox 
-                            className="noteButtonDelete w-100 h-100 rounded-right" 
+                        <MDBBox
+                            className="noteButtonDelete w-100 h-100 rounded-right"
                             onClick={this.deleteClick}
                             style={{ flex: "0 0 48px" }}
                             >

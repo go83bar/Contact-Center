@@ -25,6 +25,7 @@
       "homePhone" : "Home Phone",
       "address" : "Address",
       "email" : "Email",
+      "date_of_birth" : "Date Of Birth",
       "client" : "Client",
       "campaign" : "Campaign",
       "phase" : "Phase"

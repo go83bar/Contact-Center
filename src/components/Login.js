@@ -85,7 +85,7 @@ class Login extends Component {
                 if (responseJson.user === undefined) {
                     this.setState({
                         hasErrors: true,
-                        errorMessage: "Invalid PIN",
+                        errorMessage: this.state.auth === undefined ? "Invalid PIN" : "",
                         auth : undefined,
                         flipped: false
                     })

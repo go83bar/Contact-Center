@@ -47,8 +47,8 @@ class LeadDetail extends Component {
                                 {lead.details.preferred_phone === "home" && <FontAwesomeIcon icon={faStar} className="skin-primary-color"/>} {localization.homePhone}: <span className={lead.details.preferred_phone === "home" ? "font-weight-bold" : "font-weight-normal"}>{formatPhoneNumber(lead.details.home_phone)}</span>
                             </span>
                         </span>
-                        <span>{localization.address}: {lead.details.address_1}, {lead.details.city}, {lead.details.state}, {lead.details.zip}</span>
-                        <span><span>{localization.email}: {lead.details.email}</span>{lead.details.date_of_birth && <span>{localization.date_of_birth}: {lead.details.date_of_birth}</span>}</span>
+                        <span>{localization.address}: {lead.details.address_1 ? lead.details.address_1 + "," : ""} {lead.details.city ? lead.details.city + "," : ""} {lead.details.state ? lead.details.state + "," : ""} {lead.details.zip ? lead.details.zip : ""} {lead.details.timezone_short}</span>
+                        <span><span>{localization.email}: {lead.details.email}</span>{lead.details.date_of_birth && <span> {localization.date_of_birth}: {lead.details.date_of_birth}</span>}</span>
 
                     </div>
                     <div className="d-flex flex-column justify-content-between">

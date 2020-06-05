@@ -22,8 +22,8 @@ import {
     faUserEdit,
     faObjectGroup,
     faUserPlus,
-    faMapMarkedAlt,
-    faIdBadge,
+//    faMapMarkedAlt,
+//    faIdBadge,
     faEllipsisH,
     faPhone
 } from "@fortawesome/pro-solid-svg-icons";
@@ -96,28 +96,29 @@ class LeadSummary extends Component {
         return (
             <MDBBox className='p-0 m-0 w-100 d-flex' style={{flex:"0 53px", fontSize:"18px"}}>
                 <MDBCard className='skin-border-primary rounded w-100 h-100'>
-                    <MDBBox className="backgroundColorInherit border-0 p-0 m-0 px-3 w-100">
-                        <span className={"d-inline-block font-weight-bolder p-0 m-0 mt-2"} style={{fontSize:"1.5rem"}}>{lead.details.first_name} {lead.details.last_name}</span>
-                        <div className="d-inline-block pl-3 pr-2" onClick={()=>this.showModal("Edit Lead")}><FontAwesomeIcon icon={faUserEdit} size={"lg"} className={"skin-secondary-color"}/></div>
-                        <MDBDropdown className={"d-inline-block"}>
-                            <MDBDropdownToggle nav className="px-2">
-                                <span className=""><FontAwesomeIcon icon={faEllipsisH} size={"lg"} className={"skin-secondary-color"}/></span>
-                            </MDBDropdownToggle>
-                            <MDBDropdownMenu className={"rounded pr-2"}>
-                                <MDBDropdownItem href="#"><div onClick={() => this.showModal("Merge Lead")}><FontAwesomeIcon icon={faObjectGroup} size={"lg"} className={"skin-primary-color pr-1"}/> {localization.mergeLead.title} </div></MDBDropdownItem>
-                                <MDBDropdownItem href="#"><div onClick={() => this.showModal("Create Lead")}><FontAwesomeIcon icon={faUserPlus} size={"lg"} className={"skin-primary-color pr-1"}/> {localization.createLead.title}</div></MDBDropdownItem>
-                                <MDBDropdownItem href="#"><div><FontAwesomeIcon icon={faMapMarkedAlt} size={"lg"} className={"skin-primary-color pr-1"}/> {localization.changeRegion.title}</div></MDBDropdownItem>
-                                <MDBDropdownItem href="#"><div onClick={() => this.showModal("Contact Preferences")}><FontAwesomeIcon icon={faIdBadge} size={"lg"} className={"skin-primary-color pr-1"}/> {localization.contactPreferences.title}</div></MDBDropdownItem>
-                            </MDBDropdownMenu>
-                        </MDBDropdown>
-                        <div className="d-inline-block" style={{lineHeight:1.25}}>
+                    <MDBBox className="backgroundColorInherit border-0 p-0 m-0 px-3 w-100 d-flex justify-content-between">
+                        <MDBBox>
+                            <span className={"d-inline-block font-weight-bolder p-0 m-0 mt-2"} style={{fontSize:"1.5rem"}}>{lead.details.first_name} {lead.details.last_name}</span>
+                            <div className="d-inline-block pl-3 pr-2" onClick={()=>this.showModal("Edit Lead")}><FontAwesomeIcon icon={faUserEdit} size={"lg"} className={"skin-secondary-color"}/></div>
+                            <MDBDropdown className={"d-inline-block"}>
+                                <MDBDropdownToggle nav className="px-2">
+                                    <span className=""><FontAwesomeIcon icon={faEllipsisH} size={"lg"} className={"skin-secondary-color"}/></span>
+                                </MDBDropdownToggle>
+                                <MDBDropdownMenu className={"rounded pr-2"}>
+                                    <MDBDropdownItem href="#"><div onClick={() => this.showModal("Merge Lead")}><FontAwesomeIcon icon={faObjectGroup} size={"lg"} className={"skin-primary-color pr-1"}/> {localization.mergeLead.title} </div></MDBDropdownItem>
+                                    <MDBDropdownItem href="#"><div onClick={() => this.showModal("Create Lead")}><FontAwesomeIcon icon={faUserPlus} size={"lg"} className={"skin-primary-color pr-1"}/> {localization.createLead.title}</div></MDBDropdownItem>
+                                </MDBDropdownMenu>
+                            </MDBDropdown>
+                        </MDBBox>
+                        <div className="mt-2 pt-1 d-inline-block" style={{lineHeight:1.25}}>
                             <div className={"d-inline-block font-weight-bolder ml-3"}>
                                 {lead.details.timezone_short}
                             </div>
-                            <MDBChip className={"outlineChip ml-4 mb-0"}>{localization.client} : {this.state.clientName}</MDBChip>
+                            <MDBChip className={"outlineChip ml-4 mb-0"}>{this.state.clientName}</MDBChip>
                             <MDBChip className={"outlineChip ml-1 mb-0"}>{this.state.campaignName}</MDBChip>
+                            <MDBChip className={"outlineChip ml-1 mb-0"}>{this.props.preview.reason}</MDBChip>
                         </div>
-                        <MDBNav className="justify-content-end float-right skin-border-primary h-100">
+                        <MDBNav className="d-flex justify-content-end float-right skin-border-primary h-100">
                             { this.props.twilio.conferenceSID && <div className="f-m border-right p-2 py-0 mt-2"><span className={ this.props.twilio.recordingPaused ? "text-success" : "text-danger"}>{ this.props.twilio.recordingPaused ? "Paused" : "Recording"}: </span>
                                 <Timer formatValue={(value) => `${(value < 10 ? `0${value}` : value)}`}>
                                     <Timer.Hours />:
@@ -185,6 +186,7 @@ const mapStateToProps = state => {
     return {
         auth: state.auth,
         localization: state.localization,
+        preview : state.preview,
         lead : state.lead,
         shift: state.shift,
         twilio: state.twilio
