@@ -154,16 +154,6 @@ class Search extends Component {
                                                 value={this.state.firstNameValue}
                                                 onChange={this.handleFormInput}
                                             />
-                                            <br />
-                                            <label htmlFor="lead_id" className="grey-text">{localized.leadIDLabel}</label>
-                                            <input type="text"
-                                                id="lead_id"
-                                                name="leadIDValue"
-                                                className="form-control"
-                                                value={this.state.leadIDValue}
-                                                onChange={this.handleFormInput}
-                                            />
-                                            <br />
                                         </MDBCol>
                                         <MDBCol size="6">
                                             <label htmlFor="last_name" className="grey-text">{localized.lastNameLabel}</label>
@@ -174,7 +164,20 @@ class Search extends Component {
                                                 value={this.state.lastNameValue}
                                                 onChange={this.handleFormInput}
                                             />
-                                            <br />
+                                        </MDBCol>
+                                    </MDBRow>
+                                    <MDBRow className="pt-2">
+                                        <MDBCol size="6">
+                                            <label htmlFor="lead_id" className="grey-text">{localized.leadIDLabel}</label>
+                                            <input type="text"
+                                                id="lead_id"
+                                                name="leadIDValue"
+                                                className="form-control"
+                                                value={this.state.leadIDValue}
+                                                onChange={this.handleFormInput}
+                                            />
+                                        </MDBCol>
+                                        <MDBCol size="6">
                                             <label htmlFor="phone" className="grey-text">{localized.phoneLabel}</label>
                                             <input type="text"
                                                 id="phone"
@@ -183,7 +186,6 @@ class Search extends Component {
                                                 onChange={this.handleFormInput}
                                                 className="form-control"
                                             />
-                                            <br />
                                         </MDBCol>
                                     </MDBRow>
                                     <MDBRow center>

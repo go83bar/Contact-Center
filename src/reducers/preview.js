@@ -10,6 +10,10 @@ export function preview(state = initialState, action) {
             return Object.assign({}, state, {
                 ...action.payload
             })
+        case 'PREVIEW.LOADED':
+            return Object.assign({}, state, {
+                ...action.payload
+            })
         default:
             return state
     }

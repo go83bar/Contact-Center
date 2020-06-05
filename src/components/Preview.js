@@ -33,9 +33,7 @@ class Preview extends Component {
             leadID = props.previewData.leadID
             LeadAPI.getLeadPreview(previewPayload)
                 .then((response) => {
-                    this.setState({
-                        leadData: response.data
-                    })
+                    this.props.dispatch({type: "PREVIEW.LOADED", payload: response.data})
                 })
 
         }
@@ -82,7 +80,7 @@ class Preview extends Component {
         // Make API call to start interaction
         const payload = {
             callQueueID: null,
-            leadID: this.props.previewData.leadID,
+            leadID: this.props.previewData.lead_id,
             previewStartTime: moment().format()
 
         }
@@ -120,13 +118,12 @@ class Preview extends Component {
 
         let localization = this.props.localization.preview
         // Display loading image until lead preview data is loaded
-        if (this.state.leadData === undefined) {
+        if (this.props.previewData.lead_name === undefined) {
             return <LoadingScreen />
         }
-        let lead = this.props.previewData
 
         // Build list of preview data items
-        const data = this.state.leadData.meta.map((item, i) => {
+        const data = this.props.previewData.meta.map((item, i) => {
             return (
                 <div key={i}>{item.name}: {item.value}</div>
             )
@@ -136,12 +133,12 @@ class Preview extends Component {
                     <MDBCard className="d-flex card-body" style={{width:"585px", height:"450px"}}>
                         <MDBCardHeader className="d-flex justify-content-start backgroundColorInherit">
                             <h3>
-                            <strong>{this.state.leadData.lead_name}</strong> / {this.state.leadData.reason}
+                            <strong>{this.props.previewData.lead_name}</strong> / {this.props.previewData.reason}
                             </h3>
                         </MDBCardHeader>
                         <MDBCardBody className='justify-content-start border skin-border-primary'>
                                 <div>
-                                    <MDBChip className={"outlineChip mb-2"}>{localization.id}: {lead.leadID}</MDBChip>
+                                    <MDBChip className={"outlineChip mb-2"}>{localization.id}: {this.props.previewData.lead_id}</MDBChip>
 
                                     {data}
                                 </div>

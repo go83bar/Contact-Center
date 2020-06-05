@@ -329,7 +329,7 @@ export default class LeadAPI {
 
         const redux = store.getState()
         const requestOptions = {
-            url: redux.config["url-api-base"] + "leads/" + redux.lead.id + "/notes ",
+            url: redux.config["url-api-base"] + "leads/" + redux.lead.id + "/notes",
             method: "POST",
             data: {
                 interaction_id: params.interactionID,
