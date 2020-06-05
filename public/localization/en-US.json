@@ -122,6 +122,17 @@
         "searchButton" : "Search",
         "okButton" : "Save Changes",
         "cancelButton" : "Close"
+      },
+      "callbackForm": {
+        "title": "Schedule Callback",
+        "dateLabel": "Date",
+        "timeLabel": "Time",
+        "notePlaceholder": "Add a note if needed.",
+        "cancelButton": "Cancel",
+        "saveButtonLabel": "Save",
+        "savingButtonLabel": "Saving...",
+        "savedButtonLabel": "Saved!"
+
       }
     }
   },
@@ -145,22 +156,6 @@
     "deleteNoteModalHeader": "Delete Note?",
     "deleteNoteModalBody": "Really delete note?  This cannot be undone."
   },
-  "search": {
-    "componentTitle": "Search",
-    "firstNameLabel": "First Name",
-    "lastNameLabel": "Last Name",
-    "phoneLabel": "Phone",
-    "leadIDLabel": "Lead ID",
-    "clientIDLabel": "Client",
-    "clientIDSelect": "Select...",
-    "resultIDHeader": "ID",
-    "resultNameHeader": "Name",
-    "resultVerticalHeader": "Vertical",
-    "resultPhaseHeader": "Phase",
-    "resultNextContactHeader": "Next Contact",
-    "resultLockedLabel": "LOCKED",
-    "noClientSelectedError": "You must select a client"
-  },
   "preview" : {
     "nextButton" : "Open Interaction",
     "id" : "Lead ID"
@@ -179,6 +174,22 @@
       "password" : "Password",
       "confirm_password" : "Confirm Password"
     }
+  },
+  "search": {
+    "componentTitle": "Search",
+    "firstNameLabel": "First Name",
+    "lastNameLabel": "Last Name",
+    "phoneLabel": "Phone",
+    "leadIDLabel": "Lead ID",
+    "clientIDLabel": "Client",
+    "clientIDSelect": "Select...",
+    "resultIDHeader": "ID",
+    "resultNameHeader": "Name",
+    "resultVerticalHeader": "Vertical",
+    "resultPhaseHeader": "Phase",
+    "resultNextContactHeader": "Next Contact",
+    "resultLockedLabel": "LOCKED",
+    "noClientSelectedError": "You must select a client"
   }
 
 }
