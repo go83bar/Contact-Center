@@ -53,8 +53,22 @@ export function lead(state = initialState, action) {
                     return note.id !== action.data.noteID
                 })
             }
+
+        case "LEAD.TEXT_SENT":
+            // called when agents sends lead an SMS message
+            return {
+                ...state,
+                texts: [ ...state.texts, action.data]
+            }
     
-    
+        case "LEAD.EMAIL_SENT":
+            // called when agents sends lead an SMS message
+            return {
+                ...state,
+                emails: [ ...state.emails, action.data]
+            }
+        
+        
         default:
             return state
     }

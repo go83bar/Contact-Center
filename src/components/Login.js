@@ -76,8 +76,7 @@ class Login extends Component {
             return
         }
 
-        // check supplied PIN, if successful log the user in and initiate the load of all
-        // client data associated with the agent's shifts for today
+        // check supplied PIN, if successful log the user in and route to the home view
         let loginMethod = this.state.auth !== undefined ?  ConnectAPI.validateAuth(this.state.auth) : ConnectAPI.login(this.state.pin, this.state.email)
 
            loginMethod.then((responseJson) => {
