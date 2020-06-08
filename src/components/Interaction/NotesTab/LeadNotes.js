@@ -29,23 +29,17 @@ class LeadNotes extends Component {
             isSaving: false
         }
 
-        this.onEdit = this.onEdit.bind(this)
-        this.saveNote = this.saveNote.bind(this)
-        this.deleteNote = this.deleteNote.bind(this)
-        this.updateNoteContent = this.updateNoteContent.bind(this)
-        this.closeModal = this.closeModal.bind(this)
-        this.openDeleteModal = this.openDeleteModal.bind(this)
     }
 
     // user has changed the content of the note edit textarea
-    updateNoteContent(event) {
+    updateNoteContent = (event) => {
         this.setState({
             noteContent: event.target.value
         })
     }
 
     // user has delete button with a note
-    deleteNote() {
+    deleteNote = () => {
 
         this.setState({
             isSaving: true
@@ -69,7 +63,12 @@ class LeadNotes extends Component {
     }
 
     // user has clicked button to save contents of note edit textarea
-    saveNote() {
+    saveNote = () => {
+        // make sure there's actually content to save
+        if (this.state.noteContent === "") {
+            return;
+        }
+        
         // might be an update or saving a new note
         if (this.state.isEditing) {
             const payload = {
@@ -118,7 +117,7 @@ class LeadNotes extends Component {
                             id: response.data.id,
                             interaction_id: payload.interactionID,
                             content: payload.noteContent,
-                            created_by: this.props.user.label_name,
+                            created_by: this.props.user.title + " " + this.props.user.label_name,
                             created_at: moment().format()
                         }
                         this.props.dispatch({
@@ -140,7 +139,7 @@ class LeadNotes extends Component {
     }
 
     // user has clicked the edit button on a listed note
-    onEdit(noteID) {
+    onEdit = (noteID) => {
         console.log("editing? note: ", noteID)
         const selectedNote = this.props.lead.notes.find(note => note.id === noteID)
         if (selectedNote !== undefined) {
@@ -154,7 +153,7 @@ class LeadNotes extends Component {
     }
 
     // users has clicked button to cancel editing a selected note
-    cancelUpdate() {
+    cancelUpdate = () => {
         if (!this.state.isSaving) {
             this.setState({
                 noteContent: "",
@@ -165,14 +164,14 @@ class LeadNotes extends Component {
         }
     }
 
-    openDeleteModal(noteID) {
+    openDeleteModal = (noteID) => {
         this.setState({
             noteID: noteID,
             showDeleteModal: true
         })
     }
 
-    closeModal() {
+    closeModal = () => {
         this.setState({
             showDeleteModal: false,
             isSaving: false

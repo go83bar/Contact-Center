@@ -187,7 +187,7 @@
   },
   "notes": {
     "deleteNoteModalHeader": "Delete Note?",
-    "deleteNoteModalBody": "Really delete note?  This cannot be undone."
+    "deleteNoteModalBody": "Are you sure you want to delete this note?"
   },
   "preview" : {
     "nextButton" : "Open Interaction",

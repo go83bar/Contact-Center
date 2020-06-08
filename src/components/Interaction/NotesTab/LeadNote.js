@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import { MDBBox } from "mdbreact";
 import {connect} from "react-redux";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faComment, faEdit, faTrashAlt} from '@fortawesome/pro-solid-svg-icons'
+import {faStickyNote, faEdit, faTrashAlt} from '@fortawesome/pro-solid-svg-icons'
 import {faCircle} from '@fortawesome/pro-light-svg-icons'
 import * as moment from 'moment'
 
@@ -34,7 +34,7 @@ class LeadNote extends Component {
                 <MDBBox className="d-flex align-items-start w-100 p-3">
                     <span className={"fa-layers fa-fw fa-3x"} style={{ flex: "0 0 48px" }}>
                         <FontAwesomeIcon icon={faCircle} className="skin-primary-color"/>
-                        <FontAwesomeIcon icon={faComment} transform={"shrink-8"} />
+                        <FontAwesomeIcon icon={faStickyNote} transform={"shrink-8"} />
                     </span>
                     <MDBBox className="flex-1 ml-3">
                         <strong>{this.props.note.created_by}</strong> <br />
