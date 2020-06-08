@@ -21,6 +21,22 @@
     "profile" : "User Profile"
   },
   "interaction": {
+    "endInteraction" : {
+      "endButton" : "Save & Go to Dashboard",
+      "endFetchButton" : "Save & Fetch New Lead",
+      "nextButton" : "Next",
+      "previousButton" : "Previous",
+      "cancelButton" : "Cancel",
+      "outcomeSummaryLabel" : "Outcome: ",
+      "officeSummaryLabel" : "Office: ",
+      "apptSummaryLabel" : "Appointment: ",
+      "reasonSummaryLabel" : "Reason: ",
+      "leadName" : "Name: ",
+      "address" : "Address: ",
+      "city" : "City: ",
+      "state" : "State: ",
+      "zip" : "Zip: "
+    },
     "details" : {
       "tabTitle" : "Details",
       "cellPhone" : "Cell Phone",
@@ -30,7 +46,8 @@
       "date_of_birth" : "Date Of Birth",
       "client" : "Client",
       "campaign" : "Campaign",
-      "phase" : "Phase"
+      "phase" : "Phase",
+      "id" : "ID"
     },
     "appointment" : {
       "tabTitle": "Appointments",

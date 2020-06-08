@@ -91,7 +91,7 @@ class Interaction extends Component {
                         <CallBar />
                     </MDBBox>
                 </MDBBox>
-                <EndInteraction active={this.state.endInteractionVisible} toggle={this.toggleEndInteraction}/>
+                {this.state.endInteractionVisible && <EndInteraction toggle={this.toggleEndInteraction}/>}
             </MDBBox>
         )
     }

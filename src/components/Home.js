@@ -1,11 +1,7 @@
 import React, {Component} from 'react'
 import {
     MDBBox,
-
     MDBCard,
-    MDBCardBody,
-    MDBProgress,
-
     MDBModal,
     MDBModalHeader, MDBModalBody, MDBModalFooter, MDBBtn
 } from "mdbreact";
@@ -13,9 +9,9 @@ import {connect} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
     faCircle as faCircleSolid,
-    faCalendarCheck,
-    faHandPaper,
-    faPhone,
+//    faCalendarCheck,
+//    faHandPaper,
+//    faPhone,
     faHeadphones, faSearch, faList, faSignOut, faUserCircle
 } from "@fortawesome/pro-solid-svg-icons";
 import {faCircle} from "@fortawesome/pro-light-svg-icons";
@@ -141,75 +137,6 @@ class Home extends Component {
                             <FontAwesomeIcon icon={faList} transform={"shrink-8"} className={"skin-text"}/>
                         </span><span>RECENT LEADS</span>
                             </Link>
-                        </MDBCard>
-                        <MDBCard cascade key="1" className='cascading-admin-card shadow-sm' data-grid={{ w: 3, h: 5, x: 1, y: 6, minW: 3, minH: 5}}>
-                                <MDBBox className='d-flex justify-content-between pl-3 mt-3'>
-                                            <span className="fa-layers fa-fw fa-4x">
-                                                <FontAwesomeIcon icon={faCircle} className={"skin-primary-color"}/>
-                                                <FontAwesomeIcon icon={faPhone} transform={"shrink-8"}
-                                                                 className={"skin-secondary-color"}/>
-                                            </span>
-                                <MDBBox className='text-right pr-3'>
-                                    <p>{localization.interactions}</p>
-                                    <h4 className='font-weight-bold dark-grey-text'>20</h4>
-                                </MDBBox>
-                                </MDBBox>
-                            <MDBCardBody cascade>
-                                <MDBProgress
-                                    value={25}
-                                    barClassName='primary-color'
-                                    height='6px'
-                                    wrapperStyle={{opacity: '.7'}}
-                                    className='mb-3'
-                                />
-                                <p className='card-text'>Better than last week (25%)</p>
-                            </MDBCardBody>
-                        </MDBCard>
-                            <MDBCard key="2" cascade className='cascading-admin-card shadow-sm' data-grid={{ w: 3, h: 5, x: 5, y: 6, minW: 3, minH: 5 }}>
-                                    <MDBBox className='d-flex justify-content-between pl-3 mt-3'>
-                                            <span className="fa-layers fa-fw fa-4x">
-                                                <FontAwesomeIcon icon={faCircle} className={"skin-primary-color"}/>
-                                                <FontAwesomeIcon icon={faCalendarCheck} transform={"shrink-8"}
-                                                                 className={"skin-secondary-color"}/>
-                                            </span>
-                                        <MDBBox className='text-right pr-3'>
-                                            <p>{localization.appointments}</p>
-                                            <h4 className='font-weight-bold dark-grey-text'>3</h4>
-                                        </MDBBox>
-                                    </MDBBox>
-                                <MDBCardBody cascade>
-                                    <MDBProgress
-                                        value={25}
-                                        barClassName='primary-color'
-                                        height='6px'
-                                        wrapperStyle={{opacity: '.7'}}
-                                        className='mb-3'
-                                    />
-                                    <p className='card-text'>Better than last week (25%)</p>
-                                </MDBCardBody>
-                            </MDBCard>
-                        <MDBCard cascade key="3" className='cascading-admin-card shadow-sm' data-grid={{ w: 3, h: 5, x: 9, y: 6, minW: 3, minH: 5 }}>
-                                <MDBBox className='d-flex justify-content-between mt-3 pl-3'>
-                                            <span className="fa-layers fa-fw fa-4x">
-                                                <FontAwesomeIcon icon={faCircle} className={"skin-primary-color"}/>
-                                                <FontAwesomeIcon icon={faHandPaper} transform={"shrink-8"}
-                                                                 className={"skin-secondary-color"}/>
-                                            </span>
-                                    <MDBBox className='text-right pr-3'>
-                                        <p>{localization.handoffs}</p>
-                                        <h4 className='font-weight-bold dark-grey-text'>3</h4>
-                                    </MDBBox>
-                                </MDBBox>
-                            <MDBCardBody cascade>
-                                <MDBProgress
-                                    value={25}
-                                    barClassName='primary-color'
-                                    height='6px'
-                                    wrapperStyle={{opacity: '.7'}}
-                                    className='mb-3'
-                                />
-                                <p className='card-text'>Better than last week (25%)</p>
-                            </MDBCardBody>
                         </MDBCard>
                     </ResponsiveReactGridLayout>
                 </MDBBox>

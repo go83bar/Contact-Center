@@ -19,7 +19,7 @@ import {
     faCheck,
     faCircle as faCircleSolid,
     faClinicMedical, faDoorOpen,
-
+    faTimes,
     faQuestion
 } from "@fortawesome/pro-solid-svg-icons";
 import {faCircle} from "@fortawesome/pro-light-svg-icons";
@@ -51,6 +51,10 @@ class EndInteraction extends Component {
         this.previousStep = this.previousStep.bind(this)
         this.getHeaderText = this.getHeaderText.bind(this)
         this.selectOutcome = this.selectOutcome.bind(this)
+        this.selectReason = this.selectReason.bind(this)
+        this.endInteraction = this.endInteraction.bind(this)
+        this.renderLeadSummary = this.renderLeadSummary.bind(this)
+        this.toStep = this.toStep.bind(this)
 
         const client = this.props.shift.clients.find(client => client.id === this.props.lead.client_id)
         const phase = client.phases.find(phase => phase.id === this.props.lead.phase_id)
@@ -87,6 +91,10 @@ class EndInteraction extends Component {
         }
     }
 
+    endInteraction() {
+        console.log("End Interaction")
+    }
+
     selectOutcome(outcome_id) {
         const outcome = this.state.outcomes.find(o => o.id === outcome_id)
         let steps = ["outcome"]
@@ -94,12 +102,12 @@ class EndInteraction extends Component {
         if (outcome.requires_appointment === true) steps.push("appointment")
         if (outcome.outcome_reasons && outcome.outcome_reasons.length > 0) steps.push("reason")
         steps.push("finish")
-        this.setState({ steps, outcome, reason : undefined }, this.nextStep)
+        this.setState({ steps, outcome, reason : undefined, appointment : undefined, office : undefined }, this.nextStep)
     }
 
     selectReason(reason_id) {
         const reason = this.state.outcome.outcome_reasons.find(r => r.id === reason_id)
-        this.setState({ reason }, this.nextStep)
+        this.setState({ reason, appointment : undefined, office : undefined }, this.nextStep)
     }
 
     nextStep() {
@@ -112,15 +120,64 @@ class EndInteraction extends Component {
         this.setState({currentStep : this.state.steps[index - 1]})
     }
 
+    toStep(currentStep) {
+        const currentIndex = this.state.steps.indexOf(this.state.currentStep)
+        if (currentIndex > this.state.steps.indexOf(currentStep))
+            this.setState( { currentStep })
+    }
+
+    renderStepSummary(step, localization) {
+        switch (step) {
+            case "outcome" :
+                return (
+                    <MDBBox key={"outcomeSummary"}>
+                        <span className="font-weight-bold">{localization.outcomeSummaryLabel}</span>{this.state.outcome.label}
+                    </MDBBox>
+                )
+            case "office" :
+                return (
+                    <MDBBox key={"officeSummary"}>
+                        <span className="font-weight-bold">{localization.officeSummaryLabel}</span>{this.state.office.label}
+                    </MDBBox>
+                )
+            case "reason" :
+                return (
+                    <MDBBox key={"reasonSummary"}>
+                        <span className="font-weight-bold">{localization.reasonSummaryLabel}</span>{this.state.reason.text}
+                    </MDBBox>
+                )
+            case "appointment" :
+                return (
+                    <MDBBox key={"appointmentSummary"}>
+                        <span className="font-weight-bold">{localization.apptSummaryLabel}</span>{this.state.appointment.label}
+                    </MDBBox>
+                )
+            default: return null
+        }
+    }
+
+    renderLeadSummary(localization) {
+        const lead = this.props.lead
+        return (
+            <MDBCard className="border shadow-none skin-border-primary mb-2">
+                <MDBCardBody className="d-flex flex-column">
+                    <div>{localization.leadName} {lead.details.first_name} {lead.details.last_name} <MDBChip className="outlineChip">{lead.id}</MDBChip></div>
+                    {lead.details.address_1 && <div>{localization.address} {lead.details.address_1} {lead.details.address_2}</div>}
+                    <div className="d-flex">{lead.details.city && <div>{localization.city} {lead.details.city}</div>} {lead.details.state && <div>{localization.state} {lead.details.state}</div>} {lead.details.zip && <div>{localization.zip} {lead.details.zip}</div>}</div>
+                </MDBCardBody>
+            </MDBCard>
+        )
+    }
     render() {
+        const localization = this.props.localization.interaction.endInteraction
 
         return (
-            <MDBModal isOpen={this.props.active} toggle={this.props.toggle} size={"fluid"}>
+            <MDBModal isOpen={true} toggle={this.props.toggle} size={"fluid"}>
                 <MDBModalBody className="d-flex justify-content-between m-1" style={{backgroundColor: "#f9f9f9", minHeight: "500px"}}>
                     <MDBCard className="shadow-none px-2 pt-4" style={{minWidth:"210px"}}>
                     <MDBStepper vertical className="eiStepper d-flex m-0 p-0 h-100">
                         <MDBStep stepName="Choose Outcome" className="">
-                            <span className="fa-layers fa-fw fa-4x" style={{zIndex: 2, marginLeft: "48px"}}>
+                            <span className="fa-layers fa-fw fa-4x pointer" style={{zIndex: 2, marginLeft: "48px"}} onClick={()=>this.toStep("outcome")}>
                                 <FontAwesomeIcon icon={faCircleSolid} className="text-white"/>
                                 <FontAwesomeIcon icon={faCircle} className={this.state.currentStep === "outcome" ? "skin-primary-color" : "skin-secondary-color"}/>
                                 <FontAwesomeIcon icon={faDoorOpen} transform={"shrink-8"} className={"skin-secondary-color"}/>
@@ -132,7 +189,7 @@ class EndInteraction extends Component {
                         </MDBStep>
                         { this.state.steps.includes("office") &&
                             <MDBStep stepName="Choose Office">
-                            <span className="fa-layers fa-fw fa-4x" style={{zIndex: 2, marginLeft: "48px"}}>
+                            <span className="fa-layers fa-fw fa-4x pointer" style={{zIndex: 2, marginLeft: "48px"}} onClick={()=>this.toStep("office")}>
                                 <FontAwesomeIcon icon={faCircleSolid} className="text-white"/>
                                 <FontAwesomeIcon icon={faCircle}
                                                  className={this.state.currentStep === "office" ? "skin-primary-color" : "skin-secondary-color"}/>
@@ -147,7 +204,7 @@ class EndInteraction extends Component {
                         }
                         {this.state.steps.includes("appointment") &&
                             <MDBStep stepName="Choose Appointment">
-                                <span className="fa-layers fa-fw fa-4x" style={{zIndex: 2, marginLeft: "48px"}}>
+                                <span className="fa-layers fa-fw fa-4x pointer" style={{zIndex: 2, marginLeft: "48px"}} onClick={()=>this.toStep("appointment")}>
                                     <FontAwesomeIcon icon={faCircleSolid} className="text-white"/>
                                     <FontAwesomeIcon icon={faCircle}
                                                      className={this.state.currentStep === "appointment" ? "skin-primary-color" : "skin-secondary-color"}/>
@@ -162,7 +219,7 @@ class EndInteraction extends Component {
                         }
                         {this.state.steps.includes("reason") &&
                             <MDBStep stepName="Choose Reason">
-                                    <span className="fa-layers fa-fw fa-4x" style={{zIndex: 2, marginLeft: "48px"}}>
+                                    <span className="fa-layers fa-fw fa-4x pointer" style={{zIndex: 2, marginLeft: "48px"}} onClick={()=>this.toStep("reason")}>
                                         <FontAwesomeIcon icon={faCircleSolid} className="text-white"/>
                                         <FontAwesomeIcon icon={faCircle}
                                                          className={this.state.currentStep === "reason" ? "skin-primary-color" : "skin-secondary-color"}/>
@@ -188,12 +245,15 @@ class EndInteraction extends Component {
                     </MDBStepper>
                     </MDBCard>
                     <MDBCard className="w-100 shadow-none ml-3" style={{minHeight: this.state.steps.length > 3 ? "600px" : "300px"}}>
-                        <MDBCardHeader className="backgroundColorInherit"><h3>{this.getHeaderText()}</h3></MDBCardHeader>
+                        <MDBCardHeader className="d-flex justify-content-between backgroundColorInherit">
+                            <h3 className="skin-secondary-color">{this.getHeaderText()}</h3>
+                            <FontAwesomeIcon icon={faTimes} onClick={this.props.toggle} className="mt-2 pointer"/>
+                        </MDBCardHeader>
                         <MDBCardBody>
                             {this.state.currentStep === "outcome" &&
-                                <MDBBox className="d-flex flex-wrap">
+                                <MDBBox className="d-flex flex-wrap justify-content-center">
                                     {this.state.outcomes.map(outcome =>
-                                        <MDBBtn style={{minWidth: "300px"}} rounded outline key={"outcome-" + outcome.id} onClick={()=> this.selectOutcome(outcome.id)}>{outcome.label}</MDBBtn>
+                                        <MDBBtn style={{minWidth: "300px"}} rounded outline={!(this.state.outcome && this.state.outcome.id === outcome.id)} key={"outcome-" + outcome.id} color={this.state.outcome && this.state.outcome.id === outcome.id ? "primary" : undefined} onClick={()=> this.selectOutcome(outcome.id)}>{outcome.label}</MDBBtn>
                                     )}
                                 </MDBBox>
                             }
@@ -204,9 +264,9 @@ class EndInteraction extends Component {
                             }
                             {this.state.currentStep === "reason" &&
                             <MDBBox>
-                                <MDBBox className="d-flex flex-wrap">
+                                <MDBBox className="d-flex flex-wrap justify-content-center">
                                     {this.state.outcome.outcome_reasons.map(reason =>
-                                        <MDBBtn style={{minWidth: "300px"}} rounded outline key={"reason-" + reason.id} onClick={()=> this.selectReason(reason.id)}>{reason.text}</MDBBtn>
+                                        <MDBBtn style={{minWidth: "300px"}} rounded outline={!(this.state.reason && this.state.reason.id === reason.id)} key={"reason-" + reason.id} color={this.state.reason && this.state.reason.id === reason.id ? "primary" : undefined} onClick={()=> this.selectReason(reason.id)}>{reason.text}</MDBBtn>
                                     )}
                                 </MDBBox>
                             </MDBBox>
@@ -217,21 +277,24 @@ class EndInteraction extends Component {
                             </MDBBox>
                             }
                             {this.state.currentStep === "finish" &&
-                            <MDBBox>
-                                Finish
+                            <MDBBox className="d-flex flex-column align-items-center w-100 f-l">
+                                {this.renderLeadSummary(localization)}
+                                {this.state.steps.map(step => this.renderStepSummary(step, localization))}
                             </MDBBox>
                             }
 
                         </MDBCardBody>
                         <MDBCardFooter className="d-flex justify-content-between">
-                                <MDBBtn rounded outline onClick={this.props.toggle}>Cancel</MDBBtn>
-                            <MDBBox className="d-flex justify-content-end">
-                                {this.state.steps.indexOf(this.state.currentStep) > 0 && <MDBBtn rounded outline onClick={this.previousStep}>Previous</MDBBtn>}
-                                {this.state.steps.indexOf(this.state.currentStep) < (this.state.steps.length -1) && <MDBBtn rounded color={"primary"} onClick={this.nextStep}>Next</MDBBtn>}
+                            <MDBBox className="d-flex justify-content-start w-100">
+                                {this.state.steps.indexOf(this.state.currentStep) > 0 && <MDBBtn rounded outline onClick={this.previousStep}>{localization.previousButton}</MDBBtn>}
+                            </MDBBox>
+                            <MDBBox className="d-flex justify-content-end w-100">
+                                {(this.state.steps.indexOf(this.state.currentStep) < (this.state.steps.length -1) && this.state[this.state.currentStep] !== undefined) && <MDBBtn rounded color={"primary"} onClick={this.nextStep}>{localization.nextButton}</MDBBtn>}
+                                {this.state.currentStep === "finish" &&  <MDBBtn rounded color={"primary"} onClick={this.endInteraction}>{localization.endButton}</MDBBtn>}
+                                {this.state.currentStep === "finish" &&  <MDBBtn rounded color={"primary"} onClick={this.endInteraction}>{localization.endFetchButton}</MDBBtn>}
                             </MDBBox>
                         </MDBCardFooter>
                     </MDBCard>
-
                 </MDBModalBody>
             </MDBModal>
         )

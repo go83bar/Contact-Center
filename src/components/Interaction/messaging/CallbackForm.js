@@ -4,8 +4,8 @@ import {
     MDBCard,
     MDBCardBody,
     MDBCardFooter,
-    MDBCardHeader,
-    MDBSelect
+    MDBCardHeader
+
 } from "mdbreact"
 import {connect} from "react-redux"
 import {faTimes} from "@fortawesome/pro-solid-svg-icons"
@@ -117,7 +117,7 @@ class CallbackForm extends Component {
                         <MDBBtn rounded onClick={this.saveCallback} disabled={this.state.saving}>{ this.state.saveButtonLabel}</MDBBtn>
                     </MDBCardFooter>
                 </MDBCard>
-            </Draggable>        
+            </Draggable>
         )
     }
 }
