@@ -68,6 +68,12 @@ export function lead(state = initialState, action) {
                 emails: [ ...state.emails, action.data]
             }
         
+        case "INTERACTION.LOAD":
+            // called when an interaction first starts, we need to put it into the lead data
+            return {
+                ...state,
+                interactions: [ ...state.interactions, action.payload]
+            }
         
         default:
             return state

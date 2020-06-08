@@ -97,7 +97,7 @@ class EmailForm extends Component {
                         content: content,
                         direction: "outgoing",
                         interaction_id: this.props.interaction.id,
-                        created_at: moment().utc().format("YYYY-MM-DD hh:mm:ss")
+                        created_at: moment().utc().format("YYYY-MM-DD HH:mm:ss")
                     }
                 }
                 console.log("ACTION: ", sentAction)

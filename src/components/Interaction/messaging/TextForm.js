@@ -85,7 +85,7 @@ class TextForm extends Component {
                     direction: "outgoing",
                     interaction_id: this.props.interaction.id,
                     automated: false,
-                    created_at: moment().utc().format("YYYY-MM-DD hh:mm:ss")
+                    created_at: moment().utc().format("YYYY-MM-DD HH:mm:ss")
                 }
             }
             this.props.dispatch(sentAction)

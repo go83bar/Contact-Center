@@ -91,7 +91,12 @@ class Preview extends Component {
                     this.props.dispatch({
                         type: "INTERACTION.LOAD",
                         payload: {
-                            id: response.data.id
+                            id: response.data.id,
+                            outcome_id: 27,
+                            outcome_reason_id: null,
+                            reason_id: null,
+                            created_at: moment().utc().format("YYYY-MM-DD HH:mm:ss"),
+                            created_by: this.props.user.label_name
                         }
                     })
                 }
@@ -157,7 +162,8 @@ const mapStateToProps = store => {
     return {
         localization : store.localization,
         previewData: store.preview,
-        shift: store.shift
+        shift: store.shift,
+        user: store.user
     }
 }
 
