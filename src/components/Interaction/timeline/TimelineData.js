@@ -14,19 +14,31 @@ class TimelineData {
             calls : {total : 0, incoming:0, outgoing : 0},
             surveys: {total:0, date:"", time : ""}
         }
-        this.timeline = [ ...lead.interactions]
-        this.timeline && this.timeline.forEach(interaction =>  {
+        this.timeline = lead.interactions.map( interaction => {
+            return {
+                ...interaction,
+                events: [],
+                type: "interaction",
+                created_at: moment.utc(interaction.created_at).tz(lead.details.timezone)
+            }
+        })
+        /*this.timeline && this.timeline.forEach(interaction =>  {
             interaction["events"] = []
             interaction["type"] = "interaction"
             interaction.created_at = moment.utc(interaction.created_at).tz(lead.details.timezone)
-        })
+        })*/
 
         this.generateTimeline(lead)
     }
     processItems(type, items, timezone) {
-        items && items.forEach(item => {
-            item["type"] = type
-            item.created_at = moment.utc(item.created_at).tz(timezone)
+       const newItems = items.map( item => {
+            return {
+                ...item,
+                type: type,
+                created_at: moment.utc(item.created_at).tz(timezone)
+            }
+        })
+        newItems.forEach(item => {
             if (item.interaction_id) {
                 let interaction = this.timeline.find(i => i.id === item.interaction_id && i.type === "interaction")
                 if (interaction)

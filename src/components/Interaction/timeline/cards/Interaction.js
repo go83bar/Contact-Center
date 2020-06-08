@@ -128,12 +128,12 @@ class Interaction extends Component {
                             <span className="f-l font-weight-bold">{this.props.shift.outcomes.find(outcome => outcome.id === this.props.data.outcome_id).label}</span>
                             {this.props.data.outcome_reason_id && <span>{this.props.shift.outcome_reasons.find(reason => reason.id === this.props.data.outcome_reason_id).label}</span>}
                             <div className="d-flex">
-                                {counts.emails > 0 && <div><MDBChip className="m-0 timelineChip">1 <FontAwesomeIcon icon={faEnvelope}/></MDBChip></div>}
-                                {counts.calls > 0 && <div><MDBChip className="m-0 timelineChip">1 <FontAwesomeIcon icon={faPhone}/></MDBChip></div>}
-                                {counts.appointments > 0 && <div><MDBChip className="m-0 timelineChip">1 <FontAwesomeIcon icon={faCalendar}/></MDBChip></div>}
-                                {counts.documents > 0 && <div><MDBChip className="m-0 timelineChip">1 <FontAwesomeIcon icon={faFile}/></MDBChip></div>}
-                                {counts.texts > 0 && <div><MDBChip className="m-0 timelineChip">1 <FontAwesomeIcon icon={faComment}/></MDBChip></div>}
-                                {counts.notes > 0 && <div><MDBChip className="m-0 timelineChip">1 <FontAwesomeIcon icon={faEdit}/></MDBChip></div>}
+                                {counts.emails > 0 && <div><MDBChip className="m-0 timelineChip">{counts.emails} <FontAwesomeIcon icon={faEnvelope}/></MDBChip></div>}
+                                {counts.calls > 0 && <div><MDBChip className="m-0 timelineChip">{counts.calls} <FontAwesomeIcon icon={faPhone}/></MDBChip></div>}
+                                {counts.appointments > 0 && <div><MDBChip className="m-0 timelineChip">{counts.appointments} <FontAwesomeIcon icon={faCalendar}/></MDBChip></div>}
+                                {counts.documents > 0 && <div><MDBChip className="m-0 timelineChip">{counts.documents} <FontAwesomeIcon icon={faFile}/></MDBChip></div>}
+                                {counts.texts > 0 && <div><MDBChip className="m-0 timelineChip">{counts.texts} <FontAwesomeIcon icon={faComment}/></MDBChip></div>}
+                                {counts.notes > 0 && <div><MDBChip className="m-0 timelineChip">{counts.notes} <FontAwesomeIcon icon={faEdit}/></MDBChip></div>}
                             </div>
                         </div>
                         <div className="d-flex w-50 f-s flex-column text-right justify-content-end">
