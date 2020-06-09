@@ -24,6 +24,7 @@ import {
 } from "@fortawesome/pro-solid-svg-icons";
 import {faCircle} from "@fortawesome/pro-light-svg-icons";
 import {faHeadSide} from "@fortawesome/pro-regular-svg-icons";
+import LeadAPI from "../../api/leadAPI";
 
 var truncate = function (str, limit) {
     var bits, i;
@@ -53,6 +54,7 @@ class EndInteraction extends Component {
         this.selectOutcome = this.selectOutcome.bind(this)
         this.selectReason = this.selectReason.bind(this)
         this.endInteraction = this.endInteraction.bind(this)
+        this.endInteractionFetch = this.endInteractionFetch.bind(this)
         this.renderLeadSummary = this.renderLeadSummary.bind(this)
         this.toStep = this.toStep.bind(this)
 
@@ -91,8 +93,31 @@ class EndInteraction extends Component {
         }
     }
 
-    endInteraction() {
+    endInteraction(fetch) {
         console.log("End Interaction")
+        let payload = {
+            interaction_id: this.props.interaction.id,
+            outcome: this.state.outcome.name
+        }
+
+        if (this.state.reason) payload["outcome_reason_id"] = this.state.reason.id
+        if (this.state.office) payload["office_id"] = this.state.office.id
+        if (this.state.appointment) payload["appointment_id"] = this.state.appointment.id
+        console.log("End Interaction Payload: ", payload)
+        LeadAPI.endInteraction(payload).then(response => {
+            if (response.success) {
+                this.props.dispatch({
+                    type: "INTERACTION.END",
+                    data: {
+                        interactionID: payload.interactionID
+                    }
+                })
+            }
+        })
+        fetch === true ? this.props.history.push("/next") : this.props.history.push("/")
+    }
+    endInteractionFetch() {
+       this.endInteraction(true)
     }
 
     selectOutcome(outcome_id) {
@@ -291,7 +316,7 @@ class EndInteraction extends Component {
                             <MDBBox className="d-flex justify-content-end w-100">
                                 {(this.state.steps.indexOf(this.state.currentStep) < (this.state.steps.length -1) && this.state[this.state.currentStep] !== undefined) && <MDBBtn rounded color={"primary"} onClick={this.nextStep}>{localization.nextButton}</MDBBtn>}
                                 {this.state.currentStep === "finish" &&  <MDBBtn rounded color={"primary"} onClick={this.endInteraction}>{localization.endButton}</MDBBtn>}
-                                {this.state.currentStep === "finish" &&  <MDBBtn rounded color={"primary"} onClick={this.endInteraction}>{localization.endFetchButton}</MDBBtn>}
+                                {this.state.currentStep === "finish" &&  <MDBBtn rounded color={"primary"} onClick={this.endInteractionFetch}>{localization.endFetchButton}</MDBBtn>}
                             </MDBBox>
                         </MDBCardFooter>
                     </MDBCard>
@@ -304,7 +329,8 @@ const mapStateToProps = store => {
     return {
         localization: store.localization,
         lead : store.lead,
-        shift : store.shift
+        shift : store.shift,
+        interaction: store.interaction
     }
 }
 

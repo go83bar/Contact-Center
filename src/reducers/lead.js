@@ -69,21 +69,23 @@ export function lead(state = initialState, action) {
                 ...state,
                 texts: [ ...state.texts, action.data]
             }
-    
+
         case "LEAD.EMAIL_SENT":
             // called when agents sends lead an SMS message
             return {
                 ...state,
                 emails: [ ...state.emails, action.data]
             }
-        
+
         case "INTERACTION.LOAD":
             // called when an interaction first starts, we need to put it into the lead data
             return {
                 ...state,
                 interactions: [ ...state.interactions, action.payload]
             }
-        
+        case "INTERACTION.END":
+            return {}
+
         default:
             return state
     }

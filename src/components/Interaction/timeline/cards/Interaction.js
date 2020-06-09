@@ -126,7 +126,7 @@ class Interaction extends Component {
                         </span>
                         <div className="d-flex w-50 p-2 flex-column text-left">
                             <span className="f-l font-weight-bold">{this.props.shift.outcomes.find(outcome => outcome.id === this.props.data.outcome_id).label}</span>
-                            {this.props.data.outcome_reason_id && <span>{this.props.shift.outcome_reasons.find(reason => reason.id === this.props.data.outcome_reason_id).label}</span>}
+                            {this.props.data.outcome_reason_id && <span>{this.props.shift.outcome_reasons.find(reason => reason.id === this.props.data.outcome_reason_id).text}</span>}
                             <div className="d-flex">
                                 {counts.emails > 0 && <div><MDBChip className="m-0 timelineChip">{counts.emails} <FontAwesomeIcon icon={faEnvelope}/></MDBChip></div>}
                                 {counts.calls > 0 && <div><MDBChip className="m-0 timelineChip">{counts.calls} <FontAwesomeIcon icon={faPhone}/></MDBChip></div>}

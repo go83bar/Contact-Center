@@ -7,6 +7,8 @@ export function interaction (state = initialState, action) {
             return Object.assign({}, state, {
                 ...action.payload
             })
+        case "INTERACTION.END":
+            return {}
         default:
             return state
     }

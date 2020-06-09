@@ -188,6 +188,32 @@ export default class LeadAPI {
     }
 
     /**
+     * End an interaction
+     *
+     * @param {EndInteractionParams} params
+     * @returns {Promise}
+     * @memberof LeadAPI
+     */
+    static async endInteraction(params) {
+        // Mock API responses for local dev
+        if (process.env.REACT_APP_QUERY_MODE === "development") {
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "/data/successTrue.json")
+
+            return mockData.json()
+        }
+        const redux = store.getState()
+        const requestOptions = {
+            url: redux.config["url-api-base"] + "leads/" + redux.lead.id + "/outcome",
+            method: "POST",
+            data: params,
+            auth: redux.user.auth
+        }
+        const result = await sendRequest(requestOptions)
+
+        return result
+    }
+
+    /**
      * @typedef LeadDTOParams
      * @type {object}
      * @property {number} leadID

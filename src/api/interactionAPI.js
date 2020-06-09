@@ -1,7 +1,7 @@
 import sendRequest from './fetch'
 import store from '../store'
 
-export default class InteractionAPI { 
+export default class InteractionAPI {
 
     /**
      * @typedef SaveCallbackParams
@@ -186,5 +186,4 @@ export default class InteractionAPI {
         return result
 
     }
-
-} 
+}
