@@ -99,7 +99,7 @@ class LeadSummary extends Component {
                     <MDBBox className="backgroundColorInherit border-0 p-0 m-0 px-3 w-100 d-flex justify-content-between">
                         <MDBBox>
                             <span className={"d-inline-block font-weight-bolder p-0 m-0 mt-2"} style={{fontSize:"1.5rem"}}>{lead.details.first_name} {lead.details.last_name}</span>
-                            <div className="d-inline-block pl-3 pr-2" onClick={()=>this.showModal("Edit Lead")}><FontAwesomeIcon icon={faUserEdit} size={"lg"} className={"skin-secondary-color"}/></div>
+                            <div className="d-inline-block pl-3 pr-2 pointer" onClick={()=>this.showModal("Edit Lead")}><FontAwesomeIcon icon={faUserEdit} size={"lg"} className={"skin-secondary-color"}/></div>
                             <MDBDropdown className={"d-inline-block"}>
                                 <MDBDropdownToggle nav className="px-2">
                                     <span className=""><FontAwesomeIcon icon={faEllipsisH} size={"lg"} className={"skin-secondary-color"}/></span>

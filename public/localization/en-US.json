@@ -21,6 +21,28 @@
     "profile" : "User Profile"
   },
   "interaction": {
+    "timezoneChoices": [
+      {
+        "value": "America/Los_Angeles",
+        "label": "Pacific Time"
+      },
+      {
+        "value": "America/Denver",
+        "label": "Mountain Time"
+      },
+      {
+        "value": "American/Phoenix",
+        "label": "Arizone Time (no DS)"
+      },
+      {
+        "value": "America/Chicago",
+        "label": "Central Time"
+      },
+      {
+        "value": "America/New_York",
+        "label": "Eastern Time"
+      }
+    ],
     "endInteraction" : {
       "endButton" : "Save & Go to Dashboard",
       "endFetchButton" : "Save & Fetch New Lead",
@@ -123,6 +145,7 @@
         "month": "MM",
         "day": "DD",
         "year": "YYYY",
+        "timezone": "Timezone",
         "submitButton" : "Save Changes",
         "cancelButton" : "Close"
       },
