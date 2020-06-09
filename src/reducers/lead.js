@@ -20,6 +20,15 @@ export function lead(state = initialState, action) {
                 contact_preferences: contactPreferences
             }
 
+        case "LEAD.UPDATE_DETAILS":
+            // called when user updates lead's contact information
+            // action.data is an object with only updated fields
+            const newDetails = Object.assign({}, state.details, { ...action.data })
+            return {
+                ...state,
+                details: newDetails
+            }
+
         case "LEAD.NOTE_UPDATED":
             // called when user updates one of their previous notes
             const newNotes = state.notes.map( note => {

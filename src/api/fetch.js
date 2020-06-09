@@ -44,7 +44,7 @@ export default async function (options) {
             "X-USER-ID": options.auth.userID
         }
     }
-    if (options.method === "POST") {
+    if (options.method === "POST" || options.method === "PUT") {
         if (options.type === "json") {
             fetchOptions.headers["Content-Type"] = "application/json"
             fetchOptions.body = JSON.stringify(options.data)

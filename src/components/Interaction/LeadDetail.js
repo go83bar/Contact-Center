@@ -54,7 +54,7 @@ class LeadDetail extends Component {
                     <div className="d-flex flex-column justify-content-between">
                     <MDBChip className="outlineChip ml-4 mb-0">{localization.id} : {lead.id}</MDBChip>
                     <MDBChip className={"outlineChip ml-4 mb-0"}>{localization.client} : {this.state.clientName}</MDBChip>
-                    <MDBChip className={"outlineChip ml-4 mb-0"}>{localization.campaign} : {this.state.campaign}</MDBChip>
+                    <MDBChip className={"outlineChip ml-4 mb-0"}>{localization.campaign} : {this.state.campaignName}</MDBChip>
                     </div>
                 </MDBCardBody>
             </MDBCard>

@@ -265,6 +265,41 @@ export default class LeadAPI {
     }
 
     /**
+     * @typedef ContactInfoParams
+     * @type {object}
+     * @property {number} leadID
+     * @property {object} payload
+     */
+
+    /**
+     * Updates the lead contact information
+     *
+     * @static
+     * @param {ContactInfoParams} params
+     * @returns {Promise}
+     * @memberof LeadAPI
+     */
+    static async saveContactInfo(params) {
+        // Mock API responses for local dev
+        if (process.env.REACT_APP_QUERY_MODE === "development") {
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "/data/successTrue.json")
+
+            return mockData.json()
+        }
+
+        const redux = store.getState()
+        const requestOptions = {
+            url: redux.config["url-api-base"] + "leads/" + params.leadID,
+            method: "PUT",
+            data: params.payload,
+            auth: redux.user.auth
+        }
+        const result = await sendRequest(requestOptions)
+
+        return result
+    }
+
+    /**
      * @typedef UpdateNoteParams
      * @type {object}
      * @property {number} noteID
