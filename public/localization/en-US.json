@@ -27,12 +27,12 @@
         "label": "Pacific Time"
       },
       {
-        "value": "America/Denver",
-        "label": "Mountain Time"
+        "value": "America/Phoenix",
+        "label": "Arizona Time (no DS)"
       },
       {
-        "value": "American/Phoenix",
-        "label": "Arizone Time (no DS)"
+        "value": "America/Denver",
+        "label": "Mountain Time"
       },
       {
         "value": "America/Chicago",

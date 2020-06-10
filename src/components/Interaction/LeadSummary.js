@@ -46,6 +46,7 @@ class LeadSummary extends Component {
     constructor(props) {
         super(props);
         this.toggleCollapse = this.toggleCollapse.bind(this)
+        this.toggleTimezone = this.toggleTimezone.bind(this)
         this.collapseClosed = this.collapseClosed.bind(this)
         this.showModal = this.showModal.bind(this)
         this.closeModal = this.closeModal.bind(this)
@@ -60,6 +61,7 @@ class LeadSummary extends Component {
             emailVisible: false,
             textVisible: false,
             callbackVisible: false,
+            timezoneVisible : false
 
         };
     }
@@ -84,6 +86,31 @@ class LeadSummary extends Component {
     toggleCallback = () => {
         this.setState({callbackVisible : !this.state.callbackVisible})
     }
+    toggleTimezone() {
+        if (this.state.timezoneVisible === false) {
+            let leadTime = moment.tz(moment(), this.props.lead.details.timezone)
+            leadTime = {
+                "ampm": leadTime.hour() > 11 ? "pm" : "am",
+                "moment": leadTime.add(leadTime.utcOffset(), 'm'),
+                "zone": moment.tz.zone(this.props.lead.details.timezone).abbr(leadTime)
+            }
+            let times = []
+            this.props.localization.interaction.timezoneChoices.forEach((timezone) => {
+                if (timezone.value !== this.props.lead.details.timezone) {
+                    let tzt = moment.tz(moment(), timezone.value)
+                    let ampm = tzt.hour() > 11 ? "pm" : "am"
+                    times.push({
+                        "moment": tzt.add(tzt.utcOffset(), "m"),
+                        "zone": moment.tz.zone(timezone.value).abbr(tzt),
+                        ampm
+                    })
+                }
+            })
+            this.setState({timezoneVisible: !this.state.timezoneVisible, leadTime, times})
+        } else {
+            this.setState({timezoneVisible: !this.state.timezoneVisible, leadTime : undefined, times: undefined})
+        }
+     }
 
     showModal(modalName) {
         this.setState({modal : modalName})
@@ -94,16 +121,6 @@ class LeadSummary extends Component {
     render() {
         let localization = this.props.localization.interaction.summary
         let lead = this.props.lead
-        let leadTime = moment.tz(moment(),lead.details.timezone)
-        leadTime = {"ampm" : leadTime.hour() > 11 ? "pm" : "am", "moment" : leadTime.add(leadTime.utcOffset(),'m'), "zone" : moment.tz.zone(lead.details.timezone).abbr(leadTime)}
-        let times = []
-        this.props.config.timezones.forEach((timezone) => {
-            if (timezone !== lead.details.timezone) {
-                let tzt = moment.tz(moment(), timezone)
-                let ampm = tzt.hour() > 11 ? "pm" : "am"
-                times.push({"moment": tzt.add(tzt.utcOffset(),"m"), "zone": moment.tz.zone(timezone).abbr(tzt), ampm})
-            }
-        })
         return (
             <MDBBox className='p-0 m-0 w-100 d-flex' style={{flex:"0 53px", fontSize:"18px"}}>
                 <MDBCard className='skin-border-primary rounded w-100 h-100'>
@@ -128,19 +145,23 @@ class LeadSummary extends Component {
                                 popover
                                 clickable
                                 id="timezonepopper"
+                                onChange={this.toggleTimezone}
+                                isVisible={this.state.timezoneVisible}
                             >
                                 <MDBBtn flat className={"d-inline-block f-l font-weight-bolder p-0 m-0"}>
                                     {lead.details.timezone_short}
                                 </MDBBtn>
                                 <div>
                                     <MDBPopoverHeader>
-                                        <Timer initialTime={leadTime.moment} formatValue={(value) => `${(value < 10 ? `0${value}` : value)}`}>
+                                        {this.state.leadTime && <div>
+                                        <Timer initialTime={this.state.leadTime.moment} formatValue={(value) => `${(value < 10 ? `0${value}` : value)}`}>
                                             <Timer.Hours formatValue={(value) => `${(value > 12 ? `${value-12}` : value)}`}/>:
                                             <Timer.Minutes />
-                                        </Timer>{leadTime.ampm} {leadTime.zone}
+                                        </Timer>{this.state.leadTime.ampm} {this.state.leadTime.zone}</div>
+                                        }
                                     </MDBPopoverHeader>
                                     <MDBPopoverBody>
-                                        {times.map((time,index) => {
+                                        {this.state.times && this.state.times.map((time,index) => {
                                             return (<div key={"tz" + index}>
                                             <Timer initialTime={time.moment} formatValue={(value) => `${(value < 10 ? `0${value}` : value)}`}>
                                                 <Timer.Hours formatValue={(value) => `${(value > 12 ? `${value-12}` : value)}`}/>:
@@ -223,7 +244,6 @@ class LeadSummary extends Component {
 const mapStateToProps = state => {
     return {
         auth: state.auth,
-        config : state.config,
         localization: state.localization,
         preview : state.preview,
         lead : state.lead,
