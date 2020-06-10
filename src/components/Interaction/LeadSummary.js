@@ -10,7 +10,7 @@ import {
     MDBDropdown,
     MDBDropdownToggle,
     MDBDropdownMenu,
-    MDBDropdownItem
+    MDBDropdownItem, MDBPopover, MDBPopoverHeader, MDBPopoverBody, MDBBtn
 
 } from "mdbreact";
 import {connect} from "react-redux";
@@ -38,6 +38,7 @@ import { TwilioDevice } from '../../twilio/TwilioDevice'
 import EmailForm from './messaging/EmailForm'
 import TextForm from './messaging/TextForm'
 import CallbackForm from './messaging/CallbackForm'
+import moment from "moment-timezone";
 
 
 class LeadSummary extends Component {
@@ -93,6 +94,16 @@ class LeadSummary extends Component {
     render() {
         let localization = this.props.localization.interaction.summary
         let lead = this.props.lead
+        let leadTime = moment.tz(moment(),lead.details.timezone)
+        leadTime = {"ampm" : leadTime.hour() > 11 ? "pm" : "am", "moment" : leadTime.add(leadTime.utcOffset(),'m'), "zone" : moment.tz.zone(lead.details.timezone).abbr(leadTime)}
+        let times = []
+        this.props.config.timezones.forEach((timezone) => {
+            if (timezone !== lead.details.timezone) {
+                let tzt = moment.tz(moment(), timezone)
+                let ampm = tzt.hour() > 11 ? "pm" : "am"
+                times.push({"moment": tzt.add(tzt.utcOffset(),"m"), "zone": moment.tz.zone(timezone).abbr(tzt), ampm})
+            }
+        })
         return (
             <MDBBox className='p-0 m-0 w-100 d-flex' style={{flex:"0 53px", fontSize:"18px"}}>
                 <MDBCard className='skin-border-primary rounded w-100 h-100'>
@@ -111,9 +122,36 @@ class LeadSummary extends Component {
                             </MDBDropdown>
                         </MDBBox>
                         <div className="mt-2 pt-1 d-inline-block" style={{lineHeight:1.25}}>
-                            <div className={"d-inline-block font-weight-bolder ml-3"}>
-                                {lead.details.timezone_short}
-                            </div>
+
+                            <MDBPopover
+                                placement="bottom"
+                                popover
+                                clickable
+                                id="timezonepopper"
+                            >
+                                <MDBBtn flat className={"d-inline-block f-l font-weight-bolder p-0 m-0"}>
+                                    {lead.details.timezone_short}
+                                </MDBBtn>
+                                <div>
+                                    <MDBPopoverHeader>
+                                        <Timer initialTime={leadTime.moment} formatValue={(value) => `${(value < 10 ? `0${value}` : value)}`}>
+                                            <Timer.Hours formatValue={(value) => `${(value > 12 ? `${value-12}` : value)}`}/>:
+                                            <Timer.Minutes />
+                                        </Timer>{leadTime.ampm} {leadTime.zone}
+                                    </MDBPopoverHeader>
+                                    <MDBPopoverBody>
+                                        {times.map((time,index) => {
+                                            return (<div key={"tz" + index}>
+                                            <Timer initialTime={time.moment} formatValue={(value) => `${(value < 10 ? `0${value}` : value)}`}>
+                                                <Timer.Hours formatValue={(value) => `${(value > 12 ? `${value-12}` : value)}`}/>:
+                                                <Timer.Minutes />
+                                            </Timer>{time.ampm} {time.zone}</div>
+                                        )
+                                        })}
+
+                                    </MDBPopoverBody>
+                                </div>
+                            </MDBPopover>
                             <MDBChip className={"outlineChip ml-4 mb-0"}>{this.state.clientName}</MDBChip>
                             <MDBChip className={"outlineChip ml-1 mb-0"}>{this.state.campaignName}</MDBChip>
                             <MDBChip className={"outlineChip ml-1 mb-0"}>{this.props.preview.reason}</MDBChip>
@@ -185,6 +223,7 @@ class LeadSummary extends Component {
 const mapStateToProps = state => {
     return {
         auth: state.auth,
+        config : state.config,
         localization: state.localization,
         preview : state.preview,
         lead : state.lead,

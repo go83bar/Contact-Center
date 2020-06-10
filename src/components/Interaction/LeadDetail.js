@@ -41,20 +41,23 @@ class LeadDetail extends Component {
                     <div className="d-flex flex-column w-50 justify-content-between">
                         <span>
                             <span className="mr-3">
-                                {lead.details.preferred_phone === "cell" && <FontAwesomeIcon icon={faStar} className="skin-primary-color"/>} {localization.cellPhone}: <span className={lead.details.preferred_phone === "cell" ? "font-weight-bold" : "font-weight-normal"}>{formatPhoneNumber(lead.details.cell_phone)}</span>
+                                {lead.details.preferred_phone === "cell" && <FontAwesomeIcon icon={faStar} className="skin-primary-color"/>} {localization.cellPhone}<span className={lead.details.preferred_phone === "cell" ? "font-weight-bold" : "font-weight-normal"}>{formatPhoneNumber(lead.details.cell_phone)}</span>
                             </span>
                             <span>
-                                {lead.details.preferred_phone === "home" && <FontAwesomeIcon icon={faStar} className="skin-primary-color"/>} {localization.homePhone}: <span className={lead.details.preferred_phone === "home" ? "font-weight-bold" : "font-weight-normal"}>{formatPhoneNumber(lead.details.home_phone)}</span>
+                                {lead.details.preferred_phone === "home" && <FontAwesomeIcon icon={faStar} className="skin-primary-color"/>} {localization.homePhone}<span className={lead.details.preferred_phone === "home" ? "font-weight-bold" : "font-weight-normal"}>{formatPhoneNumber(lead.details.home_phone)}</span>
                             </span>
                         </span>
-                        <span>{localization.address}: {lead.details.address_1 ? lead.details.address_1 + "," : ""} {lead.details.city ? lead.details.city + "," : ""} {lead.details.state ? lead.details.state + "," : ""} {lead.details.zip ? lead.details.zip : ""} {lead.details.timezone_short}</span>
-                        <span><span>{localization.email}: {lead.details.email}</span>{lead.details.date_of_birth && <span> {localization.date_of_birth}: {lead.details.date_of_birth}</span>}</span>
+                        <span>
+                            {lead.details.address_1 && <span>{localization.address}{lead.details.address_1}</span>}
+                        </span>
+                        <span>{lead.details.city && <span>{localization.city}{lead.details.city}</span>} {lead.details.state && <span>{localization.state}{lead.details.state}</span>} {lead.details.zip && <span>{localization.zip}{lead.details.zip}</span>}</span>
+                        <span><span>{localization.email}{lead.details.email}</span>{lead.details.date_of_birth && <span>{localization.date_of_birth}{lead.details.date_of_birth}</span>}</span>
 
                     </div>
                     <div className="d-flex flex-column justify-content-between">
-                    <MDBChip className="outlineChip ml-4 mb-0">{localization.id} : {lead.id}</MDBChip>
-                    <MDBChip className={"outlineChip ml-4 mb-0"}>{localization.client} : {this.state.clientName}</MDBChip>
-                    <MDBChip className={"outlineChip ml-4 mb-0"}>{localization.campaign} : {this.state.campaignName}</MDBChip>
+                    <MDBChip className="outlineChip ml-4 mb-0">{localization.id}{lead.id}</MDBChip>
+                    <MDBChip className={"outlineChip ml-4 mb-0"}>{localization.client}{this.state.clientName}</MDBChip>
+                    <MDBChip className={"outlineChip ml-4 mb-0"}>{localization.campaign}{this.state.campaignName}</MDBChip>
                     </div>
                 </MDBCardBody>
             </MDBCard>

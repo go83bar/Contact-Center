@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {
-    MDBBtn, MDBCol, MDBInput, MDBModal, 
-    MDBBox, MDBModalBody, MDBModalFooter, 
+    MDBBtn, MDBCol, MDBInput, MDBModal,
+    MDBBox, MDBModalBody, MDBModalFooter,
     MDBModalHeader, MDBRow, MDBSelect
 } from 'mdbreact'
 import {connect} from "react-redux"
@@ -65,7 +65,7 @@ class EditLead extends Component {
         if (this.state.yearValue !== undefined && this.state.yearValue.length !== 4) {
             this.setState({ hasErrors: true, errorMessage: "Birth year must be 4 digits"})
             return
-        }        
+        }
         // Compare current state to props to build save payload based on what changed
         let updatedFields = []
         for (let [field, value] of Object.entries(this.state.originalValues)) {
@@ -119,7 +119,7 @@ class EditLead extends Component {
         LeadAPI.saveContactInfo({ leadID: this.props.lead.id, payload: payload}).then( response => {
             if (response !== "false") {
                 // check to see if timezone changed, we need to update a couple fields there
-                if (payload.timezone != undefined) {
+                if (payload.timezone !== undefined) {
                     payload.timezone_short = moment().tz(payload.timezone).format('z')
                 }
                 this.props.dispatch({ type: "LEAD.UPDATE_DETAILS", data: payload })
@@ -136,7 +136,7 @@ class EditLead extends Component {
     }
 
     handleFormInput = (evt) => {
-        
+
         this.setState({ [evt.target.name]: evt.target.value, hasErrors: false })
     }
 
@@ -289,8 +289,8 @@ class EditLead extends Component {
                               className="skin-border-primary"
                     />
                     <div className="break"/>
-                    <MDBSelect options={this.state.timezoneOptions} 
-                        getValue={this.chooseTimezone} 
+                    <MDBSelect options={this.state.timezoneOptions}
+                        getValue={this.chooseTimezone}
                         label={this.props.localized.timezone}
                     />
                     <div className="break"/>
