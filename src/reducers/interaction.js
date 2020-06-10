@@ -13,6 +13,8 @@ export function interaction (state = initialState, action) {
             return Object.assign({}, state, {
                 hasUnsavedNote: true
             })
+        case "LEAD.NOTE_UPDATED":
+        case "LEAD.NOTE_SAVED":
         case "INTERACTION.CLEAR_UNSAVED_NOTE":
             return Object.assign({}, state, {
                 hasUnsavedNote: false
