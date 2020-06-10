@@ -1,5 +1,9 @@
 import React, {Component} from 'react'
-import {MDBBtn, MDBCol, MDBInput, MDBModal, MDBBox, MDBModalBody, MDBModalFooter, MDBModalHeader, MDBRow} from 'mdbreact'
+import {
+    MDBBtn, MDBCol, MDBInput, MDBModal, 
+    MDBBox, MDBModalBody, MDBModalFooter, 
+    MDBModalHeader, MDBRow, MDBSelect
+} from 'mdbreact'
 import {connect} from "react-redux"
 import Switch from "../../ui/Switch"
 import LeadAPI from "../../../api/leadAPI"
@@ -20,9 +24,23 @@ class EditLead extends Component {
 
         // build copy of lead data suitable for MDBInput components
         let formattedLeadDetails = {}
-        for (let [field, value] of Object.entries(this.props.lead.details)) {
+        for (let [field, value] of Object.entries(props.lead.details)) {
             formattedLeadDetails[field] = (value === null) ? undefined : value
         }
+
+        // build timezone options
+        const timezoneOptions = props.localization.interaction.timezoneChoices.map( timezone => {
+            let option = {
+                value: timezone.value,
+                text: timezone.label
+            }
+
+            if (timezone.value === props.lead.details.timezone) {
+                option.checked = true
+            }
+
+            return option
+        })
 
         this.state = {
             ...formattedLeadDetails,
@@ -30,6 +48,7 @@ class EditLead extends Component {
             monthValue: month,
             dayValue: day,
             yearValue: year,
+            timezoneOptions: timezoneOptions,
             hasErrors: false,
             errorMessage: ""
         };
@@ -99,6 +118,10 @@ class EditLead extends Component {
         // call API method and dispatch new data to the store when it's complete
         LeadAPI.saveContactInfo({ leadID: this.props.lead.id, payload: payload}).then( response => {
             if (response !== "false") {
+                // check to see if timezone changed, we need to update a couple fields there
+                if (payload.timezone != undefined) {
+                    payload.timezone_short = moment().tz(payload.timezone).format('z')
+                }
                 this.props.dispatch({ type: "LEAD.UPDATE_DETAILS", data: payload })
             }
         }).catch( reason => {
@@ -115,6 +138,10 @@ class EditLead extends Component {
     handleFormInput = (evt) => {
         
         this.setState({ [evt.target.name]: evt.target.value, hasErrors: false })
+    }
+
+    chooseTimezone = (values) => {
+        this.setState({ timezone: values[0] })
     }
 
     updatePreference = field => {
@@ -262,6 +289,11 @@ class EditLead extends Component {
                               className="skin-border-primary"
                     />
                     <div className="break"/>
+                    <MDBSelect options={this.state.timezoneOptions} 
+                        getValue={this.chooseTimezone} 
+                        label={this.props.localized.timezone}
+                    />
+                    <div className="break"/>
                     Date Of Birth
                     <div className="break"/>
                     <MDBInput type="text"
@@ -329,6 +361,7 @@ class EditLead extends Component {
 const mapStateToProps = state => {
     return {
         auth: state.auth,
+        localization: state.localization,
         localized: state.localization.interaction.summary.editLead,
         lead: state.lead,
     }

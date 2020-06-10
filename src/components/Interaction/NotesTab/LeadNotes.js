@@ -38,6 +38,20 @@ class LeadNotes extends Component {
         })
     }
 
+    // called when user clicks away from note content field after editing
+    // used to trip alert when ending interaction if there is unsaved note content
+    stoppedEditingContent = (event) => {
+        if (event.target.value === "" && this.props.interaction.hasUnsavedNote) {
+            this.props.dispatch({ type: "INTERACTION.CLEAR_UNSAVED_NOTE"})
+            return
+        }
+
+        if (event.target.value !== "" && !this.props.interaction.hasUnsavedNote) {
+            this.props.dispatch({ type: "INTERACTION.FLAG_UNSAVED_NOTE"})
+            return
+        }
+    }
+
     // user has delete button with a note
     deleteNote = () => {
 
@@ -189,6 +203,7 @@ class LeadNotes extends Component {
                               style={{borderColor: "#dee2e6"}}
                               rows="5"
                               onChange={this.updateNoteContent}
+                              onBlur={this.stoppedEditingContent}
                               value={this.state.noteContent}
                     />
                         <MDBBox>
