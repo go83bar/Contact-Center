@@ -18,7 +18,8 @@
     "signout" : "Sign Out",
     "recent" : "Recent Leads",
     "search" : "Find Leads",
-    "profile" : "User Profile"
+    "profile" : "User Profile",
+    "welcome" : "Welcome $!"
   },
   "interaction": {
     "timezoneChoices": [

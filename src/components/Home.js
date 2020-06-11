@@ -82,14 +82,13 @@ class Home extends Component {
 
     render() {
         const localization = this.props.localization.home
-
         return (
             <MDBBox className="d-flex flex-column w-100 justify-content-start skin-secondary-color mx-5">
                 <MDBBox className="d-flex w-100 skin-secondary-background-color skin-text align-items-center p-1 f-l">
                     <MDBBox className="d-flex w-50 ml-4 align-items-center">
                         <img src={"/images/83Bar-white.png"} alt="logo" className="img-fluid m-1 mr-4"
                              style={{height: "48px"}}/>
-                        <span>Welcome Agent!</span>
+                        <span>{localization.welcome.replace("$", this.props.user.first_name)}</span>
                     </MDBBox>
                     <MDBBox className="d-flex justify-content-end w-50 mr-4 align-items-center">
                         <Link to="#" onClick={this.toggleProfile} className="f-xl px-3">
