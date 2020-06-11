@@ -190,8 +190,8 @@ class Profile extends Component {
                         </MDBTabPane>
                     </MDBTabContent>
                 </MDBBox>
-                <MDBBox className="d-flex w-100 justify-content-end p-3">
-                    <MDBBtn rounded color="secondary" onClick={this.props.onClose}>Close</MDBBtn>
+                <MDBBox className="d-flex w-100 justify-content-between p-3">
+                    <MDBBtn rounded outline color="secondary" onClick={this.props.onClose}>Close</MDBBtn>
                     {this.state.activeTab === "profile" && <MDBBtn rounded className="skin-primary-background-color skin-text" onClick={this.props.onClose}>Save Changes</MDBBtn>}
                 </MDBBox>
             </MDBBox>

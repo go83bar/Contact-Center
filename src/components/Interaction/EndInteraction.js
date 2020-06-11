@@ -311,6 +311,7 @@ class EndInteraction extends Component {
                         </MDBCardBody>
                         <MDBCardFooter className="d-flex justify-content-between">
                             <MDBBox className="d-flex justify-content-start w-100">
+                                <MDBBtn rounded outline onClick={this.props.toggle}>{localization.cancelButton}</MDBBtn>
                                 {this.state.steps.indexOf(this.state.currentStep) > 0 && <MDBBtn rounded outline onClick={this.previousStep}>{localization.previousButton}</MDBBtn>}
                             </MDBBox>
                             <MDBBox className="d-flex justify-content-end w-100">

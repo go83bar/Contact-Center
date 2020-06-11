@@ -39,22 +39,26 @@ class LeadDetail extends Component {
             <MDBCard className="w-100 p-2 mb-2 d-flex border rounded skin-border-primary" style={{flex:"0 65px"}}>
                 <MDBCardBody className="d-flex w-100 p-2" style={{height:"120px"}}>
                     <div className="d-flex flex-column w-50 justify-content-between">
-                        <span>
+                        <span className="d-flex justify-content-between">
                             <span className="mr-3">
-                                {lead.details.preferred_phone === "cell" && <FontAwesomeIcon icon={faStar} className="skin-primary-color"/>} {localization.cellPhone}<span className={lead.details.preferred_phone === "cell" ? "font-weight-bold" : "font-weight-normal"}>{formatPhoneNumber(lead.details.cell_phone)}</span>
+                                {lead.details.preferred_phone === "cell" && <FontAwesomeIcon icon={faStar} className="skin-primary-color"/>} <span className="font-weight-bold">{localization.cellPhone}</span> {formatPhoneNumber(lead.details.cell_phone)}
                             </span>
                             <span>
-                                {lead.details.preferred_phone === "home" && <FontAwesomeIcon icon={faStar} className="skin-primary-color"/>} {localization.homePhone}<span className={lead.details.preferred_phone === "home" ? "font-weight-bold" : "font-weight-normal"}>{formatPhoneNumber(lead.details.home_phone)}</span>
+                                {lead.details.preferred_phone === "home" && <FontAwesomeIcon icon={faStar} className="skin-primary-color"/>} <span className="font-weight-bold">{localization.homePhone}</span> {formatPhoneNumber(lead.details.home_phone)}
                             </span>
                         </span>
                         <span>
-                            {lead.details.address_1 && <span>{localization.address}{lead.details.address_1}</span>}
+                            {lead.details.address_1 && <span><span className="font-weight-bold">{localization.address}</span>{lead.details.address_1}</span>}
+                            {lead.details.address_2 && <span> , {lead.details.address_2}</span>}
                         </span>
-                        <span>{lead.details.city && <span>{localization.city}{lead.details.city}</span>} {lead.details.state && <span>{localization.state}{lead.details.state}</span>} {lead.details.zip && <span>{localization.zip}{lead.details.zip}</span>}</span>
-                        <span><span>{localization.email}{lead.details.email}</span>{lead.details.date_of_birth && <span>{localization.date_of_birth}{lead.details.date_of_birth}</span>}</span>
+                        <span className="d-flex justify-content-between">{lead.details.city && <span><span className="font-weight-bold">{localization.city}</span>{lead.details.city}</span>} {lead.details.state && <span><span className="font-weight-bold">{localization.state}</span>{lead.details.state}</span>} {lead.details.zip && <span><span className="font-weight-bold">{localization.zip}</span>{lead.details.zip}</span>}</span>
+                        <span className="d-flex justify-content-between">
+                            <span><span className="font-weight-bold">{localization.email}</span>{lead.details.email}</span>
+                            {lead.details.date_of_birth && <span><span className="font-weight-bold">{localization.date_of_birth}</span>{lead.details.date_of_birth}</span>}
+                        </span>
 
                     </div>
-                    <div className="d-flex flex-column justify-content-between">
+                    <div className="d-flex flex-column justify-content-between align-items-start w-50">
                     <MDBChip className="outlineChip ml-4 mb-0">{localization.id}{lead.id}</MDBChip>
                     <MDBChip className={"outlineChip ml-4 mb-0"}>{localization.client}{this.state.clientName}</MDBChip>
                     <MDBChip className={"outlineChip ml-4 mb-0"}>{localization.campaign}{this.state.campaignName}</MDBChip>

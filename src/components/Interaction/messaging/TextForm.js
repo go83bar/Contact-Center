@@ -54,7 +54,7 @@ class TextForm extends Component {
             console.log("Error fetching text templates: ", reason)
         })
 
-        
+
 
     }
 
@@ -63,7 +63,7 @@ class TextForm extends Component {
 
     }
     chooseTemplate = (values) => {
-        const chosenTemplate = this.state.renderedTemplates.find( template => template.id === parseInt(values[0]) ) 
+        const chosenTemplate = this.state.renderedTemplates.find( template => template.id === parseInt(values[0]) )
         this.setState({
             contentValue: chosenTemplate.content
         })
@@ -112,11 +112,11 @@ class TextForm extends Component {
                                 <textarea className="md-textarea form-control" rows="3" onChange={this.updateContent} placeholder={this.props.localized.contentPlaceholder} value={this.state.contentValue}></textarea>
                             </div>
                         </MDBCardBody>
-                        <MDBCardFooter className="d-flex justify-content-end">
+                        <MDBCardFooter className="d-flex justify-content-between">
                             <MDBBtn outline rounded onClick={this.props.toggle}>{this.props.localization.buttonLabels.cancel}</MDBBtn>
                             <MDBBtn rounded onClick={this.sendMessage}>{this.props.localization.buttonLabels.send}</MDBBtn>
                         </MDBCardFooter>
-                    </MDBCard> 
+                    </MDBCard>
                 </Draggable>
             )
         } else return null

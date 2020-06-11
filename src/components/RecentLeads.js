@@ -9,7 +9,6 @@ import AgentAPI from '../api/agentAPI';
 import LoadingScreen from './LoadingScreen'
 import SearchResults from './search/SearchResults'
 import { connect } from 'react-redux';
-//import CircularSideNav from "./CircluarSideNav/CircularSideNav";
 
 class RecentLeads extends Component {
 

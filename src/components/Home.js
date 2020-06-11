@@ -144,8 +144,8 @@ class Home extends Component {
                     <MDBModalBody className="p-0">
                           <RecentLeads />
                     </MDBModalBody>
-                    <MDBModalFooter>
-                        <MDBBtn rounded color="secondary" onClick={this.toggleRecent}>Close</MDBBtn>
+                    <MDBModalFooter className="d-flex justify-content-between">
+                        <MDBBtn rounded outline onClick={this.toggleRecent}>Close</MDBBtn>
                     </MDBModalFooter>
                 </MDBModal>
                 <MDBModal isOpen={this.state.showSearch} toggle={this.toggleSearch} centered size={"lg"}>
@@ -153,8 +153,8 @@ class Home extends Component {
                     <MDBModalBody className="p-0">
                         <Search />
                     </MDBModalBody>
-                    <MDBModalFooter>
-                        <MDBBtn rounded color="secondary" onClick={this.toggleSearch}>Close</MDBBtn>
+                    <MDBModalFooter className="d-flex justify-content-between">
+                        <MDBBtn rounded outline onClick={this.toggleSearch}>Close</MDBBtn>
                     </MDBModalFooter>
                 </MDBModal>
                 <MDBModal isOpen={this.state.showProfile} toggle={this.toggleProfile} centered size={"lg"}>

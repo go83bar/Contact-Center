@@ -112,7 +112,7 @@ class CallbackForm extends Component {
                             <textarea className="md-textarea form-control" onChange={this.handleNoteContent} rows="3" placeholder={this.props.localization.notePlaceholder}></textarea>
                         </div>
                     </MDBCardBody>
-                    <MDBCardFooter className="d-flex justify-content-end">
+                    <MDBCardFooter className="d-flex justify-content-between">
                         <MDBBtn outline rounded onClick={this.props.toggle}>{this.props.localization.cancelButton}</MDBBtn>
                         <MDBBtn rounded onClick={this.saveCallback} disabled={this.state.saving}>{ this.state.saveButtonLabel}</MDBBtn>
                     </MDBCardFooter>

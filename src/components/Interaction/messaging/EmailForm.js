@@ -58,7 +58,7 @@ class EmailForm extends Component {
             console.log("Error fetching text templates: ", reason)
         })
 
-        
+
 
     }
 
@@ -67,7 +67,7 @@ class EmailForm extends Component {
     }
 
     chooseTemplate = (values) => {
-        const chosenTemplate = this.state.renderedTemplates.find( template => template.id === parseInt(values[0]) ) 
+        const chosenTemplate = this.state.renderedTemplates.find( template => template.id === parseInt(values[0]) )
         let editor = document.getElementsByClassName("mdb-wysiwyg-textarea")[0]
         if (editor !== undefined) {
             editor.innerHTML = chosenTemplate.content
@@ -127,7 +127,7 @@ class EmailForm extends Component {
                         <MDBInput label={this.props.localized.subjectLabel} onChange={this.updateSubject} value={this.state.subjectValue} />
                         <MDBWysiwyg />
                     </MDBCardBody>
-                    <MDBCardFooter className="d-flex justify-content-end">
+                    <MDBCardFooter className="d-flex justify-content-between">
                         <MDBBtn rounded outline onClick={this.props.toggle}>{this.props.localization.buttonLabels.cancel}</MDBBtn>
                         <MDBBtn rounded onClick={this.sendMessage}>{this.props.localization.buttonLabels.send}</MDBBtn>
                     </MDBCardFooter>
