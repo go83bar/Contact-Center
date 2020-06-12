@@ -37,6 +37,7 @@ export function processCallEvent(eventData) {
             store.dispatch(callConnected(eventData.CallSid, callParty))
             return
 
+        case "canceled":
         case "completed":
             store.dispatch(callDisconnected(callParty))
             return

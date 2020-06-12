@@ -175,8 +175,8 @@ export default class TwilioAPI {
         const redux = store.getState()
         const payload = {
             token: redux.user.auth.token,
-            lead_id: redux.interaction.lead_id,
-            conferenceID: redux.interaction.conferenceID,
+            lead_id: redux.lead.id,
+            conference_id: redux.twilio.conferenceOID,
             office_id: officeID,
             office_number: officeNumber
         }

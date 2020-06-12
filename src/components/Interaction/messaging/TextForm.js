@@ -23,7 +23,8 @@ class TextForm extends Component {
             hasTemplates: false,
             templateOptions: [],
             renderedTemplates: [],
-            contentValue: ""
+            contentValue: "",
+            counterClass: "text-muted"
         }
 
         // Load text templates for the lead
@@ -59,7 +60,21 @@ class TextForm extends Component {
     }
 
     updateContent = (e) => {
-        this.setState({ contentValue: e.target.value})
+        let newCounterClass = "text-muted"
+        const intValue = parseInt(e.target.value.length)
+
+        if (intValue > 150) {
+            newCounterClass = "text-warning"
+        }
+
+        if (intValue > 160) {
+            newCounterClass = "text-danger"
+        }
+
+        this.setState({
+            contentValue: e.target.value,
+            counterClass: newCounterClass
+        })
 
     }
     chooseTemplate = (values) => {
@@ -110,6 +125,9 @@ class TextForm extends Component {
                             { this.state.hasTemplates && <MDBSelect selected={this.props.localized.templatePlaceholder} options={this.state.templateOptions} getValue={this.chooseTemplate} label={this.props.localized.templateLabel}/> }
                             <div className="md-form">
                                 <textarea className="md-textarea form-control" rows="3" onChange={this.updateContent} placeholder={this.props.localized.contentPlaceholder} value={this.state.contentValue}></textarea>
+                            </div>
+                            <div className="float-right">
+                                <span className={this.state.counterClass} style={ {fontSize: "small"}}>{this.props.localized.charCountLabel}: {this.state.contentValue.length}</span>
                             </div>
                         </MDBCardBody>
                         <MDBCardFooter className="d-flex justify-content-between">

@@ -242,10 +242,10 @@ class LeadNotes extends Component {
                     </MDBBox>
 
                     <MDBModal size="lg" isOpen={this.state.showDeleteModal} toggle={this.closeModal}>
-                        <MDBModalHeader>{this.props.localization.notes.deleteNoteModalHeader}</MDBModalHeader>
+                        <MDBModalHeader>{this.props.localization.interaction.notes.deleteNoteModalHeader}</MDBModalHeader>
                         <MDBModalBody>
                             <MDBRow className="p-2">
-                                {this.props.localization.notes.deleteNoteModalBody}
+                                {this.props.localization.interaction.notes.deleteNoteModalBody}
                             </MDBRow>
                             <MDBModalFooter className="p-1"/>
                             <MDBRow>

@@ -27,6 +27,8 @@ const initialState = {
 
 // Reducer for handling twilio actions
 export function twilio(state = initialState, action) {
+    let enableAgentDisconnect = true
+
     switch (action.type) {
         // Device actions
         case 'TWILIO.DEVICE.INIT':
@@ -115,7 +117,8 @@ export function twilio(state = initialState, action) {
         // Lead connection actions
         case 'TWILIO.LEAD.DIALED':
             return Object.assign({}, state, {
-                leadCallSID: action.callSID
+                leadCallSID: action.callSID,
+                leadCallStatus: "Connecting..."
             })
         case 'TWILIO.LEAD.RINGING':
             return Object.assign({}, state, {
@@ -125,6 +128,7 @@ export function twilio(state = initialState, action) {
                 leadUnHoldButtonEnabled: false,
                 leadVoicemailButtonEnabled: false,
                 leadDisconnectButtonEnabled: true,
+                agentDisconnectButtonEnabled: false,
             })
         case 'TWILIO.LEAD.CONNECTED':
             return Object.assign({}, state, {
@@ -135,8 +139,12 @@ export function twilio(state = initialState, action) {
                 leadHoldButtonEnabled: true,
                 leadUnHoldButtonEnabled: false,
                 agentPauseButtonEnabled: true,
+                agentDisconnectButtonEnabled: false,
             })
         case 'TWILIO.LEAD.DISCONNECTED':
+            if (state.providerCallStatus != "Not Connected") {
+                enableAgentDisconnect = false
+            }
             return Object.assign({}, state, {
                 leadCallSID: "",
                 leadCallStatus: "Not Connected",
@@ -145,6 +153,7 @@ export function twilio(state = initialState, action) {
                 leadHoldButtonEnabled: false,
                 leadUnHoldButtonEnabled: false,
                 leadVoicemailButtonEnabled: false,
+                agentDisconnectButtonEnabled: enableAgentDisconnect,
                 agentPauseButtonEnabled: false,
                 agentResumeButtonEnabled: false
             })
@@ -152,23 +161,40 @@ export function twilio(state = initialState, action) {
         // Provider connection actions    
         case 'TWILIO.PROVIDER.DIALED':
             return Object.assign({}, state, {
-                providerCallSID: action.callSID
-            })
-        case 'TWILIO.PROVIDER.CONNECTED':
-            return Object.assign({}, state, {
                 providerCallSID: action.callSID,
-                providerCallStatus: "Connecting",
+                providerCallStatus: "Connecting..."
+            })
+        case 'TWILIO.PROVIDER.RINGING':
+            return Object.assign({}, state, {
+                providerCallStatus: "Ringing",
                 providerDialButtonEnabled: false,
                 providerDisconnectButtonEnabled: true,
-                providerTransferButtonEnabled: true,
+                agentDisconnectButtonEnabled: false,
             })
-        case 'TWILIO.PROVIDER.DISCONNECT':
+        case 'TWILIO.PROVIDER.CONNECTED':
+            let transferEnabled = false
+            if (state.leadCallStatus === "Connected") {
+                transferEnabled = true
+            }
+            return Object.assign({}, state, {
+                providerCallSID: action.callSID,
+                providerCallStatus: "Connected",
+                providerDialButtonEnabled: false,
+                providerDisconnectButtonEnabled: true,
+                providerTransferButtonEnabled: transferEnabled,
+                agentDisconnectButtonEnabled: false,
+            })
+        case 'TWILIO.PROVIDER.DISCONNECTED':
+            if (state.leadCallStatus != "Not Connected") {
+                enableAgentDisconnect = false
+            }
             return Object.assign({}, state, {
                 providerCallSID: "",
                 providerCallStatus: "Not Connected",
                 providerDialButtonEnabled: true,
                 providerDisconnectButtonEnabled: false,
-                providerTransferButtonEnabled: false,         
+                providerTransferButtonEnabled: false,
+                agentDisconnectButtonEnabled: enableAgentDisconnect        
             })
         default:
             return state

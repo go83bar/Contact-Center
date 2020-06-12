@@ -104,6 +104,40 @@ export default class InteractionAPI {
     }
 
     /**
+     * @typedef FetchCallingHoursParams
+     * @type {object}
+     * @property {number} regionID
+     *
+     */
+
+    /**
+      * Fetches calling hours data for all offices in a given region
+      *
+      * @param {FetchCallingHoursParams} params
+      * @returns {Promise}
+      * @memberof InteractionAPI
+      */
+     static async fetchCallingHours(params) {
+        // Mock API responses for local dev
+        if (process.env.REACT_APP_QUERY_MODE === "development") {
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "/data/fetchCallingHours.json")
+
+            return mockData.json()
+        }
+
+        const redux = store.getState()
+        const requestOptions = {
+            url: redux.config["url-api-base"] + "region/" + params.regionID + "/offices/callingHours",
+            method: "GET",
+            auth: redux.user.auth
+        }
+        const result = await sendRequest(requestOptions)
+
+        return result
+
+    }
+
+    /**
      * @typedef SendTextParams
      * @type {object}
      * @property {number} leadID
