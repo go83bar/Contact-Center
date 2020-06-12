@@ -154,7 +154,9 @@
         "cancelButton" : "Close",
         "phone_calls" : "Phone Calls",
         "emails" : "Emails",
-        "texts" : "Texts"
+        "texts" : "Texts",
+        "allowedLabel": "Allowed",
+        "notAllowedLabel": "Not Allowed"
       },
       "changeRegion" : {
         "title" : "Change Lead Region"

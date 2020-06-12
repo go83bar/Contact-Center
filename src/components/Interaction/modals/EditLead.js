@@ -170,8 +170,12 @@ class EditLead extends Component {
                 default: break
             }
             return (
-                    <Switch checked={this.props.lead.contact_preferences[field]} offLabel={"Not Allowed"} key={field}
-                            onLabel={"Allowed"} icon={icon} onChange={() => this.updatePreference(field)}/>
+                    <Switch checked={this.props.lead.contact_preferences[field]} 
+                        offLabel={this.props.localization.interaction.summary.contactPreferences.notAllowedLabel} 
+                        key={field}
+                        onLabel={this.props.localization.interaction.summary.contactPreferences.allowedLabel} 
+                        icon={icon} 
+                        onChange={() => this.updatePreference(field)}/>
             )
         })
         return (
