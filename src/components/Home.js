@@ -82,7 +82,6 @@ class Home extends Component {
 
 
     render() {
-        Slack.sendMessage("test")
         const localization = this.props.localization.home
         return (
             <MDBBox className="d-flex flex-column w-100 justify-content-start skin-secondary-color mx-5">
