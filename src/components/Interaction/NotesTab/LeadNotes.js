@@ -26,7 +26,7 @@ class LeadNotes extends Component {
             noteID: undefined,
             noteBtnLabel: props.localization.buttonLabels.save,
             isEditing: false,
-            isSaving: false
+            disableSave: true
         }
 
     }
@@ -34,7 +34,8 @@ class LeadNotes extends Component {
     // user has changed the content of the note edit textarea
     updateNoteContent = (event) => {
         this.setState({
-            noteContent: event.target.value
+            noteContent: event.target.value,
+            disableSave: false
         })
     }
 
@@ -56,7 +57,7 @@ class LeadNotes extends Component {
     deleteNote = () => {
 
         this.setState({
-            isSaving: true
+            disableSave: true
         })
 
         const payload = {
@@ -91,7 +92,7 @@ class LeadNotes extends Component {
             }
 
             this.setState({
-                isSaving: true
+                disableSave: true
             })
 
             LeadAPI.updateNote(payload)
@@ -109,9 +110,11 @@ class LeadNotes extends Component {
                         noteContent: "",
                         noteID: undefined,
                         noteBtnLabel: this.props.localization.buttonLabels.save,
-                        isSaving: false,
                         isEditing: false
                     })
+                }).catch( (reason) => {
+                    // TODO handle error
+                    console.log("Error saving note: ", reason)
                 })
         } else {
             // this a new note to save
@@ -121,7 +124,7 @@ class LeadNotes extends Component {
             }
 
             this.setState({
-                isSaving: true
+                disableSave: true
             })
             LeadAPI.saveNote(payload)
                 .then(response => {
@@ -145,9 +148,11 @@ class LeadNotes extends Component {
                         noteContent: "",
                         noteID: undefined,
                         noteBtnLabel: this.props.localization.buttonLabels.save,
-                        isSaving: false,
                         isEditing: false
                     })
+                }).catch( (reason) => {
+                    // TODO handle error
+                    console.log("Error saving note: ", reason)
                 })
         }
     }
@@ -211,7 +216,6 @@ class LeadNotes extends Component {
                                 <MDBBtn
                                     color="warning"
                                     className="float-left"
-                                    disabled={this.state.isSaving}
                                     onClick={this.cancelUpdate}
                                 >
                                     {this.props.localization.buttonLabels.cancel}
@@ -221,7 +225,7 @@ class LeadNotes extends Component {
                                 rounded
                                 color="primary"
                                 className="float-right"
-                                disabled={this.state.isSaving}
+                                disabled={this.state.disableSave}
                                 onClick={this.saveNote}
                             >
                                 {this.state.noteBtnLabel} {this.state.isSaving && (
@@ -261,7 +265,6 @@ class LeadNotes extends Component {
                                     <MDBBtn
                                         color="danger"
                                         className="float-right"
-                                        disabled={this.state.isSaving}
                                         onClick={this.deleteNote}
                                     >
                                         {this.props.localization.buttonLabels.delete}

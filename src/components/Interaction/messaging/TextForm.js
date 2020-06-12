@@ -20,6 +20,7 @@ class TextForm extends Component {
 
         this.state = {
             loaded: false,
+            disableSave: true,
             hasTemplates: false,
             templateOptions: [],
             renderedTemplates: [],
@@ -73,18 +74,22 @@ class TextForm extends Component {
 
         this.setState({
             contentValue: e.target.value,
-            counterClass: newCounterClass
+            counterClass: newCounterClass,
+            disableSave: intValue === 0
         })
 
     }
     chooseTemplate = (values) => {
         const chosenTemplate = this.state.renderedTemplates.find( template => template.id === parseInt(values[0]) )
         this.setState({
+            disableSave: false,
             contentValue: chosenTemplate.content
         })
     }
 
     sendMessage = () => {
+
+        this.setState({ disableSave: true })
         const params = {
             leadID: this.props.lead.id,
             interactionID: this.props.interaction.id,
@@ -132,7 +137,7 @@ class TextForm extends Component {
                         </MDBCardBody>
                         <MDBCardFooter className="d-flex justify-content-between">
                             <MDBBtn outline rounded onClick={this.props.toggle}>{this.props.localization.buttonLabels.cancel}</MDBBtn>
-                            <MDBBtn rounded onClick={this.sendMessage}>{this.props.localization.buttonLabels.send}</MDBBtn>
+                            <MDBBtn disabled={this.state.disableSave} rounded onClick={this.sendMessage}>{this.props.localization.buttonLabels.send}</MDBBtn>
                         </MDBCardFooter>
                     </MDBCard>
                 </Draggable>

@@ -8,23 +8,11 @@ import * as moment from 'moment'
 
 class LeadNote extends Component {
 
-    constructor(props) {
-        super(props);
-
-
-        this.state = {
-        };
-
-        this.editClick = this.editClick.bind(this)
-        this.deleteClick = this.deleteClick.bind(this)
-
-    }
-
-    editClick() {
+    editClick = () => {
         this.props.onEdit(this.props.note.id)
     }
 
-    deleteClick() {
+    deleteClick = () => {
         this.props.deleteNote(this.props.note.id)
     }
 

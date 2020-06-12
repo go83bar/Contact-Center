@@ -49,6 +49,7 @@ class EditLead extends Component {
             dayValue: day,
             yearValue: year,
             timezoneOptions: timezoneOptions,
+            disableSave: true,
             hasErrors: false,
             errorMessage: ""
         };
@@ -58,12 +59,12 @@ class EditLead extends Component {
         // Validate date of birth to be either complete or empty
         if ((this.state.yearValue === undefined || this.state.monthValue === undefined || this.state.dayValue === undefined) && (this.state.yearValue !== undefined || this.state.monthValue !== undefined || this.state.dayValue !== undefined)) {
             console.log("Year: ", this.state.yearValue, " Month: ", this.state.monthValue, " Day: ", this.state.dayValue)
-            this.setState({ hasErrors: true, errorMessage: "Date of Birth cannot be partially filled"})
+            this.setState({ hasErrors: true, errorMessage: "Date of Birth cannot be partially filled", disableSave: true})
             return
         }
         // validate date of birth year to be empty or 4 digits
         if (this.state.yearValue !== undefined && this.state.yearValue.length !== 4) {
-            this.setState({ hasErrors: true, errorMessage: "Birth year must be 4 digits"})
+            this.setState({ hasErrors: true, errorMessage: "Birth year must be 4 digits", disableSave: true})
             return
         }
         // Compare current state to props to build save payload based on what changed
@@ -77,7 +78,7 @@ class EditLead extends Component {
                     console.log(dateString)
                     stateDate = moment(dateString).format("YYYY-MM-DD")
                     if (stateDate === "Invalid date") {
-                        this.setState({ hasErrors: true, errorMessage: "Invalid date of birth"})
+                        this.setState({ hasErrors: true, errorMessage: "Invalid date of birth", disableSave: true})
                         return
                     }
                 }
@@ -93,12 +94,6 @@ class EditLead extends Component {
             } else if (value !== this.state[field]) {
                 updatedFields.push( {fieldName: field, value: this.state[field]})
             }
-        }
-
-        if (updatedFields.length === 0) {
-            // no fields to update
-            this.setState({ hasErrors: true, errorMessage: "You didn't change anything"})
-            return
         }
 
         // build payload for save API call
@@ -136,12 +131,11 @@ class EditLead extends Component {
     }
 
     handleFormInput = (evt) => {
-
-        this.setState({ [evt.target.name]: evt.target.value, hasErrors: false })
+        this.setState({ [evt.target.name]: evt.target.value, hasErrors: false, disableSave: false })
     }
 
     chooseTimezone = (values) => {
-        this.setState({ timezone: values[0] })
+        this.setState({ timezone: values[0], hasErrors: false, disableSave: false })
     }
 
     updatePreference = field => {
@@ -347,7 +341,7 @@ class EditLead extends Component {
                         <MDBCol size={"12"}>
                             <MDBBtn color="secondary" rounded outline className="float-left"
                                     onClick={this.cancel}>{this.props.localized.cancelButton}</MDBBtn>
-                            <MDBBtn color="primary" rounded className="float-right" disabled={this.state.hasErrors}
+                            <MDBBtn color="primary" rounded className="float-right" disabled={this.state.disableSave}
                                     onClick={this.submit}>{this.props.localized.submitButton}</MDBBtn>
 
                         </MDBCol>

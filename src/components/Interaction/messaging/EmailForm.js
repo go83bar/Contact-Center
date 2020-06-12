@@ -23,6 +23,7 @@ class EmailForm extends Component {
 
         this.state = {
             loaded: false,
+            disableSave: true,
             hasTemplates: false,
             templateOptions: [],
             renderedTemplates: [],
@@ -63,7 +64,10 @@ class EmailForm extends Component {
     }
 
     updateSubject = (e) => {
-        this.setState({ subjectValue: e.target.value})
+        const content = document.getElementsByClassName("mdb-wysiwyg-textarea")[0].innerHTML
+        let disableSave = true;
+        if (content.length > 0 && e.target.value.length > 0) disableSave = false;
+        this.setState({ subjectValue: e.target.value, disableSave: disableSave})
     }
 
     chooseTemplate = (values) => {
@@ -73,12 +77,18 @@ class EmailForm extends Component {
             editor.innerHTML = chosenTemplate.content
         }
         this.setState({
-            subjectValue: chosenTemplate.subject
+            subjectValue: chosenTemplate.subject,
+            disableSave: false
         })
     }
 
     sendMessage = () => {
         const content = document.getElementsByClassName("mdb-wysiwyg-textarea")[0].innerHTML
+        if (content.length === 0) {
+            this.setState( {disableSave: true})
+            return
+        }
+        
         const params = {
             leadID: this.props.lead.id,
             interactionID: this.props.interaction.id,
@@ -129,7 +139,7 @@ class EmailForm extends Component {
                     </MDBCardBody>
                     <MDBCardFooter className="d-flex justify-content-between">
                         <MDBBtn rounded outline onClick={this.props.toggle}>{this.props.localization.buttonLabels.cancel}</MDBBtn>
-                        <MDBBtn rounded onClick={this.sendMessage}>{this.props.localization.buttonLabels.send}</MDBBtn>
+                        <MDBBtn rounded disabled={this.state.disableSave} onClick={this.sendMessage}>{this.props.localization.buttonLabels.send}</MDBBtn>
                     </MDBCardFooter>
                 </MDBCard>
             </Draggable>
