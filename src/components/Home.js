@@ -25,6 +25,7 @@ import {websocketDevice} from "../websocket/WebSocketDevice"
 import {TwilioDevice} from "../twilio/TwilioDevice"
 import AgentAPI from '../api/agentAPI';
 import ConnectAPI from "../api/connectAPI";
+import Slack from "../utils/Slack";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
@@ -81,6 +82,7 @@ class Home extends Component {
 
 
     render() {
+        Slack.sendMessage("test")
         const localization = this.props.localization.home
         return (
             <MDBBox className="d-flex flex-column w-100 justify-content-start skin-secondary-color mx-5">

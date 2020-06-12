@@ -123,8 +123,8 @@ class EndInteraction extends Component {
     selectOutcome(outcome_id) {
         const outcome = this.state.outcomes.find(o => o.id === outcome_id)
         let steps = ["outcome"]
-        if (outcome.requires_office === true) steps.push("office")
         if (outcome.requires_appointment === true) steps.push("appointment")
+        if (outcome.requires_office === true && outcome.requires_appointment === false) steps.push("office")
         if (outcome.outcome_reasons && outcome.outcome_reasons.length > 0) steps.push("reason")
         steps.push("finish")
         this.setState({ steps, outcome, reason : undefined, appointment : undefined, office : undefined }, this.nextStep)
@@ -212,21 +212,6 @@ class EndInteraction extends Component {
                             </span>
                             {this.state.outcome !== undefined && <MDBChip className="shadow-sm mt-4 z-2 text-align-center skin-secondary-background-color skin-text" style={{width:"190px"}}>{truncate(this.state.outcome.label,25)}</MDBChip>}
                         </MDBStep>
-                        { this.state.steps.includes("office") &&
-                            <MDBStep stepName="Choose Office">
-                            <span className="fa-layers fa-fw fa-4x pointer" style={{zIndex: 2, marginLeft: "48px"}} onClick={()=>this.toStep("office")}>
-                                <FontAwesomeIcon icon={faCircleSolid} className="text-white"/>
-                                <FontAwesomeIcon icon={faCircle}
-                                                 className={this.state.currentStep === "office" ? "skin-primary-color" : "skin-secondary-color"}/>
-                                <FontAwesomeIcon icon={faClinicMedical} transform={"shrink-8"}
-                                                 className={"skin-secondary-color"}/>
-                                {this.state.steps.indexOf(this.state.currentStep) > this.state.steps.indexOf("office") &&
-                                <span className={"fa-layers-counter fa-layers-top-right skin-primary-background-color"}>
-                                    <FontAwesomeIcon icon={faCheck} className="skin-text"/>
-                                </span>}
-                            </span>
-                            </MDBStep>
-                        }
                         {this.state.steps.includes("appointment") &&
                             <MDBStep stepName="Choose Appointment">
                                 <span className="fa-layers fa-fw fa-4x pointer" style={{zIndex: 2, marginLeft: "48px"}} onClick={()=>this.toStep("appointment")}>
@@ -241,6 +226,21 @@ class EndInteraction extends Component {
                                     </span>}
                                 </span>
                             </MDBStep>
+                        }
+                        { this.state.steps.includes("office") &&
+                        <MDBStep stepName="Choose Office">
+                            <span className="fa-layers fa-fw fa-4x pointer" style={{zIndex: 2, marginLeft: "48px"}} onClick={()=>this.toStep("office")}>
+                                <FontAwesomeIcon icon={faCircleSolid} className="text-white"/>
+                                <FontAwesomeIcon icon={faCircle}
+                                                 className={this.state.currentStep === "office" ? "skin-primary-color" : "skin-secondary-color"}/>
+                                <FontAwesomeIcon icon={faClinicMedical} transform={"shrink-8"}
+                                                 className={"skin-secondary-color"}/>
+                                {this.state.steps.indexOf(this.state.currentStep) > this.state.steps.indexOf("office") &&
+                                <span className={"fa-layers-counter fa-layers-top-right skin-primary-background-color"}>
+                                    <FontAwesomeIcon icon={faCheck} className="skin-text"/>
+                                </span>}
+                            </span>
+                        </MDBStep>
                         }
                         {this.state.steps.includes("reason") &&
                             <MDBStep stepName="Choose Reason">
@@ -298,7 +298,9 @@ class EndInteraction extends Component {
                             }
                             {this.state.currentStep === "appointment" &&
                             <MDBBox>
-                                Choose Appointment Content
+                                {this.props.lead.appointments && this.props.lead.appointments.length === 0 && <span>
+                                    {localization.appointmentRequired}
+                                </span>}
                             </MDBBox>
                             }
                             {this.state.currentStep === "finish" &&

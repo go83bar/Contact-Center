@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
 import {
     MDBBtn, MDBCol, MDBRow,
-    MDBModal, MDBModalBody, MDBModalFooter, MDBModalHeader,
-    MDBTable, MDBTableHead, MDBTableBody, 
+    MDBModal, MDBModalBody, MDBModalFooter,
+    MDBTable, MDBTableHead, MDBTableBody,
     MDBInput, MDBBox
  } from 'mdbreact'
 import {connect} from "react-redux";
@@ -53,9 +53,9 @@ class ProviderChoices extends Component {
                 <MDBBox className="d-flex justify-content-between align-items-center pl-4 pr-5">
                     <h4>{this.props.localized.title}</h4>
                     <MDBInput id="officeSearch"
-                        label={this.props.localization.buttonLabels.search} 
-                        outline 
-                        getValue={this.applySearch} 
+                        label={this.props.localization.buttonLabels.search}
+                        outline
+                        getValue={this.applySearch}
                         value={this.state.searchContent}
                         icon="search"
                         size="sm"

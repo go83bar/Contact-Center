@@ -98,7 +98,8 @@
       "address" : "Address: ",
       "city" : "City: ",
       "state" : "State: ",
-      "zip" : "Zip: "
+      "zip" : "Zip: ",
+      "appointmentRequired" : "An appointment is required for this outcome.  No appointments found."
     },
     "notes": {
       "tabTitle": "Notes",
