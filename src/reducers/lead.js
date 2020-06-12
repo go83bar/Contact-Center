@@ -1,4 +1,5 @@
 
+import {moment} from "moment"
 
 const initialState = {}
 
@@ -13,20 +14,35 @@ export function lead(state = initialState, action) {
 
         case "LEAD.UPDATE_CONTACT_PREFERENCES":
             // called when user updates lead's optout preferences
-            const contactPreferences = { ...state.contact_preferences }
+            let contactPreferences = { ...state.contact_preferences }
+            let logContactPreferences = [ ...state.log_optouts]
+            const newLog = {
+                field: action.data.field,
+                old_value: contactPreferences[action.data.field],
+                new_value: action.data.value,
+                created_at: action.data.timestamp,
+                created_by: action.data.user_label
+            }
+            logContactPreferences.push(newLog)
             contactPreferences[action.data.field] = action.data.value
             return {
                 ...state,
-                contact_preferences: contactPreferences
+                contact_preferences: contactPreferences,
+                log_optouts: logContactPreferences
             }
 
         case "LEAD.UPDATE_DETAILS":
             // called when user updates lead's contact information
             // action.data is an object with only updated fields
             const newDetails = Object.assign({}, state.details, { ...action.data })
+            let newLogs = [ ...state.changelogs]
+            if (action.logs.length > 0) {
+                newLogs.push(...action.logs)
+            }
             return {
                 ...state,
-                details: newDetails
+                details: newDetails,
+                changelogs: newLogs
             }
 
         case "LEAD.NOTE_UPDATED":

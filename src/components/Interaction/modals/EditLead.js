@@ -88,18 +88,26 @@ class EditLead extends Component {
                 }
 
                 if (stateDate !== originalDate) {
-                    updatedFields.push( {fieldName: "date_of_birth", value: stateDate})
+                    updatedFields.push( {fieldName: "date_of_birth", value: stateDate, oldValue: value })
                 }
             // other fields are simple string comparison
             } else if (value !== this.state[field]) {
-                updatedFields.push( {fieldName: field, value: this.state[field]})
+                updatedFields.push( {fieldName: field, value: this.state[field], oldValue: value })
             }
         }
 
-        // build payload for save API call
+        // build payload for save API call and array of changes for redux action
         let payload = {}
+        let changeLogs = []
         updatedFields.forEach( field => {
             payload[field.fieldName] = field.value
+            changeLogs.push({
+                field: field.fieldName,
+                old_value: field.oldValue,
+                new_value: field.value,
+                created_at: moment().utc().format("YYYY-MM-DD HH:mm:ss"),
+                created_by: this.props.user.label_name
+            })
         })
 
         // hack for phone numbers because of PHP code
@@ -117,7 +125,7 @@ class EditLead extends Component {
                 if (payload.timezone !== undefined) {
                     payload.timezone_short = moment().tz(payload.timezone).format('z')
                 }
-                this.props.dispatch({ type: "LEAD.UPDATE_DETAILS", data: payload })
+                this.props.dispatch({ type: "LEAD.UPDATE_DETAILS", data: payload, logs: changeLogs })
             }
         }).catch( reason => {
             // TODO handle error
@@ -152,12 +160,13 @@ class EditLead extends Component {
                         type: "LEAD.UPDATE_CONTACT_PREFERENCES",
                         data: {
                             field: field,
-                            value: newPreference
+                            value: newPreference,
+                            timestamp: moment().utc().format("YYYY-MM-DD HH:mm:ss"),
+                            user_label: this.props.user.label_name
                         }
                     })
                 }
             })
-
     }
 
     render() {
@@ -358,7 +367,7 @@ class EditLead extends Component {
 
 const mapStateToProps = state => {
     return {
-        auth: state.auth,
+        user: state.user,
         localization: state.localization,
         localized: state.localization.interaction.summary.editLead,
         lead: state.lead,
