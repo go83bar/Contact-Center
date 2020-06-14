@@ -64,6 +64,9 @@
          "numberHeader": "Number",
          "hoursHeader": "Hours",
          "priorityHeader": "Priority"
+       },
+       "keypad": {
+         "title": "Keypad"
        }
      },
     "details" : {

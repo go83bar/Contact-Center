@@ -41,6 +41,7 @@ export function twilio(state = initialState, action) {
                 conferenceOID: action.payload.conferenceOID,
                 leadDialButtonEnabled: true,
                 providerDialButtonEnabled: true,
+                agentKeypadButtonEnabled: true,
                 agentDisconnectButtonEnabled: true,
                 callbarVisible: true,
             })

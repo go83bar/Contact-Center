@@ -75,8 +75,11 @@ class TwilioDeviceSingleton {
             store.dispatch(agentConnected(connection.parameters.CallSid, newConferenceOID))
         })
         agentConnection.on('error', (err) => {
+            // TODO handle error
             console.log("Connection error: ", err)
         })
+
+        this.connection = agentConnection
         
     }
 
@@ -153,8 +156,13 @@ class TwilioDeviceSingleton {
         })
     }
 
-    showKeypad() {
-
+    sendKeypadInput(tone) {
+        if (this.connection != undefined) {
+            this.connection.sendDigits(tone)
+        } else {
+            // TODO handle error
+            console.log("Could not send keypad tone: no valid connection")
+        }
     }
 
     // PROVIDER ACTIONS

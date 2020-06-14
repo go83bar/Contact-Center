@@ -88,7 +88,7 @@ class EditLead extends Component {
                 }
 
                 if (stateDate !== originalDate) {
-                    updatedFields.push( {fieldName: "date_of_birth", value: stateDate, oldValue: value })
+                    updatedFields.push( {fieldName: "date_of_birth", value: stateDate, oldValue: originalDate})
                 }
             // other fields are simple string comparison
             } else if (value !== this.state[field]) {

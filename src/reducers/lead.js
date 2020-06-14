@@ -1,6 +1,4 @@
 
-//import {moment} from "moment"
-
 const initialState = {}
 
 // Reducer for handling lead actions

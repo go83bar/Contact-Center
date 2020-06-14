@@ -9,7 +9,6 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faPhone} from '@fortawesome/free-solid-svg-icons'
 import {faCircle} from "@fortawesome/pro-light-svg-icons"
 import {
-    faCheck,
     faCircle as faCircleSolid,
     faPause,
     faVoicemail,
@@ -20,6 +19,7 @@ import {
 import {connect} from "react-redux"
 import { TwilioDevice } from '../../twilio/TwilioDevice'
 import ProviderChoices from './modals/ProviderChoices'
+import Keypad from './modals/Keypad'
 import InteractionAPI from '../../api/interactionAPI'
 
 class CallBar extends Component {
@@ -29,6 +29,7 @@ class CallBar extends Component {
 
         this.state = {
             providerChoicesVisible: false,
+            keypadVisible: false,
             callingHours: []
         }
     }
@@ -55,6 +56,10 @@ class CallBar extends Component {
 
     toggleProviderChoices = () => {
         this.setState({ providerChoicesVisible: !this.state.providerChoicesVisible})
+    }
+
+    toggleKeypad = () => {
+        this.setState( { keypadVisible: !this.state.keypadVisible })
     }
 
     openProviderChoices = () => {
@@ -97,10 +102,6 @@ class CallBar extends Component {
         TwilioDevice.resumeRecording()
     }
 
-    agentShowKeypad = () => {
-        TwilioDevice.showKeypad()
-    }
-    
     agentDisconnect = () => {
         TwilioDevice.disconnect()
     }
@@ -163,16 +164,6 @@ class CallBar extends Component {
                         </MDBNavLink>
                     </MDBNavItem>
                     <div className={"font-weight-bolder p-0 pb-1 mt-0 text-align-center w-100"}><hr className="mt-0 mb-2 w-100 skin-primary-background-color"/>{this.props.localized.agentLabel}</div>
-                    <MDBNavItem className={"w-50 pb-2" + (this.props.twilio.agentStatusButtonEnabled ? "" : " hidden")}>
-                        <MDBNavLink to="#" className={"text-align-center p-0"}>
-                            <span className="fa-layers fa-fw fa-3x">
-                                <FontAwesomeIcon icon={faCircleSolid} className="text-white"/>
-                                <FontAwesomeIcon icon={faCircle} className="skin-primary-color"/>
-                                <FontAwesomeIcon icon={faCheck} transform={"shrink-10"} className="skin-secondary-color"/>
-                            </span>
-                            <span className="callBarText skin-secondary-color"><br/>{this.props.localized.checkStatusLabel}</span>
-                        </MDBNavLink>
-                    </MDBNavItem>
                     <MDBNavItem className={"w-50 pb-2" + (this.props.twilio.agentPauseButtonEnabled ? "" : " hidden")} onClick={this.agentPauseRecording}>
                         <MDBNavLink to="#" className={"text-align-center p-0"}>
                             <span className="fa-layers fa-fw fa-3x">
@@ -202,7 +193,7 @@ class CallBar extends Component {
                             <span className="callBarText skin-secondary-color"><br/>{this.props.localized.hangupLabel}</span>
                         </MDBNavLink>
                     </MDBNavItem>
-                    <MDBNavItem className={"w-50 pb-2" + (this.props.twilio.agentKeypadButtonEnabled ? "" : " hidden")} onClick={this.agentShowKeypad}>
+                    <MDBNavItem className={"w-50 pb-2" + (this.props.twilio.agentKeypadButtonEnabled ? "" : " hidden")} onClick={this.toggleKeypad}>
                         <MDBNavLink to="#" className={"text-align-center p-0"}>
                             <span className="fa-layers fa-fw fa-3x">
                                 <FontAwesomeIcon icon={faCircleSolid} className="text-white"/>
@@ -245,6 +236,7 @@ class CallBar extends Component {
                 </MDBNav>
 
                 {this.state.providerChoicesVisible === true && <ProviderChoices data={this.state.callingHours} selectOffice={this.selectOffice} toggle={this.toggleProviderChoices} />}
+                {this.state.keypadVisible === true && <Keypad toggle={this.toggleKeypad} />}
             </MDBBox>
         )
     }
