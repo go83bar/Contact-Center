@@ -1,14 +1,14 @@
 import TwilioAPI from '../api/twilioAPI'
 import store from '../store'
-import { 
+import {
     leadPutOnHold,
     leadRemoveHold,
     leadDialed,
     providerDialed,
     agentConnected,
     recordingPaused,
-    recordingResumed, 
-    agentDisconnected, 
+    recordingResumed,
+    agentDisconnected,
 } from './actions'
 import ObjectID from 'bson-objectid'
 
@@ -16,7 +16,7 @@ const Twilio = require('twilio-client')
 
 class TwilioDeviceSingleton {
     bootstrap(userID, authToken) {
-        // kick it off by getting an access token assigned to the user's auth token 
+        // kick it off by getting an access token assigned to the user's auth token
         TwilioAPI.getAccessToken(userID, authToken).then( (response) => {
             if (response.access_token !== undefined) {
                 // now that we have an access token, set up the twilio Device
@@ -68,7 +68,7 @@ class TwilioDeviceSingleton {
         }
 
         let agentConnection = this.device.connect(input)
-        // here is where we could attach event listeners to agent connection 
+        // here is where we could attach event listeners to agent connection
         // i.e. for detecting poor connection quality
         agentConnection.on('accept', (connection) => {
             console.log("New conference OID: ", newConferenceOID)
@@ -80,7 +80,7 @@ class TwilioDeviceSingleton {
         })
 
         this.connection = agentConnection
-        
+
     }
 
 
@@ -157,7 +157,7 @@ class TwilioDeviceSingleton {
     }
 
     sendKeypadInput(tone) {
-        if (this.connection != undefined) {
+        if (this.connection !== undefined) {
             this.connection.sendDigits(tone)
         } else {
             // TODO handle error

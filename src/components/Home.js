@@ -25,7 +25,7 @@ import {websocketDevice} from "../websocket/WebSocketDevice"
 import {TwilioDevice} from "../twilio/TwilioDevice"
 import AgentAPI from '../api/agentAPI';
 import ConnectAPI from "../api/connectAPI";
-import Slack from "../utils/Slack";
+
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
