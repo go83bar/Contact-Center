@@ -20,6 +20,7 @@ import {connect} from "react-redux"
 import { TwilioDevice } from '../../twilio/TwilioDevice'
 import ProviderChoices from './modals/ProviderChoices'
 import Keypad from './modals/Keypad'
+import DialChoice from './modals/DialChoice'
 import InteractionAPI from '../../api/interactionAPI'
 
 class CallBar extends Component {
@@ -29,13 +30,26 @@ class CallBar extends Component {
 
         this.state = {
             providerChoicesVisible: false,
+            dialChoiceVisible: false,
             keypadVisible: false,
             callingHours: []
         }
     }
 
     dialLead = () => {
-        TwilioDevice.dialLead("cell")
+        // if lead only has one number, dial that number. If they have both, pop a DialChoice modal
+        let hasCell = false
+        let hasHome = false
+        if (this.props.lead.details.cell_phone !== undefined && this.props.lead.details.cell_phone !== "") hasCell = true
+        if (this.props.lead.details.home_phone !== undefined && this.props.lead.details.home_phone !== "") hasHome = true
+
+        if (hasCell && !hasHome) {
+            TwilioDevice.dialLead("cell")
+        } else if (hasHome && !hasCell) {
+            TwilioDevice.dialLead("home")
+        } else if (hasHome && hasCell) {
+            this.setState({ dialChoiceVisible: true })
+        }
     }
 
     holdLead = () => {
@@ -54,12 +68,10 @@ class CallBar extends Component {
         TwilioDevice.disconnectLead()
     }
 
-    toggleProviderChoices = () => {
-        this.setState({ providerChoicesVisible: !this.state.providerChoicesVisible})
-    }
-
-    toggleKeypad = () => {
-        this.setState( { keypadVisible: !this.state.keypadVisible })
+    toggleModal = (modalKey) => {
+        let newState = {}
+        newState[modalKey] = !this.state[modalKey]
+        this.setState(newState)
     }
 
     openProviderChoices = () => {
@@ -193,7 +205,7 @@ class CallBar extends Component {
                             <span className="callBarText skin-secondary-color"><br/>{this.props.localized.hangupLabel}</span>
                         </MDBNavLink>
                     </MDBNavItem>
-                    <MDBNavItem className={"w-50 pb-2" + (this.props.twilio.agentKeypadButtonEnabled ? "" : " hidden")} onClick={this.toggleKeypad}>
+                    <MDBNavItem className={"w-50 pb-2" + (this.props.twilio.agentKeypadButtonEnabled ? "" : " hidden")} onClick={() => this.toggleModal("keypadVisible")}>
                         <MDBNavLink to="#" className={"text-align-center p-0"}>
                             <span className="fa-layers fa-fw fa-3x">
                                 <FontAwesomeIcon icon={faCircleSolid} className="text-white"/>
@@ -235,11 +247,12 @@ class CallBar extends Component {
                     </MDBNavItem>
                 </MDBNav>
 
-                {this.state.providerChoicesVisible === true && <ProviderChoices data={this.state.callingHours} selectOffice={this.selectOffice} toggle={this.toggleProviderChoices} />}
-                {this.state.keypadVisible === true && <Keypad toggle={this.toggleKeypad} />}
+                {this.state.providerChoicesVisible === true && <ProviderChoices data={this.state.callingHours} selectOffice={this.selectOffice} toggle={() => this.toggleModal("providerChoicesVisible")} />}
+                {this.state.keypadVisible === true && <Keypad toggle={() => this.toggleModal("keypadVisible")} />}
+                {this.state.dialChoiceVisible === true && <DialChoice toggle={() => this.toggleModal("dialChoiceVisible")} />}
             </MDBBox>
         )
-    }
+    } 
 }
 
 const mapStateToProps = store => {

@@ -30,18 +30,28 @@ export function lead(state = initialState, action) {
             }
 
         case "LEAD.UPDATE_DETAILS":
-            // called when user updates lead's contact information
+            // called when user updates lead's demographic information
             // action.data is an object with only updated fields
             const newDetails = Object.assign({}, state.details, { ...action.data })
+
+            // push any new changelog items
             let newLogs = [ ...state.changelogs]
             if (action.logs.length > 0) {
                 newLogs.push(...action.logs)
             }
-            return {
+            
+            let newState = {
                 ...state,
                 details: newDetails,
                 changelogs: newLogs
             }
+
+            // add any new region data
+            if (action.regionData !== undefined) {
+                newState.region_id = action.regionData.region_id
+                newState.region_index = action.regionData.region_index
+            }
+            return newState
 
         case "LEAD.NOTE_UPDATED":
             // called when user updates one of their previous notes

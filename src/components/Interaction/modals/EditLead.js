@@ -1,13 +1,20 @@
 import React, {Component} from 'react'
 import {
-    MDBBtn, MDBCol, MDBInput, MDBModal,
+    MDBBtn, MDBInput, MDBModal,
     MDBBox, MDBModalBody, MDBModalFooter,
-    MDBModalHeader, MDBRow, MDBSelect
+    MDBModalHeader, MDBSelect
 } from 'mdbreact'
 import {connect} from "react-redux"
 import Switch from "../../ui/Switch"
 import LeadAPI from "../../../api/leadAPI"
 import moment from "moment"
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {
+    faStar as solidStar,
+} from "@fortawesome/pro-solid-svg-icons";
+import {
+    faStar as emptyStar,
+} from "@fortawesome/pro-regular-svg-icons"
 
 class EditLead extends Component {
 
@@ -28,27 +35,37 @@ class EditLead extends Component {
             formattedLeadDetails[field] = (value === null) ? undefined : value
         }
 
+        formattedLeadDetails.region_id = props.lead.region_id
+
         // build timezone options
         const timezoneOptions = props.localization.interaction.timezoneChoices.map( timezone => {
-            let option = {
+            return {
                 value: timezone.value,
-                text: timezone.label
+                text: timezone.label,
+                checked: timezone.value === props.lead.details.timezone
             }
+        })
 
-            if (timezone.value === props.lead.details.timezone) {
-                option.checked = true
+        // region options        
+        const client = this.props.shift.clients[this.props.lead.client_index]
+        const regionOptions = client.regions.map( region => {
+            return {
+                value: region.id.toString(),
+                text: region.name,
+                checked: region.id === props.lead.region_id
             }
-
-            return option
         })
 
         this.state = {
             ...formattedLeadDetails,
+            cell_phone: this.maskPhoneValue(formattedLeadDetails.cell_phone),
+            home_phone: this.maskPhoneValue(formattedLeadDetails.home_phone),
             originalValues: formattedLeadDetails,
             monthValue: month,
             dayValue: day,
             yearValue: year,
             timezoneOptions: timezoneOptions,
+            regionOptions: regionOptions,
             disableSave: true,
             hasErrors: false,
             errorMessage: ""
@@ -90,6 +107,12 @@ class EditLead extends Component {
                 if (stateDate !== originalDate) {
                     updatedFields.push( {fieldName: "date_of_birth", value: stateDate, oldValue: originalDate})
                 }
+            // must strip non-numeric from phone fields before comparison
+            } else if (field === "cell_phone" || field === "home_phone") {
+                const newPhone = this.state[field].replace(/\D/g, '')
+                if (newPhone !== value) {
+                    updatedFields.push( {fieldName: field, value: newPhone, oldValue:value })
+                }
             // other fields are simple string comparison
             } else if (value !== this.state[field]) {
                 updatedFields.push( {fieldName: field, value: this.state[field], oldValue: value })
@@ -112,10 +135,10 @@ class EditLead extends Component {
 
         // hack for phone numbers because of PHP code
         if (this.state.cell_phone !== undefined) {
-            payload.cell_phone = this.state.cell_phone
+            payload.cell_phone = this.state.cell_phone.replace(/\D/g, '')
         }
         if (this.state.home_phone !== undefined) {
-            payload.home_phone = this.state.home_phone
+            payload.home_phone = this.state.home_phone.replace(/\D/g, '')
         }
 
         // call API method and dispatch new data to the store when it's complete
@@ -125,7 +148,25 @@ class EditLead extends Component {
                 if (payload.timezone !== undefined) {
                     payload.timezone_short = moment().tz(payload.timezone).format('z')
                 }
-                this.props.dispatch({ type: "LEAD.UPDATE_DETAILS", data: payload, logs: changeLogs })
+                let updateAction = {
+                    type: "LEAD.UPDATE_DETAILS", 
+                    data: payload, 
+                    logs: changeLogs
+                }
+                // check to see if region changed, to add a couple things to the action
+                if (payload.region_id !== undefined) {
+                    // find new region_index
+                    const currentClient = this.props.shift.clients[this.props.lead.client_index]
+                    const newRegionIndex = currentClient.regions.findIndex( region => {
+                        return region.id === payload.region_id
+                    })
+
+                    updateAction.regionData = {
+                        region_id: payload.region_id,
+                        region_index: newRegionIndex
+                    }
+                }
+                this.props.dispatch(updateAction)
             }
         }).catch( reason => {
             // TODO handle error
@@ -138,12 +179,40 @@ class EditLead extends Component {
         this.props.closeModal(this.state.modalName)
     }
 
+    maskPhoneValue = (rawInput) => {
+        if (rawInput === undefined) {
+            return ""
+        }
+        const matches = rawInput.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/)
+        return !matches[2] ? matches[1] : '(' + matches[1] + ') ' + matches[2] + (matches[3] ? '-' + matches[3] : '')     
+    }
+
+    maskPhone = (val, type) => {
+        let newPhoneState = {}
+        newPhoneState[type] = this.maskPhoneValue(val)
+        this.setState(newPhoneState)
+
+    }    
+   
     handleFormInput = (evt) => {
         this.setState({ [evt.target.name]: evt.target.value, hasErrors: false, disableSave: false })
     }
 
     chooseTimezone = (values) => {
         this.setState({ timezone: values[0], hasErrors: false, disableSave: false })
+    }
+
+    chooseRegion = (values) => {
+        this.setState({ region_id: parseInt(values[0]), hasErrors: false, disableSave: false })
+    }
+
+    togglePreferredPhone = () => {
+        // update preferred_phone only if the other option has a value
+        if (this.state.preferred_phone === "cell" && this.state.home_phone !== "" && this.state.home_phone !== undefined) {
+            this.setState({ preferred_phone: "home", disableSave: false })
+        } else if (this.state.preferred_phone === "home" && this.state.cell_phone !== "" && this.state.cell_phone !== undefined) {
+            this.setState({ preferred_phone: "cell", disableSave: false })
+        }
     }
 
     updatePreference = field => {
@@ -191,174 +260,193 @@ class EditLead extends Component {
             <MDBModal isOpen={true} toggle={this.props.closeModal} size="lg" contentClassName="w-900px" >
                 <MDBModalHeader>{this.props.localized.title}</MDBModalHeader>
                 <MDBModalBody className="d-flex flex-wrap justify-content-start w-100">
+                    {this.props.localized.contactInfoHeader}
+                    <div className="break mb-1"/>
                     <MDBInput type="text"
-                              label={this.props.localized.firstName}
-                              id="first_name"
-                              outline
-                              name="first_name"
-                              value={this.state.first_name}
-                              onChange={this.handleFormInput}
-                              containerClass="m-0 mr-2 w-25"
-                              className="skin-border-primary"
+                        label={this.props.localized.firstName}
+                        id="first_name"
+                        outline
+                        name="first_name"
+                        value={this.state.first_name}
+                        onChange={this.handleFormInput}
+                        containerClass="m-0 pr-2 w-25"
+                        className="skin-border-primary"
                     />
                     <MDBInput type="text"
-                              label={this.props.localized.lastName}
-                              id="last_name"
-                              outline
-                              name="last_name"
-                              value={this.state.last_name}
-                              onChange={this.handleFormInput}
-                              containerClass="m-0 mr-2 w-25"
-                              className="skin-border-primary"
+                        label={this.props.localized.lastName}
+                        id="last_name"
+                        outline
+                        name="last_name"
+                        value={this.state.last_name}
+                        onChange={this.handleFormInput}
+                        containerClass="m-0 pr-2 w-25"
+                        className="skin-border-primary"
                     />
                     <MDBInput type="text"
-                              label={this.props.localized.email}
-                              id="email"
-                              outline
-                              name="email"
-                              value={this.state.email}
-                              onChange={this.handleFormInput}
-                              containerClass="m-0 mr-2 w-50"
-                              className="skin-border-primary"
+                        label={this.props.localized.email}
+                        id="email"
+                        outline
+                        name="email"
+                        value={this.state.email}
+                        onChange={this.handleFormInput}
+                        containerClass="m-0 pr-2 w-50"
+                        className="skin-border-primary"
                     />
-                        <div className="break"/>
+                    <div className="break mt-1"/>
+                    <FontAwesomeIcon icon={this.state.preferred_phone === "cell" ? solidStar : emptyStar} onClick={this.togglePreferredPhone} className="skin-primary-color mt-2 mr-1 pointer"/>
                     <MDBInput type="text"
-                              label={this.props.localized.cellPhone}
-                              id="cell_phone"
-                              outline
-                              name="cell_phone"
-                              value={this.state.cell_phone}
-                              onChange={this.handleFormInput}
-                              containerClass="m-0 mr-2 w-25"
-                              className="skin-border-primary"
+                        label={this.props.localized.cellPhone}
+                        id="cell_phone"
+                        outline
+                        name="cell_phone"
+                        value={this.state.cell_phone}
+                        onChange={this.handleFormInput}
+                        getValue={(val) => this.maskPhone(val, "cell_phone")}
+                        containerClass="m-0 pr-2 w-25"
+                        className="skin-border-primary"
+                    />
+                    <FontAwesomeIcon icon={this.state.preferred_phone === "home" ? solidStar : emptyStar} onClick={this.togglePreferredPhone} className="skin-primary-color mt-2 ml-2 mr-1 pointer"/>
+                    <MDBInput type="text"
+                        label={this.props.localized.homePhone}
+                        id="home_phone"
+                        outline
+                        name="home_phone"
+                        value={this.state.home_phone}
+                        getValue={(val) => this.maskPhone(val, "home_phone")}
+                        onChange={this.handleFormInput}
+                        containerClass="m-0 pr-2 w-25"
+                        className="skin-border-primary"
+                    />
+                    <div className="break mt-3 pb-1"/>
+                    {this.props.localized.streetAddressHeader}
+                    <div className="break mb-1"/>
+                    <MDBInput type="text"
+                        label={this.props.localized.address}
+                        id="address_1"
+                        outline
+                        name="address_1"
+                        value={this.state.address_1}
+                        onChange={this.handleFormInput}
+                        containerClass="m-0 pr-2 w-25"
+                        className="skin-border-primary"
                     />
                     <MDBInput type="text"
-                              label={this.props.localized.homePhone}
-                              id="home_phone"
-                              outline
-                              name="home_phone"
-                              value={this.state.home_phone}
-                              onChange={this.handleFormInput}
-                              containerClass="m-0 mr-2 w-25"
-                              className="skin-border-primary"
+                        label={this.props.localized.address2}
+                        id="address_2"
+                        outline
+                        name="address_2"
+                        value={this.state.address_2}
+                        onChange={this.handleFormInput}
+                        containerClass="m-0 pr-2 w-25"
+                        className="skin-border-primary"
                     />
                     <div className="break"/>
-                    <MDBInput type="text"
-                              label={this.props.localized.address}
-                              id="address_1"
-                              outline
-                              name="address_1"
-                              value={this.state.address_1}
-                              onChange={this.handleFormInput}
-                              containerClass="m-0 mr-2 w-25"
-                              className="skin-border-primary"
-                    />
-                    <MDBInput type="text"
-                              label={this.props.localized.address2}
-                              id="address_2"
-                              outline
-                              name="address_2"
-                              value={this.state.address_2}
-                              onChange={this.handleFormInput}
-                              containerClass="m-0 mr-2 w-25"
-                              className="skin-border-primary"
-                    />
-                        <div className="break"/>
 
                     <MDBInput type="text"
-                              label={this.props.localized.city}
-                              id="city"
-                              outline
-                              name="city"
-                              value={this.state.city}
-                              onChange={this.handleFormInput}
-                              containerClass="m-0 mr-2 w-25"
-                              className="skin-border-primary"
+                        label={this.props.localized.city}
+                        id="city"
+                        outline
+                        name="city"
+                        value={this.state.city}
+                        onChange={this.handleFormInput}
+                        containerClass="m-0 pr-2 w-25"
+                        className="skin-border-primary"
                     />
                     <MDBInput type="text"
-                              label={this.props.localized.state}
-                              id="state"
-                              outline
-                              name="state"
-                              value={this.state.state}
-                              onChange={this.handleFormInput}
-                              containerClass="m-0 mr-2 w-25"
-                              className="skin-border-primary"
+                        label={this.props.localized.state}
+                        id="state"
+                        outline
+                        name="state"
+                        value={this.state.state}
+                        onChange={this.handleFormInput}
+                        containerClass="m-0 pr-2 w-25"
+                        className="skin-border-primary"
                     />
                     <MDBInput type="text"
-                              label={this.props.localized.zip}
-                              id="zip"
-                              outline
-                              name="zip"
-                              value={this.state.zip}
-                              onChange={this.handleFormInput}
-                              containerClass="m-0 mr-2 w-25"
-                              className="skin-border-primary"
+                        label={this.props.localized.zip}
+                        id="zip"
+                        outline
+                        name="zip"
+                        value={this.state.zip}
+                        onChange={this.handleFormInput}
+                        containerClass="m-0 pr-2 w-25"
+                        className="skin-border-primary"
                     />
-                    <div className="break"/>
+                    <div className="break mt-3 pb-1"/>
+                    {this.props.localized.regionHeader}
+                    <div className="break mb-1"/>
+                    <MDBSelect options={this.state.regionOptions}
+                        getValue={this.chooseRegion}
+                        label={this.props.localized.region}
+                        className="mb-1 mt-1 mr-3"
+                    />
                     <MDBSelect options={this.state.timezoneOptions}
                         getValue={this.chooseTimezone}
                         label={this.props.localized.timezone}
+                        className="mb-1 mt-1"
                     />
+
                     <div className="break"/>
-                    Date Of Birth
-                    <div className="break"/>
+                    {this.props.localized.dobHeader}
+                    <div className="break mb-1"/>
                     <MDBInput type="text"
-                              label={this.props.localized.month}
-                              id="month"
-                              size="sm"
-                              outline
-                              name="monthValue"
-                              value={this.state.monthValue}
-                              onChange={this.handleFormInput}
-                              containerClass="m-0 mr-2"
-                              className="skin-border-primary"
-                              style={{margin: "0px -120px 0.5rem 0"}}
+                        label={this.props.localized.month}
+                        id="month"
+                        size="sm"
+                        outline
+                        name="monthValue"
+                        value={this.state.monthValue}
+                        onChange={this.handleFormInput}
+                        containerClass="m-0 mr-2"
+                        className="skin-border-primary"
+                        style={{margin: "0px -120px 0.5rem 0"}}
                     />/
                     <MDBInput type="text"
-                              label={this.props.localized.day}
-                              id="day"
-                              size="sm"
-                              outline
-                              name="dayValue"
-                              value={this.state.dayValue}
-                              onChange={this.handleFormInput}
-                              containerClass="m-0 mr-2 ml-2"
-                              className="skin-border-primary"
-                              style={{margin: "0px -120px 0.5rem 0"}}
+                        label={this.props.localized.day}
+                        id="day"
+                        size="sm"
+                        outline
+                        name="dayValue"
+                        value={this.state.dayValue}
+                        onChange={this.handleFormInput}
+                        containerClass="m-0 mr-2 ml-2"
+                        className="skin-border-primary"
+                        style={{margin: "0px -120px 0.5rem 0"}}
                     />/
                     <MDBInput type="text"
-                              label={this.props.localized.year}
-                              id="year"
-                              size="sm"
-                              outline
-                              name="yearValue"
-                              value={this.state.yearValue}
-                              onChange={this.handleFormInput}
-                              containerClass="m-0 ml-2"
-                              className="skin-border-primary"
-                              style={{margin: "0px -110px 0.5rem 0"}}
+                        label={this.props.localized.year}
+                        id="year"
+                        size="sm"
+                        outline
+                        name="yearValue"
+                        value={this.state.yearValue}
+                        onChange={this.handleFormInput}
+                        containerClass="m-0 ml-2"
+                        className="skin-border-primary"
+                        style={{margin: "0px -110px 0.5rem 0"}}
                     />
                     { this.state.hasErrors && <MDBBox className="p-1 w-75 text-danger text-right"> {this.state.errorMessage} </MDBBox>}
-                    <div className="break"/>
-                    Contact Preferences
-                    <div className="break"/>
+                    <div className="break mt-3 pb-1"/>
+                    {this.props.localized.contactPreferencesHeader}
+                    <div className="break mb-1"/>
 
                     <MDBBox className="d-flex flex-wrap w-100" >
                         {switches}
                     </MDBBox>
                 </MDBModalBody>
 
-                <MDBModalFooter className="p-1">
-                    <MDBRow>
-                        <MDBCol size={"12"}>
-                            <MDBBtn color="secondary" rounded outline className="float-left"
-                                    onClick={this.cancel}>{this.props.localized.cancelButton}</MDBBtn>
-                            <MDBBtn color="primary" rounded className="float-right" disabled={this.state.disableSave}
-                                    onClick={this.submit}>{this.props.localized.submitButton}</MDBBtn>
-
-                        </MDBCol>
-                    </MDBRow>
+                <MDBModalFooter className="p-1 justify-content-between">
+                    <MDBBtn color="secondary" 
+                        rounded outline 
+                        onClick={this.cancel}>
+                            {this.props.localized.cancelButton}
+                    </MDBBtn>
+                    <MDBBtn color="primary" 
+                        rounded  
+                        disabled={this.state.disableSave}
+                        onClick={this.submit}>
+                            {this.props.localized.submitButton}
+                    </MDBBtn>
                 </MDBModalFooter>
             </MDBModal>
         )
@@ -371,6 +459,7 @@ const mapStateToProps = state => {
         localization: state.localization,
         localized: state.localization.interaction.summary.editLead,
         lead: state.lead,
+        shift: state.shift
     }
 }
 

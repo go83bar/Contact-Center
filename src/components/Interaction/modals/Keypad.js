@@ -9,7 +9,7 @@ import {faCircle} from "@fortawesome/pro-light-svg-icons"
 import {connect} from "react-redux";
 import { TwilioDevice } from '../../../twilio/TwilioDevice'
 
-class ProviderChoices extends Component {
+class Keypad extends Component {
 
     clickHandler = (tone) => {
         TwilioDevice.sendKeypadInput(tone)
@@ -68,4 +68,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(ProviderChoices);
+export default connect(mapStateToProps)(Keypad);
