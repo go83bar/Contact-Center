@@ -16,22 +16,22 @@ class Switch extends Component {
     }
     render() {
         return (
-            <MDBBox className="d-flex flex-nowrap mr-2 mb-2 border rounded skin-border-primary justify-content-center">
-                    <MDBNavLink style={{borderRight : "1px solid"}} className={ "py-1 text-nowrap skin-border-primary " + (this.props.checked ? "skin-primary-background-color skin-text" : " skin-secondary-color backgroundColorInherit")}
+            <MDBBox className="d-flex flex-nowrap mr-2 mb-2 border rounded skin-border-primary f-m">
+                    <MDBNavLink style={{borderRight : "1px solid", minWidth: "135px"}} className={ "d-flex py-1 justify-content-center text-nowrap skin-border-primary " + (this.props.checked ? "skin-primary-background-color skin-text" : " skin-secondary-color backgroundColorInherit")}
                         link
                         to="#"
                         active={this.props.checked}
                         onClick={this.toggle}
                     >
-                        <MDBIcon icon={this.props.icon}/> {this.props.onLabel}
+                        <MDBIcon className="p-1" icon={this.props.icon}/> {this.props.onLabel}
                     </MDBNavLink>
-                <MDBNavLink className={ "text-nowrap py-1 " + (!this.props.checked ? "background-red skin-secondary-color" : "skin-secondary-color backgroundColorInherit")}
+                <MDBNavLink className={ "text-nowrap py-1 d-flex justify-content-center " + (!this.props.checked ? "background-red skin-secondary-color" : "skin-secondary-color backgroundColorInherit")}
                         link
                         to="#"
                         active={!this.props.checked}
                         onClick={this.toggle}
                     >
-                        <MDBIcon icon={this.props.icon}/> {this.props.offLabel}
+                        <MDBIcon className="p-1" icon={this.props.icon}/> {this.props.offLabel}
                     </MDBNavLink>
             </MDBBox>
         )
