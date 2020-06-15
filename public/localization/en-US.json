@@ -79,8 +79,7 @@
       "email" : "Email: ",
       "date_of_birth" : "Date Of Birth: ",
       "zip" : "Zip: ",
-      "client" : "Client: ",
-      "campaign" : "Campaign: ",
+      "region" : "Region: ",
       "phase" : "Phase: ",
       "id" : "ID: "
     },

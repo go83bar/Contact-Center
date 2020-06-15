@@ -12,10 +12,11 @@ class LeadDetail extends Component {
     constructor(props) {
         super(props);
         const client = this.props.shift.clients[this.props.lead.client_index]
-        const campaign = client.campaigns[this.props.lead.campaign_index]
+        const phase = this.props.shift.phases.find(phase => phase.id === this.props.lead.phase_id)
+        const region = client.regions[this.props.lead.region_index]
         this.state = {
-            clientName: client.name,
-            campaignName: campaign.name,
+            phase : phase.label,
+            region : region
         };
     }
 
@@ -43,9 +44,10 @@ class LeadDetail extends Component {
                             <span className="mr-3">
                                 {lead.details.preferred_phone === "cell" && <FontAwesomeIcon icon={faStar} className="skin-primary-color"/>} <span className="font-weight-bold">{localization.cellPhone}</span> {formatPhoneNumber(lead.details.cell_phone)}
                             </span>
+                            {lead.details.home_phone &&
                             <span>
                                 {lead.details.preferred_phone === "home" && <FontAwesomeIcon icon={faStar} className="skin-primary-color"/>} <span className="font-weight-bold">{localization.homePhone}</span> {formatPhoneNumber(lead.details.home_phone)}
-                            </span>
+                            </span>}
                         </span>
                         <span>
                             {lead.details.address_1 && <span><span className="font-weight-bold">{localization.address}</span>{lead.details.address_1}</span>}
@@ -60,8 +62,8 @@ class LeadDetail extends Component {
                     </div>
                     <div className="d-flex flex-column justify-content-between align-items-start w-50">
                     <MDBChip className="outlineChip ml-4 mb-0">{localization.id}{lead.id}</MDBChip>
-                    <MDBChip className={"outlineChip ml-4 mb-0"}>{localization.client}{this.state.clientName}</MDBChip>
-                    <MDBChip className={"outlineChip ml-4 mb-0"}>{localization.campaign}{this.state.campaignName}</MDBChip>
+                    <MDBChip className={"outlineChip ml-4 mb-0"}>{localization.region}{this.state.region.name} - {formatPhoneNumber(this.state.region.default_number)}</MDBChip>
+                    <MDBChip className={"outlineChip ml-4 mb-0"}>{localization.phase}{this.state.phase}</MDBChip>
                     </div>
                 </MDBCardBody>
             </MDBCard>
