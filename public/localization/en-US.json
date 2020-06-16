@@ -224,6 +224,7 @@
       "leadUpdate": {
         "phase" : "Phase updated from: ",
         "leadStatus" : "Lead Status updated from: ",
+        "region": "Region updated from: ",
         "to" : " to ",
         "from": " from: ",
         "allowed": "Allowed",

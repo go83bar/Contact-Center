@@ -27,6 +27,7 @@ class Lead extends Component {
 
     renderLogs() {
         const localization = this.props.localization.interaction.timeline.leadUpdate
+        const client = this.props.shift.clients[this.props.lead.client_index]
         let result = []
         this.props.data.log.forEach((item,index) => {
             switch (item.field) {
@@ -39,7 +40,7 @@ class Lead extends Component {
                     break
                 case "region_id":
                     result.push(<div key={"log-" + item.created_at.format()+ "-" + index}>
-                        {String.humanize(item.field) + localization.from + item.old_value + localization.to +  item.new_value}
+                        {localization.region + client.regions.find(i => i.id === parseInt(item.old_value)).name + localization.to +  client.regions.find(i => i.id === parseInt(item.new_value)).name}
                     </div>)
                     break
                 case "lead_status_id":
@@ -51,7 +52,7 @@ class Lead extends Component {
                 case "home_phone":
                 case "work_phone":
                     result.push(<div key={"log-" + item.created_at.format()+ "-" + index}>
-                        {String.humanize(item.field) + localization.from + item.old_value + localization.to +  item.new_value}
+                        {String.humanize(item.field) + localization.from + String.formatPhoneNumber(item.old_value) + localization.to +  String.formatPhoneNumber(item.new_value)}
                     </div>)
                     break
                 case "first_name":
@@ -115,7 +116,8 @@ class Lead extends Component {
 const mapStateToProps = store => {
     return {
         localization: store.localization,
-        shift: store.shift
+        shift: store.shift,
+        lead: store.lead
     }
 }
 
