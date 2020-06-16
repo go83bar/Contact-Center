@@ -19,6 +19,7 @@ import Email from "./timeline/cards/Email";
 import Survey from "./timeline/cards/Survey";
 import Text from "./timeline/cards/Text";
 import moment from "moment";
+import Lead from "./timeline/cards/Lead";
 
 class LeadTimeline extends Component {
 
@@ -131,6 +132,13 @@ class LeadTimeline extends Component {
                             </MDBStep>
                         )
                         break
+                    case "log":
+                        result.push(
+                            <MDBStep className="mb-4" key={"item-" + index}>
+                                <Lead data={item}/>
+                            </MDBStep>
+                        )
+                        break
                     default:
                         break
                 }
@@ -142,6 +150,7 @@ class LeadTimeline extends Component {
     render() {
         if (this.props.active === true) {
             const td = new TimelineData(this.props.lead)
+            console.log("TimelineData: ", td)
             const tp = td.getTouchpoints()
             return (
                 <MDBBox className="d-flex flex-row overflow-auto flex-1 p-0 m-0 w-auto">

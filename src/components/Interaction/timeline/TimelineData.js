@@ -22,11 +22,6 @@ class TimelineData {
                 created_at: moment.utc(interaction.created_at).tz(lead.details.timezone)
             }
         })
-        /*this.timeline && this.timeline.forEach(interaction =>  {
-            interaction["events"] = []
-            interaction["type"] = "interaction"
-            interaction.created_at = moment.utc(interaction.created_at).tz(lead.details.timezone)
-        })*/
 
         this.generateTimeline(lead)
     }
@@ -50,6 +45,49 @@ class TimelineData {
                 this.timeline.push(item)
             }
         })
+    }
+    processLogItems(type, items, timezone) {
+        let changes = items.map( item => {
+            return {
+                ...item,
+                type: type,
+                created_at: moment.utc(item.created_at).tz(timezone)
+            }
+        })
+        changes.sort((a,b) => a.created_at - b.created_at)
+
+        let rt = undefined
+        let cb = undefined
+        let newChange = undefined
+        changes.forEach(item => {
+            if (newChange === undefined) {
+                newChange = {
+                    type : type,
+                    created_at : item.created_at,
+                    created_by : item.created_by,
+                    log : []
+                }
+                cb = item.created_by
+                rt = item.created_at.clone().add(1,"m")
+            }
+            if (item.created_at.isBefore(rt) && item.created_by === cb) {
+                console.log(item.created_at.format(), rt.format())
+                newChange.log.push(item)
+            } else {
+                console.log("After a minute")
+                this.timeline.push(newChange)
+                newChange = {
+                    type : type,
+                    created_at : item.created_at,
+                    created_by : item.created_by,
+                    log : [item]
+                }
+                cb = item.created_by
+                rt = item.created_at.clone().add(1,"m")
+            }
+        })
+        if (newChange !== undefined)
+           this.timeline.push(newChange)
     }
 
     calculateTouchpoints(events) {
@@ -104,6 +142,8 @@ class TimelineData {
         this.processItems("note", lead.notes, timezone)
         this.processItems("survey", lead.surveys, timezone)
         this.processItems("text", lead.texts, timezone)
+        let logs = lead.changelogs !== undefined ? lead.changelogs : []
+        this.processLogItems("log", logs.concat(lead.log_optouts),timezone)
         //Add Additional Sections here
 
         //Sort Main Level by date.

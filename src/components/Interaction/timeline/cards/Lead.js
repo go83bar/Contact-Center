@@ -7,12 +7,14 @@ import {
     faCircle as faCircleSolid, faUserEdit
 } from "@fortawesome/pro-solid-svg-icons";
 import {faCircle} from "@fortawesome/pro-light-svg-icons";
+import String from '../../../../utils/String'
 
 class Lead extends Component {
 
     constructor(props) {
         super(props)
         this.toggleCollapse=this.toggleCollapse.bind(this)
+        this.renderLogs = this.renderLogs.bind(this)
 
         this.state = {
             collapsed : true
@@ -21,6 +23,64 @@ class Lead extends Component {
     }
     toggleCollapse() {
         this.setState({collapsed : !this.state.collapsed})
+    }
+
+    renderLogs() {
+        const localization = this.props.localization.interaction.timeline.leadUpdate
+        let result = []
+        this.props.data.log.forEach((item,index) => {
+            switch (item.field) {
+                case "tag" :
+                    break
+                case "phase_id":
+                    result.push(<div key={"log-" + item.created_at.format()+ "-" + index}>
+                        {localization.phase + this.props.shift.phases.find(i => i.id === parseInt(item.old_value)).label + localization.to +  this.props.shift.phases.find(i => i.id === parseInt(item.new_value)).label}
+                    </div>)
+                    break
+                case "region_id":
+                    result.push(<div key={"log-" + item.created_at.format()+ "-" + index}>
+                        {String.humanize(item.field) + localization.from + item.old_value + localization.to +  item.new_value}
+                    </div>)
+                    break
+                case "lead_status_id":
+                    result.push(<div key={"log-" + item.created_at.format()+ "-" + index}>
+                        {localization.leadStatus + this.props.shift.lead_statuses.find(i => i.id === parseInt(item.old_value)).label + localization.to +  this.props.shift.lead_statuses.find(i => i.id === parseInt(item.new_value)).label}
+                    </div>)
+                    break
+                case "cell_phone":
+                case "home_phone":
+                case "work_phone":
+                    result.push(<div key={"log-" + item.created_at.format()+ "-" + index}>
+                        {String.humanize(item.field) + localization.from + item.old_value + localization.to +  item.new_value}
+                    </div>)
+                    break
+                case "first_name":
+                case "last_name":
+                case "email":
+                case "address_1":
+                case "address_2":
+                case "city":
+                case "gender":
+                case "state":
+                case "zip":
+                case "wealth_score":
+                case "date_of_birth":
+                case "timezone":
+                    result.push(<div key={"log-" + item.created_at.format()+ "-" + index}>
+                        {String.humanize(item.field) + localization.from + item.old_value + localization.to +  item.new_value}
+                    </div>)
+                    break
+                case "emails":
+                case "phone_calls":
+                case "texts":
+                    result.push(<div key={"log-" + item.created_at.format()+ "-" + index}>
+                        {String.humanize(item.field) + localization.from + (item.old_value === "1" ? localization.allowed : localization.notAllowed) + localization.to +  (item.new_value === "1" ? localization.allowed : localization.notAllowed)}
+                    </div>)
+                    break
+                default: break
+            }
+        })
+        return result
     }
 
     render() {
@@ -39,10 +99,11 @@ class Lead extends Component {
                             <span className="f-l font-weight-bold">
                                 Lead Information Updated
                             </span>
-                            <span>List fields that were updated</span>
+                            <span>{this.renderLogs()}</span>
                         </div>
                         <div className="d-flex w-25 f-s flex-column text-right justify-content-start">
                             <span><span className="font-weight-bold">{this.props.data.created_at.format("MMM D")}</span>, {this.props.data.created_at.format("hh:mm a z")}</span>
+                            {this.props.data.created_by && <span>{this.props.localization.created_by}: {this.props.data.created_by}</span>}
                         </div>
                     </div>
                 </MDBBox>
@@ -53,7 +114,8 @@ class Lead extends Component {
 }
 const mapStateToProps = store => {
     return {
-        localization: store.localization
+        localization: store.localization,
+        shift: store.shift
     }
 }
 

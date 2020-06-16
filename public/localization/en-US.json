@@ -220,7 +220,15 @@
       "qualified" : "Qualified"
     },
     "timeline": {
-      "tabTitle": "Timeline"
+      "tabTitle": "Timeline",
+      "leadUpdate": {
+        "phase" : "Phase updated from: ",
+        "leadStatus" : "Lead Status updated from: ",
+        "to" : " to ",
+        "from": " from: ",
+        "allowed": "Allowed",
+        "notAllowed": "Not Allowed"
+      }
     },
     "timezoneChoices": [
       {
