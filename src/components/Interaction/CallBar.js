@@ -186,7 +186,7 @@ class CallBar extends Component {
                             <span className="callBarText skin-secondary-color"><br/>{this.props.localized.pauseLabel}</span>
                         </MDBNavLink>
                     </MDBNavItem>
-                    <MDBNavItem className={"w-50 pb-2" + (this.props.twilio.agentResumeButtonEnabled ? "" : " hidden")} onClick={this.agentResumeRecording}>>
+                    <MDBNavItem className={"w-50 pb-2" + (this.props.twilio.agentResumeButtonEnabled ? "" : " hidden")} onClick={this.agentResumeRecording}>
                         <MDBNavLink to="#" className={"text-align-center p-0"}>
                             <span className="fa-layers fa-fw fa-3x">
                                 <FontAwesomeIcon icon={faCircleSolid} className="stop-icon-bg"/>

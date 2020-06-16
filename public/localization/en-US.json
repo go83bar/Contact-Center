@@ -259,6 +259,7 @@
     "emailLabel" : "Email Address",
     "passwordLabel": "Password",
     "frontButton" : "Get Pin",
+    "forgotPassword": "Forgot your password?",
     "pinLabel" : "Pin Code",
     "remember": "Remember me",
     "backButton" : "Sign In"
