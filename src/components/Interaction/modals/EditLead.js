@@ -48,7 +48,7 @@ class EditLead extends Component {
 
         // region options        
         const client = this.props.shift.clients[this.props.lead.client_index]
-        const regionOptions = client.regions.map( region => {
+        const regionOptions = client.regions.filter( region => region.active).map( region => {
             return {
                 value: region.id.toString(),
                 text: region.name,
