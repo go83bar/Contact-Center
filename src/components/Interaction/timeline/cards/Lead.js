@@ -71,6 +71,11 @@ class Lead extends Component {
                         {String.humanize(item.field) + localization.from + item.old_value + localization.to +  item.new_value}
                     </div>)
                     break
+                case "preferred_phone":
+                    result.push(<div key={"log-" + item.created_at.format()+ "-" + index}>
+                        {String.humanize(item.field) + localization.from + String.humanize(item.old_value) + localization.to +  String.humanize(item.new_value)}
+                    </div>)
+                    break
                 case "emails":
                 case "phone_calls":
                 case "texts":

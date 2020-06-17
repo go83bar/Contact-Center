@@ -127,7 +127,7 @@ class Login extends Component {
                                 <MDBInput id="remember" type="checkbox" checked={this.state.remember} label={localization.remember} onChange={this.toggleRemember} className="skin-border-primary" labelClass="skin-primary-color" containerClass="p-0"/>
                             </div>
                             <MDBBtn rounded onClick={this.getPin}><h5 style={{marginBottom:"0px"}}> {localization.frontButton} <MDBIcon icon="angle-double-right" style={{marginLeft : "10px"}}/> </h5></MDBBtn>
-                            <br /><a href={this.props.config["url-password-reset"]} target="_blank" className="skin-primary-color">{localization.forgotPassword}</a>
+                            <br /><a href={this.props.config["url-password-reset"]} target="_blank" rel="noopener noreferrer" className="skin-primary-color">{localization.forgotPassword}</a>
                         </MDBCardBody>
                     </MDBCard>
                     <MDBCard className="face back" narrow >
