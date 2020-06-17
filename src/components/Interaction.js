@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
 import {
     MDBBox,
-    MDBNav,
+    MDBNav
 } from "mdbreact"
+import {ToastContainer, Slide} from "react-toastify"
 import LeadSummary from "./Interaction/LeadSummary"
 import LeadDetail from "./Interaction/LeadDetail"
 import CallBar from "./Interaction/CallBar"
@@ -19,7 +20,7 @@ import LeadTabs from "./Interaction/LeadTabs"
 import {faChevronRight, faUser} from "@fortawesome/pro-solid-svg-icons"
 import moment from "moment"
 import EndInteraction from "./Interaction/EndInteraction"
-
+import "react-toastify/dist/ReactToastify.css";
 class Interaction extends Component {
 
     constructor(props) {
@@ -92,6 +93,14 @@ class Interaction extends Component {
                     </MDBBox>
                 </MDBBox>
                 {this.state.endInteractionVisible && <EndInteraction history={this.props.history} toggle={this.toggleEndInteraction}/>}
+                <ToastContainer
+                    position="bottom-left"
+                    hideProgressBar={false}
+                    newestOnTop={true}
+                    autoClose={5000}
+                    pauseOnHover={false}
+                    transition={Slide}
+                />
             </MDBBox>
         )
     }

@@ -318,7 +318,8 @@ export default class LeadAPI {
             url: redux.config["url-api-base"] + "leads/" + params.leadID,
             method: "PUT",
             data: params.payload,
-            auth: redux.user.auth
+            auth: redux.user.auth,
+            toast : true
         }
         const result = await sendRequest(requestOptions)
 

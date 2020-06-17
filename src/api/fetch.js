@@ -2,7 +2,7 @@
  * @type {object}
  * @property {string} token - The token string
  * @property {number} userID - The ID of the current User
- * 
+ *
  */
 
 /**
@@ -13,7 +13,11 @@
  * @property {string} type
  * @property {object} data
  * @property {Auth} auth
+ * @property {boolean} toast
  */
+
+import {toast} from "react-toastify";
+import store from "../store";
 
 /**
  * Performs the actual fetch API call
@@ -28,7 +32,8 @@ export default async function (options) {
         method: "POST",
         type: "form",
         data: {},
-        auth: {}
+        auth: {},
+        toast: false
 
     }
     options = Object.assign({}, defaultOptions, options)
@@ -48,7 +53,7 @@ export default async function (options) {
         if (options.type === "json") {
             fetchOptions.headers["Content-Type"] = "application/json"
             fetchOptions.body = JSON.stringify(options.data)
-            
+
         } else if (options.type === "form"){
             fetchOptions.headers["Content-Type"] = "application/x-www-form-urlencoded"
             fetchOptions.body = new URLSearchParams(options.data)
@@ -63,7 +68,9 @@ export default async function (options) {
     } else {
         return { error: "Unsupported method"}
     }
-
+    const ref = Math.random()
+    options.toast && toast.info(store.getState().localization.toast.saving, {toastId: ref, autoClose: false})
     const response = await fetch(options.url, fetchOptions)
+    options.toast && toast.update(ref, {autoClose: 1000})
     return response.json()
   }

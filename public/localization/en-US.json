@@ -305,6 +305,12 @@
     "resultNextContactHeader": "Next Contact",
     "resultLockedLabel": "LOCKED",
     "noClientSelectedError": "You must select a client"
+  },
+  "toast": {
+    "saving" : "Saving ...",
+    "editLead" : {
+      "success" : "Lead Information Saved Successfully.",
+      "error" : "Lead Information Save Unsuccessful."
+    }
   }
-
 }
