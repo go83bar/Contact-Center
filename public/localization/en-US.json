@@ -30,7 +30,10 @@
       "qualifyingTitle" : "Qualifying Questions",
       "bookingTitle" : "Booking Questions",
       "bookButton" : "Book an Appointment",
-      "activeAppointments" : "Active Appointments"
+      "activeAppointments" : "Active Appointments",
+      "reschedule" : "Reschedule",
+      "confirm" : "Confirm",
+      "verify" : "Verify"
     },
     "booking" : {
       "tabTitle": "Booking",
