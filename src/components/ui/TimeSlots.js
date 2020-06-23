@@ -25,8 +25,10 @@ class TimeSlots extends Component {
                 let evening = []
         if (values && values.length > 0) {
             values.forEach((value) => {
-                const chip = <Button rounded outline="accent" color="secondary" className="f-l" key={value}>{value}</Button>
                 const shortValue = value.substring(0,value.indexOf(":"))
+                if (shortValue > 12)
+                    value = (shortValue - 12) + value.substring(value.indexOf(":"))
+                const chip = <Button rounded outline="accent" color="secondary" className="f-l" key={value}>{value}</Button>
                 if (shortValue < 12) morning.push(chip)
                 else if (shortValue < 17) afternoon.push(chip)
                 else evening.push(chip)

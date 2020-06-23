@@ -225,7 +225,7 @@
 .calendar {
   display: block;
   position: relative;
-  //width: 100%;
+  width: 100%;
   //background: var(--neutral-color);
   //border: 1px solid var(--border-color);
 }
@@ -237,6 +237,7 @@
   padding: 0.7em 0;
   cursor: default;
   text-align: center;
+  width: calc(100% / 8 * 7);
   //border-bottom: 1px solid var(--border-color);
 }
 .calendar .header .subtitle{
@@ -278,6 +279,7 @@
   //border-bottom: 1px solid var(--border-color);
   text-align: center;
   cursor: default;
+  width: calc(100% / 8 * 7);
 }
 
 .calendar .body .cell {
@@ -285,7 +287,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 4em;
+  height: 3.5em;
   //border-right: 1px solid var(--border-color);
   overflow: hidden;
   cursor: pointer;
@@ -349,6 +351,6 @@
 
 .calendar .body .col {
   flex-grow: 0;
-  flex-basis: calc(100% / 7);
-  width: calc(100% / 7);
+  flex-basis: calc(100% / 8);
+  width: calc(100% / 8);
 }

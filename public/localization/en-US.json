@@ -33,7 +33,15 @@
       "activeAppointments" : "Active Appointments",
       "reschedule" : "Reschedule",
       "confirm" : "Confirm",
-      "verify" : "Verify"
+      "confirmed" : "Confirmed",
+      "verify" : "Verify",
+      "status" : "Status",
+      "chooseStatus" : "Choose new status.",
+      "updateStatus" : "Update Status",
+      "date": "Date: ",
+      "time": "Time: ",
+      "cancel": "Cancel",
+      "appointmentStatus" : "Change Appointment Status"
     },
     "booking" : {
       "tabTitle": "Booking",
