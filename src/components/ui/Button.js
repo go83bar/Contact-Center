@@ -62,7 +62,7 @@ class Button extends Component {
                 break
         }
         return (
-            <button data-test="button" type="button" className={btnClass}>
+            <button data-test="button" type="button" className={btnClass} onClick={this.props.clickHandler}>
 
                 {this.props.children}
                 <div data-test="waves" className="Ripple Ripple-outline" style={{top:"0px", left: "0px", width:"0px", height:"0px"}}></div>

@@ -149,7 +149,6 @@ class EmailForm extends Component {
 
 const mapStateToProps = state => {
     return {
-        auth: state.auth,
         interaction: state.interaction,
         localization: state.localization,
         localized: state.localization.interaction.summary.emailForm,

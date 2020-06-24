@@ -73,15 +73,10 @@ class LeadDetail extends Component {
 
 const mapStateToProps = state => {
     return {
-        auth: state.auth,
         localization: state.localization,
         lead: state.lead,
         shift: state.shift
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {dispatch}
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(LeadDetail);
+export default connect(mapStateToProps)(LeadDetail);

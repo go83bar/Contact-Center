@@ -124,7 +124,6 @@ class CallbackForm extends Component {
 
 const mapStateToProps = state => {
     return {
-        auth: state.auth,
         user: state.user,
         localization: state.localization.interaction.summary.callbackForm,
         interaction : state.interaction

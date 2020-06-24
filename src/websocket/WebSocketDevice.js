@@ -14,19 +14,21 @@ class WebSocketDevice {
         }
 
         ws.onmessage = evt => {
-            console.log("Websocket message received")
-            const payload = JSON.parse(evt.data)
-            switch (payload.event) {
-                case "callevent":
-                    processCallEvent(payload.data)
-                break
-                case "conferencestart":
-                    processConferenceStart(payload.conference_sid)
-                break
-                default:
-                    console.log("Unknown websocket event: ", evt)
+            if (evt.data && evt.data.length) {
+                console.log("Websocket message received")
+                const payload = JSON.parse(evt.data)
+                switch (payload.event) {
+                    case "callevent":
+                        processCallEvent(payload.data)
+                    break
+                    case "conferencestart":
+                        processConferenceStart(payload.conference_sid)
+                    break
+                    default:
+                        console.log("Unknown websocket event: ", evt)
+                }
+                console.log(payload)
             }
-            console.log(payload)
         }
 
         ws.onclose = () => {

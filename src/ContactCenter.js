@@ -53,7 +53,6 @@ class ContactCenter extends Component {
 }
 const mapStateToProps = state => {
     return {
-        auth : state.auth,
         config : state.config
     }
 }

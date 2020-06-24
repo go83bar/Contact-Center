@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {MDBBtn, MDBCol, MDBModal, MDBModalBody, MDBModalFooter, MDBModalHeader, MDBRow} from 'mdbreact'
 import {connect} from "react-redux";
+import {toast} from "react-toastify"
 import Switch from "../../ui/Switch";
 import LeadAPI from '../../../api/leadAPI';
 
@@ -23,6 +24,10 @@ class ContactPreferences extends Component {
                             value: newPreference
                         }
                     })
+                    console.log("message", this.props.localization.toast.editContactPreferences.success)
+                    toast.success(this.props.localization.toast.editContactPreferences.success, {delay: 1000})
+                } else {
+                    toast.error(this.props.localization.toast.editContactPreferences.error, {delay: 1000})
                 }
             })
 

@@ -3,6 +3,9 @@
   "buttonLabels": {
     "load": "Load",
     "save": "Save",
+    "next": "Next",
+    "previous": "Previous",
+    "back": "Back",
     "saving": "Saving...",
     "update": "Update",
     "delete": "Delete",
@@ -29,7 +32,6 @@
       "selectOffice" : "Select Office",
       "qualifyingTitle" : "Qualifying Questions",
       "bookingTitle" : "Booking Questions",
-      "bookButton" : "Book an Appointment",
       "activeAppointments" : "Active Appointments",
       "reschedule" : "Reschedule",
       "confirm" : "Confirm",
@@ -45,14 +47,11 @@
       "office": "Office: "
     },
     "booking" : {
-      "tabTitle": "Booking",
-      "title" : "Book a New Appointment",
-      "selectAppointment" : "Select appointment type",
-      "selectOffice" : "Select Office",
-      "qualifyingTitle" : "Qualifying Questions",
-      "bookingTitle" : "Booking Questions",
-      "bookButton" : "Book an Appointment",
-      "activeAppointments" : "Active Appointments"
+      "bookButtonLabel" : "Book an Appointment",
+      "nextLabel": "Next",
+      "allOfficesOption": "All Offices",
+      "typeOptionsLabel": "Choose Type",
+      "officeOptionsLabel": "Choose Office"
      },
     "callbar": {
        "leadLabel": "Lead",
@@ -323,6 +322,10 @@
     "editLead" : {
       "success" : "Lead Information Saved Successfully.",
       "error" : "Lead Information Save Unsuccessful."
+    },
+    "editContactPreferences" : {
+      "success" : "Lead Contact Preferences updated",
+      "error" : "Lead Contact Preferences could not be updated"
     }
   }
 }

@@ -26,7 +26,6 @@ class Interaction extends Component {
     constructor(props) {
         super(props);
         this.toggleNav = this.toggleNav.bind(this)
-        this.toggleTab = this.toggleTab.bind(this)
         this.toggleEndInteraction = this.toggleEndInteraction.bind(this)
         this.toggleDetails = this.toggleDetails.bind(this)
         this.state = {
@@ -109,14 +108,9 @@ class Interaction extends Component {
 
 const mapStateToProps = state => {
     return {
-        auth: state.auth,
         localization: state.localization,
         lead : state.lead
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {dispatch}
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Interaction);
+export default connect(mapStateToProps)(Interaction);

@@ -74,8 +74,6 @@ class EditLead extends Component {
     }
 
     submit = () => {
-//        toast.info("Saving Lead Information.", {toastId: "SaveLead", autoClose: false})
-
         // Validate date of birth to be either complete or empty
         if ((this.state.yearValue === undefined || this.state.monthValue === undefined || this.state.dayValue === undefined) && (this.state.yearValue !== undefined || this.state.monthValue !== undefined || this.state.dayValue !== undefined)) {
             console.log("Year: ", this.state.yearValue, " Month: ", this.state.monthValue, " Day: ", this.state.dayValue)
@@ -246,6 +244,9 @@ class EditLead extends Component {
                             user_label: this.props.user.label_name
                         }
                     })
+                    toast.success(this.props.localization.toast.editContactPreferences.success, {delay: 1000})
+                } else {
+                    toast.error(this.props.localization.toast.editContactPreferences.error, {delay: 1000})
                 }
             })
     }

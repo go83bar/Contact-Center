@@ -261,7 +261,6 @@ const mapStateToProps = store => {
         localization: store.localization,
         client: store.client,
         lead: store.lead,
-        auth: store.auth,
         twilio: store.twilio
     }
 }

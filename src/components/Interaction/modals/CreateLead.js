@@ -161,14 +161,9 @@ class CreateLead extends Component {
 }
 const mapStateToProps = state => {
     return {
-        auth: state.auth,
         localization: state.localization,
         lead : state.lead,
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {dispatch}
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CreateLead);
+export default connect(mapStateToProps)(CreateLead);

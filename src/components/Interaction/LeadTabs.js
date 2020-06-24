@@ -38,14 +38,9 @@ class LeadTabs extends Component {
 
 const mapStateToProps = state => {
     return {
-        auth: state.auth,
         localization: state.localization,
         lead: state.lead
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {dispatch}
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(LeadTabs);
+export default connect(mapStateToProps)(LeadTabs);

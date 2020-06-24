@@ -10,6 +10,13 @@ export function lead(state = initialState, action) {
                 ...action.payload
             })
 
+        case "LEAD.APPOINTMENT_BOOKED":
+            // called when a new appointment is booked
+            return {
+                ...state,
+                appointments: [ ...state.appointments, action.data]
+            }
+        
         case "LEAD.UPDATE_CONTACT_PREFERENCES":
             // called when user updates lead's optout preferences
             let contactPreferences = { ...state.contact_preferences }

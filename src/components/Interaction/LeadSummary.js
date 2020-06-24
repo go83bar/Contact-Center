@@ -247,7 +247,6 @@ class LeadSummary extends Component {
 }
 const mapStateToProps = state => {
     return {
-        auth: state.auth,
         localization: state.localization,
         preview : state.preview,
         lead : state.lead,
