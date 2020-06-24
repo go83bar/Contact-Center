@@ -112,7 +112,7 @@ class Active extends Component {
         const client = this.props.shift.clients.find(client => client.id === this.props.data.client_id)
         const apptType = client.appointment_types.find(type => type.id === this.props.data.appointment_type_id)
         const apptStatus = client.appointment_statuses.find(status => status.id === this.props.data.appointment_status_id)
-        const offices = this.props.shift.clients[this.props.lead.client_index].regions[this.props.lead.region_index].offices
+        //const offices = this.props.shift.clients[this.props.lead.client_index].regions[this.props.lead.region_index].offices
         let office = this.props.shift.clients[this.props.lead.client_index].regions[this.props.lead.region_index].offices.find(office => office.id === this.props.data.office_id)
         if (!office) {
             // appointment office is not in lead's current region, let's see if it's in another region
@@ -123,14 +123,16 @@ class Active extends Component {
                         foundOffice = office
                         return true
                     }
+                    return false
                 })
-        
+
                 if (foundOffice) {
                     office = foundOffice
                     return true
                 }
+                return false
             })
-        
+
             if (!office) {
                 // the office ID on this appointment isn't in the client data in any region somehow
                 Slack.sendMessage("Appointment " + this.props.data.id + " has office ID " + this.props.data.office_id + " that is not in the shift data for agent " + this.props.user.id)
@@ -154,8 +156,8 @@ class Active extends Component {
                 ]
             }
         }
-        
-        /*                        
+
+        /*
         <MDBTooltip material placement="top">
                             <MDBNavLink to="#"
                                         className="d-flex flex-column h-100 align-items-center justify-content-center border-left rounded-right p-2 skin-secondary-color"
@@ -183,17 +185,13 @@ class Active extends Component {
                                 <span>
                                     <span
                                         className="font-weight-bold">{moment.utc(this.props.data.start_time).tz(this.props.lead.details.timezone).format("MMM D")}</span>, {moment.utc(this.props.data.start_time).tz(this.props.lead.details.timezone).format("hh:mm a z")}
-<<<<<<< HEAD
-                                    {office_timezone && (office_timezone !== this.props.lead.details.timezone) &&
-=======
                                     {office.timezone !== this.props.lead.details.timezone &&
->>>>>>> master
                                     <span className="ml-3">{localization.office}<span
                                         className="font-weight-bold">{moment.utc(this.props.data.start_time).tz(office.timezone).format("MMM D")}</span>, {moment.utc(this.props.data.start_time).tz(office.timezone).format("hh:mm a z")}</span>}
                                 </span>
                             </div>
-                            <div className="d-flex flex-column f-s justify-content-end p-2 w-50">
-                                <span className="d-flex font-weight-bold skin-primary-color f-l w-100 justify-content-end text-right">{apptStatus.label}</span>
+                            <div className="d-flex flex-column f-s justify-content-end p-2 w-50 text-right">
+                                <span className="d-flex font-weight-bold skin-primary-color f-l w-100 justify-content-end">{apptStatus.label}</span>
                                 {this.props.data.created_by && <span className="d-flex w-100 justify-content-end">{this.props.localization.created_by}: {this.props.data.created_by}</span>}
                             </div>
                         </div>
