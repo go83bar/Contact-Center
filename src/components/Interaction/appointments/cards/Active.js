@@ -40,31 +40,36 @@ class Active extends Component {
         const apptStatus = client.appointment_statuses.find(status => status.id === this.props.data.appointment_status_id)
         const apptType = client.appointment_types.find(type => type.id === this.props.data.appointment_type_id)
         const availableStatuses = []
-            let now = moment()
-            let apptTime = this.props.data.start_time ? moment(this.props.data.start_time) : undefined
-                if (apptTime === undefined) {
-                    client.appointment_statuses.forEach(status => {
-                        if ((status.cancel || status.reschedule_in_progress) && apptStatus.id !== status.id && apptType.statuses.includes(status.id)) availableStatuses.push({
-                            value: status.id.toString(),
-                            text: status.label
-                        })
-                    })
-                } else if (apptTime.isSameOrBefore(now) && apptStatus.cancel !== 1) { // Appointment in the past, and not cancelled
-                    client.appointment_statuses.forEach(status => {
-                        if (!status.pending && apptStatus.id !== status.id && apptType.statuses.includes(status.id)) availableStatuses.push({
-                            value: status.id.toString(),
-                            text: status.label
-                        })
-                    })
-                } else if (apptTime.isAfter(now)) { // Appointment in future, allow pending or cancelled statuses
-                    client.appointment_statuses.forEach(status => {
-                        if ((status.pending || status.cancel) && apptStatus.id !== status.id && apptType.statuses.includes(status.id)) availableStatuses.push({
-                            value: status.id.toString(),
-                            text: status.label
-                        })
-                    })
+        let now = moment()
+        let apptTime = this.props.data.start_time ? moment(this.props.data.start_time) : undefined
+        if (apptTime === undefined) {
+            client.appointment_statuses.forEach(status => {
+                if ((status.cancel || status.reschedule_in_progress) && apptStatus.id !== status.id && apptType.statuses.includes(status.id)) availableStatuses.push({
+                    value: status.id.toString(),
+                    order: status.order,
+                    text: status.label
+                })
+            })
+        } else if (apptTime.isSameOrBefore(now) && apptStatus.cancel !== 1) { // Appointment in the past, and not cancelled
+            client.appointment_statuses.forEach(status => {
+                if (!status.pending && apptStatus.id !== status.id && apptType.statuses.includes(status.id)) availableStatuses.push({
+                    value: status.id.toString(),
+                    order: status.order,
+                    text: status.label
+                })
+            })
+        } else if (apptTime.isAfter(now)) { // Appointment in future, allow pending or cancelled statuses
+            client.appointment_statuses.forEach(status => {
+                if ((status.pending || status.cancel) && apptStatus.id !== status.id && apptType.statuses.includes(status.id)) availableStatuses.push({
+                    value: status.id.toString(),
+                    order: status.order,
+                    text: status.label
+                })
+            })
 
-                }
+        }
+        availableStatuses.sort((a,b) => a.order - b.order)
+
         this.state = {
             dateSelected: moment().format("YYYY-MM-DD"),
             reschedule: false,
@@ -90,7 +95,7 @@ class Active extends Component {
     }
 
     onStatusChange(values) {
-        this.setState({changeStatus : parseInt(values[0])})
+        this.setState({changeStatus: parseInt(values[0])})
     }
 
     toggleVerify() {
@@ -148,17 +153,19 @@ class Active extends Component {
                             <FontAwesomeIcon icon={faCircle} className={"skin-primary-color"}/>
                             <FontAwesomeIcon icon={faCalendar} transform={"shrink-8"} className={"darkIcon"}/>
                         </span>
-                            <div className="d-flex w-75 p-2 flex-column text-left">
+                            <div className="d-flex p-2 flex-column text-left w-50">
                                 <span className="f-l">{apptType.label}</span>
                                 <span>
-                                    <span className="font-weight-bold">{moment.utc(this.props.data.start_time).tz(this.props.lead.details.timezone).format("MMM D")}</span>, {moment.utc(this.props.data.start_time).tz(this.props.lead.details.timezone).format("hh:mm a z")}
-                                    {office_timezone !== this.props.lead.details.timezone && <span className="ml-3">{localization.office}<span className="font-weight-bold">{moment.utc(this.props.data.start_time).tz(office_timezone).format("MMM D")}</span>, {moment.utc(this.props.data.start_time).tz(office_timezone).format("hh:mm a z")}</span> }
+                                    <span
+                                        className="font-weight-bold">{moment.utc(this.props.data.start_time).tz(this.props.lead.details.timezone).format("MMM D")}</span>, {moment.utc(this.props.data.start_time).tz(this.props.lead.details.timezone).format("hh:mm a z")}
+                                    {office_timezone !== this.props.lead.details.timezone &&
+                                    <span className="ml-3">{localization.office}<span
+                                        className="font-weight-bold">{moment.utc(this.props.data.start_time).tz(office_timezone).format("MMM D")}</span>, {moment.utc(this.props.data.start_time).tz(office_timezone).format("hh:mm a z")}</span>}
                                 </span>
                             </div>
-                            <div className="d-flex flex-column w-25 f-s justify-content-start p-2">
-                                <span className="font-weight-bold skin-primary-color f-l">{apptStatus.label}</span>
-                                {this.props.data.created_by &&
-                                <span>{this.props.localization.created_by}: {this.props.data.created_by}</span>}
+                            <div className="d-flex flex-column f-s justify-content-end p-2 w-50">
+                                <span className="d-flex font-weight-bold skin-primary-color f-l w-100 justify-content-end">{apptStatus.label}</span>
+                                {this.props.data.created_by && <span className="d-flex w-100 justify-content-end">{this.props.localization.created_by}: {this.props.data.created_by}</span>}
                             </div>
                         </div>
                         <MDBBox className="d-flex" style={{flex: "0 0 380px"}}>
@@ -194,11 +201,13 @@ class Active extends Component {
                                             onClick={this.toggleConfirm}
                                             style={{flex: "0 0 96px"}}
                                 >
-                                    {this.props.data.confirmed ?  <span className="fa-layers fa-fw mt-1" style={{marginBottom: "2px"}}>
-                                            <FontAwesomeIcon icon={faSquare} transform={"shrink-4"} className={"skin-primary-color mt-1"}/>
+                                    {this.props.data.confirmed ?
+                                        <span className="fa-layers fa-fw mt-1" style={{marginBottom: "2px"}}>
+                                            <FontAwesomeIcon icon={faSquare} transform={"shrink-4"}
+                                                             className={"skin-primary-color mt-1"}/>
                                             <FontAwesomeIcon icon={faCalendarCheck} size="lg"/>
                                         </span>
-                                         :
+                                        :
                                         <FontAwesomeIcon icon={faCalendar} size="lg"/>}
                                     <span>{this.props.data.confirmed ? localization.confirmed : localization.confirm}</span>
                                 </MDBNavLink>
@@ -223,11 +232,11 @@ class Active extends Component {
                 {this.state.reschedule && <MDBCollapse className="bg-white mx-2 my-1" isOpen={true}>
                     <MDBCard className="d-flex border-0 shadow-none">
                         <MDBCardBody className="d-flex justify-content-center">
-                        <Calendar className="w-50 bg-white" subtitle={""}
-                                  alternateValue={avs} disablePastDates={true}
-                                  onChange={this.onCalendarChange}/>
-                        <TimeSlots className="w-25 ml-3"
-                                   values={avs.appointments[this.state.dateSelected]}/>
+                            <Calendar className="w-50 bg-white" subtitle={""}
+                                      alternateValue={avs} disablePastDates={true}
+                                      onChange={this.onCalendarChange}/>
+                            <TimeSlots className="w-25 ml-3"
+                                       values={avs.appointments[this.state.dateSelected]}/>
                         </MDBCardBody>
                         <MDBCardFooter className="d-flex justify-content-between">
                             <MDBBtn rounded outline onClick={this.toggleReschedule}>
@@ -236,7 +245,7 @@ class Active extends Component {
                             <MDBBtn rounded onClick={this.toggleReschedule}>
                                 {localization.reschedule}
                             </MDBBtn>
-                        </MDBCardFooter>                    </MDBCard>
+                        </MDBCardFooter> </MDBCard>
                 </MDBCollapse>}
                 {this.state.status && <MDBCollapse className="bg-white mx-2 my-1" isOpen={true}>
                     <MDBCard className="d-flex border-0 shadow-none">
@@ -274,10 +283,10 @@ class Active extends Component {
                                 id="sdp" // PropTypes.string.isRequired,
                             /></span>
 
-                        <span className="pt-2">{localization.time} <TimePicker onChange={this.handleTimeClick}
-                                                              defaultValue={moment().hour(0).minute(0)}
-                                                              use12Hours format={'h:mm a'}
-                                                              showSecond={false}/></span>
+                            <span className="pt-2">{localization.time} <TimePicker onChange={this.handleTimeClick}
+                                                                                   defaultValue={moment().hour(0).minute(0)}
+                                                                                   use12Hours format={'h:mm a'}
+                                                                                   showSecond={false}/></span>
                         </MDBCardBody>
                         <MDBCardFooter className="d-flex justify-content-between">
                             <MDBBtn rounded outline onClick={this.toggleVerify}>
@@ -298,7 +307,7 @@ const mapStateToProps = store => {
     return {
         localization: store.localization,
         shift: store.shift,
-        lead : store.lead
+        lead: store.lead
     }
 }
 
