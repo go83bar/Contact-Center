@@ -5,7 +5,7 @@ import Calendar from "../../ui/Calendar";
 import TimeSlots from "../../ui/TimeSlots";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
-    faCircle as faCircleSolid, 
+    faCircle as faCircleSolid,
     faClipboardList,
     faCheck,
     faMapMarkerAlt,
@@ -118,7 +118,7 @@ class NewAppointmentBooking extends Component {
         })
 
         // load offices for the chosen type
-        let officeOptions = AppointmentAPI.getOfficeOptions({ apptTypeID: apptTypeID, regionID: this.props.lead.region_id }).then( response => {
+        AppointmentAPI.getOfficeOptions({ apptTypeID: apptTypeID, regionID: this.props.lead.region_id }).then( response => {
             let officeOptions = {}
             if (response.offices.length) {
                 // this will change once we can return more than just name and id from the backend
@@ -152,7 +152,7 @@ class NewAppointmentBooking extends Component {
             }
         }).catch( reason => {
             toast.error("There was a problem loading the offices.")
-            
+
             this.setState({
                 loadingOffices: false
             })
@@ -162,7 +162,7 @@ class NewAppointmentBooking extends Component {
     onOfficeSelect = (values) => {
         let officeID = 0
         // for combined calendars, we don't need to find the office data
-        if (values[0] == "combined") {
+        if (values[0] === "combined") {
             this.setState({
                 loadingOffice: true
             })
@@ -170,9 +170,9 @@ class NewAppointmentBooking extends Component {
             // specific office was chosen, let's make sure we have all the data and set it into state
             officeID = parseInt(values[0])
             const offices = this.props.shift.clients[this.props.lead.client_index].regions[this.props.lead.region_index].offices
-            if (offices != undefined && offices.length) {
+            if (offices !== undefined && offices.length) {
                 const office = offices.find( office => office.id === officeID)
-                if (office != undefined) {
+                if (office !== undefined) {
                     // set state to indicate we're loading data for the chosen office
                     this.setState({
                         loadingOffice: true,
@@ -190,7 +190,7 @@ class NewAppointmentBooking extends Component {
                 toast.error("Could not load office data. Please notify dev.")
                 Slack.sendMessage("Agent selected office " + values[0] + " but no office data was present in the shift data")
                 return
-            }          
+            }
         }
 
         // load calendar slots
@@ -251,7 +251,7 @@ class NewAppointmentBooking extends Component {
             toast.error("Calendar could not be loaded")
             Slack.sendMessage("Agent " + this.props.user.id + " - Appointment calendar retrieve error: " + reason)
             return
-            
+
         })
     }
 
@@ -259,7 +259,7 @@ class NewAppointmentBooking extends Component {
     onCalendarChange = (date) => {
         console.log("Chosen Date: ", date)
         let newTimes = []
-        if (this.state.appointmentAVS != undefined && this.state.appointmentAVS.appointments != undefined){
+        if (this.state.appointmentAVS !== undefined && this.state.appointmentAVS.appointments !== undefined){
             newTimes = this.state.appointmentAVS.appointments[date]
         }
 
@@ -293,7 +293,7 @@ class NewAppointmentBooking extends Component {
         if (!validated) {
             return
         }
-        
+
         // send booking request
         const apptTime = this.state.dateSelected + " " + slotTime + ":00"
         const bookingParams = {
@@ -405,7 +405,7 @@ class NewAppointmentBooking extends Component {
                             label={this.props.localized.typeOptionsLabel}
                             />}
 
-                        { this.state.officeOptions && <MDBSelect className="w-50 ml-3" 
+                        { this.state.officeOptions && <MDBSelect className="w-50 ml-3"
                                 options={this.state.officeOptions}
                                 getValue={this.onOfficeSelect}
                                 label={this.props.localized.officeOptionsLabel}
@@ -418,8 +418,8 @@ class NewAppointmentBooking extends Component {
                         TODO add booking question display
                     </MDBBox>
 
-                    
-                    { this.state.appointmentAVS != undefined && <MDBBox className={this.state.currentStep === "calendar" ? "d-flex w-100 f-m mt-3 p-2":"hidden"} style={{backgroundColor: "#fbfbfb"}}>
+
+                    { this.state.appointmentAVS !== undefined && <MDBBox className={this.state.currentStep === "calendar" ? "d-flex w-100 f-m mt-3 p-2":"hidden"} style={{backgroundColor: "#fbfbfb"}}>
                         <Calendar className="w-50 bg-white" subtitle={"Mary Delany-Hudzik, MS, LCGC"}
                                     alternateValue={this.state.appointmentAVS} disablePastDates={true}
                                     onChange={this.onCalendarChange}/>
