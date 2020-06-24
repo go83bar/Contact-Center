@@ -25,6 +25,7 @@ import Calendar from "../../../ui/Calendar";
 import TimeSlots from "../../../ui/TimeSlots";
 import {SingleDatePicker} from "react-dates";
 import TimePicker from "rc-time-picker";
+import Slack from '../../../../utils/Slack';
 
 class Active extends Component {
 
@@ -112,8 +113,31 @@ class Active extends Component {
         const apptType = client.appointment_types.find(type => type.id === this.props.data.appointment_type_id)
         const apptStatus = client.appointment_statuses.find(status => status.id === this.props.data.appointment_status_id)
         const offices = this.props.shift.clients[this.props.lead.client_index].regions[this.props.lead.region_index].offices
-        const office = offices.find(office => office.id === this.props.data.office_id)
-        const office_timezone = office && office.timezone ? office.timezone : undefined
+        let office = this.props.shift.clients[this.props.lead.client_index].regions[this.props.lead.region_index].offices.find(office => office.id === this.props.data.office_id)
+        if (!office) {
+            // appointment office is not in lead's current region, let's see if it's in another region
+            this.props.shift.clients[this.props.lead.client_index].regions.some( region => {
+                let foundOffice = false
+                region.offices.some( office => {
+                    if (office.id === this.props.data.office_id) {
+                        foundOffice = office
+                        return true
+                    }
+                })
+        
+                if (foundOffice) {
+                    office = foundOffice
+                    return true
+                }
+            })
+        
+            if (!office) {
+                // the office ID on this appointment isn't in the client data in any region somehow
+                Slack.sendMessage("Appointment " + this.props.data.id + " has office ID " + this.props.data.office_id + " that is not in the shift data for agent " + this.props.user.id)
+                return ""
+            }
+        }
+
         let avs = {
             "timezone": "CDT",
             "timezone_long": "America/Chicago",
@@ -130,8 +154,9 @@ class Active extends Component {
                 ]
             }
         }
-
-        /*                        <MDBTooltip material placement="top">
+        
+        /*                        
+        <MDBTooltip material placement="top">
                             <MDBNavLink to="#"
                                         className="d-flex flex-column h-100 align-items-center justify-content-center border-left rounded-right p-2 skin-secondary-color"
                                         onClick={this.deleteClick}
@@ -158,9 +183,9 @@ class Active extends Component {
                                 <span>
                                     <span
                                         className="font-weight-bold">{moment.utc(this.props.data.start_time).tz(this.props.lead.details.timezone).format("MMM D")}</span>, {moment.utc(this.props.data.start_time).tz(this.props.lead.details.timezone).format("hh:mm a z")}
-                                    {office_timezone !== this.props.lead.details.timezone &&
+                                    {office.timezone !== this.props.lead.details.timezone &&
                                     <span className="ml-3">{localization.office}<span
-                                        className="font-weight-bold">{moment.utc(this.props.data.start_time).tz(office_timezone).format("MMM D")}</span>, {moment.utc(this.props.data.start_time).tz(office_timezone).format("hh:mm a z")}</span>}
+                                        className="font-weight-bold">{moment.utc(this.props.data.start_time).tz(office.timezone).format("MMM D")}</span>, {moment.utc(this.props.data.start_time).tz(office.timezone).format("hh:mm a z")}</span>}
                                 </span>
                             </div>
                             <div className="d-flex flex-column f-s justify-content-end p-2 w-50">
