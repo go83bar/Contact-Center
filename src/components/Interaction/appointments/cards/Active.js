@@ -13,7 +13,7 @@ import {
 import {connect} from "react-redux"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
-    faCalendar,
+    faCalendar, faSquare,
     faCalendarCheck, faCalendarDay, faCheckDouble, faHeartbeat,
     faCircle as faCircleSolid
 
@@ -38,33 +38,33 @@ class Active extends Component {
 
         const client = this.props.shift.clients.find(client => client.id === this.props.data.client_id)
         const apptStatus = client.appointment_statuses.find(status => status.id === this.props.data.appointment_status_id)
+        const apptType = client.appointment_types.find(type => type.id === this.props.data.appointment_type_id)
         const availableStatuses = []
             let now = moment()
             let apptTime = this.props.data.start_time ? moment(this.props.data.start_time) : undefined
-            if (apptTime === undefined) {
-                client.appointment_statuses.forEach(status => {
-                    if ((status.cancel || status.reschedule_in_progress) && apptStatus.id !== status.id) availableStatuses.push({
-                        value: status.id.toString(),
-                        text: status.label
+                if (apptTime === undefined) {
+                    client.appointment_statuses.forEach(status => {
+                        if ((status.cancel || status.reschedule_in_progress) && apptStatus.id !== status.id && apptType.statuses.includes(status.id)) availableStatuses.push({
+                            value: status.id.toString(),
+                            text: status.label
+                        })
                     })
-                })
-            } else if (apptTime.isSameOrBefore(now) && apptStatus.cancel !== 1) { // Appointment in the past, and not cancelled
-                client.appointment_statuses.forEach(status => {
-                    if (!status.pending && apptStatus.id !== status.id) availableStatuses.push({
-                        value: status.id.toString(),
-                        text: status.label
+                } else if (apptTime.isSameOrBefore(now) && apptStatus.cancel !== 1) { // Appointment in the past, and not cancelled
+                    client.appointment_statuses.forEach(status => {
+                        if (!status.pending && apptStatus.id !== status.id && apptType.statuses.includes(status.id)) availableStatuses.push({
+                            value: status.id.toString(),
+                            text: status.label
+                        })
                     })
-                })
-            } else if (apptTime.isAfter(now)) { // Appointment in future, allow pending or cancelled statuses
-                client.appointment_statuses.forEach(status => {
-                    if ((status.pending || status.cancel) && apptStatus.id !== status.id) availableStatuses.push({
-                        value: status.id.toString(),
-                        text: status.label
+                } else if (apptTime.isAfter(now)) { // Appointment in future, allow pending or cancelled statuses
+                    client.appointment_statuses.forEach(status => {
+                        if ((status.pending || status.cancel) && apptStatus.id !== status.id && apptType.statuses.includes(status.id)) availableStatuses.push({
+                            value: status.id.toString(),
+                            text: status.label
+                        })
                     })
-                })
 
-            }
-
+                }
         this.state = {
             dateSelected: moment().format("YYYY-MM-DD"),
             reschedule: false,
@@ -106,6 +106,9 @@ class Active extends Component {
         const client = this.props.shift.clients.find(client => client.id === this.props.data.client_id)
         const apptType = client.appointment_types.find(type => type.id === this.props.data.appointment_type_id)
         const apptStatus = client.appointment_statuses.find(status => status.id === this.props.data.appointment_status_id)
+        const offices = this.props.shift.clients[this.props.lead.client_index].regions[this.props.lead.region_index].offices
+        const office = offices.find(office => office.id === this.props.data.office_id)
+        const office_timezone = office && office.timezone ? office.timezone : undefined
         let avs = {
             "timezone": "CDT",
             "timezone_long": "America/Chicago",
@@ -147,10 +150,12 @@ class Active extends Component {
                         </span>
                             <div className="d-flex w-75 p-2 flex-column text-left">
                                 <span className="f-l">{apptType.label}</span>
-                                <span><span
-                                    className="font-weight-bold">{moment(this.props.data.start_time).format("MMM D")}</span>, {moment(this.props.data.start_time).format("hh:mm a z")}</span>
+                                <span>
+                                    <span className="font-weight-bold">{moment.utc(this.props.data.start_time).tz(this.props.lead.details.timezone).format("MMM D")}</span>, {moment.utc(this.props.data.start_time).tz(this.props.lead.details.timezone).format("hh:mm a z")}
+                                    {office_timezone !== this.props.lead.details.timezone && <span className="ml-3">{localization.office}<span className="font-weight-bold">{moment.utc(this.props.data.start_time).tz(office_timezone).format("MMM D")}</span>, {moment.utc(this.props.data.start_time).tz(office_timezone).format("hh:mm a z")}</span> }
+                                </span>
                             </div>
-                            <div className="d-flex flex-column w-25 f-s justify-content-start">
+                            <div className="d-flex flex-column w-25 f-s justify-content-start p-2">
                                 <span className="font-weight-bold skin-primary-color f-l">{apptStatus.label}</span>
                                 {this.props.data.created_by &&
                                 <span>{this.props.localization.created_by}: {this.props.data.created_by}</span>}
@@ -189,7 +194,11 @@ class Active extends Component {
                                             onClick={this.toggleConfirm}
                                             style={{flex: "0 0 96px"}}
                                 >
-                                    {this.props.data.confirmed ? <FontAwesomeIcon icon={faCalendarCheck} size="lg"/> :
+                                    {this.props.data.confirmed ?  <span className="fa-layers fa-fw mt-1" style={{marginBottom: "2px"}}>
+                                            <FontAwesomeIcon icon={faSquare} transform={"shrink-4"} className={"skin-primary-color mt-1"}/>
+                                            <FontAwesomeIcon icon={faCalendarCheck} size="lg"/>
+                                        </span>
+                                         :
                                         <FontAwesomeIcon icon={faCalendar} size="lg"/>}
                                     <span>{this.props.data.confirmed ? localization.confirmed : localization.confirm}</span>
                                 </MDBNavLink>
@@ -237,6 +246,7 @@ class Active extends Component {
                                        label={localization.appointmentStatus}
                                        labelClass="skin-secondary-color"
                                        getValue={this.onStatusChange}
+                                       search={true}
                             />
                         </MDBCardBody>
                         <MDBCardFooter className="d-flex justify-content-between">
@@ -287,7 +297,8 @@ class Active extends Component {
 const mapStateToProps = store => {
     return {
         localization: store.localization,
-        shift: store.shift
+        shift: store.shift,
+        lead : store.lead
     }
 }
 

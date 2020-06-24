@@ -41,7 +41,8 @@
       "date": "Date: ",
       "time": "Time: ",
       "cancel": "Cancel",
-      "appointmentStatus" : "Change Appointment Status"
+      "appointmentStatus" : "Change Appointment Status",
+      "office": "Office: "
     },
     "booking" : {
       "tabTitle": "Booking",
