@@ -30,7 +30,7 @@ class NewAppointmentBooking extends Component {
         }
 
         // build initial appointment type select options
-        this.typeOptions = props.shift.clients[props.lead.client_index].appointment_types.map( apptType => {
+        this.typeOptions = props.lead.appointment_types.map( apptType => {
             return {
                 text: apptType.label,
                 value: apptType.id.toString()
@@ -49,7 +49,7 @@ class NewAppointmentBooking extends Component {
             loadingOffice: false,
             appointmentTypeID: undefined,
             appointmentType: undefined,
-            office: undefined,
+            officeName: undefined,
             officeID: undefined,
             bookingQuestions: undefined,
             appointmentAVS: undefined,
@@ -172,7 +172,8 @@ class NewAppointmentBooking extends Component {
         // for combined calendars, we don't need to find the office data
         if (values[0] === "combined") {
             this.setState({
-                loadingOffice: true
+                loadingOffice: true,
+                officeName: "All Offices"
             })
         } else {
             // specific office was chosen, let's make sure we have all the data and set it into state
@@ -184,7 +185,7 @@ class NewAppointmentBooking extends Component {
                     // set state to indicate we're loading data for the chosen office
                     this.setState({
                         loadingOffice: true,
-                        office: office,
+                        officeName: office.name,
                         officeID: officeID
                     })
                 } else {
@@ -229,6 +230,14 @@ class NewAppointmentBooking extends Component {
             }
 
             const officeSlots = response
+
+            // set any slots for today into the state
+            let todaysSlots
+            if (officeSlots.appointments != undefined ) {
+                const date = moment().format("YYYY-MM-DD")
+                todaysSlots = officeSlots.appointments[date]
+            }
+
             // load any booking questions
             const bookingQuestionParams = {
                 appointmentTypeID: this.state.appointmentTypeID,
@@ -246,6 +255,7 @@ class NewAppointmentBooking extends Component {
                     loadingOffice: false,
                     bookingQuestions: bookingQuestions,
                     appointmentAVS: officeSlots,
+                    timeslots: todaysSlots,
                     nextDisabled: false,
                     steps: steps
                 })
@@ -498,7 +508,7 @@ class NewAppointmentBooking extends Component {
                     { this.state.appointmentAVS !== undefined && <MDBBox className={this.state.currentStep === "calendar" ? "w-100":"hidden"} style={{backgroundColor: "#fbfbfb"}}>
                         {this.props.localized.calendarTitle}<br />
                         <MDBBox className="d-flex w-100 f-m mt-3 p-2">
-                            <Calendar className="w-50 bg-white" subtitle={"Mary Delany-Hudzik, MS, LCGC"}
+                            <Calendar className="w-50 bg-white" subtitle={this.state.officeName}
                                         alternateValue={this.state.appointmentAVS} disablePastDates={true}
                                         onChange={this.onCalendarChange}/>
                             <TimeSlots className="w-50 ml-3"
