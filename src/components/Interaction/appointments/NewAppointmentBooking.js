@@ -115,6 +115,7 @@ class NewAppointmentBooking extends Component {
             appointmentType: apptType,
             appointmentTypeID: apptTypeID,
             loadingOffices: true,
+            officeOptions: undefined,
             office: undefined
         })
 
@@ -135,7 +136,7 @@ class NewAppointmentBooking extends Component {
                 // sometimes not all appointment types are accepted by all offices
                 toast.error("That appointment type has no offices in the region")
                 this.setState({
-                    loadingOffices: false,
+                    loadingOffices: false
                 })
                 return
             }
@@ -310,7 +311,6 @@ class NewAppointmentBooking extends Component {
                     } else return { ...question}
                 })
 
-                console.log("New booking questions: ", bookingQuestions)
                 this.setState({ bookingQuestions })
 
                 // push generated responses to the store
