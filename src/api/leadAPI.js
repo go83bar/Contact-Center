@@ -279,7 +279,7 @@ export default class LeadAPI {
             url: redux.config["url-api-base"] + "leads/" + params.leadID + "/optout",
             method: "POST",
             data: {
-                agent_id: redux.user.ID,
+                agent_id: redux.user.id,
                 type: params.type,
                 preference: params.preference
             },

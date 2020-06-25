@@ -226,7 +226,7 @@ class EditLead extends Component {
     }
 
     updatePreference = field => {
-        const newPreference = !this.props.lead.contact_preferences[field]
+        const newPreference = !this.props.lead.contact_preferences[field] ? "1" : "0"
         const payload = {
             leadID: this.props.lead.id,
             type: field,

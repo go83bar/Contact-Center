@@ -23,13 +23,13 @@ export function lead(state = initialState, action) {
             let logContactPreferences = [ ...state.log_optouts]
             const newLog = {
                 field: action.data.field,
-                old_value: contactPreferences[action.data.field],
+                old_value: contactPreferences[action.data.field] ? "1" : "0",
                 new_value: action.data.value,
                 created_at: action.data.timestamp,
                 created_by: action.data.user_label
             }
             logContactPreferences.push(newLog)
-            contactPreferences[action.data.field] = action.data.value
+            contactPreferences[action.data.field] = action.data.value === "1" ? true : false
             return {
                 ...state,
                 contact_preferences: contactPreferences,
