@@ -140,7 +140,7 @@ class NewAppointmentBooking extends Component {
                 })
                 return
             }
-            
+
             // set All Offices option if region has combined calendars setting
             if (response.combined_calendar) {
                 officeOptions.push( { text: this.props.localized.allOfficesOption, value: "combined" })
@@ -233,7 +233,7 @@ class NewAppointmentBooking extends Component {
 
             // set any slots for today into the state
             let todaysSlots
-            if (officeSlots.appointments != undefined ) {
+            if (officeSlots.appointments !== undefined ) {
                 const date = moment().format("YYYY-MM-DD")
                 todaysSlots = officeSlots.appointments[date]
             }
@@ -316,7 +316,7 @@ class NewAppointmentBooking extends Component {
                                 })
 
                                 return { ...question, response: selectedAnswer, answers: newAnswers }
-
+                            default: return {}
                         }
                     } else return { ...question}
                 })
@@ -325,7 +325,7 @@ class NewAppointmentBooking extends Component {
 
                 // push generated responses to the store
                 // TODO waiting for responses to be part of the lead store from LeadDTO
-            
+
             } else {
                 //TODO handle this error
                 console.log("Got abnormal response from saveResponse: ", response)

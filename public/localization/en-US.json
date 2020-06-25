@@ -243,7 +243,8 @@
         "from": " from: ",
         "allowed": "Allowed",
         "notAllowed": "Not Allowed"
-      }
+      },
+      "office" : "Office: "
     },
     "timezoneChoices": [
       {

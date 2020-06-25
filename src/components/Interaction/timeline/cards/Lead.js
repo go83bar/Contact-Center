@@ -27,6 +27,7 @@ class Lead extends Component {
 
     renderLogs() {
         const localization = this.props.localization.interaction.timeline.leadUpdate
+        const timezones = this.props.localization.interaction.timezoneChoices
         const client = this.props.shift.clients[this.props.lead.client_index]
         let result = []
         this.props.data.log.forEach((item,index) => {
@@ -66,9 +67,15 @@ class Lead extends Component {
                 case "zip":
                 case "wealth_score":
                 case "date_of_birth":
-                case "timezone":
                     result.push(<div key={"log-" + item.created_at.format()+ "-" + index}>
                         {String.humanize(item.field) + localization.from + item.old_value + localization.to +  item.new_value}
+                    </div>)
+                    break
+                case "timezone":
+                    let oldV = timezones.find(tz => tz.value === item.old_value)
+                    let newV = timezones.find(tz => tz.value === item.new_value)
+                    result.push(<div key={"log-" + item.created_at.format()+ "-" + index}>
+                        {String.humanize(item.field) + localization.from + oldV.label + localization.to +  newV.label}
                     </div>)
                     break
                 case "preferred_phone":

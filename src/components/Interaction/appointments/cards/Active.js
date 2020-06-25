@@ -69,7 +69,7 @@ class Active extends Component {
             })
 
         }
-        availableStatuses.sort((a,b) => a.order - b.order)
+        availableStatuses.sort((a, b) => a.order - b.order)
 
         this.state = {
             dateSelected: moment().format("YYYY-MM-DD"),
@@ -116,9 +116,9 @@ class Active extends Component {
         let office = this.props.shift.clients[this.props.lead.client_index].regions[this.props.lead.region_index].offices.find(office => office.id === this.props.data.office_id)
         if (!office) {
             // appointment office is not in lead's current region, let's see if it's in another region
-            this.props.shift.clients[this.props.lead.client_index].regions.some( region => {
+            this.props.shift.clients[this.props.lead.client_index].regions.some(region => {
                 let foundOffice = false
-                region.offices.some( office => {
+                region.offices.some(office => {
                     if (office.id === this.props.data.office_id) {
                         foundOffice = office
                         return true
@@ -182,6 +182,10 @@ class Active extends Component {
                         </span>
                             <div className="d-flex p-2 flex-column text-left w-50">
                                 <span className="f-l">{apptType.label}</span>
+                                {office && <span>
+                                    {office.name}
+                                </span>}
+
                                 <span>
                                     <span
                                         className="font-weight-bold">{moment.utc(this.props.data.start_time).tz(this.props.lead.details.timezone).format("MMM D")}</span>, {moment.utc(this.props.data.start_time).tz(this.props.lead.details.timezone).format("hh:mm a z")}
@@ -190,9 +194,11 @@ class Active extends Component {
                                         className="font-weight-bold">{moment.utc(this.props.data.start_time).tz(office.timezone).format("MMM D")}</span>, {moment.utc(this.props.data.start_time).tz(office.timezone).format("hh:mm a z")}</span>}
                                 </span>
                             </div>
-                            <div className="d-flex flex-column f-s justify-content-end p-2 w-50 text-right">
-                                <span className="d-flex font-weight-bold skin-primary-color f-l w-100 justify-content-end">{apptStatus.label}</span>
-                                {this.props.data.created_by && <span className="d-flex w-100 justify-content-end">{this.props.localization.created_by}: {this.props.data.created_by}</span>}
+                            <div className="d-flex flex-column f-s justify-content-start p-2 w-50 text-right">
+                                <span
+                                    className="d-flex font-weight-bold skin-primary-color f-l w-100 justify-content-end">{apptStatus.label}</span>
+                                {this.props.data.created_by && <span
+                                    className="d-flex w-100 justify-content-end">{this.props.localization.created_by}: {this.props.data.created_by}</span>}
                             </div>
                         </div>
                         <MDBBox className="d-flex" style={{flex: "0 0 380px"}}>

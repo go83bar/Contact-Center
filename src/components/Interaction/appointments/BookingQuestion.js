@@ -4,9 +4,9 @@ import {connect} from "react-redux";
 
 class NewAppointmentBooking extends Component {
 
-    constructor(props) {
+   /* constructor(props) {
         super(props)
-    }
+    }*/
 
     changeTextHandler = (evt) => {
 
@@ -33,7 +33,7 @@ class NewAppointmentBooking extends Component {
         // if there were existing values, check each against current values
         this.props.question.response.forEach( (answerableID, index) => {
             if (answerableID !== values[index]) changed = true
-        }) 
+        })
 
         if (changed) {
             this.callParentChangeHandler(values)
@@ -42,11 +42,11 @@ class NewAppointmentBooking extends Component {
 
     callParentChangeHandler = (value) => {
         this.props.changeHandler(this.props.question.id, this.props.question.setId, value)
-    } 
+    }
 
     render() {
         switch(this.props.question.type) {
-            case "text": 
+            case "text":
                 return (
                     <MDBBox className="w-50 p-3">
                         <p className="font-weight-bold">{this.props.question.label}</p>
@@ -65,7 +65,7 @@ class NewAppointmentBooking extends Component {
                         value: answer.answerable_id.toString(),
                         checked: answer.selected
                     }
-                }) 
+                })
                 const needsSearch = selectOptions.length > 8
 
                 return (
