@@ -401,6 +401,7 @@ class EditLead extends Component {
                     <div className="break mb-1"/>
                     <MDBSelect options={this.state.regionOptions}
                                getValue={this.chooseRegion}
+                               search={this.state.regionOptions.length > 8}
                                label={this.props.localized.region}
                                className="mb-1 mt-1 mr-3"
                     />

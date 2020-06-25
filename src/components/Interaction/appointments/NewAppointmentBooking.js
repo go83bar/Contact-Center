@@ -16,6 +16,7 @@ import AppointmentAPI from '../../../api/appointmentAPI';
 import moment from "moment"
 import {toast} from "react-toastify"
 import Slack from "../../../utils/Slack"
+import BookingQuestion from "./BookingQuestion"
 
 class NewAppointmentBooking extends Component {
 
@@ -119,24 +120,35 @@ class NewAppointmentBooking extends Component {
 
         // load offices for the chosen type
         AppointmentAPI.getOfficeOptions({ apptTypeID: apptTypeID, regionID: this.props.lead.region_id }).then( response => {
-            let officeOptions = {}
+            let officeOptions = []
             if (response.offices.length) {
                 // this will change once we can return more than just name and id from the backend
                 // at least we will want to know whether the office uses calendar or not
-                officeOptions = response.offices.map( office => {
+                officeOptions = response.offices.map( (office, index, offices) => {
                     return {
                         text: office.name,
-                        value: office.id.toString()
+                        value: office.id.toString(),
+                        checked: offices.length === 1
                     }
                 })
             } else {
                 // sometimes not all appointment types are accepted by all offices
                 toast.error("That appointment type has no offices in the region")
+                this.setState({
+                    loadingOffices: false,
+                })
+                return
             }
-
+            
             // set All Offices option if region has combined calendars setting
             if (response.combined_calendar) {
                 officeOptions.push( { text: this.props.localized.allOfficesOption, value: "combined" })
+            }
+
+            // if there's only one office, we can assume that's the one and start loading it
+            if (response.offices.length === 1) {
+                const officeID = response.offices[0].id
+                this.onOfficeSelect([officeID])
             }
 
             // set options into state to update the UI
@@ -145,11 +157,6 @@ class NewAppointmentBooking extends Component {
                 officeOptions: officeOptions
             })
 
-            // if there's only one office, we can assume that's the one and start loading it
-            if (response.offices.length === 1) {
-                const officeID = response.offices[0].id
-                this.onOfficeSelect([officeID])
-            }
         }).catch( reason => {
             toast.error("There was a problem loading the offices.")
 
@@ -255,6 +262,71 @@ class NewAppointmentBooking extends Component {
         })
     }
 
+    generateBookingQuestions = () => {
+        // build array of booking question components for the loaded data
+        if (this.state.bookingQuestions === undefined) return ""
+
+        const questions = this.state.bookingQuestions.map( question => {
+            return <BookingQuestion question={question} changeHandler={this.onBookingResponse} key={question.id} />
+        })
+
+        return questions
+    }
+
+    onBookingResponse = (questionID, questionableID, selectedAnswer) => {
+        // persist chosen response(s) back to db
+        const saveResponseParams = {
+            leadID: this.props.lead.id,
+            interactionID: this.props.interaction.id,
+            questionID,
+            questionableID,
+            response: selectedAnswer
+        }
+
+        console.log("Got a booking response: ", saveResponseParams)
+        AppointmentAPI.saveResponse(saveResponseParams).then( response => {
+            if (response.success) {
+                // insert them into the state
+                const bookingQuestions = this.state.bookingQuestions.map( question => {
+                    // this map must return a copy of the question unless it is the question that's been answered
+                    // in which case it must return a copy of that question with selected answers indicated
+                    if (question.id === questionID) {
+                        switch(question.type) {
+                            // how we indicate selected answers depends on the question type
+                            case "text":
+                                return { ...question, response: selectedAnswer}
+                            case "radio":
+                            case "checkbox":
+                                const newAnswers = question.answers.map( answer => {
+                                    if (selectedAnswer.indexOf(answer.answerable_id.toString()) !== -1) {
+                                        return { ...answer, selected: true}
+                                    }
+                                    return { ...answer, selected: false}
+                                })
+
+                                return { ...question, response: selectedAnswer, answers: newAnswers }
+
+                        }
+                    } else return { ...question}
+                })
+
+                console.log("New booking questions: ", bookingQuestions)
+                this.setState({ bookingQuestions })
+
+                // push generated responses to the store
+                // TODO waiting for responses to be part of the lead store from LeadDTO
+            
+            } else {
+                //TODO handle this error
+                console.log("Got abnormal response from saveResponse: ", response)
+            }
+
+        }).catch( reason => {
+            //TODO handle this error
+            console.log("SAVE RESPONSE FAILED: ", reason)
+        })
+
+    }
 
     onCalendarChange = (date) => {
         console.log("Chosen Date: ", date)
@@ -397,37 +469,46 @@ class NewAppointmentBooking extends Component {
 
 
                 <MDBBox className="pl-5 pr-5 pb-3">
+                    <MDBBox className={this.state.currentStep === "type" ? "w-100" : "hidden"}>
+                        {this.props.localized.typeTitle}<br />
+                        <MDBBox className="d-flex w-100">
+                            { this.state.typeOptions && <MDBSelect className="w-50"
+                                options={this.state.typeOptions}
+                                getValue={this.onTypeSelect}
+                                label={this.props.localized.typeOptionsLabel}
+                                />}
 
-                    <MDBBox className={this.state.currentStep === "type" ? "d-flex w-100" : "hidden"}>
-                        { this.state.typeOptions && <MDBSelect className="w-50"
-                            options={this.state.typeOptions}
-                            getValue={this.onTypeSelect}
-                            label={this.props.localized.typeOptionsLabel}
-                            />}
-
-                        { this.state.officeOptions && <MDBSelect className="w-50 ml-3"
-                                options={this.state.officeOptions}
-                                getValue={this.onOfficeSelect}
-                                label={this.props.localized.officeOptionsLabel}
-                            />
-                        }
+                            { this.state.officeOptions && <MDBSelect className="w-50 ml-3"
+                                    options={this.state.officeOptions}
+                                    search={this.state.officeOptions.length > 8}
+                                    getValue={this.onOfficeSelect}
+                                    label={this.props.localized.officeOptionsLabel}
+                                />
+                            }
+                        </MDBBox>
                     </MDBBox>
 
-                    <MDBBox className={this.state.currentBookingStep === "booking" ? "d-flex flex-column w-50 p-2" : "hidden"}>
-                        {this.props.localized.bookingTitle}
-                        TODO add booking question display
+                    <MDBBox className={this.state.currentStep === "questions" ? "w-100" : "hidden"}>
+                        {this.props.localized.bookingTitle}<br />
+                        <MDBBox className="d-flex flex-wrap w-100">
+                            {this.generateBookingQuestions()}
+                        </MDBBox>
                     </MDBBox>
 
-
-                    { this.state.appointmentAVS !== undefined && <MDBBox className={this.state.currentStep === "calendar" ? "d-flex w-100 f-m mt-3 p-2":"hidden"} style={{backgroundColor: "#fbfbfb"}}>
-                        <Calendar className="w-50 bg-white" subtitle={"Mary Delany-Hudzik, MS, LCGC"}
-                                    alternateValue={this.state.appointmentAVS} disablePastDates={true}
-                                    onChange={this.onCalendarChange}/>
-                        <TimeSlots className="w-50 ml-3"
-                                    timeSelect={this.onSlotSelection}
-                                    values={this.state.timeslots}/>
+                    { this.state.appointmentAVS !== undefined && <MDBBox className={this.state.currentStep === "calendar" ? "w-100":"hidden"} style={{backgroundColor: "#fbfbfb"}}>
+                        {this.props.localized.calendarTitle}<br />
+                        <MDBBox className="d-flex w-100 f-m mt-3 p-2">
+                            <Calendar className="w-50 bg-white" subtitle={"Mary Delany-Hudzik, MS, LCGC"}
+                                        alternateValue={this.state.appointmentAVS} disablePastDates={true}
+                                        onChange={this.onCalendarChange}/>
+                            <TimeSlots className="w-50 ml-3"
+                                        timeSelect={this.onSlotSelection}
+                                        values={this.state.timeslots}/>
+                        </MDBBox>
                     </MDBBox>}
                 </MDBBox>
+
+
                 <MDBCardFooter className="d-flex justify-content-between p-2">
                     <MDBBtn outline rounded onClick={this.resetBookingFlow}>
                         { this.props.localization.buttonLabels.cancel }

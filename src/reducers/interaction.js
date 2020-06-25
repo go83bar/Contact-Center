@@ -1,5 +1,6 @@
 const initialState = {
-    hasUnsavedNote: false
+    hasUnsavedNote: false,
+    hasResponses: false
 }
 
 // Reducer for handling auth actions
@@ -9,16 +10,18 @@ export function interaction (state = initialState, action) {
             return Object.assign({}, state, {
                 ...action.payload
             })
+
         case "INTERACTION.FLAG_UNSAVED_NOTE":
-            return Object.assign({}, state, {
-                hasUnsavedNote: true
-            })
+            return { ...state, hasUnsavedNote: true }
+
         case "LEAD.NOTE_UPDATED":
         case "LEAD.NOTE_SAVED":
         case "INTERACTION.CLEAR_UNSAVED_NOTE":
-            return Object.assign({}, state, {
-                hasUnsavedNote: false
-            })
+            return { ...state, hasUnsavedNote: false }
+
+        case "LEAD.RESPONSE_SAVED":
+            return { ...state, hasResponses: true}
+
         case "INTERACTION.END":
             return {}
         default:

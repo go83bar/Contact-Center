@@ -51,7 +51,10 @@
       "nextLabel": "Next",
       "allOfficesOption": "All Offices",
       "typeOptionsLabel": "Choose Type",
-      "officeOptionsLabel": "Choose Office"
+      "officeOptionsLabel": "Choose Office",
+      "typeTitle": "Appointment Type & Office",
+      "bookingTitle": "Booking Questions",
+      "calendarTitle": "Appointment Time"
      },
     "callbar": {
        "leadLabel": "Lead",

@@ -103,6 +103,7 @@ class EndInteraction extends Component {
         if (this.state.reason) payload["outcome_reason_id"] = this.state.reason.id
         if (this.state.office) payload["office_id"] = this.state.office.id
         if (this.state.appointment) payload["appointment_id"] = this.state.appointment.id
+        if (this.props.interaction.hasResponses) payload["newResponses"] = true
         console.log("End Interaction Payload: ", payload)
         LeadAPI.endInteraction(payload).then(response => {
             if (response.success) {

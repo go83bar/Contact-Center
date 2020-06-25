@@ -222,4 +222,57 @@ export default class AppointmentAPI {
         return result
     }
 
+    /**
+     * @typedef SaveResponseParams
+     * @type {object}
+     * @property {array} response
+     * @property {number} questionableID 
+     * @property {number} questionID 
+     * @property {number} leadID 
+     * @property {number} interactionID 
+     */
+
+    /**
+     * Gets the offices assigned to a given appointment type, with associated data
+     * Promise resolves to an object like
+     * {
+     *  success: {boolean},
+     *  data: {
+     *      lead_id: {number},
+     *      lead_name: {string},
+     *      call_sid: {string},
+     *      reason: {string},
+     *      meta: [{
+     *          name: {string},
+     *          value: {string}
+     *      }]
+     *  }
+     * }
+     *
+     * @static
+     * @param {SaveResponseParams} params
+     * @returns {Promise}
+     * @memberof LeadAPI
+     */
+    static async saveResponse(params) {
+        // Mock API responses for local dev
+        if (process.env.REACT_APP_QUERY_MODE === "development") {
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "/data/saveResponse.json")
+
+            return mockData.json()
+        }
+
+        const redux = store.getState()
+        const requestOptions = {
+            url: redux.config["url-api-base"] + "leads/saveresponse",
+            data: params,
+            method: "POST",
+            auth: redux.user.auth
+        }
+        const result = await sendRequest(requestOptions)
+
+        return result
+    }
+
+
 }
