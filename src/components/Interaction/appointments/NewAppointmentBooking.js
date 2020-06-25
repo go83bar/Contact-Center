@@ -233,10 +233,8 @@ class NewAppointmentBooking extends Component {
 
             // set any slots for today into the state
             let todaysSlots
-            if (officeSlots.appointments !== undefined ) {
-                const date = moment().format("YYYY-MM-DD")
-                todaysSlots = officeSlots.appointments[date]
-            }
+            const date = moment().format("YYYY-MM-DD")
+            todaysSlots = officeSlots.appointments[date]
 
             // load any booking questions
             const bookingQuestionParams = {
@@ -256,6 +254,7 @@ class NewAppointmentBooking extends Component {
                     bookingQuestions: bookingQuestions,
                     appointmentAVS: officeSlots,
                     timeslots: todaysSlots,
+                    dateSelected: date,
                     nextDisabled: false,
                     steps: steps
                 })
