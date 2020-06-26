@@ -71,10 +71,10 @@ class TimelineData {
                 rt = item.created_at.clone().add(1,"m")
             }
             if (item.created_at.isBefore(rt) && item.created_by === cb) {
-                console.log(item.created_at.format(), rt.format())
+                //console.log(item.created_at.format(), rt.format())
                 newChange.log.push(item)
             } else {
-                console.log("After a minute")
+                //console.log("After a minute")
                 this.timeline.push(newChange)
                 newChange = {
                     type : type,

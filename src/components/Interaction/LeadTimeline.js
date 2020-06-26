@@ -150,7 +150,7 @@ class LeadTimeline extends Component {
     render() {
         if (this.props.active === true) {
             const td = new TimelineData(this.props.lead)
-            console.log("TimelineData: ", td)
+            //console.log("TimelineData: ", td)
             const tp = td.getTouchpoints()
             return (
                 <MDBBox className="d-flex flex-row overflow-auto flex-1 p-0 m-0 w-auto">
