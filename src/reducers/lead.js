@@ -116,11 +116,33 @@ export function lead(state = initialState, action) {
                 }
                 return { ...appt}
             })
+
+            const newAppointmentLogs = [ ...state.appointment_logs]
+            newAppointmentLogs.push(action.data.newLog)
             return {
                 ...state,
-                appointments: newAppointments
+                appointments: newAppointments,
+                appointment_logs: newAppointmentLogs
             }
 
+        case "APPOINTMENT.STATUS_UPDATED":
+            // called when an appointment status changes
+            const newAppointmentsArray = state.appointments.map( appt => {
+                if (appt.id === action.data.appointmentID) {
+                    return { ...appt, appointment_status_id: action.data.newStatusID}
+                }
+                return { ...appt}
+            })
+
+            const newAppointmentLog = [ ...state.appointment_logs]
+            newAppointmentLog.push(action.data.newLog)
+            return {
+                ...state,
+                appointments: newAppointmentsArray,
+                appointment_logs: newAppointmentLog
+            }
+    
+    
         case "INTERACTION.LOAD":
             // called when an interaction first starts, we need to put it into the lead data
             return {

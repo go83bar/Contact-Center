@@ -326,7 +326,9 @@
     "appointments": {
       "confirmed": "Appointment confirmed!",
       "unconfirmed": "Appointment unconfirmed!",
-      "confirmFailed": "Failed to save!"
+      "confirmFailed": "Failed to save!",
+      "statusUpdated": "Appointment status updated!",
+      "statusFailed": "Appointment status could not be updated!"
     },
     "editLead" : {
       "success" : "Lead Information Saved Successfully.",

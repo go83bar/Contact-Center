@@ -97,18 +97,28 @@ class Active extends Component {
                 toast.success(toastMessage, {autoClose: 3000})
 
                 // push update to store
+                const newLog = {
+                    appointment_id: this.props.data.id,
+                    field: "confirmed",
+                    old_value: this.props.data.confirmed,
+                    new_value: !this.props.data.confirmed,
+                    created_at: moment().utc().format("YYYY-MM-DD hh:mm:ss"),
+                    created_by: this.props.user.label_name
+                }
                 this.props.dispatch({
                     type: "APPOINTMENT.CONFIRMED",
                     data: {
                         appointmentID: this.props.data.id,
-                        confirmedState: !this.props.data.confirmed
+                        confirmedState: !this.props.data.confirmed,
+                        newLog
                     }
                 })
+
             } else {
                 toast.error(this.props.localization.toast.appointments.confirmFailed)
             }
         }).catch( reason => {
-            // TODO catch error
+            // TODO send error to slack?
             toast.error(this.props.localization.toast.appointments.confirmFailed)
             console.log("Could not confirm: ", reason)
         })
@@ -122,6 +132,47 @@ class Active extends Component {
         this.setState({changeStatus: parseInt(values[0])})
     }
 
+    setUpdatedStatus = () => {
+        // send update to API
+        const updateStatusParams = {
+            appointmentID: this.props.data.id,
+            statusID: this.state.changeStatus
+        }
+
+        AppointmentAPI.updateStatus(updateStatusParams).then( response => {
+            if (response.success) {
+                toast.success(this.props.localization.toast.appointments.statusUpdated)
+
+                // push update to store
+                const newLog = {
+                    appointment_id: this.props.data.id,
+                    field: "appointment_status_id",
+                    old_value: this.props.data.appointment_status_id,
+                    new_value: updateStatusParams.statusID,
+                    created_at: moment().utc().format("YYYY-MM-DD hh:mm:ss"),
+                    created_by: this.props.user.label_name
+                }
+                this.props.dispatch({
+                    type: "APPOINTMENT.STATUS_UPDATED",
+                    data: {
+                        appointmentID: this.props.data.id,
+                        newStatusID: updateStatusParams.statusID,
+                        newLog
+                    }
+                })
+
+                this.toggleStatus()
+
+            } else {
+                toast.error(this.props.localization.toast.appointments.statusFailed)
+            }
+        }).catch( reason => {
+            // TODO send error to slack?
+            toast.error(this.props.localization.toast.appointments.statusFailed)
+            console.log("Could not update status: ", reason)
+
+        })
+    }
     toggleVerify() {
         this.setState({reschedule: false, status: false, verify: !this.state.verify, changeStatus: undefined})
     }
@@ -318,7 +369,7 @@ class Active extends Component {
                             <MDBBtn rounded outline onClick={this.toggleStatus}>
                                 {localization.cancel}
                             </MDBBtn>
-                            <MDBBtn rounded onClick={this.toggleStatus}>
+                            <MDBBtn rounded onClick={this.setUpdatedStatus}>
                                 {localization.updateStatus}
                             </MDBBtn>
                         </MDBCardFooter>
@@ -359,11 +410,12 @@ class Active extends Component {
     }
 }
 
-const mapStateToProps = store => {
+const mapStateToProps = state => {
     return {
-        localization: store.localization,
-        shift: store.shift,
-        lead: store.lead
+        localization: state.localization,
+        shift: state.shift,
+        lead: state.lead,
+        user: state.user
     }
 }
 

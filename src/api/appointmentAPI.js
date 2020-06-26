@@ -201,6 +201,44 @@ export default class AppointmentAPI {
     }
 
     /**
+     * @typedef UpdateStatusParams
+     * @type {object}
+     * @property {number} appointmentID 
+     * @property {number} statusID 
+     */
+
+    /**
+     * Persists updated confirmed status of a given appointment
+     *
+     * @static
+     * @param {UpdateStatusParams} params
+     * @returns {Promise}
+     * @memberof LeadAPI
+     */
+    static async updateStatus(params) {
+        // Mock API responses for local dev
+        if (process.env.REACT_APP_QUERY_MODE === "development") {
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "/data/updateAppointmentStatus.json")
+
+            return mockData.json()
+        }
+
+        const redux = store.getState()
+        const requestOptions = {
+            url: redux.config["url-api-base"] + "appointments/" + params.appointmentID + "/status",
+            method: "POST",
+            data: {
+                status_id: params.statusID
+            },
+            toast: true,
+            auth: redux.user.auth
+        }
+        const result = await sendRequest(requestOptions)
+
+        return result
+    }
+
+    /**
      * @typedef SaveResponseParams
      * @type {object}
      * @property {array} response
