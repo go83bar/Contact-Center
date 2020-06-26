@@ -108,6 +108,19 @@ export function lead(state = initialState, action) {
                 emails: [ ...state.emails, action.data]
             }
 
+        case "APPOINTMENT.CONFIRMED":
+            // called when an appointment confirmation status changes
+            const newAppointments = state.appointments.map( appt => {
+                if (appt.id === action.data.appointmentID) {
+                    return { ...appt, confirmed: action.data.confirmedState}
+                }
+                return { ...appt}
+            })
+            return {
+                ...state,
+                appointments: newAppointments
+            }
+
         case "INTERACTION.LOAD":
             // called when an interaction first starts, we need to put it into the lead data
             return {

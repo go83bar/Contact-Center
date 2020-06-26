@@ -323,6 +323,11 @@
   },
   "toast": {
     "saving" : "Saving ...",
+    "appointments": {
+      "confirmed": "Appointment confirmed!",
+      "unconfirmed": "Appointment unconfirmed!",
+      "confirmFailed": "Failed to save!"
+    },
     "editLead" : {
       "success" : "Lead Information Saved Successfully.",
       "error" : "Lead Information Save Unsuccessful."

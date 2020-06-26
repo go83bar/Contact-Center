@@ -12,20 +12,6 @@ export default class AppointmentAPI {
 
     /**
      * Gets the offices assigned to a given appointment type, with associated data
-     * Promise resolves to an object like
-     * {
-     *  success: {boolean},
-     *  data: {
-     *      lead_id: {number},
-     *      lead_name: {string},
-     *      call_sid: {string},
-     *      reason: {string},
-     *      meta: [{
-     *          name: {string},
-     *          value: {string}
-     *      }]
-     *  }
-     * }
      *
      * @static
      * @param {GetOfficeOptionsParams} params
@@ -63,21 +49,7 @@ export default class AppointmentAPI {
      */
 
     /**
-     * Gets the offices assigned to a given appointment type, with associated data
-     * Promise resolves to an object like
-     * {
-     *  success: {boolean},
-     *  data: {
-     *      lead_id: {number},
-     *      lead_name: {string},
-     *      call_sid: {string},
-     *      reason: {string},
-     *      meta: [{
-     *          name: {string},
-     *          value: {string}
-     *      }]
-     *  }
-     * }
+     * Gets data on available appointment slots for a given office and appointment type
      *
      * @static
      * @param {GetCalendarParams} params
@@ -120,20 +92,6 @@ export default class AppointmentAPI {
 
     /**
      * Gets the offices assigned to a given appointment type, with associated data
-     * Promise resolves to an object like
-     * {
-     *  success: {boolean},
-     *  data: {
-     *      lead_id: {number},
-     *      lead_name: {string},
-     *      call_sid: {string},
-     *      reason: {string},
-     *      meta: [{
-     *          name: {string},
-     *          value: {string}
-     *      }]
-     *  }
-     * }
      *
      * @static
      * @param {GetBookingQuestionsParams} params
@@ -174,21 +132,7 @@ export default class AppointmentAPI {
      */
 
     /**
-     * Gets the offices assigned to a given appointment type, with associated data
-     * Promise resolves to an object like
-     * {
-     *  success: {boolean},
-     *  data: {
-     *      lead_id: {number},
-     *      lead_name: {string},
-     *      call_sid: {string},
-     *      reason: {string},
-     *      meta: [{
-     *          name: {string},
-     *          value: {string}
-     *      }]
-     *  }
-     * }
+     * Books a new appointment
      *
      * @static
      * @param {BookParams} params
@@ -213,6 +157,40 @@ export default class AppointmentAPI {
                 lead_id: params.leadID,
                 interaction_id: params.interactionID
             },
+            method: "POST",
+            toast: true,
+            auth: redux.user.auth
+        }
+        const result = await sendRequest(requestOptions)
+
+        return result
+    }
+
+    /**
+     * @typedef ConfirmParams
+     * @type {object}
+     * @property {number} appointmentID 
+     */
+
+    /**
+     * Persists updated confirmed status of a given appointment
+     *
+     * @static
+     * @param {ConfirmParams} params
+     * @returns {Promise}
+     * @memberof LeadAPI
+     */
+    static async confirm(params) {
+        // Mock API responses for local dev
+        if (process.env.REACT_APP_QUERY_MODE === "development") {
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "/data/confirmAppointment.json")
+
+            return mockData.json()
+        }
+
+        const redux = store.getState()
+        const requestOptions = {
+            url: redux.config["url-api-base"] + "appointments/" + params.appointmentID + "/confirm",
             method: "POST",
             toast: true,
             auth: redux.user.auth

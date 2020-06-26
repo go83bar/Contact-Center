@@ -26,6 +26,8 @@ import TimeSlots from "../../../ui/TimeSlots";
 import {SingleDatePicker} from "react-dates";
 import TimePicker from "rc-time-picker";
 import Slack from '../../../../utils/Slack';
+import AppointmentAPI from '../../../../api/appointmentAPI';
+import {toast} from "react-toastify";
 
 class Active extends Component {
 
@@ -86,9 +88,30 @@ class Active extends Component {
         this.setState({reschedule: !this.state.reschedule, status: false, verify: false, changeStatus: undefined})
     }
 
-    toggleConfirm() {
-        // TODO
-        // Push !this.props.data.confirmed to store and api
+    toggleConfirm = () => {
+        // persist change to API
+        AppointmentAPI.confirm({ appointmentID: this.props.data.id}).then( response => {
+            if (response.success) {
+                // success message
+                const toastMessage = this.props.data.confirmed ? this.props.localization.toast.appointments.unconfirmed : this.props.localization.toast.appointments.confirmed
+                toast.success(toastMessage, {autoClose: 3000})
+
+                // push update to store
+                this.props.dispatch({
+                    type: "APPOINTMENT.CONFIRMED",
+                    data: {
+                        appointmentID: this.props.data.id,
+                        confirmedState: !this.props.data.confirmed
+                    }
+                })
+            } else {
+                toast.error(this.props.localization.toast.appointments.confirmFailed)
+            }
+        }).catch( reason => {
+            // TODO catch error
+            toast.error(this.props.localization.toast.appointments.confirmFailed)
+            console.log("Could not confirm: ", reason)
+        })
     }
 
     toggleStatus() {
