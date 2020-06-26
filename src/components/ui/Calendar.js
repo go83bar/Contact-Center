@@ -107,14 +107,27 @@ class Calendar extends React.Component {
     };
 
     nextMonth = () => {
+        const newDate = this.state.currentMonth.add(1, "month")
+
+        if (typeof(this.props.loadCalendarMonth) === "function") {
+            this.props.loadCalendarMonth(newDate)
+        }
+
         this.setState({
-            currentMonth: this.state.currentMonth.add(1, "month")
+            currentMonth: newDate
         });
+
     };
 
     prevMonth = () => {
+        const newDate = this.state.currentMonth.subtract(1, "month")
+
+        if (typeof(this.props.loadCalendarMonth) === "function") {
+            this.props.loadCalendarMonth(newDate)
+        }
+
         this.setState({
-            currentMonth: this.state.currentMonth.subtract(1,"month")
+            currentMonth: newDate
         });
     };
 
@@ -132,6 +145,7 @@ Calendar.propTypes = {
     disablePastDates : PropTypes.bool.isRequired,
     subtitle : PropTypes.string.isRequired,
     alternateValue : PropTypes.object,
-    onChange : PropTypes.func
+    onChange : PropTypes.func,
+    loadCalendarMonth: PropTypes.func
 }
 export default Calendar;

@@ -66,6 +66,13 @@ class NewAppointmentBooking extends Component {
 
     }
 
+    componentDidUpdate(prevProps) {
+        if (this.props.lead.region_id !== prevProps.lead.region_id) {
+            // region has changed, reset booking flow to initial state
+            this.resetBookingFlow()
+        }
+    }
+
     startBookingFlow = () => {
         this.setState({ isBooking: true})
     }
@@ -173,7 +180,8 @@ class NewAppointmentBooking extends Component {
         if (values[0] === "combined") {
             this.setState({
                 loadingOffice: true,
-                officeName: "All Offices"
+                officeName: "All Offices",
+                officeID: 0
             })
         } else {
             // specific office was chosen, let's make sure we have all the data and set it into state
@@ -335,6 +343,38 @@ class NewAppointmentBooking extends Component {
             console.log("SAVE RESPONSE FAILED: ", reason)
         })
 
+    }
+
+    loadCalendarMonth = (newDate) => {
+        // called when the calendar month is changed, and we need to load a new month's worth of data
+        const calendarListParams = {
+            officeID: this.state.officeID,
+            appointmentTypeID: this.state.appointmentTypeID,
+            leadID: this.props.lead.id,
+            month: newDate.month() + 1,
+            year: newDate.year()
+        }
+
+        AppointmentAPI.getCalendar(calendarListParams).then( response => {
+            if (response.success !== true) {
+                // usually ApiException error response
+                toast.error("Calendar could not be loaded")
+                Slack.sendMessage("Agent " + this.props.user.id + " - Appointment calendar month retrieve error: " + response.error)
+                return
+            }
+
+            // set results into state, removing timeslots as well so we don't confuse the user
+            this.setState({
+                appointmentAVS: response,
+                timeslots: undefined
+            })
+
+        }).catch( reason => {
+            // TODO handle error
+            console.log("Could not load calendar month: ", reason)
+        })
+
+        
     }
 
     onCalendarChange = (date) => {
@@ -509,6 +549,7 @@ class NewAppointmentBooking extends Component {
                         <MDBBox className="d-flex w-100 f-m mt-3 p-2">
                             <Calendar className="w-50 bg-white" subtitle={this.state.officeName}
                                         alternateValue={this.state.appointmentAVS} disablePastDates={true}
+                                        loadCalendarMonth={this.loadCalendarMonth}
                                         onChange={this.onCalendarChange}/>
                             <TimeSlots className="w-50 ml-3"
                                         timeSelect={this.onSlotSelection}

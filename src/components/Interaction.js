@@ -38,6 +38,22 @@ class Interaction extends Component {
         };
 
     }
+    
+    earlyCloseWarning = (ev) => {
+        ev.preventDefault()
+		const confirmationMessage = this.props.localization.interaction.earlyCloseWarning
+
+        ev.returnValue = confirmationMessage    // Gecko, Trident, Chrome 34+
+		return confirmationMessage             // Gecko, WebKit, Chrome <34
+    }
+
+    componentDidMount() {
+        window.addEventListener("beforeunload", this.earlyCloseWarning)
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener("beforeunload", this.earlyCloseWarning)
+    }
 
     toggleEndInteraction() {
         this.setState({endInteractionVisible : !this.state.endInteractionVisible})
@@ -47,9 +63,11 @@ class Interaction extends Component {
     {
         this.setState({slim : !this.state.slim})
     }
+
     toggleDetails() {
         this.setState({details : !this.state.details})
     }
+
     toggleTab = tab => () => {
         if (this.state.activeItem !== tab) {
             this.setState({
@@ -57,9 +75,7 @@ class Interaction extends Component {
             });
         }
     }
-    handleChange() {
 
-    }
     render() {
         if (this.props.lead === undefined) {
             return <LoadingScreen />
