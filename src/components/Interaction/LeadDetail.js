@@ -9,18 +9,10 @@ import {
 
 class LeadDetail extends Component {
 
-    constructor(props) {
-        super(props);
+    render() {
         const client = this.props.shift.clients[this.props.lead.client_index]
         const phase = this.props.shift.phases.find(phase => phase.id === this.props.lead.phase_id)
         const region = client.regions[this.props.lead.region_index]
-        this.state = {
-            phase : phase.label,
-            region : region
-        };
-    }
-
-    render() {
         let localization = this.props.localization.interaction.details
         let lead = this.props.lead
         let formatPhoneNumber = (str) => {
@@ -62,8 +54,8 @@ class LeadDetail extends Component {
                     </div>
                     <div className="d-flex flex-column justify-content-between align-items-start w-50">
                     <MDBChip className="outlineChip ml-4 mb-0">{localization.id}{lead.id}</MDBChip>
-                    <MDBChip className={"outlineChip ml-4 mb-0"}>{localization.region}{this.state.region.name} - {formatPhoneNumber(this.state.region.default_number)}</MDBChip>
-                    <MDBChip className={"outlineChip ml-4 mb-0"}>{localization.phase}{this.state.phase}</MDBChip>
+                    <MDBChip className={"outlineChip ml-4 mb-0"}>{localization.region}{region.name} - {formatPhoneNumber(region.default_number)}</MDBChip>
+                    <MDBChip className={"outlineChip ml-4 mb-0"}>{localization.phase}{phase.label}</MDBChip>
                     </div>
                 </MDBCardBody>
             </MDBCard>
