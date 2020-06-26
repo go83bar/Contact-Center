@@ -29,7 +29,7 @@ class SurveySubmission extends Component {
             })
             return (
                 <MDBBox key={response.question_id} tag="div" className="mt-3">
-                    <strong>Q: </strong>{response.text}<br />
+                    <strong>Q: {response.text}</strong><br />
                     {answers}
                 </MDBBox>
             )
