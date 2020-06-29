@@ -181,7 +181,7 @@ class LeadSummary extends Component {
                             <MDBChip className={"outlineChip ml-1 mb-0"}>{this.state.campaignName}</MDBChip>
                             <MDBChip className={"outlineChip ml-1 mb-0"}>{this.props.preview.reason}</MDBChip>
                         </div>
-                        <MDBNav className="d-flex justify-content-end float-right skin-border-primary h-100">
+                        <MDBNav className="d-flex justify-content-end float-right skin-border-primary h-100 flex-nowrap">
                             { this.props.twilio.conferenceSID && <div className="f-m border-right p-2 py-0 mt-2"><span className={ this.props.twilio.recordingPaused ? "text-success" : "text-danger"}>{ this.props.twilio.recordingPaused ? "Paused" : "Recording"}: </span>
                                 <Timer formatValue={(value) => `${(value < 10 ? `0${value}` : value)}`}>
                                     <Timer.Hours />:
@@ -223,7 +223,7 @@ class LeadSummary extends Component {
                                     </span>
                                 </MDBNavLink>
                             </MDBNavItem>
-                            <MDBNavItem className="rounded-pill m-2 red-darken-2 m-1" onClick={this.props.toggleEndInteraction}>
+                            <MDBNavItem className="rounded-pill m-2 red-darken-2 m-1" style={{maxHeight: "37px"}} onClick={this.props.toggleEndInteraction}>
                                 <MDBNavLink to="#" className="py-0 px-2 m-2 align-middle skin-text f-s font-weight-bold">
                                     {localization.endInteraction}
                                 </MDBNavLink>
