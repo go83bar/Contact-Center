@@ -77,7 +77,7 @@ class Interaction extends Component {
     }
 
     render() {
-        if (this.props.lead === undefined) {
+        if (this.props.lead === undefined || this.props.lead.id === undefined) {
             return <LoadingScreen />
         }
 

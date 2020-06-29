@@ -35,7 +35,7 @@ class NextLead extends Component {
                     })
                 } else {
                     // now check for empty queue situation
-                    if (response.data === null) {
+                    if (response.data === undefined) {
                         this.setState({
                             nextLeadMessage: "There seems to be a lack of leads!"
                         })

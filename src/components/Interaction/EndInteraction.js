@@ -113,9 +113,9 @@ class EndInteraction extends Component {
                         interactionID: payload.interactionID
                     }
                 })
+            fetch === true ? this.props.history.push("/next") : this.props.history.push("/")
             }
         })
-        fetch === true ? this.props.history.push("/next") : this.props.history.push("/")
     }
     endInteractionFetch() {
        this.endInteraction(true)

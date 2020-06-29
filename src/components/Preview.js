@@ -79,7 +79,7 @@ class Preview extends Component {
     startInteraction() {
         // Make API call to start interaction
         const payload = {
-            callQueueID: null,
+            callQueueID: this.props.previewData.queue_id === undefined ? null : this.props.previewData.queue_id,
             leadID: this.props.previewData.lead_id,
             previewStartTime: moment().format()
 
@@ -135,7 +135,7 @@ class Preview extends Component {
         })
         return (
             <MDBBox className="d-flex justify-content-center" style={{margin: "10% auto"}} >
-                    <MDBCard className="d-flex card-body" style={{width:"585px", height:"450px"}}>
+                    <MDBCard className="d-flex card-body" style={{width:"585px", height:"480px"}}>
                         <MDBCardHeader className="d-flex justify-content-start backgroundColorInherit">
                             <h3>
                             <strong>{this.props.previewData.lead_name}</strong> / {this.props.previewData.reason}
