@@ -29,8 +29,8 @@ class LeadDetail extends Component {
             return null
         };
         return (
-            <MDBCard className="w-100 p-2 mb-2 d-flex border rounded skin-border-primary" style={{flex:"0 65px"}}>
-                <MDBCardBody className="d-flex w-100 p-2" style={{height:"120px"}}>
+            <MDBCard className="w-100 p-2 mb-2 d-flex border rounded skin-border-primary">
+                <MDBCardBody className="d-flex w-100 p-2">
                     <div className="d-flex flex-column w-50 justify-content-between">
                         <span className="d-flex justify-content-between">
                             <span className="mr-3">
