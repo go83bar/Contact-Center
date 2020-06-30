@@ -28,7 +28,7 @@ class SurveyThumb extends Component {
                 {parsedTime.format("h:mm a")} CDT
             </MDBBox>
         </MDBBox>
-        <MDBBox style={{width: "15%"}}>
+        <MDBBox style={{width: "15%"}} className="mr-2">
             <ScrollLink target={"survey-" + this.props.submission.id}>
                 <SurveyIcon />
             </ScrollLink>

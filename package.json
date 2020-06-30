@@ -13,6 +13,7 @@
     "@fortawesome/react-fontawesome": "^0.1.9",
     "bson-objectid": "^1.3.0",
     "date-fns": "^2.13.0",
+    "env-cmd": "^10.1.0",
     "mdb-react-calendar": "file:mdb-full-calendar-4.16.5.tgz",
     "mdb-react-wysiwyg": "file:mdb-react-wysiwyg-4.16.0.tgz",
     "mdbreact": "./mdbreact-4.26.0.tgz",
@@ -38,6 +39,7 @@
   "scripts": {
     "start": "HTTPS=true react-scripts start",
     "build": "react-scripts build",
+    "build:staging": "env-cmd -f .env.staging react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "rename": "renamer --find App-clear.js --replace App.js ./src/App-clear.js && renamer --find style.css --replace index.css ./src/style.css ",
