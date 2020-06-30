@@ -16,6 +16,8 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import MDBWysiwyg from 'mdb-react-wysiwyg'
 import InteractionAPI from '../../../api/interactionAPI'
 import moment from 'moment'
+import {toast} from "react-toastify";
+import Slack from '../../../utils/Slack';
 
 class EmailForm extends Component {
     constructor(props) {
@@ -27,7 +29,8 @@ class EmailForm extends Component {
             hasTemplates: false,
             templateOptions: [],
             renderedTemplates: [],
-            subjectValue: ""
+            subjectValue: "",
+            contentValue: ""
         }
 
         // Load text templates for the lead
@@ -58,16 +61,30 @@ class EmailForm extends Component {
             // TODO handle error
             console.log("Error fetching text templates: ", reason)
         })
+    }
 
-
-
+    componentDidMount() {
+        // we need to manually add an EventListener function onto the WYSIWYG component textarea
+        // because it doesn't come with any built-in methods
+        const emailContentEditor = document.getElementsByClassName("mdb-wysiwyg-textarea")[0]
+        if (emailContentEditor !== undefined) {
+            emailContentEditor.addEventListener("input", (evt) => {
+                let disableSave = true
+                if (evt.target.textContent.length > 0 && this.state.subjectValue.length > 0) {
+                    disableSave = false
+                }
+                this.setState( {
+                    contentValue: evt.target.textContent,
+                    disableSave
+                })
+            })
+        }
     }
 
     updateSubject = (e) => {
-        const content = document.getElementsByClassName("mdb-wysiwyg-textarea")[0].innerHTML
         let disableSave = true;
-        if (content.length > 0 && e.target.value.length > 0) disableSave = false;
-        this.setState({ subjectValue: e.target.value, disableSave: disableSave})
+        if (this.state.contentValue.length > 0 && e.target.value.length > 0) disableSave = false;
+        this.setState({ subjectValue: e.target.value, disableSave})
     }
 
     chooseTemplate = (values) => {
@@ -83,17 +100,18 @@ class EmailForm extends Component {
     }
 
     sendMessage = () => {
-        const content = document.getElementsByClassName("mdb-wysiwyg-textarea")[0].innerHTML
-        if (content.length === 0) {
-            this.setState( {disableSave: true})
-            return
+        if (this.state.subjectValue === "" || this.state.contentValue == "") {
+            toast.error("Subject and Content must be filled to send email")
+            this.setState({
+                disableSave: true
+            })
         }
         
         const params = {
             leadID: this.props.lead.id,
             interactionID: this.props.interaction.id,
             subject: this.state.subjectValue,
-            body: content
+            body: this.state.contentValue
         }
 
         console.log("PARAMS: ", params)
@@ -104,25 +122,24 @@ class EmailForm extends Component {
                     type: "LEAD.EMAIL_SENT",
                     data: {
                         id: response.log_email_id,
-                        content: content,
+                        content: this.state.contentValue,
                         direction: "outgoing",
                         interaction_id: this.props.interaction.id,
                         created_at: moment().utc().format("YYYY-MM-DD HH:mm:ss")
                     }
                 }
-                console.log("ACTION: ", sentAction)
 
                 this.props.dispatch(sentAction)
                 this.props.toggle()
             } else {
-                // TODO handle error
-                console.log("Error when sending email: ", response)
+                toast.error("There was an error. Email not sent.")
+                Slack.sendMessage("Agent " + this.props.user.id + " got success=false when sending manual email to lead " + this.props.lead.id)
             }
 
         }).catch( reason => {
-            // TODO handle error
-            console.log("Error when sending email message: ", reason)
-        })
+            toast.error("There was an error. Email not sent.")
+            Slack.sendMessage("Agent " + this.props.user.id + " got a 500 when sending manual email to lead " + this.props.lead.id + ": " + reason)
+    })
     }
 
     render() {
@@ -153,7 +170,8 @@ const mapStateToProps = state => {
         localization: state.localization,
         localized: state.localization.interaction.summary.emailForm,
         client: state.shift.clients[state.lead.client_index],
-        lead : state.lead
+        lead : state.lead,
+        user: state.user
     }
 }
 
