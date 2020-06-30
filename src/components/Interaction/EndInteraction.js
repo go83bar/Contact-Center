@@ -198,8 +198,8 @@ class EndInteraction extends Component {
         const localization = this.props.localization.interaction.endInteraction
 
         return (
-            <MDBModal isOpen={true} toggle={this.props.toggle} size={"fluid"}>
-                <MDBModalBody className="d-flex justify-content-between m-1" style={{backgroundColor: "#f9f9f9", minHeight: "500px"}}>
+            <MDBModal isOpen={true} toggle={this.props.toggle} size={"fluid"} wrapClassName="w-100">
+                <MDBModalBody className="d-flex justify-content-between m-1" style={{backgroundColor: "#f9f9f9", minHeight: "500px", width: "100%"}}>
                     <MDBCard className="shadow-none px-2 pt-4" style={{minWidth:"210px"}}>
                     <MDBStepper vertical className="eiStepper d-flex m-0 p-0 h-100">
                         <MDBStep stepName="Choose Outcome" className="">
