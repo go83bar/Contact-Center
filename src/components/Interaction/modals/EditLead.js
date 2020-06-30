@@ -100,7 +100,7 @@ class EditLead extends Component {
         }
         if (validDate.isAfter()) {
             this.setState({hasErrors: true, errorMessage: "Date of Birth cannot be in the future", disableSave: true})
-            return            
+            return
         }
 
         // Compare current state to props to build save payload based on what changed
@@ -123,11 +123,11 @@ class EditLead extends Component {
                 // must strip non-numeric from phone fields before comparison
             } else if (field === "cell_phone" || field === "home_phone") {
                 const newPhone = this.state[field].replace(/\D/g, '')
-                if (newPhone !== value && (newPhone != "" && value != undefined)) { // ignore any "change" from undefined to blank string
+                if (newPhone !== value && (newPhone !== "" && value !== undefined)) { // ignore any "change" from undefined to blank string
                     updatedFields.push({fieldName: field, value: newPhone, oldValue: value})
                 }
                 // other fields are simple string comparison, again ignoring empty cells that started undefined
-            } else if (value !== this.state[field] && (this.state[field] != "" && value != undefined)) {
+            } else if (value !== this.state[field] && (this.state[field] !== "" && value !== undefined)) {
                 updatedFields.push({fieldName: field, value: this.state[field], oldValue: value})
             }
         }

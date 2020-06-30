@@ -100,13 +100,13 @@ class EmailForm extends Component {
     }
 
     sendMessage = () => {
-        if (this.state.subjectValue === "" || this.state.contentValue == "") {
+        if (this.state.subjectValue === "" || this.state.contentValue === "") {
             toast.error("Subject and Content must be filled to send email")
             this.setState({
                 disableSave: true
             })
         }
-        
+
         const params = {
             leadID: this.props.lead.id,
             interactionID: this.props.interaction.id,
