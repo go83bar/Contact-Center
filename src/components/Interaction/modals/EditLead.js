@@ -84,11 +84,25 @@ class EditLead extends Component {
             })
             return
         }
+
         // validate date of birth year to be empty or 4 digits
         if (this.state.yearValue !== undefined && this.state.yearValue.length !== 4) {
             this.setState({hasErrors: true, errorMessage: "Birth year must be 4 digits", disableSave: true})
             return
         }
+
+        // valid date validation
+        const dateString = this.state.yearValue + "-" + this.state.monthValue.padStart(2, "0") + "-" + this.state.dayValue.padStart(2, "0")
+        const validDate = moment(dateString)
+        if (validDate.format("YYYY-MM-DD") === "Invalid date") {
+            this.setState({hasErrors: true, errorMessage: "Invalid date of birth", disableSave: true})
+            return
+        }
+        if (validDate.isAfter()) {
+            this.setState({hasErrors: true, errorMessage: "Date of Birth cannot be in the future", disableSave: true})
+            return            
+        }
+
         // Compare current state to props to build save payload based on what changed
         let updatedFields = []
         for (let [field, value] of Object.entries(this.state.originalValues)) {
@@ -96,13 +110,7 @@ class EditLead extends Component {
             if (field === "date_of_birth") {
                 let stateDate = null
                 if (this.state.yearValue !== undefined) {
-                    const dateString = this.state.yearValue + "-" + this.state.monthValue.padStart(2, "0") + "-" + this.state.dayValue.padStart(2, "0")
-                    console.log(dateString)
-                    stateDate = moment(dateString).format("YYYY-MM-DD")
-                    if (stateDate === "Invalid date") {
-                        this.setState({hasErrors: true, errorMessage: "Invalid date of birth", disableSave: true})
-                        return
-                    }
+                    stateDate = validDate.format("YYYY-MM-DD")
                 }
                 let originalDate = null
                 if (value !== undefined) {
@@ -115,11 +123,11 @@ class EditLead extends Component {
                 // must strip non-numeric from phone fields before comparison
             } else if (field === "cell_phone" || field === "home_phone") {
                 const newPhone = this.state[field].replace(/\D/g, '')
-                if (newPhone !== value) {
+                if (newPhone !== value && (newPhone != "" && value != undefined)) { // ignore any "change" from undefined to blank string
                     updatedFields.push({fieldName: field, value: newPhone, oldValue: value})
                 }
-                // other fields are simple string comparison
-            } else if (value !== this.state[field]) {
+                // other fields are simple string comparison, again ignoring empty cells that started undefined
+            } else if (value !== this.state[field] && (this.state[field] != "" && value != undefined)) {
                 updatedFields.push({fieldName: field, value: this.state[field], oldValue: value})
             }
         }
