@@ -261,9 +261,8 @@ class Active extends Component {
                                 </span>}
 
                                 <span>
-                                    <span
-                                        className="font-weight-bold">{moment.utc(this.props.data.start_time).tz(this.props.lead.details.timezone).format("MMM D")}</span>, {moment.utc(this.props.data.start_time).tz(this.props.lead.details.timezone).format("hh:mm a z")}
-                                    {office.timezone !== this.props.lead.details.timezone &&
+                                    {this.props.data.start_time ? <span><span className="font-weight-bold">{moment.utc(this.props.data.start_time).tz(this.props.lead.details.timezone).format("MMM D")}</span>, {moment.utc(this.props.data.start_time).tz(this.props.lead.details.timezone).format("hh:mm a z")}</span> : <span className="text-danger">{localization.noStartTime}</span>}
+                                    {this.props.data.start_time && (office.timezone !== this.props.lead.details.timezone) &&
                                     <span className="ml-3">{localization.office}<span
                                         className="font-weight-bold">{moment.utc(this.props.data.start_time).tz(office.timezone).format("MMM D")}</span>, {moment.utc(this.props.data.start_time).tz(office.timezone).format("hh:mm a z")}</span>}
                                 </span>

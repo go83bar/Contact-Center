@@ -1,14 +1,15 @@
 import React, {Component} from 'react'
-import { 
-    MDBCard, 
-    MDBCardBody, 
-    MDBCardText, 
-    MDBCardHeader, 
-    MDBBox
+import {
+    MDBCard,
+    MDBCardBody,
+    MDBCardText,
+    MDBCardHeader,
+    MDBBox, MDBCardFooter, MDBBtn
 } from "mdbreact";
 import { connect } from 'react-redux'
 import LoadingScreen from './LoadingScreen'
 import LeadAPI from '../api/leadAPI'
+import {Link} from "react-router-dom";
 
 class NextLead extends Component {
 
@@ -50,26 +51,32 @@ class NextLead extends Component {
                 this.setState({
                     nextLeadMessage: "Fetch Error: " + reason
                 })
-            }) 
+            })
 
     }
 
     render() {
+        const localization = this.props.localization.fetch
         if (this.state.nextLeadMessage === undefined) {
             return <LoadingScreen />
         }
 
         return (
-            <MDBBox>
-                <MDBCard className="card-body">
-                    <MDBCardHeader><h3>
-                        <strong>No Leads For You</strong>
+            <MDBBox className="d-flex justify-content-center w-100">
+                <MDBCard className="d-flex justify-content-center w-50 h-50 mt-5">
+                    <MDBCardHeader className="skin-primary-background-color"><h3 className={"skin-text"}>
+                        <strong>{localization.noLeads}</strong>
                         </h3></MDBCardHeader>
                     <MDBCardBody>
                         <MDBCardText className="ml-3">
                             {this.state.nextLeadMessage}
                         </MDBCardText>
                     </MDBCardBody>
+                    <MDBCardFooter className="d-flex justify-content-center">
+                        <Link to="/" className="d-flex skin-secondary-color align-items-center justify-content-between">
+                            <MDBBtn>{localization.back}</MDBBtn>
+                        </Link>
+                    </MDBCardFooter>
                 </MDBCard>
             </MDBBox>
         )
@@ -77,8 +84,8 @@ class NextLead extends Component {
 }
 
 const mapStateToProps = store => {
-    return { 
-        localization : store.localization, 
+    return {
+        localization : store.localization,
         shift: store.shift
     }
 }

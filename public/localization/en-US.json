@@ -44,7 +44,8 @@
       "time": "Time: ",
       "cancel": "Cancel",
       "appointmentStatus" : "Change Appointment Status",
-      "office": "Office: "
+      "office": "Office: ",
+      "noStartTime" : "No date & time set, use Verify to set."
     },
     "booking" : {
       "bookButtonLabel" : "Book an Appointment",
@@ -285,6 +286,10 @@
     "search" : "FIND A LEAD",
     "recent" : "RECENT LEADS",
     "logout" : "SIGN OUT"
+  },
+  "fetch" : {
+    "noLeads" : "No leads in your queue at this time.",
+    "back" : "Back to Dashboard"
   },
   "preview" : {
     "nextButton" : "Open Interaction",
