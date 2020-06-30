@@ -81,8 +81,7 @@ class Preview extends Component {
         const payload = {
             callQueueID: this.props.previewData.queue_id === undefined ? null : this.props.previewData.queue_id,
             leadID: this.props.previewData.lead_id,
-            previewStartTime: moment().format()
-
+            previewStartTime: moment().utc().format()
         }
         LeadAPI.startInteraction(payload)
             .then( response => {

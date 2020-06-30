@@ -183,7 +183,7 @@ export default class AppointmentAPI {
     static async confirm(params) {
         // Mock API responses for local dev
         if (process.env.REACT_APP_QUERY_MODE === "development") {
-            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "/data/confirmAppointment.json")
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "/data/successTrue.json")
 
             return mockData.json()
         }
@@ -192,6 +192,46 @@ export default class AppointmentAPI {
         const requestOptions = {
             url: redux.config["url-api-base"] + "appointments/" + params.appointmentID + "/confirm",
             method: "POST",
+            toast: true,
+            auth: redux.user.auth
+        }
+        const result = await sendRequest(requestOptions)
+
+        return result
+    }
+
+    /**
+     * @typedef VerifyParams
+     * @type {object}
+     * @property {number} appointmentID
+     * @property {number} interactionID
+     * @property {string} startTime
+     */
+
+    /**
+     * Persists updated confirmed status of a given appointment
+     *
+     * @static
+     * @param {VerifyParams} params
+     * @returns {Promise}
+     * @memberof LeadAPI
+     */
+    static async verify(params) {
+        // Mock API responses for local dev
+        if (process.env.REACT_APP_QUERY_MODE === "development") {
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "/data/successTrue.json")
+
+            return mockData.json()
+        }
+
+        const redux = store.getState()
+        const requestOptions = {
+            url: redux.config["url-api-base"] + "appointments/" + params.appointmentID + "/verify",
+            method: "POST",
+            data: {
+                interaction_id: params.interactionID,
+                start_time: params.startTime
+            },
             toast: true,
             auth: redux.user.auth
         }

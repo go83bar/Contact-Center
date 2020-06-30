@@ -74,7 +74,9 @@ class Active extends Component {
         availableStatuses.sort((a, b) => a.order - b.order)
 
         this.state = {
-            dateSelected: moment().format("YYYY-MM-DD"),
+            verifyDate: moment(),
+            verifyTime: "00:00:00",
+            verifyDisabled: true,
             reschedule: false,
             status: false,
             verify: false,
@@ -179,6 +181,37 @@ class Active extends Component {
 
     onCalendarChange(date) {
         this.setState({dateSelected: date})
+    }
+
+    handleVerifyTime = (time) => {
+        if (time) {
+            this.setState({ verifyTime: time.format("HH:mm:ss")});
+        }
+    
+    }
+
+    handleVerifyDate = (date) => {
+        this.setState({ verifyDate : date});
+    }
+    
+    verify = () => {
+        const params = {
+            startTime: this.state.verifyDate.format("YYYY-MM-DD ") + this.state.verifyTime,
+            interactionID: this.props.interaction.id,
+            leadID: this.props.lead.id,
+            appointmentID: this.props.data.id
+        }
+
+        AppointmentAPI.verify(params).then( response => {
+            if (response.success) {
+                toast.success("Appointment verified")
+            } else {
+                toast.error("Appointment could not be verified")
+            }
+        }).catch( reason => {
+            console.log("Failed verify: ", reason)
+        })
+
     }
 
     render() {
@@ -382,15 +415,16 @@ class Active extends Component {
                                 numberOfMonths={2}
                                 hideKeyboardShortcutsPanel={true}
                                 noBorder
-                                date={this.state.date} // momentPropTypes.momentObj or null
-                                onDateChange={date => this.setState({date})} // PropTypes.func.isRequired
+                                isOutsideRange={ day => false}
+                                date={this.state.verifyDate} // momentPropTypes.momentObj or null
+                                onDateChange={this.handleVerifyDate} // PropTypes.func.isRequired
                                 focused={this.state.focused} // PropTypes.bool
                                 onFocusChange={({focused}) => this.setState({focused})} // PropTypes.func.isRequired
-                                id="sdp" // PropTypes.string.isRequired,
+                                id="asdp" // PropTypes.string.isRequired,
                             /></span>
 
-                            <span className="pt-2">{localization.time} <TimePicker onChange={this.handleTimeClick}
-                                                                                   defaultValue={moment().hour(0).minute(0)}
+                            <span className="pt-2">{localization.time} <TimePicker onChange={this.handleVerifyTime}
+                                                                                   defaultValue={moment().hour(12).minute(0)}
                                                                                    use12Hours format={'h:mm a'}
                                                                                    showSecond={false}/></span>
                         </MDBCardBody>
@@ -398,7 +432,7 @@ class Active extends Component {
                             <MDBBtn rounded outline onClick={this.toggleVerify}>
                                 {localization.cancel}
                             </MDBBtn>
-                            <MDBBtn rounded onClick={this.toggleVerify}>
+                            <MDBBtn rounded onClick={this.verify}>
                                 {localization.verify}
                             </MDBBtn>
                         </MDBCardFooter>
@@ -414,7 +448,8 @@ const mapStateToProps = state => {
         localization: state.localization,
         shift: state.shift,
         lead: state.lead,
-        user: state.user
+        user: state.user,
+        interaction: state.interaction
     }
 }
 
