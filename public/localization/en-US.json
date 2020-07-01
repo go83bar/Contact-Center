@@ -284,7 +284,7 @@
     "logout" : "SIGN OUT"
   },
   "fetch" : {
-    "noLeads" : "No leads in your queue at this time.",
+    "noLeads" : "No leads in your queue at this timenpm run.",
     "back" : "Back to Dashboard"
   },
   "preview" : {
