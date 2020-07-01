@@ -76,7 +76,6 @@ class Active extends Component {
         this.state = {
             verifyDate: moment(),
             verifyTime: "00:00:00",
-            verifyDisabled: true,
             reschedule: false,
             status: false,
             verify: false,
@@ -187,13 +186,13 @@ class Active extends Component {
         if (time) {
             this.setState({ verifyTime: time.format("HH:mm:00")});
         }
-    
+
     }
 
     handleVerifyDate = (date) => {
         this.setState({ verifyDate : date});
     }
-    
+
     verify = () => {
         const params = {
             startTime: this.state.verifyDate.format("YYYY-MM-DD ") + this.state.verifyTime,
@@ -214,7 +213,7 @@ class Active extends Component {
                 // first determine new status by grabbing the first status assigned to the current appointment type with "default" flag set to true
                 const client = this.props.shift.clients.find(client => client.id === this.props.data.client_id)
                 const apptType = client.appointment_types.find(type => type.id === this.props.data.appointment_type_id)
-                const office = client.regions[0].offices.find(office => office.id === this.props.data.office_id)                
+                const office = client.regions[0].offices.find(office => office.id === this.props.data.office_id)
                 const defaultStatus = client.appointment_statuses.find( status => status.default === 1 && apptType.statuses.includes(status.id))
 
                 // if we find one make a log for it
@@ -270,7 +269,9 @@ class Active extends Component {
         const localization = this.props.localization.interaction.appointment
         const client = this.props.shift.clients.find(client => client.id === this.props.data.client_id)
         const apptType = client.appointment_types.find(type => type.id === this.props.data.appointment_type_id)
+        console.log("aapt type", apptType)
         const apptStatus = client.appointment_statuses.find(status => status.id === this.props.data.appointment_status_id)
+        console.log("appt stat:",apptStatus)
         //const offices = this.props.shift.clients[this.props.lead.client_index].regions[this.props.lead.region_index].offices
         let office = this.props.shift.clients[this.props.lead.client_index].regions[this.props.lead.region_index].offices.find(office => office.id === this.props.data.office_id)
         if (!office) {
@@ -298,7 +299,8 @@ class Active extends Component {
                 return ""
             }
         }
-
+        const confirmable = this.props.data.start_time ? (moment().isBefore(this.props.data.start_time) && (!apptStatus.cancel && !apptStatus.reschedule)) ? true : false : false
+        const verifiable = this.props.data.start_time ? false : true
         let avs = {
             "timezone": "CDT",
             "timezone_long": "America/Chicago",
@@ -388,6 +390,7 @@ class Active extends Component {
                             </MDBTooltip>
                             <MDBTooltip material placement="top">
                                 <MDBNavLink to="#"
+                                            disabled={confirmable ? false : true}
                                             className={"d-flex flex-column h-100 align-items-center justify-content-center border-left p-2 skin-secondary-color"}
                                             onClick={this.toggleConfirm}
                                             style={{flex: "0 0 96px"}}
@@ -396,24 +399,25 @@ class Active extends Component {
                                         <span className="fa-layers fa-fw mt-1" style={{marginBottom: "2px"}}>
                                             <FontAwesomeIcon icon={faSquare} transform={"shrink-4"}
                                                              className={"skin-primary-color mt-1"}/>
-                                            <FontAwesomeIcon icon={faCalendarCheck} size="lg"/>
+                                            <FontAwesomeIcon className={confirmable ? "skin-secondary-color" : "disabledColor"} icon={faCalendarCheck} size="lg"/>
                                         </span>
                                         :
-                                        <FontAwesomeIcon icon={faCalendar} size="lg"/>}
-                                    <span>{this.props.data.confirmed ? localization.confirmed : localization.confirm}</span>
+                                        <FontAwesomeIcon className={confirmable ? "skin-secondary-color" : "disabledColor"} icon={faCalendar} size="lg"/>}
+                                    <span className={confirmable ? "skin-secondary-color" : "disabledColor"}>{this.props.data.confirmed ? localization.confirmed : localization.confirm}</span>
                                 </MDBNavLink>
                                 <span>{this.props.data.confirmed ? localization.confirmed : localization.confirm}</span>
                             </MDBTooltip>
                             <MDBTooltip material placement="top">
                                 <MDBNavLink to="#"
+                                            disabled={!verifiable}
                                             className="d-flex flex-column h-100 align-items-center justify-content-center border-left p-2 skin-secondary-color"
                                             onClick={this.toggleVerify}
                                             style={{flex: "0 0 96px"}}
                                 >
                                     <FontAwesomeIcon icon={faCheckDouble}
-                                                     className={this.state.verify ? "skin-primary-color" : "skin-secondary-color"}
+                                                     className={verifiable ? this.state.verify ? "skin-primary-color" : "skin-secondary-color" : "disabledColor"}
                                                      size="lg"/><span
-                                    className={this.state.verify ? "skin-primary-color" : "skin-secondary-color"}>{localization.verify}</span>
+                                    className={verifiable ? this.state.verify ? "skin-primary-color" : "skin-secondary-color" : "disabledColor"}>{localization.verify}</span>
                                 </MDBNavLink>
                                 <span>{localization.verify}</span>
                             </MDBTooltip>

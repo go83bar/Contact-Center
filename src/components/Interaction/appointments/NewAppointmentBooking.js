@@ -374,7 +374,7 @@ class NewAppointmentBooking extends Component {
             console.log("Could not load calendar month: ", reason)
         })
 
-        
+
     }
 
     onCalendarChange = (date) => {

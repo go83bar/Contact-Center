@@ -38,7 +38,7 @@ class TimeSlots extends Component {
         }
 
         return (
-            <MDBBox className={"d-flex" + this.props.className}>
+            <MDBBox className={"d-flex flex-column " + this.props.className}>
                 <MDBNav className="d-flex">
                     <MDBNavItem>
                         <MDBNavLink to="#" onClick={()=> this.toggleTimeOfDay("morning")} className={this.state.activeSlot === "morning" ? "skin-primary-color" : "skin-secondary-color"}>
@@ -63,17 +63,17 @@ class TimeSlots extends Component {
                     </MDBNavItem>
                 </MDBNav>
                 {this.state.activeSlot === "morning" &&
-                    <MDBBox className="d-flex">
+                    <MDBBox className="d-flex justify-content-center">
                         {morning.length > 0 ? <MDBBox>{morning}</MDBBox> : <div>No Appointments Available.</div>}
                     </MDBBox>
                 }
                 {this.state.activeSlot === "afternoon" &&
-                <MDBBox className="d-flex">
+                <MDBBox className="d-flex justify-content-center">
                     {afternoon.length > 0 ? <MDBBox>{afternoon}</MDBBox> : <div>No Appointments Available.</div>}
                 </MDBBox>
                 }
                 {this.state.activeSlot === "evening" &&
-                <MDBBox className="d-flex">
+                <MDBBox className="d-flex justify-content-center">
                     {evening.length > 0 ? <MDBBox>{evening}</MDBBox> : <div>No Appointments Available.</div>}
                 </MDBBox>
                 }

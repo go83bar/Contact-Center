@@ -3,7 +3,7 @@ import {MDBBox, MDBCard} from "mdbreact"
 import { connect } from "react-redux"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
- faCalendar,
+ faCalendarCheck,
     faCircle as faCircleSolid,
 } from "@fortawesome/pro-solid-svg-icons";
 import {faCircle} from "@fortawesome/pro-light-svg-icons";
@@ -39,7 +39,7 @@ class Appointment extends Component {
                         <span className="fa-layers fa-fw fa-3x mt-2">
                             <FontAwesomeIcon icon={faCircleSolid} className="text-white"/>
                             <FontAwesomeIcon icon={faCircle} className={"skin-primary-color"}/>
-                            <FontAwesomeIcon icon={faCalendar} transform={"shrink-8"}/>
+                            <FontAwesomeIcon icon={faCalendarCheck} transform={"shrink-8"}/>
                         </span>
                         <div className="d-flex w-75 p-2 flex-column text-left">
                             <span className="f-l font-weight-bold">
