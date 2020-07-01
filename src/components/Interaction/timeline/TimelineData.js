@@ -144,6 +144,7 @@ class TimelineData {
         this.processItems("text", lead.texts, timezone)
         let logs = lead.changelogs !== undefined ? lead.changelogs : []
         this.processLogItems("log", logs.concat(lead.log_optouts),timezone)
+        this.processItems("appt_log", lead.appointment_logs,timezone)
         //Add Additional Sections here
 
         //Sort Main Level by date.

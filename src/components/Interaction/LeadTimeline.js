@@ -20,6 +20,7 @@ import Survey from "./timeline/cards/Survey";
 import Text from "./timeline/cards/Text";
 import moment from "moment";
 import Lead from "./timeline/cards/Lead";
+import SimpleLog from "./timeline/cards/SimpleLog";
 
 class LeadTimeline extends Component {
 
@@ -136,6 +137,13 @@ class LeadTimeline extends Component {
                         result.push(
                             <MDBStep className="mb-4" key={"item-" + index}>
                                 <Lead data={item}/>
+                            </MDBStep>
+                        )
+                        break
+                    case "appt_log":
+                        result.push(
+                            <MDBStep className="mb-4" key={"item-" + index}>
+                                <SimpleLog data={item}/>
                             </MDBStep>
                         )
                         break

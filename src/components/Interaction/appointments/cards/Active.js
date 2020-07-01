@@ -269,9 +269,7 @@ class Active extends Component {
         const localization = this.props.localization.interaction.appointment
         const client = this.props.shift.clients.find(client => client.id === this.props.data.client_id)
         const apptType = client.appointment_types.find(type => type.id === this.props.data.appointment_type_id)
-        console.log("aapt type", apptType)
         const apptStatus = client.appointment_statuses.find(status => status.id === this.props.data.appointment_status_id)
-        console.log("appt stat:",apptStatus)
         //const offices = this.props.shift.clients[this.props.lead.client_index].regions[this.props.lead.region_index].offices
         let office = this.props.shift.clients[this.props.lead.client_index].regions[this.props.lead.region_index].offices.find(office => office.id === this.props.data.office_id)
         if (!office) {

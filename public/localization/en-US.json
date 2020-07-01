@@ -241,6 +241,13 @@
         "allowed": "Allowed",
         "notAllowed": "Not Allowed"
       },
+      "log": {
+        "to" : " to ",
+        "from": " from: ",
+        "appt_log": "Appointment Information Updated",
+        "blank": "Blank",
+        "noTime": "No Time"
+      },
       "office" : "Office: "
     },
     "timezoneChoices": [
