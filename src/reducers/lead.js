@@ -110,38 +110,58 @@ export function lead(state = initialState, action) {
 
         case "APPOINTMENT.CONFIRMED":
             // called when an appointment confirmation status changes
-            const newAppointments = state.appointments.map( appt => {
+            const newConfirmedAppointments = state.appointments.map( appt => {
                 if (appt.id === action.data.appointmentID) {
                     return { ...appt, confirmed: action.data.confirmedState}
                 }
                 return { ...appt}
             })
 
-            const newAppointmentLogs = [ ...state.appointment_logs]
-            newAppointmentLogs.push(action.data.newLog)
+            const newConfirmedLogs = [ ...state.appointment_logs]
+            newConfirmedLogs.push(action.data.newLog)
             return {
                 ...state,
-                appointments: newAppointments,
-                appointment_logs: newAppointmentLogs
+                appointments: newConfirmedAppointments,
+                appointment_logs: newConfirmedLogs
             }
 
+        case "APPOINTMENT.VERIFIED":
+            // called when an appointment gets a verified start time
+            const newVerifiedAppointments = state.appointments.map( appt => {
+                if (appt.id === action.data.appointmentID) {
+                    return { 
+                        ...appt, 
+                        appointment_status_id: action.data.newStatusID, 
+                        start_time: action.data.newStartTime
+                    }
+                }
+                return { ...appt}
+            })
+
+            const newVerifiedLogs = [ ...state.appointment_logs]
+            newVerifiedLogs.push(action.data.newLogs)
+            return {
+                ...state,
+                appointments: newVerifiedAppointments,
+                appointment_logs: newVerifiedLogs
+            }
+                
         case "APPOINTMENT.STATUS_UPDATED":
             // called when an appointment status changes
-            const newAppointmentsArray = state.appointments.map( appt => {
+            const newStatusAppointments = state.appointments.map( appt => {
                 if (appt.id === action.data.appointmentID) {
                     return { ...appt, appointment_status_id: action.data.newStatusID}
                 }
                 return { ...appt}
             })
 
-            const newAppointmentLog = [ ...state.appointment_logs]
-            newAppointmentLog.push(action.data.newLog)
+            const newStatusLogs = [ ...state.appointment_logs]
+            newStatusLogs.push(action.data.newLog)
             return {
                 ...state,
-                appointments: newAppointmentsArray,
-                appointment_logs: newAppointmentLog
+                appointments: newStatusAppointments,
+                appointment_logs: newStatusLogs
             }
-    
     
         case "INTERACTION.LOAD":
             // called when an interaction first starts, we need to put it into the lead data

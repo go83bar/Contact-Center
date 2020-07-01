@@ -28,10 +28,6 @@
     "appointment" : {
       "tabTitle": "Appointments",
       "appointments" : "Appointments",
-      "selectAppointment" : "Select appointment type",
-      "selectOffice" : "Select Office",
-      "qualifyingTitle" : "Qualifying Questions",
-      "bookingTitle" : "Booking Questions",
       "activeAppointments" : "Active Appointments",
       "reschedule" : "Reschedule",
       "confirm" : "Confirm",
@@ -333,7 +329,9 @@
       "unconfirmed": "Appointment unconfirmed!",
       "confirmFailed": "Failed to save!",
       "statusUpdated": "Appointment status updated!",
-      "statusFailed": "Appointment status could not be updated!"
+      "statusFailed": "Appointment status could not be updated!",
+      "verified": "Appointment verified",
+      "verifyFailed": "Appointment could not be verified"
     },
     "editLead" : {
       "success" : "Lead Information Saved Successfully.",

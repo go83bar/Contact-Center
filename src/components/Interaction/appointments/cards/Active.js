@@ -185,7 +185,7 @@ class Active extends Component {
 
     handleVerifyTime = (time) => {
         if (time) {
-            this.setState({ verifyTime: time.format("HH:mm:ss")});
+            this.setState({ verifyTime: time.format("HH:mm:00")});
         }
     
     }
@@ -204,11 +204,63 @@ class Active extends Component {
 
         AppointmentAPI.verify(params).then( response => {
             if (response.success) {
-                toast.success("Appointment verified")
+                toast.success(this.props.localization.toast.appointments.verified)
+                this.toggleVerify()
+
+                // push new time and status and changelog into store
+                let newLogs = []
+                let newStatusID = 0
+
+                // first determine new status by grabbing the first status assigned to the current appointment type with "default" flag set to true
+                const client = this.props.shift.clients.find(client => client.id === this.props.data.client_id)
+                const apptType = client.appointment_types.find(type => type.id === this.props.data.appointment_type_id)
+                const office = client.regions[0].offices.find(office => office.id === this.props.data.office_id)                
+                const defaultStatus = client.appointment_statuses.find( status => status.default === 1 && apptType.statuses.includes(status.id))
+
+                // if we find one make a log for it
+                if (defaultStatus === undefined) {
+                    toast.warning(this.props.localization.toast.appointments.statusFailed)
+                    Slack.sendMessage("Agent " + this.props.user.id + " verified an appointment but type " + apptType.id + " does not have a default status")
+                    newStatusID = this.props.data.appointment_status_id
+                } else {
+                    newStatusID = defaultStatus.id
+                    newLogs.push({
+                        appointment_id: this.props.data.id,
+                        field: "appointment_status_id",
+                        old_value: this.props.data.appointment_status_id,
+                        new_value: newStatusID,
+                        created_at: moment().utc().format("YYYY-MM-DD hh:mm:ss"),
+                        created_by: this.props.user.label_name
+                    })
+                }
+
+                // make a log for the time change
+                const utcTime = moment.tz(params.startTime, office.timezone).utc()
+                newLogs.push({
+                    appointment_id: this.props.data.id,
+                    field: "start_time",
+                    old_value: this.props.data.start_time,
+                    new_value: utcTime,
+                    created_at: moment().utc().format("YYYY-MM-DD hh:mm:ss"),
+                    created_by: this.props.user.label_name
+                })
+
+                // dispatch updates to store
+                this.props.dispatch({
+                    type: "APPOINTMENT.VERIFIED",
+                    data: {
+                        appointmentID: this.props.data.id,
+                        newStatusID: newStatusID,
+                        newStartTime: utcTime,
+                        newLogs
+                    }
+                })
             } else {
-                toast.error("Appointment could not be verified")
+                toast.error(this.props.localization.toast.appointments.verifyFailed)
+                Slack.sendMessage("Agent " + this.props.user.id + " tried to verify an appointment but got response " + response)
             }
         }).catch( reason => {
+            toast.error(this.props.localization.toast.appointments.verifyFailed)
             console.log("Failed verify: ", reason)
         })
 
@@ -294,10 +346,10 @@ class Active extends Component {
                                 </span>}
 
                                 <span>
-                                    {this.props.data.start_time ? <span><span className="font-weight-bold">{moment.utc(this.props.data.start_time).tz(this.props.lead.details.timezone).format("MMM D")}</span>, {moment.utc(this.props.data.start_time).tz(this.props.lead.details.timezone).format("hh:mm a z")}</span> : <span className="text-danger">{localization.noStartTime}</span>}
+                                    {this.props.data.start_time ? <span><span className="font-weight-bold">{moment.utc(this.props.data.start_time).tz(this.props.lead.details.timezone).format("MMM D")}</span>, {moment.utc(this.props.data.start_time).tz(this.props.lead.details.timezone).format("h:mm a z")}</span> : <span className="text-danger">{localization.noStartTime}</span>}
                                     {this.props.data.start_time && (office.timezone !== this.props.lead.details.timezone) &&
                                     <span className="ml-3">{localization.office}<span
-                                        className="font-weight-bold">{moment.utc(this.props.data.start_time).tz(office.timezone).format("MMM D")}</span>, {moment.utc(this.props.data.start_time).tz(office.timezone).format("hh:mm a z")}</span>}
+                                        className="font-weight-bold">{moment.utc(this.props.data.start_time).tz(office.timezone).format("MMM D")}</span>, {moment.utc(this.props.data.start_time).tz(office.timezone).format("h:mm a z")}</span>}
                                 </span>
                             </div>
                             <div className="d-flex flex-column f-s justify-content-start p-2 w-50 text-right">
