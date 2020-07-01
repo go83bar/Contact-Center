@@ -251,6 +251,43 @@ export default class LeadAPI {
     }
 
     /**
+     * @typedef EmailContentParams
+     * @type {object}
+     * @property {number} leadID
+     * @property {number} emailLogID
+     */
+
+    /**
+     * Gets the contents of an email from the API
+     *
+     * @static
+     * @param {EmailContentParams} params
+     * @returns {Promise}
+     * @memberof LeadAPI
+     */
+    static async getEmailContent(params) {
+        // Mock API responses for local dev
+        if (process.env.REACT_APP_QUERY_MODE === "development") {
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "/data/emailContent.json")
+
+            return mockData.json()
+        }
+
+        const redux = store.getState()
+        const requestOptions = {
+            url: redux.config["url-api-base"] + "leads/" + params.leadID + "/timeline/view",
+            method: "POST",
+            data: {
+                log_id: params.emailLogID
+            },
+            auth: redux.user.auth
+        }
+        const result = await sendRequest(requestOptions)
+
+        return result
+    }
+
+    /**
      * @typedef ContactPreferenceParams
      * @type {object}
      * @property {number} leadID
@@ -412,7 +449,6 @@ export default class LeadAPI {
      * @property {number} noteID
      *
      */
-
 
      /**
       * Deletes a note previously saved in the interaction

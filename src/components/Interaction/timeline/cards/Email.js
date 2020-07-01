@@ -10,6 +10,9 @@ import {
     faEnvelopeOpen
 } from "@fortawesome/pro-solid-svg-icons";
 import {faCircle} from "@fortawesome/pro-light-svg-icons";
+import LoadingScreen from "../../../LoadingScreen"
+import LeadAPI from '../../../../api/leadAPI';
+import {toast} from "react-toastify";
 
 class Email extends Component {
 
@@ -18,11 +21,32 @@ class Email extends Component {
         this.toggleCollapse=this.toggleCollapse.bind(this)
 
         this.state = {
-            collapsed : true
+            collapsed: true,
+            emailContent: undefined
         }
 
     }
     toggleCollapse() {
+        // if we haven't already, load the email content from the backend
+        if (this.state.collapsed === true && this.state.emailContent === undefined) {
+            const getEmailContentParams = {
+                leadID: this.props.lead.id,
+                emailLogID: this.props.data.id
+            }
+            LeadAPI.getEmailContent(getEmailContentParams).then( response => {
+                if (response.success) {
+                    const emailContent = response.content
+                    this.setState({ emailContent })
+                } else {
+                    toast.error("Could not load email content")
+                    this.setState({collapsed: true})
+                }
+            }).catch( reason => {
+                console.log("Email load failed: ", reason)
+            })
+        }
+
+        //meanwhile, toggle the visibility of the content space
         this.setState({collapsed : !this.state.collapsed})
     }
 
@@ -55,16 +79,7 @@ class Email extends Component {
                 <MDBCollapse id='collapse1' isOpen={!this.state.collapsed} style={{}}>
                     <hr className="m-0" style={{height:"2px", backgroundColor:"#DCE0E3", borderTop : 0}}/>
                     <MDBCardBody className="timelineCardBody skin-border-primary">
-                        Pariatur cliche reprehenderit, enim eiusmod high life accusamus
-                        terry richardson ad squid. 3 wolf moon officia aute, non
-                        cupidatat skateboard dolor brunch. Food truck quinoa nesciunt
-                        laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a
-                        bird on it squid single-origin coffee nulla assumenda shoreditch
-                        et. Nihil anim keffiyeh helvetica, craft beer labore wes
-                        anderson cred nesciunt sapiente ea proident. Ad vegan excepteur
-                        butcher vice lomo. Leggings occaecat craft beer farm-to-table,
-                        raw denim aesthetic synth nesciunt you probably haven&apos;t
-                        heard of them accusamus labore sustainable VHS.
+                        {this.state.emailContent === undefined ? <LoadingScreen /> : this.state.emailContent }
                     </MDBCardBody>
                 </MDBCollapse>
             </MDBCard>
@@ -74,7 +89,8 @@ class Email extends Component {
 }
 const mapStateToProps = store => {
     return {
-        localization: store.localization
+        localization: store.localization,
+        lead: store.lead
     }
 }
 
