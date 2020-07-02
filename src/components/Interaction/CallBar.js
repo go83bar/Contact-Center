@@ -52,6 +52,10 @@ class CallBar extends Component {
         }
     }
 
+    answerIncoming = () => {
+        TwilioDevice.connectIncoming(this.props.preview.call_sid)
+    }
+
     holdLead = () => {
         TwilioDevice.holdLead()
     }
@@ -166,6 +170,15 @@ class CallBar extends Component {
                             <span className="callBarText skin-secondary-color"><br/>{this.props.localized.dialLabel}</span>
                         </MDBNavLink>
                     </MDBNavItem>
+                    <MDBNavItem className={"w-100 pb-2"+ (this.props.twilio.leadConnectIncomingButtonEnabled ? "" : " hidden")} onClick={this.answerIncoming}>
+                        <MDBNavLink to="#" className={"text-align-center p-0"}>
+                            <span className="fa-layers fa-fw fa-3x">
+                                <FontAwesomeIcon icon={faCircleSolid} className="skin-primary-color"/>
+                                <FontAwesomeIcon icon={faPhone} transform={"shrink-10"} className={"skin-text"}/>
+                            </span>
+                            <span className="callBarText text-danger"><br/><strong>{this.props.localized.answerIncomingLabel}</strong></span>
+                        </MDBNavLink>
+                    </MDBNavItem>
                     <MDBNavItem className={"w-100 pb-2"+ (this.props.twilio.leadDisconnectButtonEnabled ? "" : " hidden")} onClick={this.disconnectLead}>
                         <MDBNavLink to="#" className={"text-align-center p-0"}>
                             <span className="fa-layers fa-fw fa-3x">
@@ -262,7 +275,8 @@ const mapStateToProps = store => {
         localization: store.localization,
         client: store.client,
         lead: store.lead,
-        twilio: store.twilio
+        twilio: store.twilio,
+        preview: store.preview
     }
 }
 

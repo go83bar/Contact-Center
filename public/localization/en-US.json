@@ -58,6 +58,7 @@
        "holdLabel": "Hold",
        "unholdLabel": "Unhold",
        "dialLabel": "Dial",
+       "answerIncomingLabel": "Answer Call",
        "hangupLabel": "Hang Up",
        "agentLabel": "Me",
        "checkStatusLabel": "Check",
@@ -130,6 +131,9 @@
     "summary" : {
       "client" : "Client",
       "endInteraction" : "END",
+      "recordingPausedLabel": "Paused",
+      "recordingActiveLabel": "Recording",
+      "incomingCallLabel": "Incoming Call",
       "createLead" : {
         "title" : "Create New Lead",
         "client" : "Client",
@@ -347,6 +351,10 @@
     "editContactPreferences" : {
       "success" : "Lead Contact Preferences updated",
       "error" : "Lead Contact Preferences could not be updated"
+    },
+    "twilio": {
+      "dialLeadFailed": "Twilio error! Lead could not be dialed.",
+      "connectIncomingFailed": "Twilio error! Incoming call could not be connected."
     }
   }
 }

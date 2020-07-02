@@ -59,12 +59,14 @@ export function leadRemoveHold() {
     }
 }
 
-export function agentConnected(agentCallSID, newConferenceOID) {
+export function agentConnected(agentCallSID, conferenceOID, incomingCallMode, incomingCallSID) {
     return {
         type: "TWILIO.DEVICE.CONNECTED",
         payload: {
-            agentCallSID: agentCallSID,
-            conferenceOID: newConferenceOID
+            agentCallSID,
+            conferenceOID,
+            incomingCallMode,
+            incomingCallSID
         }
     }
 }

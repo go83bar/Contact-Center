@@ -14,13 +14,14 @@ class Preview extends Component {
         this.startInteraction = this.startInteraction.bind(this)
 
         this.state = {
+            previewStartTime: moment().utc().format('YYYY-MM-DD HH:mm:ss')
         }
 
         //console.log(props.previewData)
         let leadID = 0
 
         // if this is a queued lead, we will already have preview data
-        if (props.previewData.lead_name !== undefined) {
+        if (props.previewData.lead_id !== undefined) {
             this.state.leadData = props.previewData
             leadID = props.previewData.lead_id
         } else {
@@ -81,7 +82,7 @@ class Preview extends Component {
         const payload = {
             callQueueID: this.props.previewData.queue_id === undefined ? null : this.props.previewData.queue_id,
             leadID: this.props.previewData.lead_id,
-            previewStartTime: moment().utc().format()
+            previewStartTime: this.state.previewStartTime
         }
         LeadAPI.startInteraction(payload)
             .then( response => {
@@ -99,30 +100,16 @@ class Preview extends Component {
                         }
                     })
                 }
+                // Redirect to interaction view
+                this.props.history.push("/interaction")
             })
 
-        // Redirect to interaction view
-        this.props.history.push("/interaction")
     }
 
     render() {
-        /*let formatPhoneNumber = (str) => {
-            //Filter only numbers from the input
-            let cleaned = ('' + str).replace(/\D/g, '');
-
-            //Check if the input is of correct length
-            let match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
-
-            if (match) {
-                return '(' + match[1] + ') ' + match[2] + '-' + match[3]
-            };
-
-            return null
-        };*/
-
         let localization = this.props.localization.preview
         // Display loading image until lead preview data is loaded
-        if (this.props.previewData.lead_name === undefined) {
+        if (this.props.previewData.lead_id === undefined) {
             return <LoadingScreen />
         }
 

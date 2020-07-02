@@ -59,6 +59,35 @@ export default class TwilioAPI {
     }
 
     /**
+     * Performs call to connect incoming call that's sitting on hold.  Lead's call is then routed into the
+     * given Conference ID.  
+     * Promise resolves to an object like this:
+     * {
+     *  "success": {true},
+     * }
+     *
+     * @param {string} callSid
+     * @return {Promise}
+     */
+    static async connectIncoming(callSid) {
+        const redux = store.getState()
+        const payload = {
+            token: redux.user.auth.token,
+            lead_id: redux.lead.id,
+            conference_id: redux.twilio.conferenceOID,
+            call_sid: callSid
+        }
+
+        const requestOptions = {
+            url: redux.config["url-twilio-base"] + "connect/call/incoming",
+            data: payload,
+            type: "json"
+        }
+        return await sendRequest(requestOptions)
+
+    }
+
+    /**
      * Performs call to place lead leg on hold.  Returns boolean success.
      * Promise resolves to an object like this:
      * {

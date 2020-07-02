@@ -36,10 +36,24 @@ export function twilio(state = initialState, action) {
                 deviceReady: true,
             })
         case 'TWILIO.DEVICE.CONNECTED':
+            let leadDialButtonEnabled = true
+            let leadConnectIncomingButtonEnabled = false
+            let leadCallStatus = "Not Connected"
+            let leadCallSID = ""
+
+            if (action.payload.incomingCallMode === true) {
+                leadDialButtonEnabled = false
+                leadConnectIncomingButtonEnabled = true
+                leadCallStatus = "Calling in..."
+                leadCallSID = action.payload.incomingCallSID   
+            }
             return Object.assign({}, state, {
                 agentCallSID: action.payload.callSID,
                 conferenceOID: action.payload.conferenceOID,
-                leadDialButtonEnabled: true,
+                leadDialButtonEnabled,
+                leadConnectIncomingButtonEnabled,
+                leadCallStatus,
+                leadCallSID,
                 providerDialButtonEnabled: true,
                 agentKeypadButtonEnabled: true,
                 agentDisconnectButtonEnabled: true,
@@ -136,6 +150,7 @@ export function twilio(state = initialState, action) {
             return Object.assign({}, state, {
                 leadCallStatus: "Connected",
                 leadDialButtonEnabled: false,
+                leadConnectIncomingButtonEnabled: false,
                 leadDisconnectButtonEnabled: true,
                 leadVoicemailButtonEnabled: true,
                 leadHoldButtonEnabled: true,

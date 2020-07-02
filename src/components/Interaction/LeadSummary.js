@@ -75,7 +75,8 @@ class LeadSummary extends Component {
 
     openTwilio = () => {
         if (this.props.lead.contact_preferences.phone_calls === true)
-            TwilioDevice.openAgentConnection()
+            // open twilio connection in normal mode
+            TwilioDevice.openAgentConnection(false)
     }
 
     toggleEmail = () => {
@@ -114,7 +115,7 @@ class LeadSummary extends Component {
         } else {
             this.setState({timezoneVisible: !this.state.timezoneVisible, leadTime : undefined, times: undefined})
         }
-     }
+    }
 
     showModal(modalName) {
         this.setState({modal : modalName})
@@ -122,6 +123,16 @@ class LeadSummary extends Component {
     closeModal() {
         this.setState({modal : undefined})
     }
+
+    componentDidMount() {
+        // check to see if this is an incoming call on hold
+        if (this.props.preview.call_sid !== null) {
+            console.log("Got here and calling TwilioDevice")
+            // open twilio connection in incoming call mode
+            TwilioDevice.openAgentConnection(true)
+        }
+    }
+
     render() {
         let localization = this.props.localization.interaction.summary
         let lead = this.props.lead
@@ -179,15 +190,19 @@ class LeadSummary extends Component {
                             </MDBPopover>
                             <MDBChip className={"outlineChip ml-4 mb-0"}>{this.state.clientName}</MDBChip>
                             <MDBChip className={"outlineChip ml-1 mb-0"}>{this.state.campaignName}</MDBChip>
-                            <MDBChip className={"outlineChip ml-1 mb-0"}>{this.props.preview.reason}</MDBChip>
+                            <MDBChip className={"outlineChip ml-1 mb-0" + (this.props.preview.call_sid !== null ? " green accent-2" : "")}>{this.props.preview.reason}</MDBChip>
                         </div>
                         <MDBNav className="d-flex justify-content-end float-right skin-border-primary h-100 flex-nowrap">
-                            { this.props.twilio.conferenceSID && <div className="f-m border-right p-2 py-0 mt-2"><span className={ this.props.twilio.recordingPaused ? "text-success" : "text-danger"}>{ this.props.twilio.recordingPaused ? "Paused" : "Recording"}: </span>
+                            { this.props.twilio.conferenceSID && <div className="f-m border-right p-2 py-0 mt-2"><span className={ this.props.twilio.recordingPaused ? "text-success" : "text-danger"}>{ this.props.twilio.recordingPaused ? localization.recordingPausedLabel : localization.recordingActiveLabel }: </span>
                                 <Timer formatValue={(value) => `${(value < 10 ? `0${value}` : value)}`}>
                                     <Timer.Hours />:
                                     <Timer.Minutes />:
                                     <Timer.Seconds />
                                 </Timer>
+                            </div>}
+                            { (this.props.twilio.leadCallSID === undefined && this.props.preview.call_sid) && <div className="f-m border-right p-2 py-0 mt-2">
+                                <span className="text-danger">{ localization.incomingCallLabel }</span>
+                                
                             </div>}
                             <MDBNavItem className="px-2 h-100" onClick={this.openTwilio}>
                                 <MDBNavLink to="#" className={"py-0 px-2 align-middle"}>
@@ -251,7 +266,8 @@ const mapStateToProps = state => {
         preview : state.preview,
         lead : state.lead,
         shift: state.shift,
-        twilio: state.twilio
+        twilio: state.twilio,
+        interaction: state.interaction
     }
 }
 

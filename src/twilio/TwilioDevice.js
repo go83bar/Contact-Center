@@ -3,6 +3,7 @@ import store from '../store'
 import {
     leadPutOnHold,
     leadRemoveHold,
+    callConnected,
     leadDialed,
     providerDialed,
     agentConnected,
@@ -11,6 +12,8 @@ import {
     agentDisconnected,
 } from './actions'
 import ObjectID from 'bson-objectid'
+import {toast} from "react-toastify";
+import Slack from '../utils/Slack';
 
 const Twilio = require('twilio-client')
 
@@ -56,7 +59,8 @@ class TwilioDeviceSingleton {
         })
     }
 
-    openAgentConnection() {
+    // opens agent connection to Twilio, which opens callbar in either normal or incoming call mode
+    openAgentConnection(incomingCallMode = false) {
         const redux = store.getState()
         const newConferenceOID = ObjectID.generate()
 
@@ -72,10 +76,11 @@ class TwilioDeviceSingleton {
         // i.e. for detecting poor connection quality
         agentConnection.on('accept', (connection) => {
             console.log("New conference OID: ", newConferenceOID)
-            store.dispatch(agentConnected(connection.parameters.CallSid, newConferenceOID))
+            store.dispatch(agentConnected(connection.parameters.CallSid, newConferenceOID, incomingCallMode, redux.preview.call_sid))
         })
         agentConnection.on('error', (err) => {
-            // TODO handle error
+            toast.error("Twilio error has occurred. Disconnected from Twilio.")
+            Slack.sendMessage("Agent " + redux.user.id + " got a connection error from Twilio: " + err)
             console.log("Connection error: ", err)
         })
 
@@ -86,20 +91,41 @@ class TwilioDeviceSingleton {
 
     // LEAD ACTIONS
     dialLead(dialOption) {
+        const redux = store.getState()
         TwilioAPI.dialLead(dialOption).then( response => {
             if (response.call_sid !== undefined && response.call_sid !== "") {
                 store.dispatch(leadDialed(response.call_sid))
                 console.log("Lead call initiated")
             } else {
                 console.log("Twilio Dial Error!")
-                //TODO What do we want to do with these errors? Pop a modal?
+                toast.error(redux.localization.toast.twilio.dialLeadFailed)
+            }
+        }).catch( reason => {
+            // API call failed
+            console.log("TwilioAPI response error: ", reason)
+            toast.error(redux.localization.toast.twilio.dialLeadFailed)
+            Slack.sendMessage("Dial Lead API call failed for lead ")
+        })
+    }
+
+    connectIncoming(callSID) {
+        const redux = store.getState()
+        TwilioAPI.connectIncoming(callSID).then( response => {
+            if (response.success) {
+                store.dispatch(callConnected(callSID, "LEAD"))
+                console.log("Lead incoming call merged")
+            } else {
+                console.log("Twilio Connect Incoming Error!")
+                toast.error(redux.localization.toast.twilio.connectIncomingFailed)
             }
         }).catch( reason => {
             // API rcall failed
             console.log("TwilioAPI response error: ", reason)
-            //TODO handle this error too
+            toast.error(redux.localization.toast.twilio.connectIncomingFailed)
+            Slack.sendMessage("Dial Lead API call failed for lead ")
         })
     }
+
 
     disconnectLead() {
         const redux = store.getState()
