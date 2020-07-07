@@ -91,16 +91,18 @@ class EditLead extends Component {
             return
         }
 
-        // valid date validation
-        const dateString = this.state.yearValue + "-" + this.state.monthValue.padStart(2, "0") + "-" + this.state.dayValue.padStart(2, "0")
-        const validDate = moment(dateString)
-        if (validDate.format("YYYY-MM-DD") === "Invalid date") {
-            this.setState({hasErrors: true, errorMessage: "Invalid date of birth", disableSave: true})
-            return
-        }
-        if (validDate.isAfter()) {
-            this.setState({hasErrors: true, errorMessage: "Date of Birth cannot be in the future", disableSave: true})
-            return
+        // valid DOB date validation, if we have a DOB
+        if (this.state.monthValue !== undefined) {
+            const dateString = this.state.yearValue + "-" + this.state.monthValue.padStart(2, "0") + "-" + this.state.dayValue.padStart(2, "0")
+            const validDate = moment(dateString)
+            if (validDate.format("YYYY-MM-DD") === "Invalid date") {
+                this.setState({hasErrors: true, errorMessage: "Invalid date of birth", disableSave: true})
+                return
+            }
+            if (validDate.isAfter()) {
+                this.setState({hasErrors: true, errorMessage: "Date of Birth cannot be in the future", disableSave: true})
+                return
+            }
         }
 
         // Compare current state to props to build save payload based on what changed
