@@ -236,6 +236,7 @@
     },
     "timeline": {
       "tabTitle": "Timeline",
+      "noStartTime": "No start time, needs verify",
       "leadUpdate": {
         "phase" : "Phase updated from: ",
         "leadStatus" : "Lead Status updated from: ",
