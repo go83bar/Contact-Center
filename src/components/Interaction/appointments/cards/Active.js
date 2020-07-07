@@ -219,7 +219,7 @@ class Active extends Component {
                 // if we find one make a log for it
                 if (defaultStatus === undefined) {
                     toast.warning(this.props.localization.toast.appointments.statusFailed)
-                    Slack.sendMessage("Agent " + this.props.user.id + " verified an appointment but type " + apptType.id + " does not have a default status")
+                    Slack.sendMessage("Agent " + this.props.user.id + " verified appointment " + this.props.data.id + " but type " + apptType.id + " does not have a default status")
                     newStatusID = this.props.data.appointment_status_id
                 } else {
                     newStatusID = defaultStatus.id
