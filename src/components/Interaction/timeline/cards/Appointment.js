@@ -24,6 +24,25 @@ class Appointment extends Component {
         this.setState({collapsed : !this.state.collapsed})
     }
 
+    generateApptTimeLabel = () => {
+        if (this.props.data.start_time === undefined) {
+            return (
+                <span>
+                    {this.props.localization.interaction.timeline.noStartTime}
+                </span>
+            )
+        } 
+
+        return (
+            <span>
+                <span className="font-weight-bold">{moment.utc(this.props.data.start_time).tz(this.props.lead.details.timezone).format("MMM D")}</span>, {moment.utc(this.props.data.start_time).tz(this.props.lead.details.timezone).format("hh:mm a z")}
+                {office && (office.timezone !== this.props.lead.details.timezone) &&
+                <span className="ml-3">{localization.office}<span
+                    className="font-weight-bold">{moment.utc(this.props.data.start_time).tz(office.timezone).format("MMM D")}</span>, {moment.utc(this.props.data.start_time).tz(office.timezone).format("hh:mm a z")}</span>}
+            </span>
+        )
+    }
+
     render() {
         const localization = this.props.localization.interaction.timeline
         const client = this.props.shift.clients.find(client => client.id === this.props.data.client_id)
@@ -48,12 +67,7 @@ class Appointment extends Component {
                             { office && <span>
                                 {office.name}
                             </span>}
-                            <span>
-                                <span className="font-weight-bold">{moment.utc(this.props.data.start_time).tz(this.props.lead.details.timezone).format("MMM D")}</span>, {moment.utc(this.props.data.start_time).tz(this.props.lead.details.timezone).format("hh:mm a z")}
-                                {office && (office.timezone !== this.props.lead.details.timezone) &&
-                                <span className="ml-3">{localization.office}<span
-                                    className="font-weight-bold">{moment.utc(this.props.data.start_time).tz(office.timezone).format("MMM D")}</span>, {moment.utc(this.props.data.start_time).tz(office.timezone).format("hh:mm a z")}</span>}
-</span>
+                            { this.generateApptTimeLabel() }
                         </div>
                         <div className="d-flex w-25 f-s flex-column text-right justify-content-start">
                             <span><span className="font-weight-bold">{this.props.data.created_at.format("MMM D")}</span>, {this.props.data.created_at.format("hh:mm a z")}</span>
