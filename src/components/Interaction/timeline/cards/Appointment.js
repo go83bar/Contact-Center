@@ -25,7 +25,7 @@ class Appointment extends Component {
     }
 
     generateApptTimeLabel = (office) => {
-        if (this.props.data.start_time === undefined) {
+        if (this.props.data.start_time === null) {
             return (
                 <span>
                     {this.props.localization.interaction.timeline.noStartTime}
