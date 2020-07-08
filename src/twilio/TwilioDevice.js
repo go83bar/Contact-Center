@@ -70,7 +70,7 @@ class TwilioDeviceSingleton {
             lead_id: redux.lead.id,
             user_id: redux.user.id,
             conference_oid: newConferenceOID,
-            should_record: client.record_calls == 1 ? "true" : "false"
+            should_record: client.record_calls === 1 ? "true" : "false"
         }
 
         console.log("Start Conference Input: ", input)
