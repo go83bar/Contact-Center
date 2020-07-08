@@ -107,7 +107,7 @@ class TwilioDeviceSingleton {
             // API call failed
             console.log("TwilioAPI response error: ", reason)
             toast.error(redux.localization.toast.twilio.dialLeadFailed)
-            Slack.sendMessage("Dial Lead API call failed for lead ")
+            Slack.sendMessage("Agent " + redux.user.id + " got a Dial Lead error for lead " + redux.lead.id + ": " + reason)
         })
     }
 
@@ -125,7 +125,7 @@ class TwilioDeviceSingleton {
             // API rcall failed
             console.log("TwilioAPI response error: ", reason)
             toast.error(redux.localization.toast.twilio.connectIncomingFailed)
-            Slack.sendMessage("Dial Lead API call failed for lead ")
+            Slack.sendMessage("Agent " + redux.user.id + " got an error answering incoming call for lead " + redux.lead.id + ": " + reason)
         })
     }
 
@@ -144,7 +144,10 @@ class TwilioDeviceSingleton {
             console.log(response)
             this.disconnect()
         }).catch( reason => {
+            const redux = store.getState()
             console.log("Error playing VM: ", reason)
+            toast.error(redux.localization.toast.twilio.playAutoVMFailed)
+            Slack.sendMessage("Agent " + redux.user.id + " got an error playing AVM for lead " + redux.lead.id + ": " + reason)
         })
     }
 
@@ -162,7 +165,9 @@ class TwilioDeviceSingleton {
             console.log(response)
             store.dispatch(leadRemoveHold())
         }).catch ( reason => {
+            const redux = store.getState()
             console.log( "Error removing lead from hold: ", reason)
+            toast.error(redux.localization.toast.twilio.playAutoVMFailed)
         })
     }
 
@@ -172,7 +177,9 @@ class TwilioDeviceSingleton {
             console.log(response)
             store.dispatch(recordingPaused())
         }).catch( reason => {
+            const redux = store.getState()
             console.log("Error pausing recording: ", reason)
+            toast.error(redux.localization.toast.twilio.pauseRecordingFailed)
         })
     }
 
@@ -181,7 +188,9 @@ class TwilioDeviceSingleton {
             console.log(response)
             store.dispatch(recordingResumed())
         }).catch( reason => {
+            const redux = store.getState()
             console.log("Error resuming recording: ", reason)
+            toast.error(redux.localization.toast.twilio.resumeRecordingFailed)
         })
     }
 
@@ -189,8 +198,9 @@ class TwilioDeviceSingleton {
         if (this.connection !== undefined) {
             this.connection.sendDigits(tone)
         } else {
-            // TODO handle error
+            const redux = store.getState()
             console.log("Could not send keypad tone: no valid connection")
+            toast.error(redux.localization.toast.twilio.playTonesFailed)
         }
     }
 

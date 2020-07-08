@@ -150,7 +150,7 @@ class Active extends Component {
                     field: "appointment_status_id",
                     old_value: this.props.data.appointment_status_id,
                     new_value: updateStatusParams.statusID,
-                    created_at: moment().utc().format("YYYY-MM-DD hh:mm:ss"),
+                    created_at: moment().utc().format("YYYY-MM-DD HH:mm:ss"),
                     created_by: this.props.user.label_name
                 }
                 this.props.dispatch({

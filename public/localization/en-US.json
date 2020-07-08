@@ -356,7 +356,11 @@
     },
     "twilio": {
       "dialLeadFailed": "Twilio error! Lead could not be dialed.",
-      "connectIncomingFailed": "Twilio error! Incoming call could not be connected."
+      "connectIncomingFailed": "Twilio error! Incoming call could not be connected.",
+      "playAutoVMFailed": "Twilio error! Could not play Autovoicemail.",
+      "pauseRecordingFailed": "Twilio error! Recording not paused!",
+      "resumeRecordingFailed": "Twilio error! Recording not resumed!",
+      "playTonesFailed": "Twilio error! Keypad input not accepted!"
     }
   }
 }
