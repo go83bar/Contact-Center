@@ -42,7 +42,7 @@ class NextLead extends Component {
                         })
                     } else {
                         // push next lead preview data into store and redirect to preview screen
-                        this.props.dispatch({type: 'PREVIEW.LOAD',payload: response.data})
+                        this.props.dispatch({type: 'PREVIEW.LOADED',payload: response.data})
                         this.props.history.push('/preview')
                     }
                 }

@@ -133,6 +133,7 @@
       "endInteraction" : "END",
       "recordingPausedLabel": "Paused",
       "recordingActiveLabel": "Recording",
+      "callActiveLabel": "Connected",
       "incomingCallLabel": "Incoming Call",
       "createLead" : {
         "title" : "Create New Lead",

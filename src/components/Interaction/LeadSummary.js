@@ -124,6 +124,21 @@ class LeadSummary extends Component {
         this.setState({modal : undefined})
     }
 
+    generateStatusLabel = () => {
+        const client = this.props.shift.clients[this.props.lead.client_index]
+        let labelClass = "text-danger"
+        if (this.props.twilio.recordingPaused || !client.record_calls) labelClass = "text-success"
+
+        let label = this.props.localization.interaction.summary.recordingActiveLabel
+        if (this.props.twilio.recordingPaused) label = this.props.localization.interaction.summary.recordingPausedLabel
+        if (client.record_calls === 0) label = this.props.localization.interaction.summary.callActiveLabel
+        return (
+            <span className={ labelClass }>
+                { label }: &nbsp; 
+            </span>  
+        )
+    }
+
     componentDidMount() {
         // check to see if this is an incoming call on hold
         if (this.props.preview.call_sid !== null) {
@@ -193,7 +208,7 @@ class LeadSummary extends Component {
                             <MDBChip className={"outlineChip ml-1 mb-0" + (this.props.preview.call_sid !== null ? " green accent-2" : "")}>{this.props.preview.reason}</MDBChip>
                         </div>
                         <MDBNav className="d-flex justify-content-end float-right skin-border-primary h-100 flex-nowrap">
-                            { this.props.twilio.conferenceSID && <div className="f-m border-right p-2 py-0 mt-2"><span className={ this.props.twilio.recordingPaused ? "text-success" : "text-danger"}>{ this.props.twilio.recordingPaused ? localization.recordingPausedLabel : localization.recordingActiveLabel }: </span>
+                            { this.props.twilio.conferenceSID && <div className="f-m border-right p-2 py-0 mt-2">{ this.generateStatusLabel() }
                                 <Timer formatValue={(value) => `${(value < 10 ? `0${value}` : value)}`}>
                                     <Timer.Hours />:
                                     <Timer.Minutes />:

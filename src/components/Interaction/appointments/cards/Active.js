@@ -213,7 +213,7 @@ class Active extends Component {
                 // first determine new status by grabbing the first status assigned to the current appointment type with "default" flag set to true
                 const client = this.props.shift.clients.find(client => client.id === this.props.data.client_id)
                 const apptType = client.appointment_types.find(type => type.id === this.props.data.appointment_type_id)
-                const office = client.regions[0].offices.find(office => office.id === this.props.data.office_id)
+                const office = client.regions[this.props.lead.region_index].offices.find(office => office.id === this.props.data.office_id)
                 const defaultStatus = client.appointment_statuses.find( status => status.default === 1 && apptType.statuses.includes(status.id))
 
                 // if we find one make a log for it
@@ -261,6 +261,7 @@ class Active extends Component {
         }).catch( reason => {
             toast.error(this.props.localization.toast.appointments.verifyFailed)
             console.log("Failed verify: ", reason)
+            Slack.sendMessage("Agent " + this.props.user.id + " tried to verify appointment " + this.props.data.id + " but there was an issue: " + reason)
         })
 
     }
@@ -478,7 +479,7 @@ class Active extends Component {
                             /></span>
 
                             <span className="pt-2">{localization.time} <TimePicker onChange={this.handleVerifyTime}
-                                                                                   defaultValue={moment().hour(12).minute(0)}
+                                                                                   defaultValue={moment().hour(0).minute(0)}
                                                                                    use12Hours format={'h:mm a'}
                                                                                    showSecond={false}/></span>
                         </MDBCardBody>

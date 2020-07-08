@@ -1,12 +1,11 @@
 {
-  "key" : "value",
   "languages" : ["en-US"],
   "language-default" : "en-US",
   "url-api-base": "https://api-stage.go83bar.com/v3/",
   "url-aws-base" : "https://api-aws.83bar.com/",
   "url-react-base": "https://api-stage.go83bar.com/react/",
-  "url-twilio-base": "https://l934ludyig.execute-api.us-east-1.amazonaws.com/test/",
-  "url-websocket": "wss://velrid4tud.execute-api.us-east-1.amazonaws.com/prod",
+  "url-twilio-base": "https://c4wyx3a0d7.execute-api.us-east-1.amazonaws.com/test/",
+  "url-websocket": "wss://zminineiag.execute-api.us-east-1.amazonaws.com/staging",
   "url-password-reset": "https://dashboard-stage.go83bar.com/auth/otu",
   "slack-channel-default" : "dev_error_alerts"
 }
