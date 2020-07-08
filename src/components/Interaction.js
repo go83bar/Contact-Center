@@ -56,6 +56,10 @@ class Interaction extends Component {
     }
 
     toggleEndInteraction() {
+        // do nothing if twilio connection is still active
+        if (this.props.twilio.callbarVisible) return
+
+        // otherwise pop the endInteraction modal
         this.setState({endInteractionVisible : !this.state.endInteractionVisible})
     }
 
@@ -125,7 +129,8 @@ class Interaction extends Component {
 const mapStateToProps = state => {
     return {
         localization: state.localization,
-        lead : state.lead
+        lead : state.lead,
+        twilio: state.twilio
     }
 }
 
