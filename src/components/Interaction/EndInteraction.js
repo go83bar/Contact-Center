@@ -9,7 +9,8 @@ import {
     MDBModal,
     MDBModalBody,
     MDBStep,
-    MDBStepper
+    MDBStepper,
+    MDBSelect
 } from "mdbreact"
 import { connect } from "react-redux"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -25,6 +26,9 @@ import {
 import {faCircle} from "@fortawesome/pro-light-svg-icons";
 import {faHeadSide} from "@fortawesome/pro-regular-svg-icons";
 import LeadAPI from "../../api/leadAPI";
+import { toast } from 'react-toastify';
+import moment from 'moment-timezone'
+
 
 var truncate = function (str, limit) {
     var bits, i;
@@ -53,9 +57,12 @@ class EndInteraction extends Component {
         this.getHeaderText = this.getHeaderText.bind(this)
         this.selectOutcome = this.selectOutcome.bind(this)
         this.selectReason = this.selectReason.bind(this)
+        this.selectAppointment = this.selectAppointment.bind(this)
+        this.selectOffice = this.selectOffice.bind(this)
         this.endInteraction = this.endInteraction.bind(this)
         this.endInteractionFetch = this.endInteractionFetch.bind(this)
         this.renderLeadSummary = this.renderLeadSummary.bind(this)
+        this.renderAppointmentButton = this.renderAppointmentButton.bind(this)
         this.toStep = this.toStep.bind(this)
 
         const client = this.props.shift.clients.find(client => client.id === this.props.lead.client_id)
@@ -73,12 +80,25 @@ class EndInteraction extends Component {
           outcomes.push(oc)
         })
 
+        // build office select options
+        this.officeOptions = props.shift.clients[props.lead.client_index].offices.filter( office => office.region_id === props.lead.region_id).map( office => {
+            return {
+                text: office.name,
+                value: office.id.toString()
+            }
+        })
+        
+        console.log(this.officeOptions)
+
         this.state = {
             currentStep : "outcome",
             showPrevious : false,
             showNext : true,
             steps : ["outcome"],
-            outcomes : outcomes
+            outcomes : outcomes,
+            reason: undefined,
+            appointment: undefined,
+            office: undefined
         }
 
     }
@@ -124,16 +144,42 @@ class EndInteraction extends Component {
     selectOutcome(outcome_id) {
         const outcome = this.state.outcomes.find(o => o.id === outcome_id)
         let steps = ["outcome"]
-        if (outcome.requires_appointment === true) steps.push("appointment")
-        if (outcome.requires_office === true && outcome.requires_appointment === false) steps.push("office")
+        let office, appointment
+        if (outcome.requires_appointment === true) {
+            if (this.props.lead.appointments && this.props.lead.appointments.length === 0) {
+                toast.error("Chosen outcome requires an appointment, this lead has none")
+                return
+            }
+            if (this.props.lead.appointments.length === 1) {
+                appointment = this.props.lead.appointments[0]
+            } else {
+                steps.push("appointment")
+            }
+        }
+        if (outcome.requires_office === true && outcome.requires_appointment === false) {
+            if (this.props.shift.clients[this.props.lead.client_index].offices.length === 1) {
+                office = this.props.shift.clients[this.props.lead.client_index].offices[0]
+            } else steps.push("office")
+        }
         if (outcome.outcome_reasons && outcome.outcome_reasons.length > 0) steps.push("reason")
         steps.push("finish")
-        this.setState({ steps, outcome, reason : undefined, appointment : undefined, office : undefined }, this.nextStep)
+        this.setState({ steps, outcome, reason: undefined, appointment, office }, this.nextStep)
+    }
+
+    selectAppointment(appointment) {
+        const office = this.props.shift.clients[this.props.lead.client_index].offices.find( office => office.id === appointment.office_id)
+        this.setState({ appointment, office })
+    }
+
+    selectOffice(officeID) {
+        officeID = parseInt(officeID)
+        const office = this.props.shift.clients[this.props.lead.client_index].offices.find( office => office.id === officeID)
+        this.setState({ office })
     }
 
     selectReason(reason_id) {
         const reason = this.state.outcome.outcome_reasons.find(r => r.id === reason_id)
-        this.setState({ reason, appointment : undefined, office : undefined }, this.nextStep)
+        this.setState({ reason }, this.nextStep)
     }
 
     nextStep() {
@@ -163,7 +209,7 @@ class EndInteraction extends Component {
             case "office" :
                 return (
                     <MDBBox key={"officeSummary"}>
-                        <span className="font-weight-bold">{localization.officeSummaryLabel}</span>{this.state.office.label}
+                        <span className="font-weight-bold">{localization.officeSummaryLabel}</span>{this.state.office.name}
                     </MDBBox>
                 )
             case "reason" :
@@ -173,9 +219,10 @@ class EndInteraction extends Component {
                     </MDBBox>
                 )
             case "appointment" :
+                const office = this.props.shift.clients[this.props.lead.client_index].offices.find( office => office.id === this.state.appointment.office_id)
                 return (
                     <MDBBox key={"appointmentSummary"}>
-                        <span className="font-weight-bold">{localization.apptSummaryLabel}</span>{this.state.appointment.label}
+                        <span className="font-weight-bold">{localization.apptSummaryLabel}</span>{this.state.appointment.start_time === null ? "Unverified appt at" : moment.utc(this.state.appointment.start_time).tz(this.props.lead.details.timezone).format("MMM D") + " at"} {truncate(office.name, 25)}
                     </MDBBox>
                 )
             default: return null
@@ -194,6 +241,30 @@ class EndInteraction extends Component {
             </MDBCard>
         )
     }
+
+    renderAppointmentButton(appointment) {
+        const office = this.props.shift.clients[this.props.lead.client_index].offices.find( office => office.id === appointment.office_id)
+        let startTimeDate = "Unkonwn start time"
+        let startTime = ""
+        if (appointment.start_time !== null) {
+            startTimeDate = moment.utc(appointment.start_time).tz(this.props.lead.details.timezone).format("MMM D")
+            startTime = ", " + moment.utc(appointment.start_time).tz(this.props.lead.details.timezone).format("h:mm a z")
+        }
+        return (
+            <MDBBtn style={{minWidth: "300px"}} 
+                rounded 
+                outline={!(this.state.appointment && this.state.appointment.id === appointment.id)} 
+                key={"appointment-" + appointment.id} 
+                color={this.state.appointment && this.state.appointment.id === appointment.id ? "primary" : undefined} 
+                onClick={()=> this.selectAppointment(appointment)}
+            >
+                {appointment.id}: <span className="font-weight-bold">
+                    {startTimeDate}
+                </span>{startTime} - { office.name }
+            </MDBBtn>
+        )
+    }
+
     render() {
         const localization = this.props.localization.interaction.endInteraction
 
@@ -226,6 +297,7 @@ class EndInteraction extends Component {
                                         <FontAwesomeIcon icon={faCheck} className="skin-text"/>
                                     </span>}
                                 </span>
+                            {this.state.appointment !== undefined && <MDBChip className="shadow-sm mt-4 z-2 text-align-center skin-secondary-background-color skin-text" style={{width:"190px"}}>ID: {this.state.appointment.id}</MDBChip>}
                             </MDBStep>
                         }
                         { this.state.steps.includes("office") &&
@@ -241,6 +313,7 @@ class EndInteraction extends Component {
                                     <FontAwesomeIcon icon={faCheck} className="skin-text"/>
                                 </span>}
                             </span>
+                            {this.state.office !== undefined && <MDBChip className="shadow-sm mt-4 z-2 text-align-center skin-secondary-background-color skin-text" style={{width:"190px"}}>{truncate(this.state.office.name,25)}</MDBChip>}
                         </MDBStep>
                         }
                         {this.state.steps.includes("reason") &&
@@ -284,9 +357,15 @@ class EndInteraction extends Component {
                                 </MDBBox>
                             }
                             {this.state.currentStep === "office" &&
-                            <MDBBox>
-                                Choose Office Content
-                            </MDBBox>
+                                <MDBBox>
+                                    { this.officeOptions && <MDBSelect className="w-50 ml-3"
+                                        options={this.officeOptions}
+                                        search={this.officeOptions.length > 8}
+                                        getValue={this.selectOffice}
+                                        label={localization.officeOptionsLabel}
+                                    />
+                                    }
+                                </MDBBox>
                             }
                             {this.state.currentStep === "reason" &&
                             <MDBBox>
@@ -298,10 +377,10 @@ class EndInteraction extends Component {
                             </MDBBox>
                             }
                             {this.state.currentStep === "appointment" &&
-                            <MDBBox>
-                                {this.props.lead.appointments && this.props.lead.appointments.length === 0 && <span>
-                                    {localization.appointmentRequired}
-                                </span>}
+                            <MDBBox className="d-flex flex-column justify-content-center">
+                                    {this.props.lead.appointments.map(appointment =>
+                                        this.renderAppointmentButton(appointment)
+                                    )}
                             </MDBBox>
                             }
                             {this.state.currentStep === "finish" &&

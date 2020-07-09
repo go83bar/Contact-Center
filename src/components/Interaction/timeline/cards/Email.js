@@ -79,7 +79,8 @@ class Email extends Component {
                 <MDBCollapse id='collapse1' isOpen={!this.state.collapsed} style={{}}>
                     <hr className="m-0" style={{height:"2px", backgroundColor:"#DCE0E3", borderTop : 0}}/>
                     <MDBCardBody className="timelineCardBody skin-border-primary">
-                        {this.state.emailContent === undefined ? <LoadingScreen /> : this.state.emailContent }
+                        {this.state.emailContent === undefined && <LoadingScreen />}
+                        <div dangerouslySetInnerHTML={{ __html: this.state.emailContent }} />
                     </MDBCardBody>
                 </MDBCollapse>
             </MDBCard>

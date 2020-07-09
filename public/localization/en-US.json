@@ -119,7 +119,8 @@
       "city" : "City: ",
       "state" : "State: ",
       "zip" : "Zip: ",
-      "appointmentRequired" : "An appointment is required for this outcome.  No appointments found."
+      "appointmentRequired" : "An appointment is required for this outcome.  No appointments found.",
+      "officeOptionsLabel": "Choose Office"
     },
     "notes": {
       "tabTitle": "Notes",
