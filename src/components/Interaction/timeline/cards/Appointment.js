@@ -46,7 +46,7 @@ class Appointment extends Component {
     render() {
         const client = this.props.shift.clients.find(client => client.id === this.props.data.client_id)
         const apptType = client.appointment_types.find(type => type.id === this.props.data.appointment_type_id)
-        const office = client.regions[this.props.lead.region_index].offices.find(office => office.id === this.props.data.office_id)
+        const office = client.offices.find(office => office.id === this.props.data.office_id)
 
         return (
             <MDBCard className='w-100 border-0 mb-3 z-2'>

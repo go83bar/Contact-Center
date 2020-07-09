@@ -213,7 +213,7 @@ class Active extends Component {
                 // first determine new status by grabbing the first status assigned to the current appointment type with "default" flag set to true
                 const client = this.props.shift.clients.find(client => client.id === this.props.data.client_id)
                 const apptType = client.appointment_types.find(type => type.id === this.props.data.appointment_type_id)
-                const office = client.regions[this.props.lead.region_index].offices.find(office => office.id === this.props.data.office_id)
+                const office = client.offices.find(office => office.id === this.props.data.office_id)
                 const defaultStatus = client.appointment_statuses.find( status => status.default === 1 && apptType.statuses.includes(status.id))
 
                 // if we find one make a log for it
@@ -271,33 +271,13 @@ class Active extends Component {
         const client = this.props.shift.clients.find(client => client.id === this.props.data.client_id)
         const apptType = client.appointment_types.find(type => type.id === this.props.data.appointment_type_id)
         const apptStatus = client.appointment_statuses.find(status => status.id === this.props.data.appointment_status_id)
-        //const offices = this.props.shift.clients[this.props.lead.client_index].regions[this.props.lead.region_index].offices
-        let office = this.props.shift.clients[this.props.lead.client_index].regions[this.props.lead.region_index].offices.find(office => office.id === this.props.data.office_id)
+        let office = this.props.shift.clients[this.props.lead.client_index].offices.find(office => office.id === this.props.data.office_id)
         if (!office) {
-            // appointment office is not in lead's current region, let's see if it's in another region
-            this.props.shift.clients[this.props.lead.client_index].regions.some(region => {
-                let foundOffice = false
-                region.offices.some(office => {
-                    if (office.id === this.props.data.office_id) {
-                        foundOffice = office
-                        return true
-                    }
-                    return false
-                })
-
-                if (foundOffice) {
-                    office = foundOffice
-                    return true
-                }
-                return false
-            })
-
-            if (!office) {
-                // the office ID on this appointment isn't in the client data in any region somehow
-                Slack.sendMessage("Appointment " + this.props.data.id + " has office ID " + this.props.data.office_id + " that is not in the shift data for agent " + this.props.user.id)
-                return ""
-            }
+            // the office ID on this appointment isn't in the client data in any region somehow
+            Slack.sendMessage("Appointment " + this.props.data.id + " has office ID " + this.props.data.office_id + " that is not in the shift data for agent " + this.props.user.id)
+            return ""
         }
+
         const confirmable = this.props.data.start_time ? (moment().isBefore(this.props.data.start_time) && (!apptStatus.cancel && !apptStatus.reschedule)) ? true : false : false
         const verifiable = this.props.data.start_time ? false : true
         let avs = {

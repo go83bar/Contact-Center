@@ -39,6 +39,8 @@ import EmailForm from './messaging/EmailForm'
 import TextForm from './messaging/TextForm'
 import CallbackForm from './messaging/CallbackForm'
 import moment from "moment-timezone";
+import { toast } from 'react-toastify';
+import Slack from '../../utils/Slack';
 
 
 class LeadSummary extends Component {
@@ -74,9 +76,28 @@ class LeadSummary extends Component {
     }
 
     openTwilio = () => {
-        if (this.props.lead.contact_preferences.phone_calls === true)
-            // open twilio connection in normal mode
-            TwilioDevice.openAgentConnection(false)
+        // make sure there is no active connection already 
+        if (TwilioDevice.checkActiveConnection() === true) {
+            return
+        }
+
+        // make sure lead is not opted out
+        if (this.props.lead.contact_preferences.phone_calls !== true) {
+            toast.error("Lead has opted out of phone calls, cannot connect to Twilio.")
+            return
+        }
+
+        // make sure there's no data issues that will trip up twilio
+        if (this.props.interaction.id === undefined) {
+            toast.error("Twilio connection cannot be opened. Please alert dev.")
+            Slack.sendMessage("Agent " + this.props.user.id + " cannot open Twilio due to interaction being undefined for lead " + this.props.lead.id)
+            const interactionData = JSON.stringify(this.props.interaction)
+            Slack.sendMessage("Redux Interaction object: " + interactionData)
+            return
+        }
+
+        // open twilio connection in normal mode
+        TwilioDevice.openAgentConnection(false)
     }
 
     toggleEmail = () => {
@@ -282,7 +303,8 @@ const mapStateToProps = state => {
         lead : state.lead,
         shift: state.shift,
         twilio: state.twilio,
-        interaction: state.interaction
+        interaction: state.interaction,
+        user: state.user
     }
 }
 

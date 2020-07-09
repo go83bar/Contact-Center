@@ -254,6 +254,14 @@ class TwilioDeviceSingleton {
         store.dispatch(agentDisconnected())
     }
 
+    checkActiveConnection() {
+        if (this.connection === undefined) {
+            return false
+        }
+
+        return true
+    }
+
     cleanup = () => {
         if (this.device !== undefined) {
             this.device.destroy()

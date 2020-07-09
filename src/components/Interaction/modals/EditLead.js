@@ -130,7 +130,7 @@ class EditLead extends Component {
                     updatedFields.push({fieldName: field, value: newPhone, oldValue: value})
                 }
                 // other fields are simple string comparison, again ignoring empty cells that started undefined
-            } else if (value !== this.state[field] && !(this.state[field] !== "" && value !== undefined)) {
+            } else if (value !== this.state[field] && !(this.state[field] === "" && value === undefined)) {
                 updatedFields.push({fieldName: field, value: this.state[field], oldValue: value})
             }
         }

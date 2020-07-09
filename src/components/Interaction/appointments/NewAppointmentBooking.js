@@ -186,7 +186,7 @@ class NewAppointmentBooking extends Component {
         } else {
             // specific office was chosen, let's make sure we have all the data and set it into state
             officeID = parseInt(values[0])
-            const offices = this.props.shift.clients[this.props.lead.client_index].regions[this.props.lead.region_index].offices
+            const offices = this.props.shift.clients[this.props.lead.client_index].offices
             if (offices !== undefined && offices.length) {
                 const office = offices.find( office => office.id === officeID)
                 if (office !== undefined) {
