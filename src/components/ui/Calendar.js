@@ -2,6 +2,7 @@ import React from "react";
 import {MDBCard, MDBIcon} from "mdbreact";
 import moment from "moment";
 import PropTypes from "prop-types";
+import {connect} from "react-redux";
 
 class Calendar extends React.Component {
     constructor(props) {
@@ -36,14 +37,15 @@ class Calendar extends React.Component {
     }
 
     renderDays() {
-        const dateFormat = "ddd";
+        //const dateFormat = "ddd";
+
         const days = [];
 
-        let startDate = this.state.currentMonth.clone().startOf("week");
+        //let startDate = this.state.currentMonth.clone().startOf("week");
         for (let i = 0; i < 7; i++) {
             days.push(
-                <div className="col col-center" key={i}>
-                    {startDate.add(i,"days").format(dateFormat)}
+                <div className="col col-center px-0" key={i}>
+                    { this.props.localization.days[i]}
                 </div>
             );
         }
@@ -148,4 +150,11 @@ Calendar.propTypes = {
     onChange : PropTypes.func,
     loadCalendarMonth: PropTypes.func
 }
-export default Calendar;
+
+const mapStateToProps = store => {
+    return {
+        localization: store.localization
+    }
+}
+
+export default connect(mapStateToProps)(Calendar);

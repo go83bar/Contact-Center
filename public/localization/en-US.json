@@ -1,5 +1,6 @@
 {
   "created_by" : "Created By",
+  "days": ["SUN","MON","TUE","WED","THU","FRI","SAT"],
   "buttonLabels": {
     "load": "Load",
     "save": "Save",
@@ -297,7 +298,7 @@
     "logout" : "SIGN OUT"
   },
   "fetch" : {
-    "noLeads" : "No leads in your queue at this timenpm run.",
+    "noLeads" : "No leads in your queue at this time.",
     "back" : "Back to Dashboard"
   },
   "preview" : {
