@@ -33,7 +33,7 @@ class Home extends Component {
 
     constructor(props) {
         super(props);
-        console.log(props.shift)
+        //console.log(props.shift)
         // kick off shift data load if we don't have it
         if (!props.shift.loaded) {
             AgentAPI.getShiftData().then ( response => {

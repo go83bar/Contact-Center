@@ -1,6 +1,6 @@
 {
   "name": "Activate",
-  "version": "0.1.0",
+  "version": "3.5.01",
   "private": true,
   "// If You want to install mdbreact from our GitLab repository, please replace '4.25.5' with gitURL provided here ->": "git+https://oauth2:<YOUR-TOKEN-GOES-HERE>@git.mdbootstrap.com/mdb/react/re-pro.git",
   "dependencies": {
@@ -28,6 +28,7 @@
     "react-dates": "^21.8.0",
     "react-dom": "^16.12.0",
     "react-grid-layout": "^0.18.3",
+    "react-player": "^2.5.0",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
@@ -38,8 +39,9 @@
   },
   "scripts": {
     "start": "HTTPS=true react-scripts start",
+    "prebuild": "npm run generate-build-version",
+    "generate-build-version": "node generate-build-version",
     "build": "react-scripts build",
-    "build:staging": "env-cmd -f .env.staging react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "rename": "renamer --find App-clear.js --replace App.js ./src/App-clear.js && renamer --find style.css --replace index.css ./src/style.css ",

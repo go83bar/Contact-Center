@@ -10,6 +10,7 @@ import Login from "./components/Login"
 import ProtectedRoute from "./ProtectedRoute"
 import Preview from "./components/Preview"
 import { connect } from 'react-redux';
+import CacheBuster from "./CacheBuster";
 
 class ContactCenter extends Component {
     constructor(props) {
@@ -37,17 +38,28 @@ class ContactCenter extends Component {
 
     render() {
         return (
-            <BrowserRouter className="skin-secondary-color">
-                <Switch>
-                    <Route exact path="/login" component={Login}/>
-                    <ProtectedRoute exact path="/" component={Home}/>
-                    <ProtectedRoute exact path="/recent" component={RecentLeads}/>
-                    <ProtectedRoute exact path="/search" component={Search}/>
-                    <ProtectedRoute exact path="/preview" component={Preview}/>
-                    <ProtectedRoute exact path="/next" component={NextLead}/>
-                    <ProtectedRoute exact path="/interaction" component={Interaction}/>
-                </Switch>
-            </BrowserRouter>
+            <CacheBuster>
+                {({ loading, isLatestVersion, refreshCacheAndReload }) => {
+                    if (loading) return null;
+                    if (!loading && !isLatestVersion) {
+                        refreshCacheAndReload();
+                    }
+
+                    return (
+                <BrowserRouter className="skin-secondary-color">
+                    <Switch>
+                        <Route exact path="/login" component={Login}/>
+                        <ProtectedRoute exact path="/" component={Home}/>
+                        <ProtectedRoute exact path="/recent" component={RecentLeads}/>
+                        <ProtectedRoute exact path="/search" component={Search}/>
+                        <ProtectedRoute exact path="/preview" component={Preview}/>
+                        <ProtectedRoute exact path="/next" component={NextLead}/>
+                        <ProtectedRoute exact path="/interaction" component={Interaction}/>
+                    </Switch>
+                </BrowserRouter>
+                    );
+                }}
+            </CacheBuster>
         );
     }
 }
