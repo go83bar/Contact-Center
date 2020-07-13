@@ -39,6 +39,7 @@ class SearchResult extends Component {
             <tr>
                 <td>{this.props.row.id}</td>
                 <td {...this.state.lockedOpts}>{this.state.leadName}</td>
+                <td>{this.props.row.client_name}</td>
                 <td>{this.props.row.vertical_name}</td>
                 <td>{this.props.row.phase_name}</td>
                 <td>{this.props.row.next_contact}</td>

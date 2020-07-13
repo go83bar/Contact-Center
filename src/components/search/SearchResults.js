@@ -24,6 +24,7 @@ class SearchResults extends Component {
                             <tr>
                                 <th>{localized.resultIDHeader}</th>
                                 <th>{localized.resultNameHeader}</th>
+                                <th>{localized.clientIDLabel}</th>
                                 <th>{localized.resultVerticalHeader}</th>
                                 <th>{localized.resultPhaseHeader}</th>
                                 <th>{localized.resultNextContactHeader}</th>

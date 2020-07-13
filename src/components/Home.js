@@ -26,7 +26,6 @@ import {TwilioDevice} from "../twilio/TwilioDevice"
 import AgentAPI from '../api/agentAPI';
 import ConnectAPI from "../api/connectAPI";
 
-
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 class Home extends Component {

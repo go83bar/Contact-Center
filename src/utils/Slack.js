@@ -7,6 +7,7 @@ class Slack {
         const config = store.getState().config
         notifyChannel = notifyChannel === undefined ? false : notifyChannel
         channel = channel === undefined ? config["slack-channel-default"] : channel
+        message = message + " - Version: " + global.appVersion
 
         fetch(config["url-aws-base"] + "support/slack", {
             method: 'POST',
