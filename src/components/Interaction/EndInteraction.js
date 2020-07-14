@@ -143,8 +143,12 @@ class EndInteraction extends Component {
 
     selectOutcome(outcome_id) {
         const outcome = this.state.outcomes.find(o => o.id === outcome_id)
+
+        // reset steps, office, and appointment to initial values
         let steps = ["outcome"]
         let office, appointment
+
+        // determine whether appointment and/or office selection steps are needed
         if (outcome.requires_appointment === true) {
             if (this.props.lead.appointments && this.props.lead.appointments.length === 0) {
                 toast.error("Chosen outcome requires an appointment, this lead has none")
@@ -152,21 +156,28 @@ class EndInteraction extends Component {
             }
             if (this.props.lead.appointments.length === 1) {
                 appointment = this.props.lead.appointments[0]
+                office = this.props.shift.clients[this.props.lead.client_index].offices.find( office => office.id === appointment.office_id)
             } else {
                 steps.push("appointment")
             }
-        }
-        if (outcome.requires_office === true && outcome.requires_appointment === false) {
+        } else if (outcome.requires_office === true) {
             if (this.props.shift.clients[this.props.lead.client_index].offices.length === 1) {
                 office = this.props.shift.clients[this.props.lead.client_index].offices[0]
             } else steps.push("office")
         }
+
+        // determine whether outcome reason step is needed
         if (outcome.outcome_reasons && outcome.outcome_reasons.length > 0) steps.push("reason")
+
+        // always push final step
         steps.push("finish")
+
+        // set new values into state
         this.setState({ steps, outcome, reason: undefined, appointment, office }, this.nextStep)
     }
 
     selectAppointment(appointment) {
+        // office can also be set here
         const office = this.props.shift.clients[this.props.lead.client_index].offices.find( office => office.id === appointment.office_id)
         this.setState({ appointment, office })
     }
