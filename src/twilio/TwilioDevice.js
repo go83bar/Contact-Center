@@ -37,16 +37,19 @@ class TwilioDeviceSingleton {
                 })
 
                 device.on('connect', (connection) => {
+                    this.connection = connection
                     console.log("Twilio Device connected: ", connection)
                 })
 
                 device.on('disconnect', (connection) => {
+                    this.connection = undefined
                     console.log("Twilio Device disconnected from connection: ", connection)
                 })
 
                 device.on('error', (error) => {
                     console.log("Twilio Device error: ", error)
-                    // TODO What do we want to do with device errors?
+                    toast.error("Twilio connection error! Please notify dev")
+                    Slack.sendMessage("Agent " + userID + " get a Twilio device connection error: " + error)
                 })
 
                 this.device = device
@@ -87,7 +90,7 @@ class TwilioDeviceSingleton {
             console.log("Connection error: ", err)
         })
 
-        this.connection = agentConnection
+        //this.connection = agentConnection
 
     }
 
@@ -255,6 +258,7 @@ class TwilioDeviceSingleton {
     }
 
     checkActiveConnection() {
+        console.log("Checking connection: ", this.connection)
         if (this.connection === undefined) {
             return false
         }
