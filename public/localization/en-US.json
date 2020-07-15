@@ -1,6 +1,14 @@
 {
-  "created_by" : "Created By",
-  "days": ["SUN","MON","TUE","WED","THU","FRI","SAT"],
+  "created_by": "Created By",
+  "days": [
+    "SUN",
+    "MON",
+    "TUE",
+    "WED",
+    "THU",
+    "FRI",
+    "SAT"
+  ],
   "buttonLabels": {
     "load": "Load",
     "save": "Save",
@@ -15,37 +23,37 @@
     "send": "Send",
     "go": "GO"
   },
-  "home" : {
-    "interactions" : "INTERACTIONS MADE TODAY",
-    "appointments" : "APPOINTMENTS MADE TODAY",
-    "handoffs" : "HANDOFFS MADE TODAY",
-    "signout" : "Sign Out",
-    "recent" : "Recent Leads",
-    "search" : "Find Leads",
-    "profile" : "User Profile",
-    "welcome" : "Welcome $!"
+  "home": {
+    "interactions": "INTERACTIONS MADE TODAY",
+    "appointments": "APPOINTMENTS MADE TODAY",
+    "handoffs": "HANDOFFS MADE TODAY",
+    "signout": "Sign Out",
+    "recent": "Recent Leads",
+    "search": "Find Leads",
+    "profile": "User Profile",
+    "welcome": "Welcome $!"
   },
   "interaction": {
-    "appointment" : {
+    "appointment": {
       "tabTitle": "Appointments",
-      "appointments" : "Appointments",
-      "activeAppointments" : "Active Appointments",
-      "reschedule" : "Reschedule",
-      "confirm" : "Confirm",
-      "confirmed" : "Confirmed",
-      "verify" : "Verify",
-      "status" : "Status",
-      "chooseStatus" : "Choose new status.",
-      "updateStatus" : "Update Status",
+      "appointments": "Appointments",
+      "activeAppointments": "Active Appointments",
+      "reschedule": "Reschedule",
+      "confirm": "Confirm",
+      "confirmed": "Confirmed",
+      "verify": "Verify",
+      "status": "Status",
+      "chooseStatus": "Choose new status.",
+      "updateStatus": "Update Status",
       "date": "Date: ",
       "time": "Time: ",
       "cancel": "Cancel",
-      "appointmentStatus" : "Change Appointment Status",
+      "appointmentStatus": "Change Appointment Status",
       "office": "Office: ",
-      "noStartTime" : "No date & time set, use Verify to set."
+      "noStartTime": "No date & time set, use Verify to set."
     },
-    "booking" : {
-      "bookButtonLabel" : "Book an Appointment",
+    "booking": {
+      "bookButtonLabel": "Book an Appointment",
       "nextLabel": "Next",
       "allOfficesOption": "All Offices",
       "typeOptionsLabel": "Choose Type",
@@ -53,122 +61,123 @@
       "typeTitle": "Appointment Type & Office",
       "bookingTitle": "Booking Questions",
       "calendarTitle": "Appointment Time"
-     },
+    },
     "callbar": {
-       "leadLabel": "Lead",
-       "holdLabel": "Hold",
-       "unholdLabel": "Unhold",
-       "dialLabel": "Dial",
-       "answerIncomingLabel": "Answer Call",
-       "hangupLabel": "Hang Up",
-       "agentLabel": "Me",
-       "checkStatusLabel": "Check",
-       "voicemailLabel": "AutoVM",
-       "pauseLabel": "Pause",
-       "resumeLabel": "Resume",
-       "keypadLabel": "Keypad",
-       "providerLabel": "Provider",
-       "transferLabel": "Transfer",
-       "providerChoices": {
-         "title": "Choose Provider",
-         "searchLabel": "Search...",
-         "nameHeader": "Name",
-         "cityHeader": "City",
-         "numberHeader": "Number",
-         "hoursHeader": "Hours",
-         "priorityHeader": "Priority"
-       },
-       "keypad": {
-         "title": "Keypad"
-       },
-       "dialChoice": {
-         "title": "Dial Lead",
-         "cellLabel": "Cell phone:",
-         "homeLabel": "Home phone:"
-       }
-     },
-    "details" : {
-      "tabTitle" : "Details",
-      "cellPhone" : "Cell Phone: ",
-      "homePhone" : "Home Phone: ",
-      "address" : "Address: ",
-      "city" : "City: ",
-      "state" : "State: ",
-      "email" : "Email: ",
-      "date_of_birth" : "Date Of Birth: ",
-      "zip" : "Zip: ",
-      "region" : "Region: ",
-      "phase" : "Phase: ",
-      "id" : "ID: "
+      "leadLabel": "Lead",
+      "holdLabel": "Hold",
+      "unholdLabel": "Unhold",
+      "dialLabel": "Dial",
+      "answerIncomingLabel": "Answer Call",
+      "hangupLabel": "Hang Up",
+      "agentLabel": "Me",
+      "checkStatusLabel": "Check",
+      "voicemailLabel": "AutoVM",
+      "pauseLabel": "Pause",
+      "resumeLabel": "Resume",
+      "keypadLabel": "Keypad",
+      "providerLabel": "Provider",
+      "transferLabel": "Transfer",
+      "providerChoices": {
+        "title": "Choose Provider",
+        "searchLabel": "Search...",
+        "nameHeader": "Name",
+        "cityHeader": "City",
+        "numberHeader": "Number",
+        "hoursHeader": "Hours",
+        "priorityHeader": "Priority"
+      },
+      "keypad": {
+        "title": "Keypad"
+      },
+      "dialChoice": {
+        "title": "Dial Lead",
+        "cellLabel": "Cell phone:",
+        "homeLabel": "Home phone:"
+      }
+    },
+    "details": {
+      "tabTitle": "Details",
+      "cellPhone": "Cell Phone: ",
+      "homePhone": "Home Phone: ",
+      "address": "Address: ",
+      "city": "City: ",
+      "state": "State: ",
+      "email": "Email: ",
+      "date_of_birth": "Date Of Birth: ",
+      "zip": "Zip: ",
+      "region": "Region: ",
+      "phase": "Phase: ",
+      "id": "ID: "
     },
     "documents": {
       "tabTitle": "Documents"
     },
-    "endInteraction" : {
-      "endButton" : "Save & Go to Dashboard",
-      "endFetchButton" : "Save & Fetch New Lead",
-      "nextButton" : "Next",
-      "previousButton" : "Previous",
-      "cancelButton" : "Cancel",
-      "outcomeSummaryLabel" : "Outcome: ",
-      "officeSummaryLabel" : "Office: ",
-      "apptSummaryLabel" : "Appointment: ",
-      "reasonSummaryLabel" : "Reason: ",
-      "leadName" : "Name: ",
-      "address" : "Address: ",
-      "city" : "City: ",
-      "state" : "State: ",
-      "zip" : "Zip: ",
-      "appointmentRequired" : "An appointment is required for this outcome.  No appointments found.",
+    "endInteraction": {
+      "endButton": "Save & Go to Dashboard",
+      "endFetchButton": "Save & Fetch New Lead",
+      "nextButton": "Next",
+      "previousButton": "Previous",
+      "cancelButton": "Cancel",
+      "outcomeSummaryLabel": "Outcome: ",
+      "officeSummaryLabel": "Office: ",
+      "apptSummaryLabel": "Appointment: ",
+      "reasonSummaryLabel": "Reason: ",
+      "leadName": "Name: ",
+      "address": "Address: ",
+      "city": "City: ",
+      "state": "State: ",
+      "zip": "Zip: ",
+      "appointmentRequired": "An appointment is required for this outcome.  No appointments found.",
       "officeOptionsLabel": "Choose Office"
     },
     "notes": {
       "tabTitle": "Notes",
       "deleteNoteModalHeader": "Delete Note?",
-      "deleteNoteModalBody": "Are you sure you want to delete this note?"
+      "deleteNoteModalBody": "Are you sure you want to delete this note?",
+      "createNote": "Add Note"
     },
     "queue": {
       "tabTitle": "Queue"
     },
-    "summary" : {
-      "client" : "Client",
-      "endInteraction" : "END",
+    "summary": {
+      "client": "Client",
+      "endInteraction": "END",
       "recordingPausedLabel": "Paused",
       "recordingActiveLabel": "Recording",
       "callActiveLabel": "Connected",
       "incomingCallLabel": "Incoming Call",
-      "createLead" : {
-        "title" : "Create New Lead",
-        "client" : "Client",
+      "createLead": {
+        "title": "Create New Lead",
+        "client": "Client",
         "firstName": "First Name",
         "lastName": "Last Name",
-        "email" : "Email",
-        "cellPhone" : "Cell Phone",
-        "homePhone" : "Home Phone",
-        "workPhone" : "Work Phone",
-        "address" : "Address",
-        "address2" : "Address 2",
-        "city" : "City",
-        "state" : "State",
-        "zip" : "Zip",
-        "okButton" : "Save Changes",
-        "cancelButton" : "Close"
+        "email": "Email",
+        "cellPhone": "Cell Phone",
+        "homePhone": "Home Phone",
+        "workPhone": "Work Phone",
+        "address": "Address",
+        "address2": "Address 2",
+        "city": "City",
+        "state": "State",
+        "zip": "Zip",
+        "okButton": "Save Changes",
+        "cancelButton": "Close"
       },
-      "editLead" : {
-        "title" : "Edit Lead",
-        "client" : "Client",
+      "editLead": {
+        "title": "Edit Lead",
+        "client": "Client",
         "firstName": "First Name",
         "lastName": "Last Name",
-        "email" : "Email",
-        "cellPhone" : "Cell Phone",
-        "homePhone" : "Home Phone",
+        "email": "Email",
+        "cellPhone": "Cell Phone",
+        "homePhone": "Home Phone",
         "preferredPhone": "Preferred Phone",
-        "workPhone" : "Work Phone",
-        "address" : "Address",
-        "address2" : "Address 2",
-        "city" : "City",
-        "state" : "State",
-        "zip" : "Zip",
+        "workPhone": "Work Phone",
+        "address": "Address",
+        "address2": "Address 2",
+        "city": "City",
+        "state": "State",
+        "zip": "Zip",
         "month": "MM",
         "day": "DD",
         "year": "YYYY",
@@ -181,30 +190,30 @@
         "regionHeader": "Region & Timezone",
         "dobHeader": "Date Of Birth",
         "contactPreferencesHeader": "Contact Preferences",
-        "submitButton" : "Save Changes",
-        "cancelButton" : "Close"
+        "submitButton": "Save Changes",
+        "cancelButton": "Close"
       },
-      "contactPreferences" : {
-        "title" : "Contact Preferences",
-        "cancelButton" : "Close",
-        "phone_calls" : "Phone Calls",
-        "emails" : "Emails",
-        "texts" : "Texts",
+      "contactPreferences": {
+        "title": "Contact Preferences",
+        "cancelButton": "Close",
+        "phone_calls": "Phone Calls",
+        "emails": "Emails",
+        "texts": "Texts",
         "allowedLabel": "Allowed",
         "notAllowedLabel": "Not Allowed"
       },
-      "changeRegion" : {
-        "title" : "Change Lead Region"
+      "changeRegion": {
+        "title": "Change Lead Region"
       },
-      "mergeLead" : {
-        "title" : "Merge Lead Information",
+      "mergeLead": {
+        "title": "Merge Lead Information",
         "firstName": "First Name",
         "lastName": "Last Name",
-        "email" : "Email",
-        "cellPhone" : "Cell Phone",
-        "searchButton" : "Search",
-        "okButton" : "Save Changes",
-        "cancelButton" : "Close"
+        "email": "Email",
+        "cellPhone": "Cell Phone",
+        "searchButton": "Search",
+        "okButton": "Save Changes",
+        "cancelButton": "Close"
       },
       "callbackForm": {
         "title": "Schedule Callback",
@@ -215,7 +224,6 @@
         "saveButtonLabel": "Save",
         "savingButtonLabel": "Saving...",
         "savedButtonLabel": "Saved!"
-
       },
       "emailForm": {
         "title": "Send Email",
@@ -234,29 +242,29 @@
     },
     "survey": {
       "tabTitle": "Surveys",
-      "score" : "Score",
-      "qualified" : "Qualified"
+      "score": "Score",
+      "qualified": "Qualified"
     },
     "timeline": {
       "tabTitle": "Timeline",
       "noStartTime": "No start time, needs verify",
       "leadUpdate": {
-        "phase" : "Phase updated from: ",
-        "leadStatus" : "Lead Status updated from: ",
+        "phase": "Phase updated from: ",
+        "leadStatus": "Lead Status updated from: ",
         "region": "Region updated from: ",
-        "to" : " to ",
+        "to": " to ",
         "from": " from: ",
         "allowed": "Allowed",
         "notAllowed": "Not Allowed"
       },
       "log": {
-        "to" : " to ",
+        "to": " to ",
         "from": " from: ",
         "appt_log": "Appointment Information Updated",
         "blank": "Blank",
         "noTime": "No Time"
       },
-      "office" : "Office: "
+      "office": "Office: "
     },
     "timezoneChoices": [
       {
@@ -281,44 +289,44 @@
       }
     ]
   },
-  "login" : {
-    "title" : "Sign in to start your session.",
-    "emailLabel" : "Email Address",
+  "login": {
+    "title": "Sign in to start your session.",
+    "emailLabel": "Email Address",
     "passwordLabel": "Password",
-    "frontButton" : "Get Pin",
+    "frontButton": "Get Pin",
     "forgotPassword": "Forgot your password?",
-    "pinLabel" : "Pin Code",
+    "pinLabel": "Pin Code",
     "remember": "Remember me",
-    "backButton" : "Sign In"
+    "backButton": "Sign In"
   },
-  "name" : "Activate",
-  "nav" : {
-    "fetch" : "FETCH NEW LEAD",
-    "search" : "FIND A LEAD",
-    "recent" : "RECENT LEADS",
-    "logout" : "SIGN OUT"
+  "name": "Activate",
+  "nav": {
+    "fetch": "FETCH NEW LEAD",
+    "search": "FIND A LEAD",
+    "recent": "RECENT LEADS",
+    "logout": "SIGN OUT"
   },
-  "fetch" : {
-    "noLeads" : "No leads in your queue at this time.",
-    "back" : "Back to Dashboard"
+  "fetch": {
+    "noLeads": "No leads in your queue at this time.",
+    "back": "Back to Dashboard"
   },
-  "preview" : {
-    "nextButton" : "Open Interaction",
-    "id" : "Lead ID"
+  "preview": {
+    "nextButton": "Open Interaction",
+    "id": "Lead ID"
   },
-  "profile" : {
-    "settings" : "ACCOUNT SETTINGS",
-    "profile" : "Profile",
-    "schedule" : "Schedule",
-    "theme" : "Color Theme",
-    "music" : "Music",
+  "profile": {
+    "settings": "ACCOUNT SETTINGS",
+    "profile": "Profile",
+    "schedule": "Schedule",
+    "theme": "Color Theme",
+    "music": "Music",
     "account": {
-      "first_name" : "First Name",
-      "last_name" : "Last Name",
-      "email" : "Email",
-      "phone" : "Phone",
-      "password" : "Password",
-      "confirm_password" : "Confirm Password"
+      "first_name": "First Name",
+      "last_name": "Last Name",
+      "email": "Email",
+      "phone": "Phone",
+      "password": "Password",
+      "confirm_password": "Confirm Password"
     }
   },
   "search": {
@@ -338,7 +346,7 @@
     "noClientSelectedError": "You must select a client"
   },
   "toast": {
-    "saving" : "Saving ...",
+    "saving": "Saving ...",
     "appointments": {
       "confirmed": "Appointment confirmed!",
       "unconfirmed": "Appointment unconfirmed!",
@@ -348,13 +356,13 @@
       "verified": "Appointment verified",
       "verifyFailed": "Appointment could not be verified"
     },
-    "editLead" : {
-      "success" : "Lead Information Saved Successfully.",
-      "error" : "Lead Information Save Unsuccessful."
+    "editLead": {
+      "success": "Lead Information Saved Successfully.",
+      "error": "Lead Information Save Unsuccessful."
     },
-    "editContactPreferences" : {
-      "success" : "Lead Contact Preferences updated",
-      "error" : "Lead Contact Preferences could not be updated"
+    "editContactPreferences": {
+      "success": "Lead Contact Preferences updated",
+      "error": "Lead Contact Preferences could not be updated"
     },
     "twilio": {
       "dialLeadFailed": "Twilio error! Lead could not be dialed.",

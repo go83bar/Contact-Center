@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import {
     MDBBox,
     MDBBtn,
@@ -10,7 +10,7 @@ import {
     MDBModalFooter,
     MDBModalHeader
 } from "mdbreact"
-import { connect } from "react-redux"
+import {connect} from "react-redux"
 import LeadNote from './LeadNote'
 import LeadAPI from '../../../api/leadAPI'
 import * as moment from 'moment'
@@ -26,7 +26,8 @@ class LeadNotes extends Component {
             noteID: undefined,
             noteBtnLabel: props.localization.buttonLabels.save,
             isEditing: false,
-            disableSave: true
+            disableSave: true,
+            createNote: false
         }
 
     }
@@ -43,15 +44,21 @@ class LeadNotes extends Component {
     // used to trip alert when ending interaction if there is unsaved note content
     stoppedEditingContent = (event) => {
         if (event.target.value === "" && this.props.interaction.hasUnsavedNote) {
-            this.props.dispatch({ type: "INTERACTION.CLEAR_UNSAVED_NOTE"})
+            this.props.dispatch({type: "INTERACTION.CLEAR_UNSAVED_NOTE"})
             return
         }
 
         if (event.target.value !== "" && !this.props.interaction.hasUnsavedNote) {
-            this.props.dispatch({ type: "INTERACTION.FLAG_UNSAVED_NOTE"})
+            this.props.dispatch({type: "INTERACTION.FLAG_UNSAVED_NOTE"})
             return
         }
     }
+
+    // user has add note button
+    createNote = () => {
+        this.setState({createNote: !this.state.createNote})
+    }
+
 
     // user has delete button with a note
     deleteNote = () => {
@@ -83,7 +90,7 @@ class LeadNotes extends Component {
         if (this.state.noteContent === "") {
             return;
         }
-        
+
         // might be an update or saving a new note
         if (this.state.isEditing) {
             const payload = {
@@ -110,12 +117,13 @@ class LeadNotes extends Component {
                         noteContent: "",
                         noteID: undefined,
                         noteBtnLabel: this.props.localization.buttonLabels.save,
-                        isEditing: false
+                        isEditing: false,
+                        createNote: false
                     })
-                }).catch( (reason) => {
-                    // TODO handle error
-                    console.log("Error saving note: ", reason)
-                })
+                }).catch((reason) => {
+                // TODO handle error
+                console.log("Error saving note: ", reason)
+            })
         } else {
             // this a new note to save
             const payload = {
@@ -148,12 +156,13 @@ class LeadNotes extends Component {
                         noteContent: "",
                         noteID: undefined,
                         noteBtnLabel: this.props.localization.buttonLabels.save,
-                        isEditing: false
+                        isEditing: false,
+                        createNote: false
                     })
-                }).catch( (reason) => {
-                    // TODO handle error
-                    console.log("Error saving note: ", reason)
-                })
+                }).catch((reason) => {
+                // TODO handle error
+                console.log("Error saving note: ", reason)
+            })
         }
     }
 
@@ -167,6 +176,18 @@ class LeadNotes extends Component {
                 noteID: selectedNote.id,
                 noteBtnLabel: this.props.localization.buttonLabels.update,
                 isEditing: true
+            })
+        }
+    }
+
+    // users has clicked button to cancel editing a selected note
+    cancelAdd = () => {
+        if (!this.state.isSaving) {
+            this.setState({
+                noteContent: "",
+                noteID: undefined,
+                createNote : false,
+                isEditing: false
             })
         }
     }
@@ -196,47 +217,62 @@ class LeadNotes extends Component {
             isSaving: false
         })
     }
+
     render() {
         if (this.props.active === true) {
             return (
                 <MDBBox className="d-flex flex-1 flex-column overflow-auto">
                     <MDBBox
-                        className="py-2 px-3 mb-3 rounded gray-border"
+                        className="mb-2 rounded gray-border"
                         style={{backgroundColor: "transparent"}}
                     >
-                    <textarea className="form-control"
-                              style={{borderColor: "#dee2e6"}}
-                              rows="5"
-                              onChange={this.updateNoteContent}
-                              onBlur={this.stoppedEditingContent}
-                              value={this.state.noteContent}
-                    />
-                        <MDBBox>
-                            {this.state.isEditing && (
+                        {!this.state.createNote && <MDBBtn
+                            rounded
+                            color="primary"
+                            className="float-right shadow-sm"
+                            onClick={this.createNote}
+                        >
+                            {this.props.localization.interaction.notes.createNote}
+
+                        </MDBBtn>}
+                        {this.state.createNote && <MDBBox className="d-flex flex-column p-2">
+                            <MDBBox
+                                className="font-weight-bold">{this.props.localization.interaction.notes.createNote}</MDBBox>
+                            <textarea className="form-control"
+                                      style={{borderColor: "#dee2e6"}}
+                                      rows="5"
+                                      onChange={this.updateNoteContent}
+                                      onBlur={this.stoppedEditingContent}
+                                      value={this.state.noteContent}
+                            />
+                            <MDBBox>
                                 <MDBBtn
-                                    color="warning"
+                                    color="primary"
+                                    rounded
+                                    outline
                                     className="float-left"
-                                    onClick={this.cancelUpdate}
+                                    onClick={this.cancelAdd}
                                 >
                                     {this.props.localization.buttonLabels.cancel}
                                 </MDBBtn>
-                            )}
-                            <MDBBtn
-                                rounded
-                                color="primary"
-                                className="float-right"
-                                disabled={this.state.disableSave}
-                                onClick={this.saveNote}
-                            >
-                                {this.state.noteBtnLabel} {this.state.isSaving && (
-                                <MDBIcon icon="cog" spin className="ml-1"/>
-                            )}
-                            </MDBBtn>
+                                <MDBBtn
+                                    rounded
+                                    color="primary"
+                                    className="float-right"
+                                    disabled={this.state.disableSave}
+                                    onClick={this.saveNote}
+                                >
+                                    {this.state.noteBtnLabel} {this.state.isSaving && (
+                                    <MDBIcon icon="cog" spin className="ml-1"/>
+                                )}
+                                </MDBBtn>
+                            </MDBBox>
                         </MDBBox>
+                        }
                     </MDBBox>
 
-                    <MDBBox className="d-flex flex-column p-4 rounded grey lighten-2 overflow-auto"
-                            style={{border: "1px solid #C2C2C2"}}>
+                    <MDBBox className="d-flex flex-column p-1 px-3 rounded gray-border gray-background overflow-auto">
+                        <span className="f-l font-weight-bold m-2">{this.props.localization.interaction.notes.tabTitle}</span>
                         {this.props.lead.notes && this.props.lead.notes.sort((a, b) => {
                             return (a.created_at > b.created_at ? -1 : 1)
                         }).map(note => {
@@ -255,7 +291,9 @@ class LeadNotes extends Component {
                             <MDBRow>
                                 <MDBCol size={"12"}>
                                     <MDBBtn
-                                        color="warning"
+                                        color="primary"
+                                        rounded
+                                        outline
                                         className="float-left"
                                         disabled={this.state.isSaving}
                                         onClick={this.closeModal}
@@ -263,7 +301,8 @@ class LeadNotes extends Component {
                                         {this.props.localization.buttonLabels.cancel}
                                     </MDBBtn>
                                     <MDBBtn
-                                        color="danger"
+                                        color="primary"
+                                        rounded
                                         className="float-right"
                                         onClick={this.deleteNote}
                                     >
@@ -281,6 +320,7 @@ class LeadNotes extends Component {
         }
     }
 }
+
 const mapStateToProps = store => {
     return {
         user: store.user,
