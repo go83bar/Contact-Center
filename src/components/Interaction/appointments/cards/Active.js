@@ -28,6 +28,8 @@ import TimePicker from "rc-time-picker";
 import Slack from '../../../../utils/Slack';
 import AppointmentAPI from '../../../../api/appointmentAPI';
 import {toast} from "react-toastify";
+import LoadingScreen from "../../../LoadingScreen"
+import LeadAPI from '../../../../api/leadAPI';
 
 class Active extends Component {
 
@@ -80,14 +82,14 @@ class Active extends Component {
             status: false,
             verify: false,
             changeStatus: undefined,
+            appointmentAVS: undefined,
+            dateSelected: undefined,
+            timeslots: undefined,
             availableStatuses
         }
 
     }
 
-    toggleReschedule() {
-        this.setState({reschedule: !this.state.reschedule, status: false, verify: false, changeStatus: undefined})
-    }
 
     toggleConfirm = () => {
         // persist change to API
@@ -178,9 +180,102 @@ class Active extends Component {
         this.setState({reschedule: false, status: false, verify: !this.state.verify, changeStatus: undefined})
     }
 
-    onCalendarChange(date) {
-        this.setState({dateSelected: date})
+    toggleReschedule() {
+        // if we're opening the reschedule view without having loaded reschedule calendar yet, start that going 
+        if (this.state.reschedule === false && this.state.appointmentAVS === undefined) {
+            const now = moment()
+            this.loadCalendarMonth(now)
+        }
+
+        // display reschedule controls, or a loading screen
+        this.setState({reschedule: !this.state.reschedule, status: false, verify: false, changeStatus: undefined})
     }
+
+    onCalendarChange = (date) => {
+        console.log("Chosen Date: ", date)
+        let newTimes = []
+        if (this.state.appointmentAVS !== undefined && this.state.appointmentAVS.appointments !== undefined){
+            newTimes = this.state.appointmentAVS.appointments[date]
+        }
+
+        this.setState({timeslots: newTimes, dateSelected: date})
+    }
+
+    loadCalendarMonth = (newDate) => {
+        // called when the calendar month is changed, and we need to load a new month's worth of data
+        const calendarListParams = {
+            officeID: this.props.data.office_id,
+            appointmentTypeID: this.props.data.appointment_type_id,
+            leadID: this.props.lead.id,
+            month: newDate.month() + 1,
+            year: newDate.year()
+        }
+
+        AppointmentAPI.getCalendar(calendarListParams).then( response => {
+            if (response.success !== true) {
+                // usually ApiException error response
+                toast.error("Calendar could not be loaded")
+                Slack.sendMessage("Agent " + this.props.user.id + " - Reschedule Appointment calendar month retrieve error: " + response.error)
+                return
+            }
+
+            // if this is the initial call with today's date, set dateSelected to today
+            let dateSelected = this.state.dateSelected
+            if (this.state.dateSelected === undefined && response.appointments !== undefined) {
+                console.log("Setting today's slots")
+                dateSelected = moment().format("YYYY-MM-DD")
+               
+            }
+            
+            // set results into state, 
+            this.setState({
+                appointmentAVS: response,
+                dateSelected
+            })
+
+        }).catch( reason => {
+            toast.error("Calendar month could not be loaded")
+            console.log("Could not load calendar month: ", reason)
+        })
+    }
+
+    onRescheduleSlotSelection = (slotTime) => {
+        // send reschedule request
+        const apptTime = this.state.dateSelected + " " + slotTime + ":00"
+        const rescheduleParams = {
+            appointmentTime: apptTime,
+            appointmentID: this.props.data.id
+        }
+
+        console.log("Reschedule params: ", rescheduleParams)
+
+        AppointmentAPI.reschedule(rescheduleParams).then( response => {
+            if (response.success) {
+                toast.success("Appointment rescheduled!", {delay: 1000})
+
+                // reload lead appointments from backend, easier than re-creating all the changes here
+                // unset appointmentAVS which will cause loading screen to display while we do this
+                this.setState({ appointmentAVS: undefined })
+                LeadAPI.getLeadAppointments({ leadID: this.props.lead.id}).then( response => {
+                    if (response.success) {
+                        this.props.dispatch({type: "LEAD.APPOINTMENTS_LOADED", data: response.data})
+                    }
+                    this.toggleReschedule()
+                }).catch( reason => {
+                    toast.error("Could not reload appointment data.")
+                    this.toggleReschedule()
+                })
+            } else {
+                toast.error("Could not reschedule appointment")
+                Slack.sendMessage("Agent " + this.props.user.id + " got success false on reschedule appointment " + this.props.data.id + ": " + JSON.stringify(response))
+            }
+        }).catch( reason => {
+            toast.error("Could not reschedule appointment")
+            Slack.sendMessage("Agent " + this.props.user.id + " could not reschedule appointment " + this.props.data.id + ": " + JSON.stringify(reason))
+        })
+        
+    }
+
 
     handleVerifyTime = (time) => {
         if (time) {
@@ -278,23 +373,17 @@ class Active extends Component {
             return ""
         }
 
-        const confirmable = this.props.data.start_time ? (moment().isBefore(this.props.data.start_time) && (!apptStatus.cancel && !apptStatus.reschedule)) ? true : false : false
-        const verifiable = this.props.data.start_time ? false : true
-        let avs = {
-            "timezone": "CDT",
-            "timezone_long": "America/Chicago",
-            "appointments": {
-                "2020-06-19": [
-                    "10:00",
-                    "10:30",
-                    "12:30",
-                    "17:00"
-                ],
-                "2020-06-20": [
-                    "15:30",
-                    "15:45"
-                ]
-            }
+        // determine disabled/enabled status of the action buttons, starting with common-sense defaults
+        let allowConfirm = this.props.data.start_time ? (moment().isBefore(this.props.data.start_time)) ? true : false : false
+        let allowVerify = this.props.data.start_time ? false : true
+        let allowStatusChange = true
+        let allowReschedule = this.props.data.start_time ? (moment().isBefore(this.props.data.start_time)) ? true : false : false 
+
+        if (apptStatus.reschedule || apptStatus.reschedule_in_progress || apptStatus.cancel) {
+            allowConfirm = false
+            allowVerify = false
+            allowStatusChange = false
+            allowReschedule = false
         }
 
         /*
@@ -343,33 +432,35 @@ class Active extends Component {
                         <MDBBox className="d-flex" style={{flex: "0 0 380px"}}>
                             <MDBTooltip material placement="top">
                                 <MDBNavLink to="#"
+                                            disabled={!allowStatusChange}
                                             className="d-flex flex-column h-100 align-items-center justify-content-center border-left p-2 skin-secondary-color"
                                             onClick={this.toggleStatus}
                                             style={{flex: "0 0 96px"}}
                                 >
                                     <FontAwesomeIcon icon={faHeartbeat}
-                                                     className={this.state.status ? "skin-primary-color" : "skin-secondary-color"}
+                                                     className={allowStatusChange ? this.state.status ? "skin-primary-color" : "skin-secondary-color" : "disabledColor"}
                                                      size="lg"/><span
-                                    className={this.state.status ? "skin-primary-color" : "skin-secondary-color"}>{localization.status}</span>
+                                    className={allowStatusChange ? this.state.status ? "skin-primary-color" : "skin-secondary-color" : "disabledColor"}>{localization.status}</span>
                                 </MDBNavLink>
                                 <div>{localization.status}</div>
                             </MDBTooltip>
                             <MDBTooltip material placement="top">
                                 <MDBNavLink to="#"
+                                            disabled={!allowReschedule}
                                             className="d-flex flex-column h-100 align-items-center justify-content-center border-left p-2 skin-secondary-color"
                                             onClick={this.toggleReschedule}
                                             style={{flex: "0 0 96px"}}
                                 >
                                     <FontAwesomeIcon icon={faCalendarDay}
-                                                     className={this.state.reschedule ? "skin-primary-color" : "skin-secondary-color"}
+                                                     className={allowReschedule ? this.state.reschedule ? "skin-primary-color" : "skin-secondary-color" : "disabledColor"}
                                                      size="lg"/><span
-                                    className={this.state.reschedule ? "skin-primary-color" : "skin-secondary-color"}>{localization.reschedule}</span>
+                                    className={allowReschedule ? this.state.reschedule ? "skin-primary-color" : "skin-secondary-color" : "disabledColor"}>{localization.reschedule}</span>
                                 </MDBNavLink>
                                 <div>{localization.reschedule}</div>
                             </MDBTooltip>
                             <MDBTooltip material placement="top">
                                 <MDBNavLink to="#"
-                                            disabled={confirmable ? false : true}
+                                            disabled={!allowConfirm}
                                             className={"d-flex flex-column h-100 align-items-center justify-content-center border-left p-2 skin-secondary-color"}
                                             onClick={this.toggleConfirm}
                                             style={{flex: "0 0 96px"}}
@@ -378,46 +469,46 @@ class Active extends Component {
                                         <span className="fa-layers fa-fw mt-1" style={{marginBottom: "2px"}}>
                                             <FontAwesomeIcon icon={faSquare} transform={"shrink-4"}
                                                              className={"skin-primary-color mt-1"}/>
-                                            <FontAwesomeIcon className={confirmable ? "skin-secondary-color" : "disabledColor"} icon={faCalendarCheck} size="lg"/>
+                                            <FontAwesomeIcon className={allowConfirm ? "skin-secondary-color" : "disabledColor"} icon={faCalendarCheck} size="lg"/>
                                         </span>
                                         :
-                                        <FontAwesomeIcon className={confirmable ? "skin-secondary-color" : "disabledColor"} icon={faCalendar} size="lg"/>}
-                                    <span className={confirmable ? "skin-secondary-color" : "disabledColor"}>{this.props.data.confirmed ? localization.confirmed : localization.confirm}</span>
+                                        <FontAwesomeIcon className={allowConfirm ? "skin-secondary-color" : "disabledColor"} icon={faCalendar} size="lg"/>}
+                                    <span className={allowConfirm ? "skin-secondary-color" : "disabledColor"}>{this.props.data.confirmed ? localization.confirmed : localization.confirm}</span>
                                 </MDBNavLink>
                                 <span>{this.props.data.confirmed ? localization.confirmed : localization.confirm}</span>
                             </MDBTooltip>
                             <MDBTooltip material placement="top">
                                 <MDBNavLink to="#"
-                                            disabled={!verifiable}
+                                            disabled={!allowVerify}
                                             className="d-flex flex-column h-100 align-items-center justify-content-center border-left p-2 skin-secondary-color"
                                             onClick={this.toggleVerify}
                                             style={{flex: "0 0 96px"}}
                                 >
                                     <FontAwesomeIcon icon={faCheckDouble}
-                                                     className={verifiable ? this.state.verify ? "skin-primary-color" : "skin-secondary-color" : "disabledColor"}
+                                                     className={allowVerify ? this.state.verify ? "skin-primary-color" : "skin-secondary-color" : "disabledColor"}
                                                      size="lg"/><span
-                                    className={verifiable ? this.state.verify ? "skin-primary-color" : "skin-secondary-color" : "disabledColor"}>{localization.verify}</span>
+                                    className={allowVerify ? this.state.verify ? "skin-primary-color" : "skin-secondary-color" : "disabledColor"}>{localization.verify}</span>
                                 </MDBNavLink>
                                 <span>{localization.verify}</span>
                             </MDBTooltip>
                         </MDBBox>
                     </MDBBox>
                 </MDBCard>
-                {this.state.reschedule && <MDBCollapse className="bg-white mx-2 my-1" isOpen={true}>
+                {this.state.reschedule && (this.state.appointmentAVS === undefined) && <LoadingScreen /> }
+                {this.state.reschedule && this.state.appointmentAVS && <MDBCollapse className="bg-white mx-2 my-1" isOpen={true}>
                     <MDBCard className="d-flex border-0 shadow-none">
                         <MDBCardBody className="d-flex justify-content-center">
                             <Calendar className="w-50 bg-white" subtitle={""}
-                                      alternateValue={avs} disablePastDates={true}
+                                      alternateValue={this.state.appointmentAVS} disablePastDates={true}
+                                      loadCalendarMonth={this.loadCalendarMonth}
                                       onChange={this.onCalendarChange}/>
                             <TimeSlots className="w-25 ml-3"
-                                       values={avs.appointments[this.state.dateSelected]}/>
+                                        timeSelect={this.onRescheduleSlotSelection}
+                                        values={this.state.appointmentAVS.appointments[this.state.dateSelected]}/>
                         </MDBCardBody>
                         <MDBCardFooter className="d-flex justify-content-between">
                             <MDBBtn rounded outline onClick={this.toggleReschedule}>
                                 {localization.cancel}
-                            </MDBBtn>
-                            <MDBBtn rounded onClick={this.toggleReschedule}>
-                                {localization.reschedule}
                             </MDBBtn>
                         </MDBCardFooter> </MDBCard>
                 </MDBCollapse>}

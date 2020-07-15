@@ -279,6 +279,44 @@ export default class AppointmentAPI {
     }
 
     /**
+     * @typedef RescheduleParams
+     * @type {object}
+     * @property {number} appointmentID 
+     * @property {string} appointmentTime 
+     */
+
+    /**
+     * Persists reschedule of a given appointment
+     *
+     * @static
+     * @param {RescheduleParams} params
+     * @returns {Promise}
+     * @memberof LeadAPI
+     */
+    static async reschedule(params) {
+        // Mock API responses for local dev
+        if (process.env.REACT_APP_QUERY_MODE === "development") {
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "/data/rescheduleAppointmentStatus.json")
+
+            return mockData.json()
+        }
+
+        const redux = store.getState()
+        const requestOptions = {
+            url: redux.config["url-api-base"] + "appointments/" + params.appointmentID,
+            method: "PUT",
+            data: {
+                appointment_time: params.appointmentTime
+            },
+            toast: true,
+            auth: redux.user.auth
+        }
+        const result = await sendRequest(requestOptions)
+
+        return result
+    }
+
+    /**
      * @typedef SaveResponseParams
      * @type {object}
      * @property {array} response

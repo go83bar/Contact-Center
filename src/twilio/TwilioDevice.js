@@ -49,7 +49,7 @@ class TwilioDeviceSingleton {
                 device.on('error', (error) => {
                     console.log("Twilio Device error: ", error)
                     toast.error("Twilio connection error! Please notify dev")
-                    Slack.sendMessage("Agent " + userID + " get a Twilio device connection error: " + error)
+                    Slack.sendMessage("Agent " + userID + " got a Twilio device connection error: " + JSON.stringify(error))
                 })
 
                 this.device = device

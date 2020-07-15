@@ -108,6 +108,14 @@ export function lead(state = initialState, action) {
                 emails: [ ...state.emails, action.data]
             }
 
+        case "LEAD.APPOINTMENTS_LOADED":
+            // called when appointments get reloaded from backend
+            return {
+                ...state,
+                appointments: action.data.appointments,
+                appointment_logs: action.data.appointment_logs
+            }
+
         case "APPOINTMENT.CONFIRMED":
             // called when an appointment confirmation status changes
             const newConfirmedAppointments = state.appointments.map( appt => {

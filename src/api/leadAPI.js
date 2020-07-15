@@ -251,6 +251,44 @@ export default class LeadAPI {
     }
 
     /**
+     * @typedef LeadAppointmentsParams
+     * @type {object}
+     * @property {number} leadID
+     */
+
+    /**
+     * Gets just the appointments and appointment_logs elements of the lead DTO object
+     * 
+     *
+     * @static
+     * @param {LeadAppointmentParams} params
+     * @returns {Promise}
+     * @memberof LeadAPI
+     */
+    static async getLeadAppointments(params) {
+        // Mock API responses for local dev
+        if (process.env.REACT_APP_QUERY_MODE === "development") {
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "/data/leadAppointments.json")
+
+            return mockData.json()
+        }
+
+        const redux = store.getState()
+        const requestOptions = {
+            url: redux.config["url-react-base"] + "activate/lead/appointments",
+            method: "POST",
+            data: {
+                lead_id: params.leadID
+            },
+            auth: redux.user.auth
+        }
+        const result = await sendRequest(requestOptions)
+
+        return result
+    }
+
+
+    /**
      * @typedef EmailContentParams
      * @type {object}
      * @property {number} leadID
