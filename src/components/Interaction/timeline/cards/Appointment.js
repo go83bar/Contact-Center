@@ -35,10 +35,10 @@ class Appointment extends Component {
 
         return (
             <span>
-                <span className="font-weight-bold">{moment.utc(this.props.data.start_time).tz(this.props.lead.details.timezone).format("MMM D")}</span>, {moment.utc(this.props.data.start_time).tz(this.props.lead.details.timezone).format("hh:mm a z")}
+                <span className="font-weight-bold">{moment.utc(this.props.data.start_time).tz(this.props.lead.details.timezone).format("MMM D")}</span>, {moment.utc(this.props.data.start_time).tz(this.props.lead.details.timezone).format("h:mm a z")}
                 {office && (office.timezone !== this.props.lead.details.timezone) &&
                 <span className="ml-3">{this.props.localization.interaction.timeline.office}<span
-                    className="font-weight-bold">{moment.utc(this.props.data.start_time).tz(office.timezone).format("MMM D")}</span>, {moment.utc(this.props.data.start_time).tz(office.timezone).format("hh:mm a z")}</span>}
+                    className="font-weight-bold">{moment.utc(this.props.data.start_time).tz(office.timezone).format("MMM D")}</span>, {moment.utc(this.props.data.start_time).tz(office.timezone).format("h:mm a z")}</span>}
             </span>
         )
     }

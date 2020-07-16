@@ -354,6 +354,11 @@
   flex-basis: calc(100% / 8);
   width: calc(100% / 8);
 }
+
+.toast-dark-text {
+  color: black;
+}
+
 /*@media (min-width: 576px) {
  .modal-dialog {
    max-width: 100%;

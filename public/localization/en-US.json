@@ -363,7 +363,8 @@
     },
     "editLead": {
       "success": "Lead Information Saved Successfully.",
-      "error": "Lead Information Save Unsuccessful."
+      "error": "Lead Information Save Unsuccessful.",
+      "regionChangeWarning": "Warning: Changing region with appointments pending"
     },
     "editContactPreferences": {
       "success": "Lead Contact Preferences updated",

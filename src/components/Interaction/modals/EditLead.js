@@ -149,6 +149,24 @@ class EditLead extends Component {
             })
         })
 
+        // if region has changed, make sure the lead has no pending appointments
+        if (payload.region_id !== undefined) {
+            if (this.props.lead.appointments.length > 0) {
+                // there are some, but are any pending?
+                let hasPending = false
+                this.props.lead.appointments.forEach(appointment => {
+                    const apptStatus = this.props.shift.clients[this.props.lead.client_index].appointment_statuses.find(status => status.id === appointment.appointment_status_id)
+                    if (apptStatus && apptStatus.pending) {
+                        hasPending = true
+                    }
+                })
+
+                if (hasPending) {
+                    toast.warning(this.props.localization.toast.editLead.regionChangeWarning, {className: "toast-dark-text"})
+                }
+            }
+        }
+
         // hack for phone numbers because of PHP code
         if (this.state.cell_phone !== undefined) {
             payload.cell_phone = this.state.cell_phone.replace(/\D/g, '')
