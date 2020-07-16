@@ -14,6 +14,7 @@ class LeadNote extends Component {
         this.state = {
             edit: false,
             noteContent: this.props.note.content,
+            originalContent: this.props.note.content,
             disableSave : false
         };
     }
@@ -34,7 +35,23 @@ class LeadNote extends Component {
             disableSave: false
         })
     }
+
+    // called when user clicks away from note content field after editing
+    // used to trip alert when ending interaction if there is unsaved note content
+    stoppedEditingContent = (event) => {
+        if (event.target.value === this.state.originalContent && this.props.interaction.hasUnsavedNote) {
+            this.props.dispatch({type: "INTERACTION.CLEAR_UNSAVED_NOTE"})
+            return
+        }
+
+        if (event.target.value !== this.state.originalContent && !this.props.interaction.hasUnsavedNote) {
+            this.props.dispatch({type: "INTERACTION.FLAG_UNSAVED_NOTE"})
+            return
+        }
+    }
+
     editCancelClick = () => {
+        this.props.dispatch({type: "INTERACTION.CLEAR_UNSAVED_NOTE"})
         this.setState({edit: false, noteContent: this.props.note.content})
     }
 
@@ -67,7 +84,8 @@ class LeadNote extends Component {
                 // update local state to clear editing box
                 this.setState({
                     edit: false,
-                    disableSave: false
+                    disableSave: false,
+                    originalContent: payload.noteContent
                 })
             }).catch((reason) => {
             // TODO handle error

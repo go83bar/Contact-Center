@@ -1,7 +1,14 @@
 import React, {Component} from 'react'
 import {
     MDBBox,
-    MDBNav
+    MDBNav,
+    MDBModal,
+    MDBModalHeader,
+    MDBModalBody,
+    MDBModalFooter,
+    MDBRow,
+    MDBCol,
+    MDBBtn
 } from "mdbreact"
 import {ToastContainer, Slide} from "react-toastify"
 import LeadSummary from "./Interaction/LeadSummary"
@@ -30,6 +37,7 @@ class Interaction extends Component {
         this.toggleDetails = this.toggleDetails.bind(this)
         this.state = {
             endInteractionVisible : false,
+            unsavedNoteModalVisible: false,
             slim : false,
             details : true,
             activeItem : "1",
@@ -59,8 +67,23 @@ class Interaction extends Component {
         // do nothing if twilio connection is still active
         if (this.props.twilio.callbarVisible) return
 
+        // pop a warning if there is unsaved note content
+        if (this.props.interaction.hasUnsavedNote) {
+            this.setState({ unsavedNoteModalVisible: true})
+            return
+        }
+
         // otherwise pop the endInteraction modal
         this.setState({endInteractionVisible : !this.state.endInteractionVisible})
+    }
+
+    closeUnsavedNoteModal = () => {
+        this.setState({ unsavedNoteModalVisible: false })
+    }
+
+    ignoreUnsavedNote = () => {
+        this.props.dispatch({type: "INTERACTION.CLEAR_UNSAVED_NOTE"})
+        this.setState({ unsavedNoteModalVisible: false, endInteractionVisible: true })
     }
 
     toggleNav()
@@ -112,6 +135,36 @@ class Interaction extends Component {
                     </MDBBox>
                 </MDBBox>
                 {this.state.endInteractionVisible && <EndInteraction history={this.props.history} toggle={this.toggleEndInteraction}/>}
+                <MDBModal isOpen={this.state.unsavedNoteModalVisible} toggle={this.closeUnsavedNoteModal}>
+                        <MDBModalHeader>{localization.endInteraction.unsavedNoteModalHeader}</MDBModalHeader>
+                        <MDBModalBody>
+                            <MDBRow className="p-2">
+                                {localization.endInteraction.unsavedNoteModalBody}
+                            </MDBRow>
+                            <MDBModalFooter className="p-1"/>
+                            <MDBRow>
+                                <MDBCol size={"12"}>
+                                    <MDBBtn
+                                        color="primary"
+                                        rounded
+                                        outline
+                                        className="float-left"
+                                        onClick={this.closeUnsavedNoteModal}
+                                    >
+                                        {this.props.localization.buttonLabels.cancel}
+                                    </MDBBtn>
+                                    <MDBBtn
+                                        color="primary"
+                                        rounded
+                                        className="float-right"
+                                        onClick={this.ignoreUnsavedNote}
+                                    >
+                                        {localization.endInteraction.endWithoutSavingNoteButton}
+                                    </MDBBtn>
+                                </MDBCol>
+                            </MDBRow>
+                        </MDBModalBody>
+                    </MDBModal>
                 <ToastContainer
                     position="bottom-left"
                     hideProgressBar={false}
@@ -130,7 +183,8 @@ const mapStateToProps = state => {
     return {
         localization: state.localization,
         lead : state.lead,
-        twilio: state.twilio
+        twilio: state.twilio,
+        interaction: state.interaction
     }
 }
 

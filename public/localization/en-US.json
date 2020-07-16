@@ -130,7 +130,10 @@
       "state": "State: ",
       "zip": "Zip: ",
       "appointmentRequired": "An appointment is required for this outcome.  No appointments found.",
-      "officeOptionsLabel": "Choose Office"
+      "officeOptionsLabel": "Choose Office",
+      "unsavedNoteModalHeader": "Unsaved Note Content Detected",
+      "unsavedNoteModalBody": "You have an unsaved note on the notes tab. End Interaction anyway?",
+      "endWithoutSavingNoteButton": "Discard Note and End Interaction"
     },
     "notes": {
       "tabTitle": "Notes",

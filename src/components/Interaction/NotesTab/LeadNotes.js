@@ -183,6 +183,10 @@ class LeadNotes extends Component {
     // users has clicked button to cancel editing a selected note
     cancelAdd = () => {
         if (!this.state.isSaving) {
+            if (this.props.interaction.hasUnsavedNote) {
+                this.props.dispatch({type: "INTERACTION.CLEAR_UNSAVED_NOTE"})
+            }
+
             this.setState({
                 noteContent: "",
                 noteID: undefined,
@@ -195,6 +199,10 @@ class LeadNotes extends Component {
     // users has clicked button to cancel editing a selected note
     cancelUpdate = () => {
         if (!this.state.isSaving) {
+            if (this.props.interaction.hasUnsavedNote) {
+                this.props.dispatch({type: "INTERACTION.CLEAR_UNSAVED_NOTE"})
+            }
+            
             this.setState({
                 noteContent: "",
                 noteID: undefined,
@@ -276,7 +284,7 @@ class LeadNotes extends Component {
                         {this.props.lead.notes && this.props.lead.notes.sort((a, b) => {
                             return (a.created_at > b.created_at ? -1 : 1)
                         }).map(note => {
-                            return (<LeadNote key={note.id} note={note} onEdit={this.onEdit}
+                            return (<LeadNote key={note.id} note={note} onBlur={this.stoppedEditingContent}
                                               deleteNote={this.openDeleteModal}/>)
                         })}
                     </MDBBox>
