@@ -24,12 +24,14 @@
     "go": "GO"
   },
   "home": {
-    "interactions": "INTERACTIONS MADE TODAY",
-    "appointments": "APPOINTMENTS MADE TODAY",
-    "handoffs": "HANDOFFS MADE TODAY",
+    "interactionsLabel": "INTERACTIONS TODAY",
+    "bookingsLabel": "BOOKINGS TODAY",
+    "educationsLabel": "EDUCATIONS TODAY",
+    "queueLabel": "IN YOUR QUEUE",
     "signout": "Sign Out",
-    "recent": "Recent Leads",
-    "search": "Find Leads",
+    "recentButtonLabel": "RECENT LEADS",
+    "searchButtonLabel": "FIND A LEAD",
+    "fetchNextButtonLabel": "FETCH NEW LEAD",
     "profile": "User Profile",
     "welcome": "Welcome $!"
   },

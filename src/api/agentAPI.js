@@ -23,9 +23,9 @@ export default class AgentAPI {
         const redux = store.getState()
 
         const requestOptions = {
-            url: redux.config["url-api-base"] + "agents/appstats",
-            data: { agent_id: redux.user.id},
-            method: "GET",
+            url: redux.config["url-react-base"] + "activate/appstats",
+            data: { user_id: redux.user.id},
+            method: "POST",
             auth: redux.user.auth
         }
         const result = await sendRequest(requestOptions)

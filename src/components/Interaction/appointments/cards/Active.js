@@ -386,17 +386,6 @@ class Active extends Component {
             allowReschedule = false
         }
 
-        /*
-        <MDBTooltip material placement="top">
-                            <MDBNavLink to="#"
-                                        className="d-flex flex-column h-100 align-items-center justify-content-center border-left rounded-right p-2 skin-secondary-color"
-                                        onClick={this.deleteClick}
-                                        style={{flex: "0 0 76px"}}
-                            >
-                                <FontAwesomeIcon icon={faCalendarTimes} size="lg"/><span>Cancel</span>
-                            </MDBNavLink>
-                            <span>Cancel</span>
-                        </MDBTooltip>*/
         return (
             <MDBBox className='d-flex flex-column w-100 mb-3'>
                 <MDBCard className="d-flex w-100 shadow-sm border-0">
