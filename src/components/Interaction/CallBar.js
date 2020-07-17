@@ -70,6 +70,11 @@ class CallBar extends Component {
 
     disconnectLead = () => {
         TwilioDevice.disconnectLead()
+
+        // if there is no provider connection, also hang up the conference itself
+        if (this.props.twilio.providerCallSID === "" || this.props.twilio.providerCallSID === undefined) {
+            this.agentDisconnect()
+        }
     }
 
     toggleModal = (modalKey) => {

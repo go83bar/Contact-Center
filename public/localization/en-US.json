@@ -24,9 +24,9 @@
     "go": "GO"
   },
   "home": {
-    "interactionsLabel": "INTERACTIONS TODAY",
-    "bookingsLabel": "BOOKINGS TODAY",
-    "educationsLabel": "EDUCATIONS TODAY",
+    "interactionsLabel": "INTERACTIONS",
+    "bookingsLabel": "BOOKINGS",
+    "educationsLabel": "EDUCATIONS",
     "queueLabel": "IN YOUR QUEUE",
     "signout": "Sign Out",
     "recentButtonLabel": "RECENT LEADS",
