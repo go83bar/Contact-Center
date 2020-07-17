@@ -126,7 +126,7 @@ class Home extends Component {
         const localization = this.props.localization.home
         let cards = []
         const fetchNextButton = (
-            <MDBCard key="fetch" className="shadow-sm px-3 py-4" data-grid={{ w: 3, h: 3, x: 1, y: 1, minW: 3, minH: 3, isResizable : false, isDraggable : false }}>
+            <MDBCard key="fetch" className="shadow-sm px-2 py-3" data-grid={{ w: 3, h: 3, x: 1, y: 1, minW: 3, minH: 3, isResizable : false, isDraggable : false }}>
                 <Link to="/next" className="d-flex skin-secondary-color align-items-center justify-content-between">
                     <span className="fa-layers fa-fw fa-4x">
                         <FontAwesomeIcon icon={faCircleSolid} className="skin-primary-color"/>
@@ -139,7 +139,7 @@ class Home extends Component {
         cards.push(fetchNextButton)
 
         const searchButton = (
-            <MDBCard key="find" className="shadow-sm px-3 py-4" data-grid={{ w: 3, h: 3, x: 1, y: 5, minW: 3, minH: 3, isResizable : false, isDraggable : false  }}>
+            <MDBCard key="find" className="shadow-sm px-2 py-3" data-grid={{ w: 3, h: 3, x: 5, y: 1, minW: 3, minH: 3, isResizable : false, isDraggable : false  }}>
                 <Link to="#" onClick={this.toggleSearch} className="d-flex skin-secondary-color align-items-center justify-content-between">
                     <span className="fa-layers fa-fw fa-4x">
                         <FontAwesomeIcon icon={faCircleSolid} className="skin-primary-color"/>
@@ -152,7 +152,7 @@ class Home extends Component {
         cards.push(searchButton)
 
         const recentButton = (
-            <MDBCard key="recent" className="shadow-sm px-3 py-4" data-grid={{ w: 3, h: 3, x: 1, y: 9, minW: 3, minH: 3, isResizable : false, isDraggable : false  }}>
+            <MDBCard key="recent" className="shadow-sm px-2 py-3" data-grid={{ w: 3, h: 3, x: 9, y: 1, minW: 3, minH: 3, isResizable : false, isDraggable : false  }}>
                 <Link to="#" onClick={this.toggleRecent} className="d-flex skin-secondary-color align-items-center justify-content-between">
                     <span className="fa-layers fa-fw fa-4x">
                         <FontAwesomeIcon icon={faCircleSolid} className="skin-primary-color"/>
@@ -164,12 +164,17 @@ class Home extends Component {
         )
         cards.push(recentButton)
 
+        const divider = (
+            <MDBBox key="divider" data-grid={{ w: 13, h: 1, x:1, y:4, minW: 13, minH: 1, isResizable: false, isDraggable: false}}></MDBBox> 
+        )
+        cards.push(divider)
+
         if (this.state.queueCount !== undefined) {
             const queueCard = (
-                <MDBCard key="queue" className="shadow-sm px-3 py-4" data-grid={{ w: 3, h: 3, x: 9, y: 1, minW: 3, minH: 3, isResizable : false, isDraggable : false  }}>
+                <MDBCard key="queue" className="shadow-sm px-2 py-2" data-grid={{ w: 2, h: 2, x: 1, y: 5, minW: 2, minH: 2, isResizable : false, isDraggable : false  }}>
                     <Link to="#" className="d-flex skin-secondary-color align-items-center justify-content-between">
-                        <span>{this.props.localization.home.queueLabel}: {this.state.queueCount}</span>
-                        <span className="fa-layers fa-fw fa-4x">
+                        <span className="small-font">{this.props.localization.home.queueLabel}: {this.state.queueCount}</span>
+                        <span className="fa-layers fa-fw fa-3x">
                             <FontAwesomeIcon icon={faCircleSolid} className="skin-secondary-color"/>
                             <FontAwesomeIcon icon={faClipboardList} transform={"shrink-8"} className={"skin-text"}/>
                         </span>
@@ -181,10 +186,10 @@ class Home extends Component {
 
         if (this.state.interactionsCount !== undefined) {
             const interactionCard = (
-                <MDBCard key="interactions" className="shadow-sm px-3 py-4" data-grid={{ w: 3, h: 3, x: 9, y: 5, minW: 3, minH: 3, isResizable : false, isDraggable : false  }}>
+                <MDBCard key="interactions" className="shadow-sm px-2 py-2" data-grid={{ w: 2, h: 2, x: 4, y: 5, minW: 2, minH: 2, isResizable : false, isDraggable : false  }}>
                     <Link to="#" className="d-flex skin-secondary-color align-items-center justify-content-between">
-                        <span>{this.props.localization.home.interactionsLabel}: {this.state.interactionsCount}</span>
-                        <span className="fa-layers fa-fw fa-4x">
+                        <span className="small-font">{this.props.localization.home.interactionsLabel}: {this.state.interactionsCount}</span>
+                        <span className="fa-layers fa-fw fa-3x">
                             <FontAwesomeIcon icon={faCircleSolid} className="skin-secondary-color"/>
                             <FontAwesomeIcon icon={faPhone} transform={"shrink-8"} className={"skin-text"}/>
                         </span>
@@ -196,10 +201,10 @@ class Home extends Component {
 
         if (this.state.bookingsCount !== undefined) {
             const bookingCard = (
-                <MDBCard key="bookings" className="shadow-sm px-3 py-4" data-grid={{ w: 3, h: 3, x: 9, y: 9,  minW: 3, minH: 3, isResizable : false, isDraggable : false  }}>
+                <MDBCard key="bookings" className="shadow-sm px-2 py-2" data-grid={{ w: 2, h: 2, x: 7, y: 5,  minW: 2, minH: 2, isResizable : false, isDraggable : false  }}>
                     <Link to="#" className="d-flex skin-secondary-color align-items-center justify-content-between">
-                        <span>{this.props.localization.home.bookingsLabel}: {this.state.bookingsCount}</span>
-                        <span className="fa-layers fa-fw fa-4x">
+                        <span className="small-font">{this.props.localization.home.bookingsLabel}: {this.state.bookingsCount}</span>
+                        <span className="fa-layers fa-fw fa-3x">
                             <FontAwesomeIcon icon={faCircleSolid} className="skin-secondary-color"/>
                             <FontAwesomeIcon icon={faCalendarCheck} transform={"shrink-8"} className={"skin-text"}/>
                         </span>
@@ -211,10 +216,10 @@ class Home extends Component {
 
         if (this.state.educationsCount !== undefined) {
             const educationCard = (
-                <MDBCard key="educations" className="shadow-sm px-3 py-4" data-grid={{ w: 3, h: 3, x: 9, y: 13, minW: 3, minH: 3, isResizable : false, isDraggable : false  }}>
+                <MDBCard key="educations" className="shadow-sm px-2 py-2" data-grid={{ w: 2, h: 2, x: 10, y: 5, minW: 2, minH: 2, isResizable : false, isDraggable : false  }}>
                     <Link to="#" className="d-flex skin-secondary-color align-items-center justify-content-between">
-                        <span>{this.props.localization.home.educationsLabel}: {this.state.educationsCount}</span>
-                        <span className="fa-layers fa-fw fa-4x">
+                        <span className="small-font">{this.props.localization.home.educationsLabel}: {this.state.educationsCount}</span>
+                        <span className="fa-layers fa-fw fa-3x">
                             <FontAwesomeIcon icon={faCircleSolid} className="skin-secondary-color"/>
                             <FontAwesomeIcon icon={faGraduationCap} transform={"shrink-8"} className={"skin-text"}/>
                         </span>
