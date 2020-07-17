@@ -468,9 +468,10 @@ class NewAppointmentBooking extends Component {
 
     render() {
         if (!this.state.isBooking) {
+            const availableApptTypes = this.props.lead.appointment_types.length > 0
             return (
-                <MDBBtn rounded onClick={this.startBookingFlow}>
-                    {this.props.localized.bookButtonLabel}
+                <MDBBtn rounded disabled={!availableApptTypes} onClick={this.startBookingFlow}>
+                    { availableApptTypes ? this.props.localized.bookButtonLabel : this.props.localized.noTypesButtonLabel }
                 </MDBBtn>
             )
         }
