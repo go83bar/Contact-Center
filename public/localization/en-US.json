@@ -109,7 +109,9 @@
       "zip": "Zip: ",
       "region": "Region: ",
       "phase": "Phase: ",
-      "id": "ID: "
+      "id": "ID: ",
+      "copyLeadIDTooltip": "Click to copy to clipboard",
+      "copiedLeadIDTooltip": "Copied!"
     },
     "documents": {
       "tabTitle": "Documents"

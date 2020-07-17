@@ -1,13 +1,38 @@
 import React, {Component} from 'react'
-import {MDBCard, MDBCardBody, MDBChip} from "mdbreact";
+import {MDBCard, MDBCardBody, MDBChip, MDBTooltip, MDBBox} from "mdbreact";
 import {connect} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
     faStar,
 } from "@fortawesome/pro-solid-svg-icons";
+import { toast } from 'react-toastify';
 
 
 class LeadDetail extends Component {
+
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            leadIDCopyTooltip: props.localization.interaction.details.copyLeadIDTooltip
+        }
+    }
+
+    copyLeadIDToClipboard = () => {
+        const leadID = this.props.lead.id
+        let dummyInput = document.createElement("input")
+        document.body.appendChild(dummyInput)
+        dummyInput.value = leadID
+        dummyInput.select()
+        document.execCommand("copy")
+        document.body.removeChild(dummyInput)
+    
+        this.setState({leadIDCopyTooltip: this.props.localization.interaction.details.copiedLeadIDTooltip})
+    }
+    
+    clearCopyMessage = () => {
+        this.setState({leadIDCopyTooltip: this.props.localization.interaction.details.copyLeadIDTooltip})
+    }
 
     render() {
         const client = this.props.shift.clients[this.props.lead.client_index]
@@ -53,7 +78,12 @@ class LeadDetail extends Component {
 
                     </div>
                     <div className="d-flex flex-column justify-content-between align-items-start w-50">
-                    <MDBChip className="outlineChip ml-4 mb-0">{localization.id}{lead.id}</MDBChip>
+                        <MDBTooltip placement="right" domElement tag="span" material sm>
+                            <span>
+                                <MDBChip className="outlineChip ml-4 mb-0" onClick={this.copyLeadIDToClipboard} onMouseOut={this.clearCopyMessage}>{localization.id}{lead.id}</MDBChip>
+                            </span>
+                            <span>{this.state.leadIDCopyTooltip}</span>
+                        </MDBTooltip>
                     <MDBChip className={"outlineChip ml-4 mb-0"}>{localization.region}{region.name} - {formatPhoneNumber(region.default_number)}</MDBChip>
                     <MDBChip className={"outlineChip ml-4 mb-0"}>{localization.phase}{phase.label}</MDBChip>
                     </div>
