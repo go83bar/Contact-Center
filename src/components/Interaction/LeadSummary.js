@@ -169,8 +169,10 @@ class LeadSummary extends Component {
     }
 
     render() {
-        let localization = this.props.localization.interaction.summary
-        let lead = this.props.lead
+        const localization = this.props.localization.interaction.summary
+        const lead = this.props.lead
+        const client = this.props.shift.clients[lead.client_index]
+
         return (
             <MDBBox className='p-0 m-0 w-100 d-flex' style={{flex:"0 53px", fontSize:"18px"}}>
                 <MDBCard className='skin-border-primary rounded w-100 h-100'>
@@ -223,7 +225,7 @@ class LeadSummary extends Component {
                                     </MDBPopoverBody>
                                 </div>
                             </MDBPopover>
-                            <MDBChip className={"outlineChip ml-4 mb-0"}>{this.state.clientName}</MDBChip>
+                            <MDBChip className={"outlineChip ml-4 mb-0"} style={{ backgroundColor: client.theme.primary, borderColor: client.theme.text, color: client.theme.text }}>{this.state.clientName}</MDBChip>
                             <MDBChip className={"outlineChip ml-1 mb-0"}>{this.state.campaignName}</MDBChip>
                             <MDBChip className={"outlineChip ml-1 mb-0" + (this.props.preview.call_sid !== null ? " green accent-2" : "")}>{this.props.preview.reason}</MDBChip>
                         </div>

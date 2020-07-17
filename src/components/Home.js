@@ -165,7 +165,7 @@ class Home extends Component {
         cards.push(recentButton)
 
         const divider = (
-            <MDBBox key="divider" data-grid={{ w: 13, h: 1, x:1, y:4, minW: 13, minH: 1, isResizable: false, isDraggable: false}}></MDBBox> 
+            <MDBBox key="divider" data-grid={{ w: 13, h: 1, x:1, y:4, minW: 3, minH: 1, isResizable: false, isDraggable: false}}></MDBBox> 
         )
         cards.push(divider)
 
