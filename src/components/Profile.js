@@ -44,61 +44,6 @@ class Profile extends Component {
                     text: "83Bar - F",
                     value: "eightthreef-skin",
                     checked: document.body.className.includes("eightthreef-skin") ? true : false
-                },
-                {
-                    text: "83Bar - G",
-                    value: "eightthreeg-skin",
-                    checked: document.body.className.includes("eightthreeg-skin") ? true : false
-                },
-                {
-                    text: "Black",
-                    value: "black-skin",
-                    checked: document.body.className.includes("black-skin") ? true : false
-                },
-                {
-                    text: "White",
-                    value: "white-skin",
-                    checked: document.body.className.includes("white-skin") ? true : false
-                },
-                {
-                    text: "Cyan",
-                    value: "cyan-skin",
-                    checked: document.body.className.includes("cyan-skin") ? true : false
-                },
-                {
-                    text: "MDB",
-                    value: "mdb-skin",
-                    checked: document.body.className.includes("mdb-skin") ? true : false
-                },
-                {
-                    text: "Deep Purple",
-                    value: "deep-purple-skin",
-                    checked: document.body.className.includes("deep-purple-skin") ? true : false
-                },
-                {
-                    text: "Navy Blue",
-                    value: "navy-blue-skin",
-                    checked: document.body.className.includes("navy-blue-skin") ? true : false
-                },
-                {
-                    text: "Pink",
-                    value: "pink-skin",
-                    checked: document.body.className.includes("pink-skin") ? true : false
-                },
-                {
-                    text: "Indigo",
-                    value: "indigo-skin",
-                    checked: document.body.className.includes("indigo-skin") ? true : false
-                },
-                {
-                    text: "Light Blue",
-                    value: "light-blue-skin",
-                    checked: document.body.className.includes("light-blue-skin") ? true : false
-                },
-                {
-                    text: "Grey",
-                    value: "grey-skin",
-                    checked: document.body.className.includes("grey-skin") ? true : false
                 }
             ],
             "skin" : undefined

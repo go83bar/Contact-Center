@@ -8,6 +8,7 @@ import {
     faPhone, faPlay
 } from "@fortawesome/pro-solid-svg-icons";
 import {faCircle} from "@fortawesome/pro-light-svg-icons";
+import ReactPlayer from "react-player/lazy";
 
 class Call extends Component {
 
@@ -43,6 +44,9 @@ class Call extends Component {
                                 <FontAwesomeIcon className="ml-2 skin-primary-color" icon={faPlay} size="sm"/>
                             </span>
                             <span>Provider Connection</span>
+                        </div>
+                        <div>
+                            <ReactPlayer url="http://www.hyperion-records.co.uk/audiotest/18%20MacCunn%20The%20Lay%20of%20the%20Last%20Minstrel%20-%20Part%202%20Final%20chorus%20O%20Caledonia!%20stern%20and%20wild.MP3"/>
                         </div>
                         <div className="d-flex w-25 f-s flex-column text-right justify-content-start">
                             <span><span className="font-weight-bold">{this.props.data.created_at.format("MMM D")}</span>, {this.props.data.created_at.format("hh:mm a z")}</span>
