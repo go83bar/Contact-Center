@@ -262,6 +262,9 @@
         "allowed": "Allowed",
         "notAllowed": "Not Allowed"
       },
+      "email": {
+        "resendButtonLabel": "Resend Email"
+      },
       "log": {
         "to": " to ",
         "from": " from: ",
@@ -377,6 +380,12 @@
       "pauseRecordingFailed": "Twilio error! Recording not paused!",
       "resumeRecordingFailed": "Twilio error! Recording not resumed!",
       "playTonesFailed": "Twilio error! Keypad input not accepted!"
+    },
+    "timeline": {
+      "email": {
+        "emailResent": "Email resent!",
+        "emailResendError": "Email was not resent"
+      }
     }
   }
 }

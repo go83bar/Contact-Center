@@ -143,7 +143,7 @@ class LeadNotes extends Component {
                             interaction_id: payload.interactionID,
                             content: payload.noteContent,
                             created_by: this.props.user.title + " " + this.props.user.label_name,
-                            created_at: moment().format()
+                            created_at: moment.utc().format()
                         }
                         this.props.dispatch({
                             type: "LEAD.NOTE_SAVED",

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {MDBBox, MDBCard, MDBCardBody, MDBCollapse, MDBIcon} from "mdbreact"
+import {MDBBox, MDBCard, MDBCardBody, MDBCollapse, MDBIcon, MDBBtn, MDBListGroup, MDBListGroupItem} from "mdbreact"
 import { connect } from "react-redux"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
@@ -7,12 +7,19 @@ import {
     faArrowRight,
     faCircle as faCircleSolid,
     faEnvelope,
-    faEnvelopeOpen
+    faEnvelopeOpen,
+    faBan,
+    faShare,
+    faTimes,
+    faExternalLinkAlt,
+    faPaperPlane,
 } from "@fortawesome/pro-solid-svg-icons";
 import {faCircle} from "@fortawesome/pro-light-svg-icons";
 import LoadingScreen from "../../../LoadingScreen"
 import LeadAPI from '../../../../api/leadAPI';
 import {toast} from "react-toastify";
+import moment from "moment-timezone";
+import AgentAPI from '../../../../api/agentAPI';
 
 class Email extends Component {
 
@@ -22,7 +29,8 @@ class Email extends Component {
 
         this.state = {
             collapsed: true,
-            emailContent: undefined
+            emailContent: undefined,
+            resent: false
         }
 
     }
@@ -50,8 +58,37 @@ class Email extends Component {
         this.setState({collapsed : !this.state.collapsed})
     }
 
+    resendEmail = () => {
+        if (this.state.resent === false) {
+            const params = {
+                leadID: this.props.lead.id,
+                logEmailID: this.props.data.id
+            }
+            this.setState({resent: true})
+
+            AgentAPI.resendEmail(params).then( response => {
+                toast.success(this.props.localization.toast.timeline.email.emailResent)
+                const newEmailLog = {
+                    id: response.new_log_id,
+                    direction: "outgoing",
+                    subject: this.props.data.subject,
+                    events: [],
+                    created_at: moment.utc().format()
+                }
+                this.props.dispatch({ type: "LEAD.EMAIL_SENT", data: newEmailLog })
+
+            }).catch( reason => {
+                toast.error(this.props.localization.toast.timeline.email.emailResendError)
+            })
+        }
+    }
+
     render() {
         const opened = this.props.data.events && this.props.data.events.find(event => event.event === "Open") ? true : false
+        const delivered = this.props.data.events && this.props.data.events.find(event => event.event === "Delivery") ? true : false
+        const clicked = this.props.data.events && this.props.data.events.find(event => event.event === "Clicked") ? true : false
+        const bounced = this.props.data.events && this.props.data.events.find(event => event.event === "Bounced") ? true : false
+        const spam = this.props.data.events && this.props.data.events.find(event => event.event === "Spam") ? true : false
         return (
             <MDBCard className='w-100 border-0 mb-3 z-2'>
                 <MDBBox className="backgroundColorInherit timelineCardHeader skin-border-primary f-m shadow-sm"
@@ -71,7 +108,19 @@ class Email extends Component {
                             <span>View full email <FontAwesomeIcon className="ml-1" icon={faEnvelopeOpen} size="sm"/></span>
                         </div>
                         <div className="d-flex w-25 f-s flex-column text-right justify-content-between">
-                            <span><span className="font-weight-bold">{this.props.data.created_at.format("MMM D")}</span>, {this.props.data.created_at.format("hh:mm a z")}</span>
+
+                            <span>
+                                { clicked && <FontAwesomeIcon className="mr-1" icon={faExternalLinkAlt} size="sm"/>}
+                                { opened && <FontAwesomeIcon className="mr-1" icon={faEnvelopeOpen} size="sm"/>}
+                                { delivered && <FontAwesomeIcon className="mr-1" icon={faEnvelope} size="sm"/>}
+                                { spam && <FontAwesomeIcon className="mr-1" icon={faBan} size="sm"/>}
+                                { bounced && <FontAwesomeIcon className="mr-1" icon={faTimes} size="sm"/>}
+                                
+                                <FontAwesomeIcon className="mr-1" icon={faShare} size="sm"/>
+                                <span>
+                                    <span className="font-weight-bold">{this.props.data.created_at.format("MMM D")}</span>, {this.props.data.created_at.format("h:mm a z")}
+                                </span>
+                            </span>
                             <span><MDBIcon className="m-2" size={"lg"} icon={this.state.collapsed ? 'angle-down' : 'angle-up'}/></span>
                         </div>
                     </div>
@@ -81,6 +130,17 @@ class Email extends Component {
                     <MDBCardBody className="timelineCardBody skin-border-primary">
                         {this.state.emailContent === undefined && <LoadingScreen />}
                         <div dangerouslySetInnerHTML={{ __html: this.state.emailContent }} />
+                        <MDBBox className="d-flex justify-content-between mt-2">
+                            {this.state.emailContent !== undefined && <MDBBox><MDBBtn rounded disabled={this.state.resent} onClick={this.resendEmail}>
+                                <FontAwesomeIcon className="mr-1" icon={faPaperPlane} size="sm"/>{this.props.localization.interaction.timeline.email.resendButtonLabel}
+                            </MDBBtn></MDBBox>}
+                            {(this.props.data.events && this.props.data.events.length > 0) && <MDBListGroup>
+                                {this.props.data.events.map( event => {
+                                    return <MDBListGroupItem key={event.time}>{moment.utc(event.time).tz(this.props.lead.details.timezone).format("MMM D, YYYY h:mm a z")} - {event.event}</MDBListGroupItem>
+                                })}
+                            </MDBListGroup>}
+
+                        </MDBBox>
                     </MDBCardBody>
                 </MDBCollapse>
             </MDBCard>

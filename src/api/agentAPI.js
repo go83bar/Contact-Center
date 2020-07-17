@@ -76,6 +76,49 @@ export default class AgentAPI {
 
     }
 
+
+    /**
+     * @typedef ResendEmailParams
+     * @type {object}
+     * @property {number} leadID 
+     * @property {number} logEmailID 
+     */
+
+    /**
+     * Resends logged email to lead's current email
+     *
+     * @static
+     * @param {ResendEmailParams} params
+     * @returns {Promise}
+     * @memberof LeadAPI
+     */
+    static async resendEmail(params) {
+        // Mock API responses for local dev
+        if (process.env.REACT_APP_QUERY_MODE === "development") {
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "/data/resendEmail.json")
+
+            return mockData.json()
+        }
+
+        const redux = store.getState()
+        const requestOptions = {
+            url: redux.config["url-api-base"] + "leads/" + params.leadID + "/timeline/resend",
+            method: "POST",
+            data: {
+                log_id: params.logEmailID
+            },
+            toast: true,
+            auth: redux.user.auth
+        }
+        const result = await sendRequest(requestOptions)
+
+        return result
+       
+    }
+
+    /**
+     * Gets the user's current shift data, returns a fairly large object with all the assigned clients' data
+     */
     static async getShiftData() {
         // Mock API responses for local dev
         if (process.env.REACT_APP_QUERY_MODE === "development") {

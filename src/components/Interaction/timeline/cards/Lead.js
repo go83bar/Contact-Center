@@ -72,8 +72,11 @@ class Lead extends Component {
                     </div>)
                     break
                 case "timezone":
-                    let oldV = timezones.find(tz => tz.value === item.old_value)
-                    let newV = timezones.find(tz => tz.value === item.new_value)
+                    const nullValue = {
+                        label: "None"
+                    }
+                    let oldV = item.old_value === null ? nullValue : timezones.find(tz => tz.value === item.old_value)
+                    let newV = item.new_value === null ? nullValue : timezones.find(tz => tz.value === item.new_value)
                     result.push(<div key={"log-" + item.created_at.format()+ "-" + index}>
                         {String.humanize(item.field) + localization.from + oldV.label + localization.to +  newV.label}
                     </div>)
