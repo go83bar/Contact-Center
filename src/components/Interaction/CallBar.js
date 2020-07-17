@@ -129,6 +129,7 @@ class CallBar extends Component {
     }
 
     render() {
+        const recordingEnabled = this.props.shift.clients[this.props.lead.client_index].record_calls
         if (!this.props.twilio.callbarVisible) {
             return ""
         }
@@ -195,7 +196,7 @@ class CallBar extends Component {
                         </MDBNavLink>
                     </MDBNavItem>
                     <div className={"font-weight-bolder p-0 pb-1 mt-0 text-align-center w-100"}><hr className="mt-0 mb-2 w-100 skin-primary-background-color"/>{this.props.localized.agentLabel}</div>
-                    <MDBNavItem className={"w-50 pb-2" + (this.props.twilio.agentPauseButtonEnabled ? "" : " hidden")} onClick={this.agentPauseRecording}>
+                    <MDBNavItem className={"w-50 pb-2" + (recordingEnabled && this.props.twilio.agentPauseButtonEnabled ? "" : " hidden")} onClick={this.agentPauseRecording}>
                         <MDBNavLink to="#" className={"text-align-center p-0"}>
                             <span className="fa-layers fa-fw fa-3x">
                                 <FontAwesomeIcon icon={faCircleSolid} className="text-white"/>
@@ -205,7 +206,7 @@ class CallBar extends Component {
                             <span className="callBarText skin-secondary-color"><br/>{this.props.localized.pauseLabel}</span>
                         </MDBNavLink>
                     </MDBNavItem>
-                    <MDBNavItem className={"w-50 pb-2" + (this.props.twilio.agentResumeButtonEnabled ? "" : " hidden")} onClick={this.agentResumeRecording}>
+                    <MDBNavItem className={"w-50 pb-2" + (recordingEnabled && this.props.twilio.agentResumeButtonEnabled ? "" : " hidden")} onClick={this.agentResumeRecording}>
                         <MDBNavLink to="#" className={"text-align-center p-0"}>
                             <span className="fa-layers fa-fw fa-3x">
                                 <FontAwesomeIcon icon={faCircleSolid} className="stop-icon-bg"/>
@@ -274,14 +275,14 @@ class CallBar extends Component {
     } 
 }
 
-const mapStateToProps = store => {
+const mapStateToProps = state => {
     return {
-        localized: store.localization.interaction.callbar,
-        localization: store.localization,
-        client: store.client,
-        lead: store.lead,
-        twilio: store.twilio,
-        preview: store.preview
+        localized: state.localization.interaction.callbar,
+        localization: state.localization,
+        shift: state.shift,
+        lead: state.lead,
+        twilio: state.twilio,
+        preview: state.preview
     }
 }
 
