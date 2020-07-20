@@ -1,11 +1,10 @@
 import React, {Component} from 'react'
-import {MDBCard, MDBCardBody, MDBChip, MDBTooltip, MDBBox} from "mdbreact";
+import {MDBCard, MDBCardBody, MDBChip, MDBTooltip} from "mdbreact";
 import {connect} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
     faStar,
 } from "@fortawesome/pro-solid-svg-icons";
-import { toast } from 'react-toastify';
 
 
 class LeadDetail extends Component {

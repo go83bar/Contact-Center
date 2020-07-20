@@ -213,6 +213,8 @@ export function twilio(state = initialState, action) {
                 providerTransferButtonEnabled: false,
                 agentDisconnectButtonEnabled: enableAgentDisconnect
             })
+        case 'LOG_OUT_USER':
+            return initialState
         default:
             return state
     }
