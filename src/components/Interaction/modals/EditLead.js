@@ -297,7 +297,11 @@ class EditLead extends Component {
 
                     // compare to original
                     let newDate = null
-                    if (dateParts.dayValue !== undefined && dateParts.monthValue !== undefined && dateParts.yearValue !== undefined) {
+                    if (dateParts.dayValue !== undefined && dateParts.dayValue.length > 0 && 
+                        dateParts.monthValue !== undefined && dateParts.monthValue.length > 0 && 
+                        dateParts.yearValue !== undefined && dateParts.yearValue.length > 0) {
+                        // only if all date parts are present and non-empty values do we call newDate anything but null
+                        // to account for a date that started undefined, was entered, and then was erased
                         const dateString = dateParts.yearValue + "-" + dateParts.monthValue.padStart(2, "0") + "-" + dateParts.dayValue.padStart(2, "0")
                         newDate = moment(dateString).format("YYYY-MM-DD")
                     }

@@ -2,7 +2,8 @@ const initialState = {
         id: 0,
         isAuthenticated: false,
         roles : [],
-        auth : { userID : undefined, token : undefined }
+        auth : { userID : undefined, token : undefined, expirationTime: undefined }
+        
       }
 
 // Reducer for handling auth actions
@@ -17,8 +18,21 @@ export function user(state = initialState, action) {
                 ...user,
                 isAuthenticated: true
             })
+
         case 'LOG_OUT_USER':
             return initialState
+        
+        case 'USER.TOKEN_REFRESH':
+            const newAuth = {
+                userID: state.auth.userID,
+                token: state.auth.token,
+                expirationTime: action.data
+            }
+
+            return Object.assign({}, state, {
+                auth: newAuth
+            })
+
         default:
             return state
     }
