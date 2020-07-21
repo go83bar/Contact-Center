@@ -19,6 +19,9 @@
     "update": "Update",
     "delete": "Delete",
     "cancel": "Cancel",
+    "close": "Close",
+    "closeWithoutSaving": "Close without saving changes",
+    "confirmCloseWithoutSaving": "Confirm close without saving",
     "search": "Search",
     "send": "Send",
     "go": "GO"

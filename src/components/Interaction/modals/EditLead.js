@@ -69,7 +69,9 @@ class EditLead extends Component {
             regionOptions: regionOptions,
             disableSave: true,
             hasErrors: false,
-            errorMessage: ""
+            hasChanges: false,
+            errorMessage: "",
+            closeConfirm: false
         };
     }
 
@@ -106,34 +108,8 @@ class EditLead extends Component {
             }
         }
 
-        // Compare current state to props to build save payload based on what changed
-        let updatedFields = []
-        for (let [field, value] of Object.entries(this.state.originalValues)) {
-            // date of birth check is special
-            if (field === "date_of_birth") {
-                let stateDate = null
-                if (this.state.monthValue !== undefined) {
-                    stateDate = validDate.format("YYYY-MM-DD")
-                }
-                let originalDate = null
-                if (value !== undefined) {
-                    originalDate = value
-                }
-
-                if (stateDate !== originalDate) {
-                    updatedFields.push({fieldName: "date_of_birth", value: stateDate, oldValue: originalDate})
-                }
-                // must strip non-numeric from phone fields before comparison
-            } else if (field === "cell_phone" || field === "home_phone") {
-                const newPhone = this.state[field].replace(/\D/g, '')
-                if (newPhone !== value && (newPhone !== "" && value !== undefined)) { // ignore any "change" from undefined to blank string
-                    updatedFields.push({fieldName: field, value: newPhone, oldValue: value})
-                }
-                // other fields are simple string comparison, again ignoring empty cells that started undefined
-            } else if (value !== this.state[field] && !(this.state[field] === "" && value === undefined)) {
-                updatedFields.push({fieldName: field, value: this.state[field], oldValue: value})
-            }
-        }
+        // Compare current state to props to get array of changed fields
+        let updatedFields = this.detectChangedFields()
 
         // build payload for save API call and array of changes for redux action
         let payload = {}
@@ -214,7 +190,48 @@ class EditLead extends Component {
         this.props.closeModal(this.state.modalName)
     }
 
+    detectChangedFields = () => {
+        let updatedFields = []
+        for (let [field, value] of Object.entries(this.state.originalValues)) {
+            // date of birth check is special
+            if (field === "date_of_birth") {
+                let stateDate = null
+                if (this.state.monthValue !== undefined) {
+                    const dateString = this.state.yearValue + "-" + this.state.monthValue.padStart(2, "0") + "-" + this.state.dayValue.padStart(2, "0")
+                    console.log(dateString)
+                    stateDate = moment(dateString).format("YYYY-MM-DD")
+                }
+                let originalDate = null
+                if (value !== undefined) {
+                    originalDate = value
+                }
+
+                if (stateDate !== originalDate) {
+                    updatedFields.push({fieldName: "date_of_birth", value: stateDate, oldValue: originalDate})
+                }
+                // must strip non-numeric from phone fields before comparison
+            } else if (field === "cell_phone" || field === "home_phone") {
+                const newPhone = this.state[field].replace(/\D/g, '')
+                if (newPhone !== value && (newPhone !== "" && value !== undefined)) { // ignore any "change" from undefined to blank string
+                    updatedFields.push({fieldName: field, value: newPhone, oldValue: value})
+                }
+                // other fields are simple string comparison, again ignoring empty cells that started undefined
+            } else if (value !== this.state[field] && !(this.state[field] === "" && value === undefined)) {
+                updatedFields.push({fieldName: field, value: this.state[field], oldValue: value})
+            }
+        }
+
+        return updatedFields
+    }
+
     cancel = () => {
+        // if we have changes but aren't already in confirm state, set closeConfirm
+        if (this.state.hasChanges && !this.state.closeConfirm) {
+            this.setState({ closeConfirm: true })
+            return
+        }
+
+        // otherwise we're OK to close
         this.props.closeModal(this.state.modalName)
     }
 
@@ -234,23 +251,92 @@ class EditLead extends Component {
     }
 
     handleFormInput = (evt) => {
-        this.setState({[evt.target.name]: evt.target.value, hasErrors: false, disableSave: false})
+        this.setFieldUpdatesIntoState(evt.target.name, evt.target.value)
     }
 
     chooseTimezone = (values) => {
-        this.setState({timezone: values[0], hasErrors: false, disableSave: false})
+        this.setFieldUpdatesIntoState("timezone", values[0])
     }
 
     chooseRegion = (values) => {
-        this.setState({region_id: parseInt(values[0]), hasErrors: false, disableSave: false})
+        this.setFieldUpdatesIntoState("region_id", parseInt(values[0]))
+    }
+
+    setFieldUpdatesIntoState = (field, value) => {
+        let newState = {[field]: value, hasErrors: false, disableSave: false, closeConfirm: false}
+        let DOBMode = false
+
+        // default comparison function to determine if field has changed from original
+        let thisFieldHasChanged = (field, newValue) => {
+            return (this.state.originalValues[field] !== newValue && !(this.state.originalValues[field] === undefined && newValue === ""))
+        }
+
+        // some fields require special logic
+        switch(field) {
+            case "cell_phone":
+            case "home_phone":
+                // strip fromatting characters from phone values before comparison
+                value = value.replace(/\D/g, '')
+                break
+            
+            case "dayValue":
+            case "monthValue":
+            case "yearValue":
+                DOBMode = true
+                // the DOB fields require an entirely different comparison function
+                thisFieldHasChanged = (field, newValue) => {
+                    // construct date parts object
+                    let dateParts = {
+                        dayValue: this.state.dayValue,
+                        monthValue: this.state.monthValue,
+                        yearValue: this.state.yearValue
+                    }
+
+                    // replace selected field with new value
+                    dateParts[field] = newValue
+
+                    // compare to original
+                    let newDate = null
+                    if (dateParts.dayValue !== undefined && dateParts.monthValue !== undefined && dateParts.yearValue !== undefined) {
+                        const dateString = dateParts.yearValue + "-" + dateParts.monthValue.padStart(2, "0") + "-" + dateParts.dayValue.padStart(2, "0")
+                        newDate = moment(dateString).format("YYYY-MM-DD")
+                    }
+                    let originalDate = null
+                    if (this.state.originalValues.date_of_birth !== undefined) {
+                        originalDate = this.state.originalValues.date_of_birth
+                    }
+                    return (newDate !== originalDate)
+                }
+                break
+            default:
+        }
+
+        // if the current value has changed from original, set hasChanges to trigger close confirm
+        if (thisFieldHasChanged(field, value)) {
+            newState.hasChanges = true
+        } else {
+            // if they put this field back to original value, we have to check for other field changes
+            // before we set hasChanges to false and clear the cancel confirm
+            const changes = this.detectChangedFields()
+            let hasChanges = false
+            if (DOBMode) field = "date_of_birth"
+            changes.forEach( change => {
+                if (change.fieldName !== field) {
+                    hasChanges = true
+                }
+            })
+            newState.hasChanges = hasChanges
+        }
+
+        this.setState(newState)
     }
 
     togglePreferredPhone = () => {
         // update preferred_phone only if the other option has a value
         if (this.state.preferred_phone === "cell" && this.state.home_phone !== "" && this.state.home_phone !== undefined) {
-            this.setState({preferred_phone: "home", disableSave: false})
+            this.setFieldUpdatesIntoState("preferred_phone", "home")
         } else if (this.state.preferred_phone === "home" && this.state.cell_phone !== "" && this.state.cell_phone !== undefined) {
-            this.setState({preferred_phone: "cell", disableSave: false})
+            this.setFieldUpdatesIntoState("preferred_phone", "cell")
         }
     }
 
@@ -491,10 +577,10 @@ class EditLead extends Component {
                 </MDBModalBody>
 
                 <MDBModalFooter className="p-1 justify-content-between">
-                    <MDBBtn color="secondary"
-                            rounded outline
+                    <MDBBtn color={this.state.closeConfirm ? "danger" : "secondary"}
+                            rounded outline={!this.state.closeConfirm}
                             onClick={this.cancel}>
-                        {this.props.localized.cancelButton}
+                        {this.state.hasChanges ? this.state.closeConfirm ? this.props.localization.buttonLabels.confirmCloseWithoutSaving : this.props.localization.buttonLabels.closeWithoutSaving : this.props.localization.buttonLabels.close}
                     </MDBBtn>
                     <MDBBtn color="primary"
                             rounded
