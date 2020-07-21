@@ -99,7 +99,7 @@ export default async function (options) {
     }
 
     // else reset token expiration timer
-    const newExpirationTime = moment.utc().add(30, 'minutes')
+    const newExpirationTime = moment.utc().add(60, 'minutes')
     store.dispatch({ type: "USER.TOKEN_REFRESH", data: newExpirationTime})
 
     // optionally cut toast short, and return fetch API response
