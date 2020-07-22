@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import LoadingScreen from './LoadingScreen'
 import LeadAPI from '../api/leadAPI'
 import * as moment from 'moment'
+import Lead from "../utils/Lead";
 //import {preview} from "../reducers/preview";
 
 class Preview extends Component {
@@ -42,40 +43,7 @@ class Preview extends Component {
 
         // no need to wait for interaction to start, we can start loading
         // lead data right here and put it into store ahead of time
-        LeadAPI.getLeadDTO({leadID: leadID})
-            .then((responseJson) => {
-                if (responseJson.success) {
-                    let leadData = responseJson.data
-                    const clientIndex = this.props.shift.clients.findIndex(client => client.id === leadData.client_id)
-                    leadData["client_index"] = clientIndex
-                    if (clientIndex === -1) {
-                        // serious problem, lead's client doesn't exist in agent's shift data
-                        // TODO handle error
-                        return
-                    }
-
-                    const campaignIndex = this.props.shift.clients[clientIndex].campaigns.findIndex(campaign => campaign.id === leadData.campaign_id);
-                    leadData["campaign_index"] = campaignIndex
-                    if (campaignIndex === -1) {
-                        // lead's campaign doesn't exist in agent's shift data
-                        // TODO handle error
-                        return
-                    }
-
-                    const regionIndex = this.props.shift.clients[clientIndex].regions.findIndex(region => region.id === leadData.region_id);
-                    leadData["region_index"] = regionIndex
-                    if (regionIndex === -1) {
-                        // lead's region doesn't exist in agent's shift data
-                        // TODO handle error
-                        return
-                    }
-                    this.props.dispatch({type: 'LEAD.LOAD',payload: leadData})
-                } else {
-                    // TODO Problem with loading lead data
-                    console.log("Error loading lead: ", responseJson);
-                }
-
-            })
+        Lead.loadLead(leadID).then( result => { console.log("Lead loaded")});
     }
 
     startInteraction() {

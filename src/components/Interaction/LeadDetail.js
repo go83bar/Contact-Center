@@ -5,6 +5,8 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
     faStar,
 } from "@fortawesome/pro-solid-svg-icons";
+import Slack from "../../utils/Slack";
+import String from "../../utils/String";
 
 
 class LeadDetail extends Component {
@@ -33,6 +35,29 @@ class LeadDetail extends Component {
         this.setState({leadIDCopyTooltip: this.props.localization.interaction.details.copyLeadIDTooltip})
     }
 
+    generatePreferredOfficeChip = () => {
+        const preferredOfficeMeta = this.props.lead.meta.find(meta => {
+            return meta.key === "preferred_office"
+        })
+        if (preferredOfficeMeta !== undefined) {
+            const office = this.props.shift.clients[this.props.lead.client_index].offices.find(office => office.id === parseInt(preferredOfficeMeta.value))
+            if (office) {
+
+                return (
+                    <MDBTooltip placement="left" domElement tag="span" material>
+                            <span>
+                                <MDBChip className={"outlineChip ml-4 mb-0"}>{this.props.localization.interaction.details.preferredOfficeLabel}{String.truncate(office.name, 25)}</MDBChip>
+                             </span>
+                        <span>{office.name}</span>
+                    </MDBTooltip>
+                )
+            } else {
+                Slack.sendMessage(`Lead ${this.props.lead.id} has preferred office that is not in client data`)
+            }
+        }
+        return null
+    }
+
     render() {
         const client = this.props.shift.clients[this.props.lead.client_index]
         const phase = this.props.shift.phases.find(phase => phase.id === this.props.lead.phase_id)
@@ -58,33 +83,36 @@ class LeadDetail extends Component {
                     <div className="d-flex flex-column w-50 justify-content-between">
                         <span className="d-flex justify-content-between">
                             <span className="mr-3">
-                                {lead.details.preferred_phone === "cell" && <FontAwesomeIcon icon={faStar} className="skin-primary-color"/>} <span className="font-weight-bold">{localization.cellPhone}</span> {formatPhoneNumber(lead.details.cell_phone)}
+                                {lead.details.preferred_phone === "cell" && <FontAwesomeIcon icon={faStar} className="skin-primary-color"/>} <span className="font-weight-bold">{localization.cellPhoneLabel}</span> {formatPhoneNumber(lead.details.cell_phone)}
                             </span>
                             {lead.details.home_phone &&
                             <span>
-                                {lead.details.preferred_phone === "home" && <FontAwesomeIcon icon={faStar} className="skin-primary-color"/>} <span className="font-weight-bold">{localization.homePhone}</span> {formatPhoneNumber(lead.details.home_phone)}
+                                {lead.details.preferred_phone === "home" && <FontAwesomeIcon icon={faStar} className="skin-primary-color"/>} <span className="font-weight-bold">{localization.homePhoneLabel}</span> {formatPhoneNumber(lead.details.home_phone)}
                             </span>}
                         </span>
                         <span>
-                            {lead.details.address_1 && <span><span className="font-weight-bold">{localization.address}</span>{lead.details.address_1}</span>}
+                            {lead.details.address_1 && <span><span className="font-weight-bold">{localization.addressLabel}</span>{lead.details.address_1}</span>}
                             {lead.details.address_2 && <span> , {lead.details.address_2}</span>}
                         </span>
-                        <span className="d-flex justify-content-between">{lead.details.city && <span><span className="font-weight-bold">{localization.city}</span>{lead.details.city}</span>} {lead.details.state && <span><span className="font-weight-bold">{localization.state}</span>{lead.details.state}</span>} {lead.details.zip && <span><span className="font-weight-bold">{localization.zip}</span>{lead.details.zip}</span>}</span>
+                        <span className="d-flex justify-content-between">{lead.details.city && <span><span className="font-weight-bold">{localization.cityLabel}</span>{lead.details.city}</span>} {lead.details.state && <span><span className="font-weight-bold">{localization.stateLabel}</span>{lead.details.state}</span>} {lead.details.zip && <span><span className="font-weight-bold">{localization.zipLabel}</span>{lead.details.zip}</span>}</span>
                         <span className="d-flex justify-content-between">
-                            <span><span className="font-weight-bold">{localization.email}</span>{lead.details.email}</span>
-                            {lead.details.date_of_birth && <span><span className="font-weight-bold">{localization.date_of_birth}</span>{lead.details.date_of_birth}</span>}
+                            <span><span className="font-weight-bold">{localization.emailLabel}</span>{lead.details.email}</span>
+                            {lead.details.date_of_birth && <span><span className="font-weight-bold">{localization.DOBLabel}</span>{lead.details.date_of_birth}</span>}
                         </span>
 
                     </div>
-                    <div className="d-flex flex-column justify-content-between align-items-start w-50">
+                    <div className="d-flex flex-column align-items-start w-25">
                         <MDBTooltip placement="right" domElement tag="span" material sm>
                             <span>
-                                <MDBChip className="outlineChip ml-4 mb-0" onClick={this.copyLeadIDToClipboard} onMouseOut={this.clearCopyMessage}>{localization.id}{lead.id}</MDBChip>
+                                <MDBChip className="outlineChip ml-4 mb-0" onClick={this.copyLeadIDToClipboard} onMouseOut={this.clearCopyMessage}>{localization.leadIDLabel}{lead.id}</MDBChip>
                             </span>
                             <span>{this.state.leadIDCopyTooltip}</span>
                         </MDBTooltip>
-                    <MDBChip className={"outlineChip ml-4 mb-0"}>{localization.region}{region.name} - {formatPhoneNumber(region.default_number)}</MDBChip>
-                    <MDBChip className={"outlineChip ml-4 mb-0"}>{localization.phase}{phase.label}</MDBChip>
+                        <MDBChip className={"outlineChip ml-4 mb-0"}>{localization.regionLabel}{region.name} - {formatPhoneNumber(region.default_number)}</MDBChip>
+                        <MDBChip className={"outlineChip ml-4 mb-0"}>{localization.phaseLabel}{phase.label}</MDBChip>
+                    </div>
+                    <div className="d-flex flex-column justify-content-between align-items-end w-25 h-100">
+                        {this.generatePreferredOfficeChip()}
                     </div>
                 </MDBCardBody>
             </MDBCard>

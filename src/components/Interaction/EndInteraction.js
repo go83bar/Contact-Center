@@ -28,25 +28,11 @@ import {faHeadSide} from "@fortawesome/pro-regular-svg-icons";
 import LeadAPI from "../../api/leadAPI";
 import { toast } from 'react-toastify';
 import moment from 'moment-timezone'
+import Slack from "../../utils/Slack";
+import String from "../../utils/String";
 
 
-var truncate = function (str, limit) {
-    var bits, i;
-    bits = str.split('');
-    if (bits.length > limit) {
-        for (i = bits.length - 1; i > -1; --i) {
-            if (i > limit) {
-                bits.length = i;
-            }
-            else if (' ' === bits[i]) {
-                bits.length = i;
-                break;
-            }
-        }
-        bits.push('...');
-    }
-    return bits.join('');
-};
+
 
 class EndInteraction extends Component {
 
@@ -140,6 +126,7 @@ class EndInteraction extends Component {
             Slack.sendMessage("End Interaction API call failed for Agent " + this.props.user.id + " on Interaction " + this.props.interaction.id + ": " + error.toString())
         })
     }
+
     endInteractionFetch() {
        this.endInteraction(true)
     }
@@ -236,7 +223,7 @@ class EndInteraction extends Component {
                 const office = this.props.shift.clients[this.props.lead.client_index].offices.find( office => office.id === this.state.appointment.office_id)
                 return (
                     <MDBBox key={"appointmentSummary"}>
-                        <span className="font-weight-bold">{localization.apptSummaryLabel}</span>{this.state.appointment.start_time === null ? "Unverified appt at" : moment.utc(this.state.appointment.start_time).tz(this.props.lead.details.timezone).format("MMM D") + " at"} {truncate(office.name, 25)}
+                        <span className="font-weight-bold">{localization.apptSummaryLabel}</span>{this.state.appointment.start_time === null ? "Unverified appt at" : moment.utc(this.state.appointment.start_time).tz(this.props.lead.details.timezone).format("MMM D") + " at"} {String.truncate(office.name,25)}
                     </MDBBox>
                 )
             default: return null
@@ -296,7 +283,7 @@ class EndInteraction extends Component {
                                     <FontAwesomeIcon icon={faCheck} className="skin-text"/>
                                 </span>}
                             </span>
-                            {this.state.outcome !== undefined && <MDBChip className="shadow-sm mt-4 z-2 text-align-center skin-secondary-background-color skin-text" style={{width:"190px"}}>{truncate(this.state.outcome.label,25)}</MDBChip>}
+                            {this.state.outcome !== undefined && <MDBChip className="shadow-sm mt-4 z-2 text-align-center skin-secondary-background-color skin-text" style={{width:"190px"}}>{String.truncate(this.state.outcome.label,25)}</MDBChip>}
                         </MDBStep>
                         {this.state.steps.includes("appointment") &&
                             <MDBStep stepName="Choose Appointment">
@@ -327,7 +314,7 @@ class EndInteraction extends Component {
                                     <FontAwesomeIcon icon={faCheck} className="skin-text"/>
                                 </span>}
                             </span>
-                            {this.state.office !== undefined && <MDBChip className="shadow-sm mt-4 z-2 text-align-center skin-secondary-background-color skin-text" style={{width:"190px"}}>{truncate(this.state.office.name,25)}</MDBChip>}
+                            {this.state.office !== undefined && <MDBChip className="shadow-sm mt-4 z-2 text-align-center skin-secondary-background-color skin-text" style={{width:"190px"}}>{String.truncate(this.state.office.name,25)}</MDBChip>}
                         </MDBStep>
                         }
                         {this.state.steps.includes("reason") &&
@@ -345,7 +332,7 @@ class EndInteraction extends Component {
                                             <FontAwesomeIcon icon={faCheck} className="skin-text"/>
                                         </span>}
                                     </span>
-                                    {this.state.reason !== undefined && <MDBChip className="shadow-sm mt-4 z-2 text-align-center skin-secondary-background-color skin-text" style={{minWidth:"190px"}}>{truncate(this.state.reason.text,25)}</MDBChip>}
+                                    {this.state.reason !== undefined && <MDBChip className="shadow-sm mt-4 z-2 text-align-center skin-secondary-background-color skin-text" style={{minWidth:"190px"}}>{String.truncate(this.state.reason.text,25)}</MDBChip>}
                             </MDBStep>
                         }
                         <MDBStep stepName="Finish">

@@ -103,17 +103,18 @@
     },
     "details": {
       "tabTitle": "Details",
-      "cellPhone": "Cell Phone: ",
-      "homePhone": "Home Phone: ",
-      "address": "Address: ",
-      "city": "City: ",
-      "state": "State: ",
-      "email": "Email: ",
-      "date_of_birth": "Date Of Birth: ",
-      "zip": "Zip: ",
-      "region": "Region: ",
-      "phase": "Phase: ",
-      "id": "ID: ",
+      "cellPhoneLabel": "Cell Phone: ",
+      "homePhoneLabel": "Home Phone: ",
+      "addressLabel": "Address: ",
+      "cityLabel": "City: ",
+      "stateLabel": "State: ",
+      "emailLabel": "Email: ",
+      "DOBLabel": "Date Of Birth: ",
+      "zipLabel": "Zip: ",
+      "regionLabel": "Region: ",
+      "phaseLabel": "Phase: ",
+      "leadIDLabel": "ID: ",
+      "preferredOfficeLabel": "Preferred Office: ",
       "copyLeadIDTooltip": "Click to copy to clipboard",
       "copiedLeadIDTooltip": "Copied!"
     },
@@ -311,7 +312,9 @@
     "forgotPassword": "Forgot your password?",
     "pinLabel": "Pin Code",
     "remember": "Remember me",
-    "backButton": "Sign In"
+    "backButton": "Sign In",
+    "expiredTokenTitle": "Your session has expired.",
+    "expiredTokenNotice": "Please refresh the page to log in and create a new session."
   },
   "name": "Activate",
   "nav": {
@@ -378,6 +381,17 @@
     "editContactPreferences": {
       "success": "Lead Contact Preferences updated",
       "error": "Lead Contact Preferences could not be updated"
+    },
+    "interaction": {
+      "loadLead": {
+        "clientMissing": "Lead client is not in your shift data",
+        "campaignMissing": "Lead campaign is not in your shift data",
+        "regionMissing": "Lead region is not in your shift data",
+        "loadFailed": "Lead could not be loaded."
+      }
+    },
+    "leadSummary": {
+      "leadRefreshed": "Lead Information refreshed!"
     },
     "twilio": {
       "dialLeadFailed": "Twilio error! Lead could not be dialed.",

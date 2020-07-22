@@ -25,7 +25,8 @@ import {
 //    faMapMarkedAlt,
 //    faIdBadge,
     faEllipsisH,
-    faPhone
+    faPhone,
+    faSyncAlt,
 } from "@fortawesome/pro-solid-svg-icons";
 import CreateLead from "./modals/CreateLead";
 import ContactPreferences from "./modals/ContactPreferences";
@@ -41,6 +42,7 @@ import CallbackForm from './messaging/CallbackForm'
 import moment from "moment-timezone";
 import { toast } from 'react-toastify';
 import Slack from '../../utils/Slack';
+import Lead from "../../utils/Lead";
 
 
 class LeadSummary extends Component {
@@ -63,7 +65,8 @@ class LeadSummary extends Component {
             emailVisible: false,
             textVisible: false,
             callbackVisible: false,
-            timezoneVisible : false
+            timezoneVisible : false,
+            isRefreshing: false
 
         };
     }
@@ -98,6 +101,18 @@ class LeadSummary extends Component {
 
         // open twilio connection in normal mode
         TwilioDevice.openAgentConnection(false)
+    }
+
+    refreshLead = () => {
+        if (!this.state.isRefreshing) {
+            this.setState({isRefreshing: true})
+            Lead.loadLead(this.props.lead.id).then( result => {
+                toast.success(this.props.localization.toast.leadSummary.leadRefreshed, {autoClose: 1000})
+                this.setState({isRefreshing: false})
+            }).catch( reason => {
+                console.log("Refresh lead failed: ", reason)
+            })
+        }
     }
 
     toggleEmail = () => {
@@ -189,6 +204,8 @@ class LeadSummary extends Component {
                                     <MDBDropdownItem href="#"><div onClick={() => this.showModal("Create Lead")}><FontAwesomeIcon icon={faUserPlus} size={"lg"} className={"skin-primary-color pr-1"}/> {localization.createLead.title}</div></MDBDropdownItem>
                                 </MDBDropdownMenu>
                             </MDBDropdown>
+                            <div className="d-inline-block pl-3 pr-2 pointer" onClick={this.refreshLead}><FontAwesomeIcon icon={faSyncAlt} size={"lg"} spin={this.state.isRefreshing} className={this.state.isRefreshing ? "grey-text" : "skin-secondary-color"}/></div>
+
                         </MDBBox>
                         <div className="mt-2 pt-1 d-inline-block" style={{lineHeight:1.25}}>
 
