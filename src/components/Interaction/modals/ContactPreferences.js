@@ -29,7 +29,9 @@ class ContactPreferences extends Component {
                 } else {
                     toast.error(this.props.localization.toast.editContactPreferences.error, {delay: 1000})
                 }
-            })
+            }).catch( error => {
+                console.log("Could not save lead Preferences: ", error)
+        })
 
     }
     cancel = () => {

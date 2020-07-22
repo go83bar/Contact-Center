@@ -34,7 +34,8 @@ export default async function (options) {
     if (redux.user.auth !== undefined && 
         redux.user.auth.expirationTime !== undefined && 
         currentTime.isAfter(redux.user.auth.expirationTime)) {
-            window.location = "/login"
+            store.dispatch({ type: "USER.TOKEN_EXPIRED"})
+            throw new Error("Token Expired")
     }
 
     // set up common sense defaults
@@ -95,7 +96,8 @@ export default async function (options) {
     
     // trigger immediate redirect to login on Unauthorized response
     if (response.status === 401) {
-        window.location = "/login"
+        store.dispatch({ type: "USER.TOKEN_EXPIRED"})
+        throw new Error("Token Expired")
     }
 
     // else reset token expiration timer

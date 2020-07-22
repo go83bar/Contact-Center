@@ -83,6 +83,8 @@ class Home extends Component {
         this.props.config.cookies.remove("auth")
         ConnectAPI.logout(this.props.user.auth).then(responseJson => {
             this.props.dispatch({type: 'LOG_OUT_USER', payload: {}})
+        }).catch( error => {
+            console.log("LOGOUT ERROR: ", error)
         })
     }
 

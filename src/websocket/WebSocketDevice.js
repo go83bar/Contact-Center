@@ -1,5 +1,6 @@
 import store from '../store'
 import { processCallEvent, processConferenceStart } from './events'
+import { toast } from 'react-toastify'
 
 class WebSocketDevice {
 
@@ -31,8 +32,16 @@ class WebSocketDevice {
             }
         }
 
-        ws.onclose = () => {
+        ws.onclose = (evt) => {
             console.log("Websocket disconnected")
+            if (evt.code !== 1000) {
+                if (!navigator.onLine) {
+                    toast.error("Your network connection is down. Please reconnect to the internet")
+                } else {
+                    const redux = store.getState()
+                    this.bootstrap(redux.user.id, redux.user.auth.token)
+                }
+            }
         }
 
 

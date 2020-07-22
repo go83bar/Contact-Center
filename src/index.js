@@ -16,6 +16,7 @@ import registerServiceWorker from './registerServiceWorker';
 import ContactCenter from "./ContactCenter";
 import Unauthorized from "./Unauthorized";
 import store from './store'
+import ExpiredTokenModal from "./ExpiredTokenModal";
 
 
 const host = window.location.host.indexOf(":") > 0 ? window.location.host.substr(0, window.location.host.indexOf(":")) : window.location.host
@@ -35,6 +36,7 @@ fetch(window.location.protocol + "//" + window.location.host + "/data/" + host +
                 ReactDOM.render(
                     <Provider store={store}>
                         <ContactCenter/>
+                        <ExpiredTokenModal />
                     </Provider>,
                     document.getElementById('83Bar-Activate')
                 )

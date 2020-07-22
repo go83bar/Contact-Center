@@ -2,7 +2,7 @@ const initialState = {
         id: 0,
         isAuthenticated: false,
         roles : [],
-        auth : { userID : undefined, token : undefined, expirationTime: undefined }
+        auth : { userID : undefined, token : undefined, expirationTime: undefined, isExpired: false }
         
       }
 
@@ -30,7 +30,16 @@ export function user(state = initialState, action) {
             }
 
             return Object.assign({}, state, {
-                auth: newAuth
+                auth: newAuth,
+                isExpired: false
+            })
+
+        case 'USER.TOKEN_EXPIRED':
+            const expiredAuth = { ...state.auth}
+            expiredAuth.isExpired = true
+
+            return Object.assign({}, state, {
+                auth: expiredAuth
             })
 
         default:

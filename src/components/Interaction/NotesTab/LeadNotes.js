@@ -81,6 +81,8 @@ class LeadNotes extends Component {
                 })
             }
             this.closeModal()
+        }).catch( error => {
+            console.log("Note could not be deleted: ", error)
         })
     }
 

@@ -367,6 +367,8 @@ class EditLead extends Component {
                 } else {
                     toast.error(this.props.localization.toast.editContactPreferences.error, {delay: 1000})
                 }
+            }).catch( error => {
+                console.log("Could not update Contact Preferences: ", error)
             })
     }
 

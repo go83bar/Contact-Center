@@ -135,6 +135,9 @@ class EndInteraction extends Component {
                 })
             fetch === true ? this.props.history.push("/next") : this.props.history.push("/")
             }
+        }).catch( error => {
+            console.log("End Interaction Failed: ", error)
+            Slack.sendMessage("End Interaction API call failed for Agent " + this.props.user.id + " on Interaction " + this.props.interaction.id + ": " + error.toString())
         })
     }
     endInteractionFetch() {

@@ -35,8 +35,9 @@ class Preview extends Component {
             LeadAPI.getLeadPreview(previewPayload)
                 .then((response) => {
                     this.props.dispatch({type: "PREVIEW.LOADED", payload: response.data})
+                }).catch( error => {
+                    console.log("Could not load preview: ", error)
                 })
-
         }
 
         // no need to wait for interaction to start, we can start loading
@@ -102,6 +103,8 @@ class Preview extends Component {
                 }
                 // Redirect to interaction view
                 this.props.history.push("/interaction")
+            }).catch( error => {
+                console.log("Could not start interaction: ", error)
             })
 
     }
