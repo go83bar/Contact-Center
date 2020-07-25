@@ -13,7 +13,8 @@ import {connect} from "react-redux";
 import TimelineData from "./timeline/TimelineData";
 import Appointment from "./timeline/cards/Appointment";
 import Note from "./timeline/cards/Note";
-import Call from "./timeline/cards/Call";
+import AgentCall from "./timeline/cards/AgentCall";
+import IncomingCall from "./timeline/cards/IncomingCall";
 import Document from "./timeline/cards/Document";
 import Email from "./timeline/cards/Email";
 import Survey from "./timeline/cards/Survey";
@@ -38,13 +39,25 @@ class LeadTimeline extends Component {
         let filters = this.state.filters
         if (filter === "all")
             filters = []
-        else {
-            const index = filters.indexOf(filter)
-            if (index > -1) filters.splice(index, 1)
-            else filters.push(filter)
+        else if (filter === "calls") {
+            // we like having a single filter for calls but the timeline items are broken into separate card types
+            filters = this.adjustFilters(["calls", "incoming_calls", "agent_calls"], filters)
+        } else {
+            filters = this.adjustFilters([filter], filters)
         }
         this.setState({filters})
     }
+
+    adjustFilters(filtersToToggle, existingFilters) {
+        filtersToToggle.forEach( filter => {
+            const index = existingFilters.indexOf(filter)
+            if (index > -1) existingFilters.splice(index, 1)
+            else existingFilters.push(filter)
+        })
+
+        return existingFilters
+    }
+
 
     buildTimeline(td) {
         let date = undefined
@@ -98,10 +111,17 @@ class LeadTimeline extends Component {
                             </MDBStep>
                         )
                         break
-                    case "call":
+                    case "agent_call":
                         result.push(
                             <MDBStep className="mb-4" key={"item-" + index}>
-                                <Call data={item}/>
+                                <AgentCall data={item}/>
+                            </MDBStep>
+                        )
+                        break
+                    case "incoming_call":
+                        result.push(
+                            <MDBStep className="mb-4" key={"item-" + index}>
+                                <IncomingCall data={item}/>
                             </MDBStep>
                         )
                         break

@@ -25,6 +25,7 @@ class TimelineData {
 
         this.generateTimeline(lead)
     }
+
     processItems(type, items, timezone) {
        const newItems = items.map( item => {
             return {
@@ -46,6 +47,7 @@ class TimelineData {
             }
         })
     }
+
     processLogItems(type, items, timezone) {
         let changes = items.map( item => {
             return {
@@ -105,9 +107,13 @@ class TimelineData {
                 case "note":
                     this.touchpoints.notes++
                     break
-                case "call":
+                case "agent_call":
                     this.touchpoints.calls.total++
-                    event.direction === "outgoing" ? this.touchpoints.calls.outgoing++ : this.touchpoints.calls.incoming++
+                    this.touchpoints.calls.outgoing++
+                    break
+                case "incoming_call":
+                    this.touchpoints.calls.total++
+                    this.touchpoints.calls.incoming++
                     break
                 case "email":
                     this.touchpoints.emails.total++
@@ -142,6 +148,8 @@ class TimelineData {
         this.processItems("note", lead.notes, timezone)
         this.processItems("survey", lead.surveys, timezone)
         this.processItems("text", lead.texts, timezone)
+        this.processItems("incoming_call", lead.incoming_calls, timezone)
+        this.processItems("agent_call", lead.agent_calls, timezone)
         let logs = lead.changelogs !== undefined ? lead.changelogs : []
         this.processLogItems("log", logs.concat(lead.log_optouts),timezone)
         this.processItems("appt_log", lead.appointment_logs,timezone)
@@ -160,6 +168,7 @@ class TimelineData {
     getTouchpoints() {
         return this.touchpoints
     }
+
     getTimeline() {
         return this.timeline
     }

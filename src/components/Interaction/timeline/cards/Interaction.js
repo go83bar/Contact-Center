@@ -11,7 +11,7 @@ import {
     faExchange, faFile, faEdit, faComment
 } from "@fortawesome/pro-solid-svg-icons";
 import {faCircle} from "@fortawesome/pro-light-svg-icons";
-import Call from "./Call";
+import AgentCall from "./AgentCall";
 import Text from "./Text";
 import Appointment from "./Appointment";
 import Lead from "./Lead";
@@ -49,9 +49,9 @@ class Interaction extends Component {
                         return (
                             <Note data={item} key={"int-event-" + index}/>
                         )
-                    case "call":
+                    case "agent_call":
                         return (
-                            <Call data={item} key={"int-event-" + index}/>
+                            <AgentCall data={item} key={"int-event-" + index}/>
                         )
                     case "document":
                         return (
@@ -94,7 +94,8 @@ class Interaction extends Component {
             switch (event.type) {
                 case "email" : counts.emails++
                     break
-                case "call" : counts.calls++
+                case "agent_call" :
+                    counts.calls++
                     break
                 case "appointment" : counts.appointments++
                     break

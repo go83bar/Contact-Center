@@ -55,10 +55,11 @@ class TwilioDeviceSingleton {
                 this.device = device
             } else {
                 console.log("Access Token error: ", response)
-                // TODO What do we want to do with access token errors?
+                toast.error("Twilio could not be loaded. Try logging out and back in again.")
             }
         }).catch( (err) => {
             console.log("Error fetching token: ", err)
+            toast.error("Twilio could not be loaded. Try logging out and back in again.")
         })
     }
 

@@ -1,16 +1,15 @@
 import React, { Component } from 'react'
-import {MDBBox, MDBCard} from "mdbreact"
+import {MDBBox, MDBCard, MDBCardBody, MDBCollapse} from "mdbreact"
 import { connect } from "react-redux"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
-    faArrowRight,
     faCircle as faCircleSolid,
-    faPhone, faPlay
+    faPhone
 } from "@fortawesome/pro-solid-svg-icons";
 import {faCircle} from "@fortawesome/pro-light-svg-icons";
 import ReactPlayer from "react-player/lazy";
 
-class Call extends Component {
+class IncomingCall extends Component {
 
     constructor(props) {
         super(props)
@@ -38,21 +37,29 @@ class Call extends Component {
                             <FontAwesomeIcon icon={faPhone} transform={"shrink-8"} className={"darkIcon"}/>
                         </span>
                         <div className="d-flex w-75 p-2 flex-column text-left">
+                            <span className="font-weight-bold px-3">Unanswered Incoming Call</span>
                             <span className="f-l">
-                                <FontAwesomeIcon className="ml-1 skin-primary-color" icon={faArrowRight} size="sm"/>
-                                <span className="px-3 font-weight-bold">00:12:05</span>|
-                                <FontAwesomeIcon className="ml-2 skin-primary-color" icon={faPlay} size="sm"/>
+                                <span className="px-3">{this.props.data.duration}</span>| {this.props.data.recording_url === undefined ? "No voicemail" : "Click to hear voicemail"}
                             </span>
-                            <span>Provider Connection</span>
-                        </div>
-                        <div>
-                            <ReactPlayer url="http://www.hyperion-records.co.uk/audiotest/18%20MacCunn%20The%20Lay%20of%20the%20Last%20Minstrel%20-%20Part%202%20Final%20chorus%20O%20Caledonia!%20stern%20and%20wild.MP3"/>
                         </div>
                         <div className="d-flex w-25 f-s flex-column text-right justify-content-start">
                             <span><span className="font-weight-bold">{this.props.data.created_at.format("MMM D")}</span>, {this.props.data.created_at.format("hh:mm a z")}</span>
                         </div>
                     </div>
                 </MDBBox>
+                <MDBCollapse isOpen={!this.state.collapsed} style={{}}>
+                    <hr className="m-0" style={{height: "2px", backgroundColor: "#DCE0E3", borderTop: 0}}/>
+                    <MDBCardBody className="timelineCardBody skin-border-primary pt-3 px-3 pb-0">
+                        {this.props.data.recording_url && <ReactPlayer
+                            width="240px"
+                            height="60px"
+                            controls={true}
+                            config={{file: {forceAudio: true}}}
+                            url={this.props.data.recording_url + "?auth_token=" + this.props.user.auth.token + "&user_id=" + this.props.user.id}
+                        />}
+                    </MDBCardBody>
+                </MDBCollapse>
+
             </MDBCard>
 
         )
@@ -60,8 +67,9 @@ class Call extends Component {
 }
 const mapStateToProps = store => {
     return {
-        localization: store.localization
+        localization: store.localization,
+        user: store.user
     }
 }
 
-export default connect(mapStateToProps)(Call);
+export default connect(mapStateToProps)(IncomingCall);
