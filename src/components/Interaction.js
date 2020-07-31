@@ -28,6 +28,7 @@ import {faChevronRight, faUser} from "@fortawesome/pro-solid-svg-icons"
 import moment from "moment"
 import EndInteraction from "./Interaction/EndInteraction"
 import "react-toastify/dist/ReactToastify.css";
+import {TwilioDevice} from "../twilio/TwilioDevice";
 class Interaction extends Component {
 
     constructor(props) {
@@ -61,6 +62,34 @@ class Interaction extends Component {
 
     componentWillUnmount() {
         window.removeEventListener("beforeunload", this.earlyCloseWarning)
+    }
+
+    componentDidUpdate(prevProps) {
+        // we can start or stop the incoming audio ring based on changes in the incomingCallQueue length
+        if (prevProps.twilio.interactionIncomingCallSID === "" && this.props.twilio.interactionIncomingCallSID !== "") {
+            // incoming call has come in, fire up the audio if we haven't already
+            if (this.ringAudio === undefined) {
+                let src = 'https://83b-audio.s3.amazonaws.com/agent/iphone_ring.wav';
+                this.ringAudio = new Audio(src)
+                this.ringAudio.loop = true;
+            }
+
+            // get it playing
+            this.ringAudio.play();
+        } else if (prevProps.twilio.interactionIncomingCallSID !== "" && this.props.twilio.interactionIncomingCallSID === "") {
+            // other way around, stop the music
+            if (this.ringAudio !== undefined) {
+                this.ringAudio.pause();
+            }
+        }
+    }
+
+    answerIncoming = () => {
+        if (this.props.twilio.conferenceOID === "") {
+            TwilioDevice.openAgentConnection(true)
+        } else {
+            TwilioDevice.connectIncoming(this.props.twilio.interactionIncomingCallSID, this.props.twilio.conferenceOID)
+        }
     }
 
     toggleEndInteraction() {
@@ -136,35 +165,42 @@ class Interaction extends Component {
                 </MDBBox>
                 {this.state.endInteractionVisible && <EndInteraction history={this.props.history} toggle={this.toggleEndInteraction}/>}
                 <MDBModal isOpen={this.state.unsavedNoteModalVisible} toggle={this.closeUnsavedNoteModal}>
-                        <MDBModalHeader>{localization.endInteraction.unsavedNoteModalHeader}</MDBModalHeader>
-                        <MDBModalBody>
-                            <MDBRow className="p-2">
-                                {localization.endInteraction.unsavedNoteModalBody}
-                            </MDBRow>
-                            <MDBModalFooter className="p-1"/>
-                            <MDBRow>
-                                <MDBCol size={"12"}>
-                                    <MDBBtn
-                                        color="primary"
-                                        rounded
-                                        outline
-                                        className="float-left"
-                                        onClick={this.closeUnsavedNoteModal}
-                                    >
-                                        {this.props.localization.buttonLabels.cancel}
-                                    </MDBBtn>
-                                    <MDBBtn
-                                        color="primary"
-                                        rounded
-                                        className="float-right"
-                                        onClick={this.ignoreUnsavedNote}
-                                    >
-                                        {localization.endInteraction.endWithoutSavingNoteButton}
-                                    </MDBBtn>
-                                </MDBCol>
-                            </MDBRow>
-                        </MDBModalBody>
-                    </MDBModal>
+                    <MDBModalHeader>{localization.endInteraction.unsavedNoteModalHeader}</MDBModalHeader>
+                    <MDBModalBody>
+                        <MDBRow className="p-2">
+                            {localization.endInteraction.unsavedNoteModalBody}
+                        </MDBRow>
+                        <MDBModalFooter className="p-1"/>
+                        <MDBRow>
+                            <MDBCol size={"12"}>
+                                <MDBBtn
+                                    color="primary"
+                                    rounded
+                                    outline
+                                    className="float-left"
+                                    onClick={this.closeUnsavedNoteModal}
+                                >
+                                    {this.props.localization.buttonLabels.cancel}
+                                </MDBBtn>
+                                <MDBBtn
+                                    color="primary"
+                                    rounded
+                                    className="float-right"
+                                    onClick={this.ignoreUnsavedNote}
+                                >
+                                    {localization.endInteraction.endWithoutSavingNoteButton}
+                                </MDBBtn>
+                            </MDBCol>
+                        </MDBRow>
+                    </MDBModalBody>
+                </MDBModal>
+                <MDBModal isOpen={this.props.twilio.interactionIncomingCallSID !== ""} centered toggle={() => {}} keyboard={false}>
+                    <MDBModalBody className="p-4 d-flex flex-column align-items-center">
+                        <h3>{localization.answerInteractionIncomingTitle.replace("$", this.props.lead.details.first_name)}</h3>
+                        <MDBBtn className="button danger p-1 m-3" onClick={this.answerIncoming}>{localization.answerInteractionIncomingLabel}</MDBBtn>
+                    </MDBModalBody>
+                </MDBModal>
+
                 <ToastContainer
                     position="bottom-left"
                     hideProgressBar={false}

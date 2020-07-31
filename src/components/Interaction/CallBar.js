@@ -53,7 +53,13 @@ class CallBar extends Component {
     }
 
     answerIncoming = () => {
-        TwilioDevice.connectIncoming(this.props.preview.call_sid)
+        let callSID = this.props.preview.call_sid
+        if (this.props.twilio.leadCallSID !== "") {
+            // if the incoming call happened within the interaction, the leadCallSID
+            // will already be populated and we should use that
+            callSID = this.props.twilio.leadCallSID
+        }
+        TwilioDevice.connectIncoming(callSID, this.props.twilio.conferenceOID)
     }
 
     holdLead = () => {

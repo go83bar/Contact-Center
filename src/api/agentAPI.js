@@ -136,5 +136,4 @@ export default class AgentAPI {
 
         return await sendRequest(requestOptions)
     }
-
 }

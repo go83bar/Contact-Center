@@ -35,10 +35,15 @@
     "recentButtonLabel": "RECENT LEADS",
     "searchButtonLabel": "FIND A LEAD",
     "fetchNextButtonLabel": "FETCH NEW LEAD",
+    "answerIncomingButtonLabel": "ACCEPT INCOMING",
+    "dismissIncomingButtonLabel": "DISMISS",
     "profile": "User Profile",
+    "incoming": "Incoming Call",
     "welcome": "Welcome $!"
   },
   "interaction": {
+    "answerInteractionIncomingLabel": "ANSWER CALL",
+    "answerInteractionIncomingTitle": "$ is calling back!",
     "appointment": {
       "tabTitle": "Appointments",
       "appointments": "Appointments",

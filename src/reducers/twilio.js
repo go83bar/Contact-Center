@@ -1,6 +1,8 @@
 
 const initialState = {
     deviceReady: false,
+    incomingCallQueue: [],
+    interactionIncomingCallSID: "",
     callbarVisible: false,
     dialpadVisible: false,
     conferenceSID: "",
@@ -54,6 +56,7 @@ export function twilio(state = initialState, action) {
                 leadConnectIncomingButtonEnabled,
                 leadCallStatus,
                 leadCallSID,
+                interactionIncomingCallSID: "",
                 providerDialButtonEnabled: true,
                 agentKeypadButtonEnabled: true,
                 agentDisconnectButtonEnabled: true,
@@ -61,6 +64,38 @@ export function twilio(state = initialState, action) {
             })
         case 'TWILIO.DEVICE.DISCONNECTED':
             return { ...initialState, deviceReady: true }
+
+        // Incoming call actions
+        case "TWILIO.INCOMING_CALL":
+            let incomingCalls = [...state.incomingCallQueue]
+            incomingCalls.push(action.payload.callSID)
+            return Object.assign({}, state, {
+                incomingCallQueue: incomingCalls
+            })
+
+        case "TWILIO.INCOMING_CANCEL":
+            return Object.assign({}, state, {
+                incomingCallQueue: []
+            })
+
+        case "TWILIO.INCOMING_DISMISS":
+            const filteredCallQueue = state.incomingCallQueue.filter( call => {
+                return call !== action.payload.callSID
+            })
+            let interactionIncomingCallSID = state.interactionIncomingCallSID
+            if (interactionIncomingCallSID === action.payload.callSID) {
+                interactionIncomingCallSID = ""
+            }
+            return Object.assign({}, state, {
+                incomingCallQueue: filteredCallQueue,
+                interactionIncomingCallSID
+            })
+
+        case "TWILIO.INTERACTION_INCOMING_CALL":
+            return Object.assign({}, state, {
+                interactionIncomingCallSID: action.payload.callSID
+            })
+
 
         // Agent actions
         case 'TWILIO.CALLBAR.SHOW':
@@ -148,6 +183,8 @@ export function twilio(state = initialState, action) {
             })
         case 'TWILIO.LEAD.CONNECTED':
             return Object.assign({}, state, {
+                interactionIncomingCallSID: "",
+                leadCallSID: action.callSID,
                 leadCallStatus: "Connected",
                 leadDialButtonEnabled: false,
                 leadConnectIncomingButtonEnabled: false,

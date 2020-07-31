@@ -89,3 +89,30 @@ export function recordingResumed() {
     }
 }
 
+export function interactionIncomingCall(callSID) {
+    return {
+        type: "TWILIO.INTERACTION_INCOMING_CALL",
+        payload: {
+            callSID
+        }
+    }
+}
+
+export function incomingCall(callSID) {
+    return {
+        type: "TWILIO.INCOMING_CALL",
+        payload: {
+            callSID
+        }
+    }
+}
+
+export function dismissIncomingCall(callSID) {
+    return {
+        type: "TWILIO.INCOMING_DISMISS",
+        payload: {
+            callSID
+        }
+    }
+}
+

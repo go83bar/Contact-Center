@@ -3,7 +3,10 @@ import {
     conferenceStarted,
     callRinging,
     callConnected,
-    callDisconnected
+    callDisconnected,
+    incomingCall,
+    interactionIncomingCall,
+    dismissIncomingCall
 } from '../twilio/actions'
 
 export function processCallEvent(eventData) {
@@ -49,7 +52,30 @@ export function processCallEvent(eventData) {
 
 }
 
+export function processIncomingCall(callSID) {
+    store.dispatch(incomingCall(callSID))
+}
+
+export function processInteractionIncomingCall(data) {
+    const redux = store.getState()
+
+    // make sure a lead and interaction is loaded and match incoming data
+    if (redux.lead.id === undefined ||
+        redux.interaction.id === undefined ||
+        redux.lead.id !== data.LeadID ||
+        redux.interaction.id !== data.InteractionID) {
+        console.log("Got a websocket message for interaction incoming call but it doesn't match current store values")
+        return
+    }
+
+    // agent is still in interaction with correct lead, push to store
+    store.dispatch(interactionIncomingCall(data.CallSID))
+}
+
+export function processIncomingCallDismiss(callSID) {
+    store.dispatch(dismissIncomingCall(callSID))
+}
+
 export function processConferenceStart(conferenceSID) {
     store.dispatch(conferenceStarted(conferenceSID))
-    return
 }

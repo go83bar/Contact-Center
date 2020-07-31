@@ -79,11 +79,20 @@ class TwilioDeviceSingleton {
 
         console.log("Start Conference Input: ", input)
         let agentConnection = this.device.connect(input)
+        const incomingCallSID = redux.twilio.interactionIncomingCallSID
         // here is where we could attach event listeners to agent connection
         // i.e. for detecting poor connection quality
         agentConnection.on('accept', (connection) => {
             console.log("New conference OID: ", newConferenceOID)
-            store.dispatch(agentConnected(connection.parameters.CallSid, newConferenceOID, incomingCallMode, redux.preview.call_sid))
+
+            // the incoming calls within an interaction have a difference source for the callSID
+            let callSID = redux.preview.call_sid
+            if (incomingCallSID !== "") {
+                callSID = incomingCallSID
+                //this.connectIncoming(incomingCallSID, newConferenceOID)
+            }
+
+            store.dispatch(agentConnected(connection.parameters.CallSid, newConferenceOID, incomingCallMode, callSID))
         })
         agentConnection.on('error', (err) => {
             toast.error("Twilio error has occurred. Disconnected from Twilio.")
@@ -115,9 +124,9 @@ class TwilioDeviceSingleton {
         })
     }
 
-    connectIncoming(callSID) {
+    connectIncoming(callSID, conferenceOID) {
         const redux = store.getState()
-        TwilioAPI.connectIncoming(callSID).then( response => {
+        TwilioAPI.connectIncoming(callSID, conferenceOID).then( response => {
             if (response.success) {
                 store.dispatch(callConnected(callSID, "LEAD"))
                 console.log("Lead incoming call merged")

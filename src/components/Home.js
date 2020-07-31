@@ -26,6 +26,7 @@ import {TwilioDevice} from "../twilio/TwilioDevice"
 import AgentAPI from '../api/agentAPI';
 import ConnectAPI from "../api/connectAPI";
 import Slack from '../utils/Slack';
+import TwilioAPI from "../api/twilioAPI";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
@@ -98,6 +99,20 @@ class Home extends Component {
         this.setState({showProfile : !this.state.showProfile})
     }
 
+    closeIncoming = () => {
+        if (this.props.twilio.incomingCallQueue.length > 0) {
+            this.props.dispatch({type:"TWILIO.INCOMING_CANCEL"})
+        }
+    }
+
+    acceptIncoming = () => {
+        if (this.props.twilio.incomingCallQueue.length > 0) {
+            const callSID = this.props.twilio.incomingCallQueue[0]
+            TwilioAPI.clearIncomingHold(callSID)
+        }
+        this.closeIncoming()
+    }
+
     profileClick() {
 
     }
@@ -122,6 +137,26 @@ class Home extends Component {
     componentWillUnmount() {
         // clear interval for refreshing app stats
         clearInterval(this.pollStatsInterval)
+    }
+
+    componentDidUpdate(prevProps) {
+        // we can start or stop the incoming audio ring based on changes in the incomingCallQueue length
+        if (prevProps.twilio.incomingCallQueue.length === 0 && this.props.twilio.incomingCallQueue.length > 0) {
+            // incoming call queue has started, fire up the audio if we haven't already
+            if (this.ringAudio === undefined) {
+                let src = 'https://83b-audio.s3.amazonaws.com/agent/iphone_ring.wav';
+                this.ringAudio = new Audio(src)
+                this.ringAudio.loop = true;
+            }
+
+            // get it playing
+            this.ringAudio.play();
+        } else if (prevProps.twilio.incomingCallQueue.length > 0 && this.props.twilio.incomingCallQueue.length === 0) {
+            // other way around, stop the music
+            if (this.ringAudio !== undefined) {
+                this.ringAudio.pause();
+            }
+        }
     }
 
     renderCards = () => {
@@ -297,6 +332,16 @@ class Home extends Component {
                         <Profile onClose={this.toggleProfile}/>
                     </MDBModalBody>
                 </MDBModal>
+                <MDBModal isOpen={(this.props.twilio.incomingCallQueue.length > 0)} toggle={this.closeIncoming} centered>
+                    <MDBModalHeader toggle={this.closeIncoming}>{localization.incoming}</MDBModalHeader>
+                    <MDBModalBody className="p-0 d-flex justify-content-between">
+                        <MDBBtn onClick={this.closeIncoming}>{localization.dismissIncomingButtonLabel}</MDBBtn>
+
+                        <Link to="/next">
+                            <MDBBtn onClick={this.acceptIncoming}>{localization.answerIncomingButtonLabel}</MDBBtn>
+                        </Link>
+                    </MDBModalBody>
+                </MDBModal>
             </MDBBox>
         )
     }
@@ -307,7 +352,8 @@ const mapStateToProps = state => {
         user: state.user,
         localization: state.localization,
         config : state.config,
-        shift: state.shift
+        shift: state.shift,
+        twilio: state.twilio
     }
 }
 

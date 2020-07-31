@@ -67,19 +67,46 @@ export default class TwilioAPI {
      * }
      *
      * @param {string} callSid
+     * @param {string} conferenceOID
      * @return {Promise}
      */
-    static async connectIncoming(callSid) {
+    static async connectIncoming(callSid, conferenceOID) {
         const redux = store.getState()
         const payload = {
             token: redux.user.auth.token,
             lead_id: redux.lead.id,
-            conference_id: redux.twilio.conferenceOID,
+            conference_id: conferenceOID,
             call_sid: callSid
         }
 
         const requestOptions = {
             url: redux.config["url-twilio-base"] + "connect/call/incoming",
+            data: payload,
+            type: "json"
+        }
+        return await sendRequest(requestOptions)
+
+    }
+
+    /**
+     * Performs call to clear the given call from incoming hold queue websockets system
+     * Promise resolves to an object like this:
+     * {
+     *  "success": {true},
+     * }
+     *
+     * @param {string} callSid
+     * @return {Promise}
+     */
+    static async clearIncomingHold(callSid) {
+        const redux = store.getState()
+        const payload = {
+            token: redux.user.auth.token,
+            call_sid: callSid
+        }
+
+        const requestOptions = {
+            url: redux.config["url-twilio-base"] + "connect/incoming/clear",
             data: payload,
             type: "json"
         }
