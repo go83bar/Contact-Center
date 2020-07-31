@@ -43,7 +43,7 @@
   },
   "interaction": {
     "answerInteractionIncomingLabel": "ANSWER CALL",
-    "answerInteractionIncomingTitle": "$ is calling back!",
+    "answerInteractionIncomingTitle": "$ is calling in!",
     "appointment": {
       "tabTitle": "Appointments",
       "appointments": "Appointments",
@@ -265,6 +265,10 @@
     "timeline": {
       "tabTitle": "Timeline",
       "noStartTime": "No start time, needs verify",
+      "appointment": {
+        "startTime": "Start time: ",
+        "apptAbbr": "Appt #"
+      },
       "leadUpdate": {
         "phase": "Phase updated from: ",
         "leadStatus": "Lead Status updated from: ",
@@ -280,7 +284,7 @@
       "log": {
         "to": " to ",
         "from": " from: ",
-        "appt_log": "Appointment Information Updated",
+        "appt_log": "Appointment #$ Information Updated",
         "blank": "Blank",
         "noTime": "No Time"
       },

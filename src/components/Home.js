@@ -106,6 +106,9 @@ class Home extends Component {
     }
 
     acceptIncoming = () => {
+        if (this.ringAudio !== undefined) {
+            this.ringAudio.pause();
+        }
         if (this.props.twilio.incomingCallQueue.length > 0) {
             const callSID = this.props.twilio.incomingCallQueue[0]
             TwilioAPI.clearIncomingHold(callSID)
@@ -334,11 +337,11 @@ class Home extends Component {
                 </MDBModal>
                 <MDBModal isOpen={(this.props.twilio.incomingCallQueue.length > 0)} toggle={this.closeIncoming} centered>
                     <MDBModalHeader toggle={this.closeIncoming}>{localization.incoming}</MDBModalHeader>
-                    <MDBModalBody className="p-0 d-flex justify-content-between">
-                        <MDBBtn onClick={this.closeIncoming}>{localization.dismissIncomingButtonLabel}</MDBBtn>
+                    <MDBModalBody className="p-3 d-flex justify-content-between">
+                        <MDBBtn rounded outline onClick={this.closeIncoming}>{localization.dismissIncomingButtonLabel}</MDBBtn>
 
                         <Link to="/next">
-                            <MDBBtn onClick={this.acceptIncoming}>{localization.answerIncomingButtonLabel}</MDBBtn>
+                            <MDBBtn rounded onClick={this.acceptIncoming}>{localization.answerIncomingButtonLabel}</MDBBtn>
                         </Link>
                     </MDBModalBody>
                 </MDBModal>

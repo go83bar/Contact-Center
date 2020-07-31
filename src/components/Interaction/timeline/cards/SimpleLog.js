@@ -60,6 +60,11 @@ class SimpleLog extends Component {
 
 
     render() {
+        let logTitle = this.props.localization.interaction.timeline.log[this.props.data.type]
+        if (this.props.data.type === "appt_log") {
+            logTitle = logTitle.replace("$", this.props.data.appointment_index)
+        }
+
         return (
             <MDBCard className='w-100 border-0 mb-3 z-2'>
                 <MDBBox className="backgroundColorInherit timelineCardHeader skin-border-primary f-m shadow-sm"
@@ -73,7 +78,7 @@ class SimpleLog extends Component {
                         </span>
                         <div className="d-flex w-75 p-2 flex-column text-left">
                             <span className="f-l font-weight-bold">
-                                {this.props.localization.interaction.timeline.log[this.props.data.type]}
+                                {logTitle}
                             </span>
                             <span>{this.renderLog()}</span>
                         </div>

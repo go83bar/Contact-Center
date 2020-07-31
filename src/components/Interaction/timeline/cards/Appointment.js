@@ -35,7 +35,7 @@ class Appointment extends Component {
 
         return (
             <span>
-                <span className="font-weight-bold">{moment.utc(this.props.data.start_time).tz(this.props.lead.details.timezone).format("MMM D")}</span>, {moment.utc(this.props.data.start_time).tz(this.props.lead.details.timezone).format("h:mm a z")}
+                {this.props.localization.interaction.timeline.appointment.startTime}<span className="font-weight-bold">{moment.utc(this.props.data.start_time).tz(this.props.lead.details.timezone).format("MMM D")}</span>, {moment.utc(this.props.data.start_time).tz(this.props.lead.details.timezone).format("h:mm a z")}
                 {office && (office.timezone !== this.props.lead.details.timezone) &&
                 <span className="ml-3">{this.props.localization.interaction.timeline.office}<span
                     className="font-weight-bold">{moment.utc(this.props.data.start_time).tz(office.timezone).format("MMM D")}</span>, {moment.utc(this.props.data.start_time).tz(office.timezone).format("h:mm a z")}</span>}
@@ -61,12 +61,12 @@ class Appointment extends Component {
                         </span>
                         <div className="d-flex w-75 p-2 flex-column text-left">
                             <span className="f-l font-weight-bold">
-                                {apptType.label}
+                                {this.props.localization.interaction.timeline.appointment.apptAbbr}{this.props.data.index}: {apptType.label}
                             </span>
                             { office && <span>
                                 {office.name}
                             </span>}
-                            { this.generateApptTimeLabel(office) }
+                           { this.generateApptTimeLabel(office) }
                         </div>
                         <div className="d-flex w-25 f-s flex-column text-right justify-content-start">
                             <span><span className="font-weight-bold">{this.props.data.created_at.format("MMM D")}</span>, {this.props.data.created_at.format("hh:mm a z")}</span>

@@ -399,7 +399,7 @@ class Active extends Component {
                             <FontAwesomeIcon icon={faCalendar} transform={"shrink-8"} className={"darkIcon"}/>
                         </span>
                             <div className="d-flex p-2 flex-column text-left w-50">
-                                <span className="f-l">{apptType.label}</span>
+                                <span className="f-l">#{this.props.data.index} {apptType.label}</span>
                                 {office && <span>
                                     {office.name}
                                 </span>}
