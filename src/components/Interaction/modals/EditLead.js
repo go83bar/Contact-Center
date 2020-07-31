@@ -95,7 +95,7 @@ class EditLead extends Component {
 
         // valid DOB date validation, if we have a DOB
         let validDate = ""
-        if (this.state.monthValue !== undefined) {
+        if (this.state.monthValue !== undefined && this.dayValue !== undefined && this.yearValue !== undefined) {
             const dateString = this.state.yearValue + "-" + this.state.monthValue.padStart(2, "0") + "-" + this.state.dayValue.padStart(2, "0")
             validDate = moment(dateString)
             if (validDate.format("YYYY-MM-DD") === "Invalid date") {
@@ -196,7 +196,7 @@ class EditLead extends Component {
             // date of birth check is special
             if (field === "date_of_birth") {
                 let stateDate = null
-                if (this.state.monthValue !== undefined) {
+                if (this.state.monthValue !== undefined && this.state.dayValue !== undefined) {
                     const dateString = this.state.yearValue + "-" + this.state.monthValue.padStart(2, "0") + "-" + this.state.dayValue.padStart(2, "0")
                     console.log(dateString)
                     stateDate = moment(dateString).format("YYYY-MM-DD")
