@@ -67,6 +67,16 @@ class EndInteraction extends Component {
           outcomes.push(outcome)
         })
 
+        // sort outcomes alphabetically
+        outcomes.sort( (a, b) => {
+            const aLabel = a.label.toUpperCase()
+            const bLabel = b.label.toUpperCase()
+
+            if (aLabel < bLabel) return -1
+            if (bLabel < aLabel) return 1
+            return 0
+        })
+
         // build office select options
         this.officeOptions = props.shift.clients[props.lead.client_index].offices.filter( office => office.region_id === props.lead.region_id).map( office => {
             return {
