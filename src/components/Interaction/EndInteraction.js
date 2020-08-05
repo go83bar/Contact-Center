@@ -54,16 +54,17 @@ class EndInteraction extends Component {
         const client = this.props.shift.clients.find(client => client.id === this.props.lead.client_id)
         const phase = client.phases.find(phase => phase.id === this.props.lead.phase_id)
         let outcomes = []
-        phase.outcomes.forEach((o) => {
-          let oc = this.props.shift.outcomes.find(outcome => outcome.id === o.id)
-          if (o.outcome_reasons && o.outcome_reasons.length > 0) {
-              let ors = []
-              o.outcome_reasons.forEach((or) => {
-                  ors.push(this.props.shift.outcome_reasons.find(reason => reason.id === or))
+        phase.outcomes.forEach((outcomeData) => {
+          let outcome = {...this.props.shift.outcomes.find(outcome => outcome.id === outcomeData.id)}
+
+          if (outcomeData.outcome_reasons && outcomeData.outcome_reasons.length > 0) {
+              let outcomeReasons = []
+              outcomeData.outcome_reasons.forEach((or) => {
+                  outcomeReasons.push({...this.props.shift.outcome_reasons.find(reason => reason.id === or)})
               })
-              oc.outcome_reasons = ors.slice()
+              outcome.outcome_reasons = outcomeReasons
           }
-          outcomes.push(oc)
+          outcomes.push(outcome)
         })
 
         // build office select options

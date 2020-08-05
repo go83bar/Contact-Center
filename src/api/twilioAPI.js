@@ -299,4 +299,32 @@ export default class TwilioAPI {
 
     }
 
+    /**
+     * Performs call to replaced merged lead IDs in mongo connection records.
+     * Promise resolves to an object like this:
+     * {
+     *  "success": {bool},
+     * }
+     *
+     * @param {number} newLeadID
+     * @param {string} conferenceOID
+     * @return {Promise}
+     */
+    static async replaceMergedLead(newLeadID, conferenceOID) {
+        const redux = store.getState()
+        const payload = {
+            token: redux.user.auth.token,
+            conference_oid: conferenceOID,
+            target_lead_id: newLeadID
+        }
+
+        const requestOptions = {
+            url: redux.config["url-twilio-base"] + "connect/conference/leadmerge",
+            data: payload,
+            type: "json"
+        }
+        return await sendRequest(requestOptions)
+
+    }
+
 }

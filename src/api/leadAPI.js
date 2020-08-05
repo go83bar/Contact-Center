@@ -287,6 +287,49 @@ export default class LeadAPI {
         return result
     }
 
+    /**
+     * @typedef MergeLeadParams
+     * @type {object}
+     * @property {number} targetLeadID
+     * @property {number} sourceLeadID
+     * @property {number} interactionID
+     * @property mergeFields
+     */
+
+    /**
+     * Merge the source lead's data into the target lead and archive the source lead
+     *
+     *
+     * @static
+     * @param {MergeLeadParams} params
+     * @returns {Promise}
+     * @memberof LeadAPI
+     */
+    static async mergeLead(params) {
+        // Mock API responses for local dev
+        if (process.env.REACT_APP_QUERY_MODE === "development") {
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "/data/successTrue.json")
+
+            return mockData.json()
+        }
+
+        const redux = store.getState()
+        const requestOptions = {
+            url: redux.config["url-api-base"] + "leads/" + params.sourceLeadID + "/merge",
+            method: "POST",
+            type: "json",
+            data: {
+                interaction_id: params.interactionID,
+                target_lead_id: params.targetLeadID,
+                overwrite_values: params.mergeFields
+            },
+            auth: redux.user.auth
+        }
+        const result = await sendRequest(requestOptions)
+
+        return result
+
+    }
 
     /**
      * @typedef EmailContentParams
