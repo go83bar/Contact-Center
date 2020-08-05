@@ -176,6 +176,11 @@ class NewAppointmentBooking extends Component {
 
     onOfficeSelect = (values) => {
         let officeID = 0
+        // if the value is undefined, it's the MDBSelect element throwing a fit, just ignore
+        if (values[0] === undefined) {
+            return
+        }
+
         // for combined calendars, we don't need to find the office data
         if (values[0] === "combined") {
             this.setState({
@@ -199,13 +204,13 @@ class NewAppointmentBooking extends Component {
                 } else {
                     // this will probably never happen, but we handle errors around here
                     toast.error("Data cound not be found for that office.")
-                    Slack.sendMessage("Agent selected office " + values[0] + " but that office data was not present in the shift data")
+                    Slack.sendMessage("Agent " + this.props.user.id + " selected office " + values[0] + " but that office data was not present in the shift data")
                     return
                 }
             } else {
                 // data error, somehow an office was chosen despite the lead's region not having any offices
                 toast.error("Could not load office data. Please notify dev.")
-                Slack.sendMessage("Agent selected office " + values[0] + " but no office data was present in the shift data")
+                Slack.sendMessage("Agent " + this.props.user.id + " selected office " + values[0] + " but no office data was present in the shift data")
                 return
             }
         }

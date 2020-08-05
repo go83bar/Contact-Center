@@ -402,6 +402,11 @@
     "leadSummary": {
       "leadRefreshed": "Lead Information refreshed!"
     },
+    "mergeLead": {
+      "leadLoadError": "Could not load selected lead!",
+      "leadMergeError": "Lead could not be merged"
+
+    },
     "twilio": {
       "dialLeadFailed": "Twilio error! Lead could not be dialed.",
       "connectIncomingFailed": "Twilio error! Incoming call could not be connected.",
