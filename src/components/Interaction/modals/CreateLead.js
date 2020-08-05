@@ -1,159 +1,176 @@
 import React, {Component} from 'react'
-import {MDBBtn, MDBCol, MDBModal, MDBModalBody, MDBModalFooter, MDBModalHeader, MDBRow} from 'mdbreact'
+import {MDBBtn, MDBBox, MDBInput, MDBModal, MDBModalBody, MDBModalFooter, MDBModalHeader} from 'mdbreact'
 import {connect} from "react-redux";
-
+import {toast} from "react-toastify";
+import Slack from "../../../utils/Slack";
+import LeadAPI from "../../../api/leadAPI";
 class CreateLead extends Component {
 
     constructor(props) {
         super(props);
-        this.ok = this.ok.bind(this)
-        this.cancel = this.cancel.bind(this)
         this.state = {
-            modalName : "Create Lead"
+            saveFields: {
+                first_name: "",
+                last_name: "",
+                email: "",
+                cell_phone: "",
+                home_phone: "",
+                address_1: "",
+                address_2: "",
+                city: "",
+                state: "",
+                zip: ""
+            },
+            saveButtonDisabled: false
         };
     }
 
-    ok() {
-        //Process the data
+    saveNewLead = () => {
+        // disable save button
+        this.setState({saveButtonDisable: true})
 
-        this.props.closeModal(this.state.modalName)
+        // Build payload using current lead's values for a few fields
+        let saveFields = {...this.state.saveFields,
+            client_id: this.props.lead.client_id,
+            vertical_id: this.props.lead.vertical_id,
+            region_id: this.props.lead.region_id,
+            campaign_id: this.props.lead.campaign_id
+        }
+
+        // strip phone values
+        if (saveFields.cell_phone !== "") {
+            saveFields.cell_phone = saveFields.cell_phone.replace(/\D/g, '')
+        }
+        if (saveFields.home_phone !== "") {
+            saveFields.home_phone = saveFields.home_phone.replace(/\D/g, '')
+        }
+
+        // send to API
+        LeadAPI.createLead(saveFields).then( response => {
+            toast.success("New lead created and assigned to you.")
+            this.props.closeModal()
+        }).catch( error => {
+            toast.error("Lead could not be created.")
+            Slack.sendMessage(`Agent ${this.props.user.id} attempted to save lead but got error: ${error.toString()}`)
+            this.props.closeModal()
+        })
     }
-    cancel() {
-        this.props.closeModal(this.state.modalName)
+
+    handleFormInput = (field) => (evt) => {
+        const newValue = evt.target.value
+        let formattedValue = ""
+        // add formatting to phone fields
+        if (field === "cell_phone" || field === "home_phone") {
+            if (newValue !== undefined) {
+                const matches = newValue.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/)
+                formattedValue = !matches[2] ? matches[1] : '(' + matches[1] + ') ' + matches[2] + (matches[3] ? '-' + matches[3] : '')
+            }
+        } else {
+            formattedValue = newValue
+        }
+
+        let newFields = {...this.state.saveFields}
+        newFields[field] = formattedValue
+        this.setState({ saveFields: newFields })
+
     }
 
     render() {
-        let localization = this.props.localization.interaction.summary.createLead
         return (
-            <MDBModal isOpen={true} toggle={this.props.closeModal} >
-                <MDBModalHeader>{localization.title}</MDBModalHeader>
-                <MDBModalBody >
-                    <MDBRow className="p-2">
-                        <MDBCol size="4">
-                            <label htmlFor="first_name" className="grey-text">{localization.firstName}</label>
-                            <input type="text"
-                                   id="first_name"
-                                   name="firstNameValue"
-                                   className="form-control"
-                                   value={this.state.firstNameValue}
-                                   onChange={this.handleFormInput}
-                            />
-                        </MDBCol>
-                        <MDBCol size="4">
-                            <label htmlFor="lead_id" className="grey-text">{localization.lastName}</label>
-                            <input type="text"
-                                   id="last_name"
-                                   name="leadIDValue"
-                                   className="form-control"
-                                   value={this.state.leadIDValue}
-                                   onChange={this.handleFormInput}
-                            />
-                        </MDBCol>
-                        <MDBCol size="4">
-                            <label htmlFor="last_name" className="grey-text">{localization.email}</label>
-                            <input type="text"
-                                   id="email"
-                                   name="lastNameValue"
-                                   className="form-control"
-                                   value={this.state.lastNameValue}
-                                   onChange={this.handleFormInput}
-                            />
-                        </MDBCol>
-                    </MDBRow>
-                    <MDBRow className="p-2">
-                        <MDBCol size="4">
-                            <label htmlFor="phone" className="grey-text">{localization.cellPhone}</label>
-                            <input type="text"
-                                   id="cell"
-                                   name="phoneValue"
-                                   value={this.state.phoneValue}
-                                   onChange={this.handleFormInput}
-                                   className="form-control"
-                            />
-                        </MDBCol>
-                        <MDBCol size="4">
-                            <label htmlFor="phone" className="grey-text">{localization.homePhone}</label>
-                            <input type="text"
-                                   id="home"
-                                   name="phoneValue"
-                                   value={this.state.phoneValue}
-                                   onChange={this.handleFormInput}
-                                   className="form-control"
-                            />
-                        </MDBCol>
-                        <MDBCol size="4">
-                            <label htmlFor="phone" className="grey-text">{localization.workPhone}</label>
-                            <input type="text"
-                                   id="work"
-                                   name="phoneValue"
-                                   value={this.state.phoneValue}
-                                   onChange={this.handleFormInput}
-                                   className="form-control"
-                            />
-                        </MDBCol>
-                    </MDBRow>
-                    <MDBRow className="p-2">
-                        <MDBCol size="6">
-                            <label htmlFor="phone" className="grey-text">{localization.address}</label>
-                            <input type="text"
-                                   id="address"
-                                   name="phoneValue"
-                                   value={this.state.phoneValue}
-                                   onChange={this.handleFormInput}
-                                   className="form-control"
-                            />
-                        </MDBCol>
-                        <MDBCol size="6">
-                            <label htmlFor="phone" className="grey-text">{localization.address2}</label>
-                            <input type="text"
-                                   id="address2"
-                                   name="phoneValue"
-                                   value={this.state.phoneValue}
-                                   onChange={this.handleFormInput}
-                                   className="form-control"
-                            />
-                        </MDBCol>
-                    </MDBRow>
-                    <MDBRow className="p-2">
-                        <MDBCol size="4">
-                            <label htmlFor="phone" className="grey-text">{localization.city}</label>
-                            <input type="text"
-                                   id="city"
-                                   name="phoneValue"
-                                   value={this.state.phoneValue}
-                                   onChange={this.handleFormInput}
-                                   className="form-control"
-                            />
-                        </MDBCol>
-                        <MDBCol size="4">
-                            <label htmlFor="phone" className="grey-text">{localization.state}</label>
-                            <input type="text"
-                                   id="state"
-                                   name="phoneValue"
-                                   value={this.state.phoneValue}
-                                   onChange={this.handleFormInput}
-                                   className="form-control"
-                            />
-                        </MDBCol>
-                        <MDBCol size="4">
-                            <label htmlFor="phone" className="grey-text">{localization.zip}</label>
-                            <input type="text"
-                                   id="zip"
-                                   name="phoneValue"
-                                   value={this.state.phoneValue}
-                                   onChange={this.handleFormInput}
-                                   className="form-control"
-                            />
-                        </MDBCol>
-                    </MDBRow>
-                    <MDBModalFooter className="p-1"/>
-                    <MDBRow>
-                        <MDBCol size={"12"}>
-                            <MDBBtn color="secondary" className="rounded float-left" onClick={this.cancel}>{localization.cancelButton}</MDBBtn>
-                            <MDBBtn color="primary" className="rounded float-right" onClick={this.ok}>{localization.okButton}</MDBBtn>
+            <MDBModal isOpen={true} toggle={this.props.closeModal} size="lg">
+                <MDBModalHeader>{this.props.localized.title}</MDBModalHeader>
+                <MDBModalBody className="d-flex flex-wrap justify-content-start w-100">
+                    {this.props.localized.infoHeader}
+                    <div className="break mb-1 mt-2"/>
+                    <MDBInput type="text"
+                              label={this.props.localized.firstName}
+                              outline
+                              value={this.state.saveFields.first_name}
+                              onChange={this.handleFormInput("first_name")}
+                              containerClass="m-0 mr-2 w-25"
+                              className="skin-border-primary"
+                    />
+                    <MDBInput type="text"
+                              label={this.props.localized.lastName}
+                              outline
+                              value={this.state.saveFields.last_name}
+                              onChange={this.handleFormInput("last_name")}
+                              containerClass="m-0 w-25"
+                              className="skin-border-primary"
+                    />
+                    <MDBInput type="text"
+                              label={this.props.localized.email}
+                              outline
+                              value={this.state.saveFields.email}
+                              onChange={this.handleFormInput("email")}
+                              containerClass="m-0 w-75"
+                              className="skin-border-primary"
+                    />
+                    <div className="w-100 mb-2"/>
+                    <MDBInput type="text"
+                              label={this.props.localized.cellPhone}
+                              outline
+                              value={this.state.saveFields.cell_phone}
+                              onChange={this.handleFormInput("cell_phone")}
+                              containerClass="m-0 mr-2 w-25"
+                              className="skin-border-primary"
+                    />
+                    <MDBInput type="text"
+                              label={this.props.localized.homePhone}
+                              outline
+                              value={this.state.saveFields.home_phone}
+                              onChange={this.handleFormInput("home_phone")}
+                              containerClass="m-0 mr-2 w-25"
+                              className="skin-border-primary"
+                    />
+                    <div className="w-100 mb-2"/>
+                    <MDBInput type="text"
+                              label={this.props.localized.address1}
+                              outline
+                              value={this.state.saveFields.address_1}
+                              onChange={this.handleFormInput("address_1")}
+                              containerClass="m-0 mr-2 w-25"
+                              className="skin-border-primary"
+                    />
+                    <MDBInput type="text"
+                              label={this.props.localized.address2}
+                              outline
+                              value={this.state.saveFields.address_2}
+                              onChange={this.handleFormInput("address_2")}
+                              containerClass="m-0 w-25"
+                              className="skin-border-primary"
+                    />
+                    <div className="w-100"/>
 
-                        </MDBCol>
-                    </MDBRow>
+                    <MDBInput type="text"
+                              label={this.props.localized.city}
+                              outline
+                              value={this.state.saveFields.city}
+                              onChange={this.handleFormInput("city")}
+                              containerClass="m-0 mr-2 w-25"
+                              className="skin-border-primary"
+                    />
+                    <MDBInput type="text"
+                              label={this.props.localized.state}
+                              outline
+                              value={this.state.saveFields.state}
+                              onChange={this.handleFormInput("state")}
+                              containerClass="m-0 mr-2 w-25"
+                              className="skin-border-primary"
+                    />
+                    <MDBInput type="text"
+                              label={this.props.localized.zip}
+                              outline
+                              value={this.state.saveFields.zip}
+                              onChange={this.handleFormInput("zip")}
+                              containerClass="m-0 w-25"
+                              className="skin-border-primary"
+                    />
+                    <MDBModalFooter className="p-1"/>
+                    <MDBBox className="d-flex justify-content-between w-100">
+                        <MDBBtn color="secondary" rounded outline onClick={this.props.closeModal}>{this.props.localized.cancelButton}</MDBBtn>
+                        <MDBBtn color="primary" disabled={this.state.saveButtonDisabled} rounded onClick={this.saveNewLead}>{this.props.localized.okButton}</MDBBtn>
+                    </MDBBox>
                 </MDBModalBody>
             </MDBModal>
         )
@@ -162,6 +179,7 @@ class CreateLead extends Component {
 const mapStateToProps = state => {
     return {
         localization: state.localization,
+        localized: state.localization.interaction.summary.createLead,
         lead : state.lead,
     }
 }

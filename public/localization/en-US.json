@@ -165,6 +165,7 @@
       "incomingCallLabel": "Incoming Call",
       "createLead": {
         "title": "Create New Lead",
+        "infoHeader": "Fill in as much information as possible. The new lead will be locked to you and should come up next in your queue. You may then change region, timezone, etc.",
         "client": "Client",
         "firstName": "First Name",
         "lastName": "Last Name",
@@ -172,7 +173,7 @@
         "cellPhone": "Cell Phone",
         "homePhone": "Home Phone",
         "workPhone": "Work Phone",
-        "address": "Address",
+        "address1": "Address",
         "address2": "Address 2",
         "city": "City",
         "state": "State",

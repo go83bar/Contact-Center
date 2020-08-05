@@ -332,6 +332,58 @@ export default class LeadAPI {
     }
 
     /**
+     * @typedef CreateLeadParams
+     * @type {object}
+     * @property {string} first_name
+     * @property {string} last_name
+     * @property {string} email
+     * @property {string} cell_phone
+     * @property {string} home_phone
+     * @property {string} street_1
+     * @property {string} street_2
+     * @property {string} city
+     * @property {string} state
+     * @property {string} zip
+     * @property {number} client_id
+     * @property {number} vertical_id
+     * @property {number} campaign_id
+     * @property {number} region_id
+     * @property mergeFields
+     */
+
+    /**
+     * Create a new lead in the current lead's client, region, campaign, and vertical
+     * The backend API also locks this lead to the current user so it appears next in their queue
+     *
+     *
+     * @static
+     * @param {CreateLeadParams} params
+     * @returns {Promise}
+     * @memberof LeadAPI
+     */
+    static async createLead(params) {
+        // Mock API responses for local dev
+        if (process.env.REACT_APP_QUERY_MODE === "development") {
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "/data/successTrue.json")
+
+            return mockData.json()
+        }
+
+        const redux = store.getState()
+        const requestOptions = {
+            url: redux.config["url-api-base"] + "leads/create",
+            method: "POST",
+            type: "json",
+            data: params,
+            auth: redux.user.auth
+        }
+        const result = await sendRequest(requestOptions)
+
+        return result
+
+    }
+
+    /**
      * @typedef EmailContentParams
      * @type {object}
      * @property {number} leadID
