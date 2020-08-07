@@ -366,6 +366,15 @@
       "phone": "Phone",
       "password": "Password",
       "confirm_password": "Confirm Password"
+    },
+    "rules": {
+      "mustContainMessage": "Password rules:",
+      "lengthTest": "8 characters",
+      "upperCaseTest": "Uppercase letter",
+      "lowerCaseTest": "Lowercase letter",
+      "specialCharsTest": "Special character",
+      "numbersTest": "Number",
+      "matchTest": "Confirm Password matches"
     }
   },
   "search": {
@@ -419,6 +428,12 @@
       "leadLoadError": "Could not load selected lead!",
       "leadMergeError": "Lead could not be merged"
 
+    },
+    "profile": {
+      "passwordBlacklistedError": "Your chosen password violates a blacklist rule. Please choose another.",
+      "passwordHistoryError": "Your chosen password was in your last 8 passwords. Please do not re-use passwords.",
+      "genericSaveError": "An error occurred, your updates were not saved.",
+      "infoUpdated": "Profile updated!"
     },
     "twilio": {
       "dialLeadFailed": "Twilio error! Lead could not be dialed.",

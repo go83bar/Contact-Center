@@ -406,32 +406,26 @@ class EditLead extends Component {
                     <MDBInput type="text"
                               label={this.props.localized.firstName}
                               id="first_name"
-                              outline
                               name="first_name"
                               value={this.state.first_name}
                               onChange={this.handleFormInput}
                               containerClass="m-0 pr-2 w-25"
-                              className="skin-border-primary"
                     />
                     <MDBInput type="text"
                               label={this.props.localized.lastName}
                               id="last_name"
-                              outline
                               name="last_name"
                               value={this.state.last_name}
                               onChange={this.handleFormInput}
                               containerClass="m-0 pr-2 w-25"
-                              className="skin-border-primary"
                     />
                     <MDBInput type="text"
                               label={this.props.localized.email}
                               id="email"
-                              outline
                               name="email"
                               value={this.state.email}
                               onChange={this.handleFormInput}
                               containerClass="m-0 pr-2 w-50"
-                              className="skin-border-primary"
                     />
                     <div className="break mt-1"/>
                     <FontAwesomeIcon icon={this.state.preferred_phone === "cell" ? solidStar : emptyStar}
@@ -440,13 +434,11 @@ class EditLead extends Component {
                     <MDBInput type="text"
                               label={this.props.localized.cellPhone}
                               id="cell_phone"
-                              outline
                               name="cell_phone"
                               value={this.state.cell_phone}
                               onChange={this.handleFormInput}
                               getValue={(val) => this.maskPhone(val, "cell_phone")}
                               containerClass="m-0 pr-2 w-25"
-                              className="skin-border-primary"
                     />
                     <FontAwesomeIcon icon={this.state.preferred_phone === "home" ? solidStar : emptyStar}
                                      onClick={this.togglePreferredPhone}
@@ -454,13 +446,11 @@ class EditLead extends Component {
                     <MDBInput type="text"
                               label={this.props.localized.homePhone}
                               id="home_phone"
-                              outline
                               name="home_phone"
                               value={this.state.home_phone}
                               getValue={(val) => this.maskPhone(val, "home_phone")}
                               onChange={this.handleFormInput}
                               containerClass="m-0 pr-2 w-25"
-                              className="skin-border-primary"
                     />
                     <div className="break mt-3 pb-1"/>
                     {this.props.localized.streetAddressHeader}
@@ -468,54 +458,44 @@ class EditLead extends Component {
                     <MDBInput type="text"
                               label={this.props.localized.address}
                               id="address_1"
-                              outline
                               name="address_1"
                               value={this.state.address_1}
                               onChange={this.handleFormInput}
                               containerClass="m-0 pr-2 w-25"
-                              className="skin-border-primary"
                     />
                     <MDBInput type="text"
                               label={this.props.localized.address2}
                               id="address_2"
-                              outline
                               name="address_2"
                               value={this.state.address_2}
                               onChange={this.handleFormInput}
                               containerClass="m-0 pr-2 w-25"
-                              className="skin-border-primary"
                     />
                     <div className="break"/>
 
                     <MDBInput type="text"
                               label={this.props.localized.city}
                               id="city"
-                              outline
                               name="city"
                               value={this.state.city}
                               onChange={this.handleFormInput}
                               containerClass="m-0 pr-2 w-25"
-                              className="skin-border-primary"
                     />
                     <MDBInput type="text"
                               label={this.props.localized.state}
                               id="state"
-                              outline
                               name="state"
                               value={this.state.state}
                               onChange={this.handleFormInput}
                               containerClass="m-0 pr-2 w-25"
-                              className="skin-border-primary"
                     />
                     <MDBInput type="text"
                               label={this.props.localized.zip}
                               id="zip"
-                              outline
                               name="zip"
                               value={this.state.zip}
                               onChange={this.handleFormInput}
                               containerClass="m-0 pr-2 w-25"
-                              className="skin-border-primary"
                     />
                     <div className="break mt-3 pb-1"/>
                     {this.props.localized.regionHeader}
@@ -539,36 +519,30 @@ class EditLead extends Component {
                               label={this.props.localized.month}
                               id="month"
                               size="sm"
-                              outline
                               name="monthValue"
                               value={this.state.monthValue}
                               onChange={this.handleFormInput}
                               containerClass="m-0 mr-2"
-                              className="skin-border-primary"
                               style={{margin: "0px -120px 0.5rem 0"}}
                     />/
                     <MDBInput type="text"
                               label={this.props.localized.day}
                               id="day"
                               size="sm"
-                              outline
                               name="dayValue"
                               value={this.state.dayValue}
                               onChange={this.handleFormInput}
                               containerClass="m-0 mr-2 ml-2"
-                              className="skin-border-primary"
                               style={{margin: "0px -120px 0.5rem 0"}}
                     />/
                     <MDBInput type="text"
                               label={this.props.localized.year}
                               id="year"
                               size="sm"
-                              outline
                               name="yearValue"
                               value={this.state.yearValue}
                               onChange={this.handleFormInput}
                               containerClass="m-0 ml-2"
-                              className="skin-border-primary"
                               style={{margin: "0px -110px 0.5rem 0"}}
                     />
                     {this.state.hasErrors &&

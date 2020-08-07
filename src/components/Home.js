@@ -27,6 +27,7 @@ import AgentAPI from '../api/agentAPI';
 import ConnectAPI from "../api/connectAPI";
 import Slack from '../utils/Slack';
 import TwilioAPI from "../api/twilioAPI";
+import {Slide, ToastContainer} from "react-toastify";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
@@ -345,6 +346,14 @@ class Home extends Component {
                         </Link>
                     </MDBModalBody>
                 </MDBModal>
+                <ToastContainer
+                    position="bottom-left"
+                    hideProgressBar={false}
+                    newestOnTop={true}
+                    autoClose={5000}
+                    pauseOnHover={false}
+                    transition={Slide}
+                />
             </MDBBox>
         )
     }

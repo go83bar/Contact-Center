@@ -28,10 +28,45 @@ export default class AgentAPI {
             method: "POST",
             auth: redux.user.auth
         }
-        const result = await sendRequest(requestOptions)
 
-        return result
+        return await sendRequest(requestOptions)
     }
+
+    /**
+     * @typedef UpdateProfileParams
+     * @type {object}
+     * @property {string} first_name
+     * @property {string} last_name
+     * @property {string} phone
+     * @property {string} email
+     * @property {string} password
+     */
+
+
+    /**
+     * updateProfile is called to persist new agent profile info
+     * Promise resolves to an object like
+     * {
+     *  success: {boolean},
+     * }
+     *
+     * @static
+     * @return {Promise}
+     * @memberof AgentAPI
+     */
+    static async updateProfile(params) {
+        const redux = store.getState()
+
+        const requestOptions = {
+            url: redux.config["url-react-base"] + "activate/profile",
+            method: "POST",
+            data: params,
+            toast: true,
+            auth: redux.user.auth
+        }
+        return await sendRequest(requestOptions)
+    }
+
 
     /**
      * Gets recently worked leads for the current user
