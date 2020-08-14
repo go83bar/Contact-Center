@@ -21,7 +21,7 @@ class CreateLead extends Component {
                 state: "",
                 zip: ""
             },
-            saveButtonDisabled: false
+            saveButtonDisabled: true
         };
     }
 
@@ -57,6 +57,7 @@ class CreateLead extends Component {
     }
 
     handleFormInput = (field) => (evt) => {
+        // get new field value
         const newValue = evt.target.value
         let formattedValue = ""
         // add formatting to phone fields
@@ -69,10 +70,17 @@ class CreateLead extends Component {
             formattedValue = newValue
         }
 
+        // clone state saveFields and overwrite new one
         let newFields = {...this.state.saveFields}
         newFields[field] = formattedValue
-        this.setState({ saveFields: newFields })
 
+        // determine if we can save it
+        let saveButtonDisabled = false
+        if (newFields.first_name === "" || newFields.last_name === "" || newFields.email === "") {
+            saveButtonDisabled = true
+        }
+
+        this.setState({ saveFields: newFields, saveButtonDisabled })
     }
 
     render() {
@@ -84,87 +92,67 @@ class CreateLead extends Component {
                     <div className="break mb-1 mt-2"/>
                     <MDBInput type="text"
                               label={this.props.localized.firstName}
-                              outline
                               value={this.state.saveFields.first_name}
                               onChange={this.handleFormInput("first_name")}
                               containerClass="m-0 mr-2 w-25"
-                              className="skin-border-primary"
                     />
                     <MDBInput type="text"
                               label={this.props.localized.lastName}
-                              outline
                               value={this.state.saveFields.last_name}
                               onChange={this.handleFormInput("last_name")}
                               containerClass="m-0 w-25"
-                              className="skin-border-primary"
                     />
                     <MDBInput type="text"
                               label={this.props.localized.email}
-                              outline
                               value={this.state.saveFields.email}
                               onChange={this.handleFormInput("email")}
                               containerClass="m-0 w-75"
-                              className="skin-border-primary"
                     />
                     <div className="w-100 mb-2"/>
                     <MDBInput type="text"
                               label={this.props.localized.cellPhone}
-                              outline
                               value={this.state.saveFields.cell_phone}
                               onChange={this.handleFormInput("cell_phone")}
                               containerClass="m-0 mr-2 w-25"
-                              className="skin-border-primary"
                     />
                     <MDBInput type="text"
                               label={this.props.localized.homePhone}
-                              outline
                               value={this.state.saveFields.home_phone}
                               onChange={this.handleFormInput("home_phone")}
                               containerClass="m-0 mr-2 w-25"
-                              className="skin-border-primary"
                     />
                     <div className="w-100 mb-2"/>
                     <MDBInput type="text"
                               label={this.props.localized.address1}
-                              outline
                               value={this.state.saveFields.address_1}
                               onChange={this.handleFormInput("address_1")}
                               containerClass="m-0 mr-2 w-25"
-                              className="skin-border-primary"
                     />
                     <MDBInput type="text"
                               label={this.props.localized.address2}
-                              outline
                               value={this.state.saveFields.address_2}
                               onChange={this.handleFormInput("address_2")}
                               containerClass="m-0 w-25"
-                              className="skin-border-primary"
                     />
                     <div className="w-100"/>
 
                     <MDBInput type="text"
                               label={this.props.localized.city}
-                              outline
                               value={this.state.saveFields.city}
                               onChange={this.handleFormInput("city")}
                               containerClass="m-0 mr-2 w-25"
-                              className="skin-border-primary"
                     />
                     <MDBInput type="text"
                               label={this.props.localized.state}
-                              outline
                               value={this.state.saveFields.state}
                               onChange={this.handleFormInput("state")}
                               containerClass="m-0 mr-2 w-25"
-                              className="skin-border-primary"
                     />
                     <MDBInput type="text"
                               label={this.props.localized.zip}
-                              outline
                               value={this.state.saveFields.zip}
                               onChange={this.handleFormInput("zip")}
                               containerClass="m-0 w-25"
-                              className="skin-border-primary"
                     />
                     <MDBModalFooter className="p-1"/>
                     <MDBBox className="d-flex justify-content-between w-100">
