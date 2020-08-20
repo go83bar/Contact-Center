@@ -92,7 +92,20 @@ class CallBar extends Component {
     openProviderChoices = () => {
         // call api to get list of available office hours
         InteractionAPI.fetchCallingHours({ regionID: this.props.lead.region_id}).then( response => {
-            // endpoint returns a naked array of calling hours ohjects
+            // if current lead has a preferred office, set that in front of the result array
+            const preferredOfficeMeta = this.props.lead.meta.find(meta => {
+                return meta.key === "preferred_office"
+            })
+            if (preferredOfficeMeta !== undefined) {
+                const preferredOfficeID = parseInt(preferredOfficeMeta.value)
+                response.sort( (a, b) => {
+                    if (a.office.id === preferredOfficeID) return -1;
+                    else if (b.office.id === preferredOfficeID) return 1;
+                    return a.office.name < b.office.name ? -1 : 1;
+                })
+            }
+
+            // set response hours into state for display
             this.setState({
                 providerChoicesVisible: true,
                 callingHours: response
