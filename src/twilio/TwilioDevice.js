@@ -67,14 +67,13 @@ class TwilioDeviceSingleton {
     openAgentConnection(incomingCallMode = false) {
         const redux = store.getState()
         const newConferenceOID = ObjectID.generate()
-        const client = redux.shift.clients[redux.lead.client_index]
 
         const input = {
             interaction_id: redux.interaction.id,
             lead_id: redux.lead.id,
             user_id: redux.user.id,
             conference_oid: newConferenceOID,
-            should_record: client.record_calls === 1 ? "true" : "false"
+            should_record: redux.lead.client.record_calls === 1 ? "true" : "false"
         }
 
         console.log("Start Conference Input: ", input)

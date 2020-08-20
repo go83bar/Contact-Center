@@ -152,7 +152,6 @@ const mapStateToProps = state => {
         localization: state.localization,
         localized: state.localization.interaction.summary.textForm,
         lead : state.lead,
-        client: state.shift.clients[state.lead.client_index]
     }
 }
 

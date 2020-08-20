@@ -48,8 +48,7 @@ class EditLead extends Component {
         })
 
         // region options
-        const client = this.props.shift.clients[this.props.lead.client_index]
-        const regionOptions = client.regions.filter(region => region.active).map(region => {
+        const regionOptions = props.lead.client.regions.filter(region => region.active).map(region => {
             return {
                 value: region.id.toString(),
                 text: region.name,
@@ -131,7 +130,7 @@ class EditLead extends Component {
                 // there are some, but are any pending?
                 let hasPending = false
                 this.props.lead.appointments.forEach(appointment => {
-                    const apptStatus = this.props.shift.clients[this.props.lead.client_index].appointment_statuses.find(status => status.id === appointment.appointment_status_id)
+                    const apptStatus = this.props.lead.client.appointment_statuses.find(status => status.id === appointment.appointment_status_id)
                     if (apptStatus && apptStatus.pending) {
                         hasPending = true
                     }
@@ -166,15 +165,14 @@ class EditLead extends Component {
                     }
                     // check to see if region changed, to add a couple things to the action
                     if (payload.region_id !== undefined) {
-                        // find new region_index
-                        const currentClient = this.props.shift.clients[this.props.lead.client_index]
-                        const newRegionIndex = currentClient.regions.findIndex(region => {
+                        // find new region
+                        const newRegion = this.props.lead.client.regions.find(region => {
                             return region.id === payload.region_id
                         })
 
                         updateAction.regionData = {
                             region_id: payload.region_id,
-                            region_index: newRegionIndex
+                            region: newRegion
                         }
                     }
                     this.props.dispatch(updateAction)

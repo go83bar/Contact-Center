@@ -28,7 +28,7 @@ class Lead extends Component {
     renderLogs() {
         const localization = this.props.localization.interaction.timeline.leadUpdate
         const timezones = this.props.localization.interaction.timezoneChoices
-        const client = this.props.shift.clients[this.props.lead.client_index]
+        const client = this.props.lead.client
         let result = []
         this.props.data.log.forEach((item,index) => {
             switch (item.field) {

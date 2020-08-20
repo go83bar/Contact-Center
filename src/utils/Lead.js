@@ -10,25 +10,25 @@ class Lead {
             .then((responseJson) => {
                 if (responseJson.success) {
                     let leadData = responseJson.data
-                    const clientIndex = redux.shift.clients.findIndex(client => client.id === leadData.client_id)
-                    leadData["client_index"] = clientIndex
-                    if (clientIndex === -1) {
+                    const currentClient = redux.shift.clients.find(client => client.id === leadData.client_id)
+                    leadData["client"] = currentClient
+                    if (currentClient === undefined) {
                         // serious problem, lead's client doesn't exist in agent's shift data
                         toast.error(redux.localization.toast.interaction.loadLead.clientMissing)
                         throw new Error("Missing client data")
                     }
 
-                    const campaignIndex = redux.shift.clients[clientIndex].campaigns.findIndex(campaign => campaign.id === leadData.campaign_id);
-                    leadData["campaign_index"] = campaignIndex
-                    if (campaignIndex === -1) {
+                    const currentCampaign = currentClient.campaigns.find(campaign => campaign.id === leadData.campaign_id);
+                    leadData["campaign"] = currentCampaign
+                    if (currentCampaign === undefined) {
                         // lead's campaign doesn't exist in agent's shift data
                         toast.error(redux.localization.toast.interaction.loadLead.campaignMissing)
                         throw new Error("Missing campaign data")
                     }
 
-                    const regionIndex = redux.shift.clients[clientIndex].regions.findIndex(region => region.id === leadData.region_id);
-                    leadData["region_index"] = regionIndex
-                    if (regionIndex === -1) {
+                    const currentRegion = currentClient.regions.find(region => region.id === leadData.region_id);
+                    leadData["region"] = currentRegion
+                    if (currentRegion === undefined) {
                         // lead's region doesn't exist in agent's shift data
                         toast.error(redux.localization.toast.interaction.loadLead.regionMissing)
                         throw new Error("Missing region data")

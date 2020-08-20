@@ -16,8 +16,7 @@ class SurveySubmission extends Component {
     constructor(props) {
         super(props)
 
-        var client = props.shift.clients[props.lead.client_index]
-        var campaign = client.campaigns.find((campaign) => {
+        var campaign = props.lead.client.campaigns.find((campaign) => {
             return campaign.id === props.survey.campaign_id
         })
 

@@ -29,7 +29,7 @@ export function lead(state = initialState, action) {
                 created_by: action.data.user_label
             }
             logContactPreferences.push(newLog)
-            contactPreferences[action.data.field] = action.data.value === "1" ? true : false
+            contactPreferences[action.data.field] = action.data.value === "1"
             return {
                 ...state,
                 contact_preferences: contactPreferences,
@@ -56,7 +56,7 @@ export function lead(state = initialState, action) {
             // add any new region data
             if (action.regionData !== undefined) {
                 newState.region_id = action.regionData.region_id
-                newState.region_index = action.regionData.region_index
+                newState.region = action.regionData.region
             }
             return newState
 

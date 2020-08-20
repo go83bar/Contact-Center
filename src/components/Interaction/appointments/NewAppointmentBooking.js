@@ -115,7 +115,7 @@ class NewAppointmentBooking extends Component {
         const apptTypeID = parseInt(values[0])
 
         // find full appointment type data
-        const apptType = this.props.shift.clients[this.props.lead.client_index].appointment_types.find( apptType => apptType.id === apptTypeID )
+        const apptType = this.props.lead.client.appointment_types.find( apptType => apptType.id === apptTypeID )
 
         // set it into state while clearing any existing office and resetting office select
         this.setState({
@@ -191,7 +191,7 @@ class NewAppointmentBooking extends Component {
         } else {
             // specific office was chosen, let's make sure we have all the data and set it into state
             officeID = parseInt(values[0])
-            const offices = this.props.shift.clients[this.props.lead.client_index].offices
+            const offices = this.props.lead.client.offices
             if (offices !== undefined && offices.length) {
                 const office = offices.find( office => office.id === officeID)
                 if (office !== undefined) {

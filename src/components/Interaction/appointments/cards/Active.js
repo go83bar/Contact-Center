@@ -366,7 +366,7 @@ class Active extends Component {
         const client = this.props.shift.clients.find(client => client.id === this.props.data.client_id)
         const apptType = client.appointment_types.find(type => type.id === this.props.data.appointment_type_id)
         const apptStatus = client.appointment_statuses.find(status => status.id === this.props.data.appointment_status_id)
-        let office = this.props.shift.clients[this.props.lead.client_index].offices.find(office => office.id === this.props.data.office_id)
+        let office = this.props.lead.client.offices.find(office => office.id === this.props.data.office_id)
         if (!office) {
             // the office ID on this appointment isn't in the client data in any region somehow
             Slack.sendMessage("Appointment " + this.props.data.id + " has office ID " + this.props.data.office_id + " that is not in the shift data for agent " + this.props.user.id)

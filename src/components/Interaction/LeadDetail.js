@@ -40,7 +40,7 @@ class LeadDetail extends Component {
             return meta.key === "preferred_office"
         })
         if (preferredOfficeMeta !== undefined) {
-            const office = this.props.shift.clients[this.props.lead.client_index].offices.find(office => office.id === parseInt(preferredOfficeMeta.value))
+            const office = this.props.lead.client.offices.find(office => office.id === parseInt(preferredOfficeMeta.value))
             if (office) {
 
                 return (
@@ -59,9 +59,7 @@ class LeadDetail extends Component {
     }
 
     render() {
-        const client = this.props.shift.clients[this.props.lead.client_index]
         const phase = this.props.shift.phases.find(phase => phase.id === this.props.lead.phase_id)
-        const region = client.regions[this.props.lead.region_index]
         let localization = this.props.localization.interaction.details
         let lead = this.props.lead
         let formatPhoneNumber = (str) => {
@@ -108,7 +106,7 @@ class LeadDetail extends Component {
                             </span>
                             <span>{this.state.leadIDCopyTooltip}</span>
                         </MDBTooltip>
-                        <MDBChip className={"outlineChip ml-4 mb-0"}>{localization.regionLabel}{region.name} - {formatPhoneNumber(region.default_number)}</MDBChip>
+                        <MDBChip className={"outlineChip ml-4 mb-0"}>{localization.regionLabel}{lead.region.name} - {formatPhoneNumber(lead.region.default_number)}</MDBChip>
                         <MDBChip className={"outlineChip ml-4 mb-0"}>{localization.phaseLabel}{phase.label}</MDBChip>
                     </div>
                     <div className="d-flex flex-column justify-content-between align-items-end w-25 h-100">

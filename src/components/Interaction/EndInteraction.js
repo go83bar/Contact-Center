@@ -78,7 +78,7 @@ class EndInteraction extends Component {
         })
 
         // build office select options
-        this.officeOptions = props.shift.clients[props.lead.client_index].offices.filter( office => office.region_id === props.lead.region_id).map( office => {
+        this.officeOptions = props.lead.client.offices.filter( office => office.region_id === props.lead.region_id).map( office => {
             return {
                 text: office.name,
                 value: office.id.toString()
@@ -157,13 +157,13 @@ class EndInteraction extends Component {
             }
             if (this.props.lead.appointments.length === 1) {
                 appointment = this.props.lead.appointments[0]
-                office = this.props.shift.clients[this.props.lead.client_index].offices.find( office => office.id === appointment.office_id)
+                office = this.props.lead.client.offices.find( office => office.id === appointment.office_id)
             } else {
                 steps.push("appointment")
             }
         } else if (outcome.requires_office === true) {
-            if (this.props.shift.clients[this.props.lead.client_index].offices.length === 1) {
-                office = this.props.shift.clients[this.props.lead.client_index].offices[0]
+            if (this.props.lead.client.offices.length === 1) {
+                office = this.props.lead.client.offices[0]
             } else steps.push("office")
         }
 
@@ -179,13 +179,13 @@ class EndInteraction extends Component {
 
     selectAppointment(appointment) {
         // office can also be set here
-        const office = this.props.shift.clients[this.props.lead.client_index].offices.find( office => office.id === appointment.office_id)
+        const office = this.props.lead.client.offices.find( office => office.id === appointment.office_id)
         this.setState({ appointment, office })
     }
 
     selectOffice(officeID) {
         officeID = parseInt(officeID)
-        const office = this.props.shift.clients[this.props.lead.client_index].offices.find( office => office.id === officeID)
+        const office = this.props.lead.client.offices.find( office => office.id === officeID)
         this.setState({ office })
     }
 
@@ -231,7 +231,7 @@ class EndInteraction extends Component {
                     </MDBBox>
                 )
             case "appointment" :
-                const office = this.props.shift.clients[this.props.lead.client_index].offices.find( office => office.id === this.state.appointment.office_id)
+                const office = this.props.lead.client.offices.find( office => office.id === this.state.appointment.office_id)
                 return (
                     <MDBBox key={"appointmentSummary"}>
                         <span className="font-weight-bold">{localization.apptSummaryLabel}</span>{this.state.appointment.start_time === null ? "Unverified appt at" : moment.utc(this.state.appointment.start_time).tz(this.props.lead.details.timezone).format("MMM D") + " at"} {String.truncate(office.name,25)}
@@ -255,7 +255,7 @@ class EndInteraction extends Component {
     }
 
     renderAppointmentButton(appointment) {
-        const office = this.props.shift.clients[this.props.lead.client_index].offices.find( office => office.id === appointment.office_id)
+        const office = this.props.lead.client.offices.find( office => office.id === appointment.office_id)
         let startTimeDate = "Unkonwn start time"
         let startTime = ""
         if (appointment.start_time !== null) {

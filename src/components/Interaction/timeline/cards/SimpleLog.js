@@ -28,7 +28,7 @@ class SimpleLog extends Component {
 
     renderLog() {
         const localization = this.props.localization.interaction.timeline.log
-        const client = this.props.shift.clients[this.props.lead.client_index]
+        const client = this.props.lead.client
 
         let result = undefined
         switch(this.props.data.field) {

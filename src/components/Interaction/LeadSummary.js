@@ -54,13 +54,11 @@ class LeadSummary extends Component {
         this.collapseClosed = this.collapseClosed.bind(this)
         this.showModal = this.showModal.bind(this)
         this.closeModal = this.closeModal.bind(this)
-        const client = this.props.shift.clients[this.props.lead.client_index]
-        const campaign = client.campaigns[this.props.lead.campaign_index]
         this.state = {
             collapsed: true,
             closed: false,
-            clientName: client.name,
-            campaignName: campaign.name,
+            clientName: props.lead.client.name,
+            campaignName: props.lead.campaign.name,
             modal : undefined,
             emailVisible: false,
             textVisible: false,
@@ -161,13 +159,12 @@ class LeadSummary extends Component {
     }
 
     generateStatusLabel = () => {
-        const client = this.props.shift.clients[this.props.lead.client_index]
         let labelClass = "text-danger"
-        if (this.props.twilio.recordingPaused || !client.record_calls) labelClass = "text-success"
+        if (this.props.twilio.recordingPaused || !this.props.lead.client.record_calls) labelClass = "text-success"
 
         let label = this.props.localization.interaction.summary.recordingActiveLabel
         if (this.props.twilio.recordingPaused) label = this.props.localization.interaction.summary.recordingPausedLabel
-        if (client.record_calls === 0) label = this.props.localization.interaction.summary.callActiveLabel
+        if (this.props.lead.client.record_calls === 0) label = this.props.localization.interaction.summary.callActiveLabel
         return (
             <span className={ labelClass }>
                 { label }: &nbsp; 
@@ -186,7 +183,6 @@ class LeadSummary extends Component {
     render() {
         const localization = this.props.localization.interaction.summary
         const lead = this.props.lead
-        const client = this.props.shift.clients[lead.client_index]
 
         return (
             <MDBBox className='p-0 m-0 w-100 d-flex' style={{flex:"0 53px", fontSize:"18px"}}>
@@ -242,7 +238,7 @@ class LeadSummary extends Component {
                                     </MDBPopoverBody>
                                 </div>
                             </MDBPopover>
-                            <MDBChip className={"outlineChip ml-4 mb-0"} style={{ backgroundColor: client.theme.primary, borderColor: client.theme.text, color: client.theme.text }}>{this.state.clientName}</MDBChip>
+                            <MDBChip className={"outlineChip ml-4 mb-0"} style={{ backgroundColor: lead.client.theme.primary, borderColor: lead.client.theme.text, color: lead.client.theme.text }}>{this.state.clientName}</MDBChip>
                             <MDBChip className={"outlineChip ml-1 mb-0"}>{this.state.campaignName}</MDBChip>
                             <MDBChip className={"outlineChip ml-1 mb-0" + (this.props.preview.call_sid !== null ? " green accent-2" : "")}>{this.props.preview.reason}</MDBChip>
                         </div>

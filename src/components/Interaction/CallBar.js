@@ -135,7 +135,7 @@ class CallBar extends Component {
     }
 
     render() {
-        const recordingEnabled = this.props.shift.clients[this.props.lead.client_index].record_calls
+        const recordingEnabled = this.props.lead.client.record_calls
         if (!this.props.twilio.callbarVisible) {
             return ""
         }

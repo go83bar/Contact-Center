@@ -31,7 +31,7 @@ class AgentCall extends Component {
             if (connection.party === "provider") {
                 hasProviderConnection = true
                 if (connection.office_id !== undefined) {
-                    let office = this.props.shift.clients[this.props.lead.client_index].offices.find( office => office.id === connection.office_id)
+                    let office = this.props.lead.client.offices.find( office => office.id === connection.office_id)
                     if (office) providerList.push(office.name)
                 }
             }
