@@ -165,7 +165,7 @@
       "incomingCallLabel": "Incoming Call",
       "createLead": {
         "title": "Create New Lead",
-        "infoHeader": "Fill in as much information as possible. The new lead will be locked to you and should come up next in your queue. First name, last name, and email are required.",
+        "infoHeader": "Fill in as much information as possible. The new lead will be locked to you and should come up next in your queue. First name, last name, cell phone, and email are required.",
         "client": "Client",
         "firstName": "First Name",
         "lastName": "Last Name",

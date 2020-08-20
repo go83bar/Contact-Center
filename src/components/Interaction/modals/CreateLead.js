@@ -76,7 +76,7 @@ class CreateLead extends Component {
 
         // determine if we can save it
         let saveButtonDisabled = false
-        if (newFields.first_name === "" || newFields.last_name === "" || newFields.email === "") {
+        if (newFields.first_name === "" || newFields.last_name === "" || newFields.email === "" || newFields.cell_phone.length < 14) {
             saveButtonDisabled = true
         }
 
@@ -169,6 +169,7 @@ const mapStateToProps = state => {
         localization: state.localization,
         localized: state.localization.interaction.summary.createLead,
         lead : state.lead,
+        user: state.user,
     }
 }
 
