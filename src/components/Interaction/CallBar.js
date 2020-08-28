@@ -40,8 +40,10 @@ class CallBar extends Component {
         // if lead only has one number, dial that number. If they have both, pop a DialChoice modal
         let hasCell = false
         let hasHome = false
-        if (this.props.lead.details.cell_phone !== undefined && this.props.lead.details.cell_phone !== "") hasCell = true
-        if (this.props.lead.details.home_phone !== undefined && this.props.lead.details.home_phone !== "") hasHome = true
+        const cellPhone = this.props.lead.details.cell_phone
+        const homePhone = this.props.lead.details.home_phone
+        if (cellPhone !== undefined && cellPhone !== "" && cellPhone !== null) hasCell = true
+        if (homePhone !== undefined && homePhone !== "" && homePhone !== null) hasHome = true
 
         if (hasCell && !hasHome) {
             TwilioDevice.dialLead("cell")
