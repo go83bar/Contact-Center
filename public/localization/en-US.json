@@ -75,8 +75,8 @@
     },
     "callbar": {
       "leadLabel": "Lead",
-      "holdLabel": "Hold",
-      "unholdLabel": "Unhold",
+      "holdLabel": "Put on Hold",
+      "unholdLabel": "Take off Hold",
       "dialLabel": "Dial",
       "answerIncomingLabel": "Answer Call",
       "hangupLabel": "Hang Up",
