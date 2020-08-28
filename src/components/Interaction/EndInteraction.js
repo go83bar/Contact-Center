@@ -10,7 +10,8 @@ import {
     MDBModalBody,
     MDBStep,
     MDBStepper,
-    MDBSelect
+    MDBSelect,
+    MDBInput
 } from "mdbreact"
 import { connect } from "react-redux"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -93,6 +94,7 @@ class EndInteraction extends Component {
             showNext : true,
             steps : ["outcome"],
             outcomes : outcomes,
+            outcomeFilter: "",
             reason: undefined,
             appointment: undefined,
             office: undefined
@@ -140,6 +142,10 @@ class EndInteraction extends Component {
 
     endInteractionFetch() {
        this.endInteraction(true)
+    }
+
+    setOutcomeFilter = (evt) => {
+        this.setState({outcomeFilter: evt.target.value})
     }
 
     selectOutcome(outcome_id) {
@@ -362,10 +368,22 @@ class EndInteraction extends Component {
                         </MDBCardHeader>
                         <MDBCardBody>
                             {this.state.currentStep === "outcome" &&
-                                <MDBBox className="d-flex flex-wrap justify-content-center">
-                                    {this.state.outcomes.map(outcome =>
-                                        <MDBBtn style={{minWidth: "300px"}} rounded outline={!(this.state.outcome && this.state.outcome.id === outcome.id)} key={"outcome-" + outcome.id} color={this.state.outcome && this.state.outcome.id === outcome.id ? "primary" : undefined} onClick={()=> this.selectOutcome(outcome.id)}>{outcome.label}</MDBBtn>
-                                    )}
+                                <MDBBox className="d-flex flex-wrap justify-content-center w-75 mx-auto">
+                                    <MDBBox className="w-100">
+                                        <MDBInput type="text" className="w-100" onChange={this.setOutcomeFilter} value={this.state.outcomeFilter} id="outcome-filter" />
+                                    </MDBBox>
+                                    {this.state.outcomes.map(outcome => {
+                                        if (this.state.outcomeFilter.length > 0 && outcome.label.toLowerCase().search(this.state.outcomeFilter.toLowerCase()) === -1) {
+                                            // the filter has a value and this outcome doesn't match it
+                                            return ""
+                                        }
+
+                                        return (<MDBBtn className="text-left" style={{minWidth: "300px", textTransform: "none"}} rounded
+                                                outline={!(this.state.outcome && this.state.outcome.id === outcome.id)}
+                                                key={"outcome-" + outcome.id}
+                                                color={this.state.outcome && this.state.outcome.id === outcome.id ? "primary" : "secondary"}
+                                                onClick={() => this.selectOutcome(outcome.id)}>{outcome.label}</MDBBtn>)
+                                    })}
                                 </MDBBox>
                             }
                             {this.state.currentStep === "office" &&
@@ -383,7 +401,7 @@ class EndInteraction extends Component {
                             <MDBBox>
                                 <MDBBox className="d-flex flex-wrap justify-content-center">
                                     {this.state.outcome.outcome_reasons.map(reason =>
-                                        <MDBBtn style={{minWidth: "300px"}} rounded outline={!(this.state.reason && this.state.reason.id === reason.id)} key={"reason-" + reason.id} color={this.state.reason && this.state.reason.id === reason.id ? "primary" : undefined} onClick={()=> this.selectReason(reason.id)}>{reason.text}</MDBBtn>
+                                        <MDBBtn style={{minWidth: "300px", textTransform: "none"}}  className="text-left" rounded outline={!(this.state.reason && this.state.reason.id === reason.id)} key={"reason-" + reason.id} color={this.state.reason && this.state.reason.id === reason.id ? "primary" : "secondary"} onClick={()=> this.selectReason(reason.id)}>{reason.text}</MDBBtn>
                                     )}
                                 </MDBBox>
                             </MDBBox>
