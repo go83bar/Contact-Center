@@ -158,6 +158,15 @@ class LeadSummary extends Component {
         this.setState({modal : undefined})
     }
 
+    generateCallReason = () => {
+        let reason = this.props.preview.reason
+        if (reason.search("Call Chain") !== -1) {
+            reason = reason + " of " + this.props.lead.call_attempts.max
+        }
+
+        return reason
+    }
+
     generateStatusLabel = () => {
         let labelClass = "text-danger"
         if (this.props.twilio.recordingPaused || !this.props.lead.client.record_calls) labelClass = "text-success"
@@ -240,7 +249,7 @@ class LeadSummary extends Component {
                             </MDBPopover>
                             <MDBChip className={"outlineChip ml-4 mb-0"} style={{ backgroundColor: lead.client.theme.primary, borderColor: lead.client.theme.text, color: lead.client.theme.text }}>{this.state.clientName}</MDBChip>
                             <MDBChip className={"outlineChip ml-1 mb-0"}>{this.state.campaignName}</MDBChip>
-                            <MDBChip className={"outlineChip ml-1 mb-0" + (this.props.preview.call_sid !== null ? " green accent-2" : "")}>{this.props.preview.reason}</MDBChip>
+                            <MDBChip className={"outlineChip ml-1 mb-0" + (this.props.preview.call_sid !== null ? " green accent-2" : "")}>{this.generateCallReason()}</MDBChip>
                         </div>
                         <MDBNav className="d-flex justify-content-end float-right skin-border-primary h-100 flex-nowrap">
                             { this.props.twilio.conferenceSID && <div className="f-m border-right p-2 py-0 mt-2">{ this.generateStatusLabel() }
