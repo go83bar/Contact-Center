@@ -51,7 +51,7 @@ class ProviderChoices extends Component {
         return (
             <MDBModal isOpen={true} toggle={this.props.toggle} size="lg" >
                 <MDBBox className="d-flex justify-content-between align-items-center pl-4 pr-5">
-                    <h4>{this.props.localized.title}</h4>
+                    <h4>{this.props.localized.title}{this.props.lead.region.name}</h4>
                     <MDBInput id="officeSearch"
                         label={this.props.localization.buttonLabels.search}
                         outline
@@ -94,6 +94,7 @@ const mapStateToProps = state => {
     return {
         localization: state.localization,
         localized: state.localization.interaction.callbar.providerChoices,
+        lead: state.lead
     }
 }
 
