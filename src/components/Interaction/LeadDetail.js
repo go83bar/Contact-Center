@@ -106,7 +106,8 @@ class LeadDetail extends Component {
                             </span>
                             <span>{this.state.leadIDCopyTooltip}</span>
                         </MDBTooltip>
-                        <MDBChip className={"outlineChip ml-4 mb-0"}>{localization.regionLabel}{lead.region.name} - {formatPhoneNumber(lead.region.default_number)}</MDBChip>
+                        <MDBChip className={"outlineChip ml-4 mb-0"}>{localization.regionLabel}{lead.region.name}</MDBChip>
+                        <MDBChip className={"outlineChip ml-4 mb-0"}>{localization.regionPhoneLabel}{formatPhoneNumber(lead.region.default_number)}</MDBChip>
                         <MDBChip className={"outlineChip ml-4 mb-0"}>{localization.phaseLabel}{phase.label}</MDBChip>
                     </div>
                     <div className="d-flex flex-column justify-content-between align-items-end w-25 h-100">
