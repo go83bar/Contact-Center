@@ -41,7 +41,7 @@ class LeadDocuments extends Component {
 
     onNewDocumentSelect = () => {
         this.setState({createDisabled: true})
-        const documentID = this.state.documentID
+        const documentID = this.state.selectedDocumentID
         const createParams = {
             documentID,
             leadID: this.props.lead.id,
