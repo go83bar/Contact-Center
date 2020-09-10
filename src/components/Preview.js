@@ -74,7 +74,6 @@ class Preview extends Component {
             }).catch( error => {
                 console.log("Could not start interaction: ", error)
             })
-
     }
 
     render() {
@@ -84,32 +83,43 @@ class Preview extends Component {
             return <LoadingScreen />
         }
 
-        // Build list of preview data items
-        const data = this.props.previewData.meta.map((item, i) => {
+        // Build filtered list of preview data items
+        const data = this.props.previewData.meta.filter(item => {
+            const filteredFieldList = [
+                "Last Contact",
+                "Phase",
+                "Client",
+                "Region",
+                "Campaign"
+            ]
+            return filteredFieldList.includes(item.name)
+        }).map((item, i) => {
             return (
-                <div key={i}>{item.name}: {item.value}</div>
+                <MDBChip className="outlineChip mb-3" key={i}>{item.name}: <span className="font-weight-bold skin-secondary-color">{item.value}</span></MDBChip>
             )
         })
+
         return (
             <MDBBox className="d-flex justify-content-center" style={{margin: "10% auto"}} >
-                    <MDBCard className="d-flex card-body" style={{width:"585px", height:"480px"}}>
-                        <MDBCardHeader className="d-flex justify-content-start backgroundColorInherit">
-                            <h3>
-                            <strong>{this.props.previewData.lead_name}</strong> / {this.props.previewData.reason}
-                            </h3>
-                        </MDBCardHeader>
-                        <MDBCardBody className='justify-content-start border skin-border-primary'>
-                                <div>
-                                    <MDBChip className={"outlineChip mb-2"}>{localization.id}: {this.props.previewData.lead_id}</MDBChip>
+                <MDBCard className="d-flex card-body" style={{width:"585px", height:"480px"}}>
+                    <MDBCardHeader className="d-flex justify-content-start backgroundColorInherit">
+                        <h3>
+                            <strong>{this.props.previewData.lead_name}</strong> <small className="font-italic">/ {this.props.previewData.reason}</small>
+                        </h3>
+                    </MDBCardHeader>
+                    <MDBCardBody className='justify-content-start border skin-border-primary'>
+                        <div>
+                            <MDBChip className={"outlineChip mb-4"}>{localization.id}: <span className="font-weight-bold skin-secondary-color">{this.props.previewData.lead_id}</span></MDBChip>
+                        </div>
+                        <div>
+                            {data}
+                        </div>
+                    </MDBCardBody>
+                    <MDBCardFooter className="d-flex justify-content-end">
+                        <MDBBtn rounded className="skin-primary-background-color f-l" onClick={this.startInteraction}>{localization.nextButton}</MDBBtn>
+                    </MDBCardFooter>
 
-                                    {data}
-                                </div>
-                        </MDBCardBody>
-                        <MDBCardFooter className="d-flex justify-content-end">
-                            <MDBBtn rounded className="skin-primary-background-color f-l" onClick={this.startInteraction}>{localization.nextButton}</MDBBtn>
-                        </MDBCardFooter>
-
-                    </MDBCard>
+                </MDBCard>
             </MDBBox>
         )
     }
