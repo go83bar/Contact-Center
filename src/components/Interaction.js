@@ -21,7 +21,7 @@ import {
     faBars,
     faCalendarCheck,
     faEdit, faFile,
-    faPoll, faStream
+    faPoll, faStream, faFileSignature
 } from "@fortawesome/pro-regular-svg-icons"
 import LeadTabs from "./Interaction/LeadTabs"
 import {faChevronRight, faUser} from "@fortawesome/pro-solid-svg-icons"
@@ -36,12 +36,19 @@ class Interaction extends Component {
         this.toggleNav = this.toggleNav.bind(this)
         this.toggleEndInteraction = this.toggleEndInteraction.bind(this)
         this.toggleDetails = this.toggleDetails.bind(this)
+
+        // determine if the docusign tab is appropriate
+        const docusignVisible = props.shift.docusign_templates.some( template => {
+            return template.client_id === props.lead.client_id
+        })
+
         this.state = {
             endInteractionVisible : false,
             unsavedNoteModalVisible: false,
             slim : false,
             details : true,
             activeItem : "1",
+            docusignVisible,
             date: moment(),
             time: moment().hour(0).minute(0)
         };
@@ -151,6 +158,7 @@ class Interaction extends Component {
                         <SideNavItem active={this.state.activeItem === "2"} icon={faCalendarCheck} label={localization.appointment.tabTitle} slim={slim} onClick={this.toggleTab("2")}/>
                         <SideNavItem active={this.state.activeItem === "6"} icon={faEdit} label={localization.notes.tabTitle} slim={slim} onClick={this.toggleTab("6")}/>
                         <SideNavItem active={this.state.activeItem === "7"} icon={faFile} label={localization.documents.tabTitle} slim={slim} onClick={this.toggleTab("7")}/>
+                        {this.state.docusignVisible && <SideNavItem active={this.state.activeItem === "8"} icon={faFileSignature} label={localization.docusign.tabTitle} slim={slim} onClick={this.toggleTab("8")}/>}
                     </MDBNav>
                 </MDBBox>
                 <MDBBox className="d-flex m-2" style={{flex: 1, overflow:"auto", flexDirection:"column"}}>
@@ -220,7 +228,8 @@ const mapStateToProps = state => {
         localization: state.localization,
         lead : state.lead,
         twilio: state.twilio,
-        interaction: state.interaction
+        interaction: state.interaction,
+        shift: state.shift
     }
 }
 

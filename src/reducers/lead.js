@@ -60,6 +60,13 @@ export function lead(state = initialState, action) {
             }
             return newState
 
+        case "LEAD.DOCUSIGN.SENT":
+            const newEnvelopes = [ action.data, ...state.docusign]
+            return {
+                ...state,
+                docusign: newEnvelopes
+            }
+
         case "LEAD.NOTE_UPDATED":
             // called when user updates one of their previous notes
             const newNotes = state.notes.map( note => {

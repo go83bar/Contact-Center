@@ -133,6 +133,16 @@
       "updatedAtLabel": "last updated on ",
       "defaultQuestionNotice": "This question cannot be answered in the app."
     },
+    "docusign": {
+      "tabTitle": "Docusign",
+      "sentAtLabel": "sent on ",
+      "openedAtLabel": "opened on ",
+      "completedAtLabel": "completed on ",
+      "declinedAtLabel": "declined on ",
+      "voidedAtLabel": "voided on ",
+      "templateOptionsLabel": "Select Envelope...",
+      "sendButton": "Send"
+    },
     "endInteraction": {
       "endButton": "Save & Go to Dashboard",
       "endFetchButton": "Save & Fetch New Lead",
@@ -416,6 +426,10 @@
       "editFailed": "Document could not be saved",
       "createError": "Document could not be created",
       "loadError": "Document could not be loaded"
+    },
+    "docusign": {
+      "sendError": "Could not send DocuSign envelope.",
+      "sendSuccess": "DocuSign Envelope Sent"
     },
     "editLead": {
       "success": "Lead Information Saved Successfully.",

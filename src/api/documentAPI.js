@@ -87,4 +87,27 @@ export default class DocumentAPI {
         return await sendRequest(requestOptions)
 
     }
+
+
+    /**
+     * Sends a DocuSign Envelope from a template
+     * @param params
+     * @returns {Promise}
+     */
+    static async sendDocusign(params) {
+        const payload = {
+            template_id: params.templateID,
+            lead_id: params.leadID,
+        }
+
+        const redux = store.getState()
+        const requestOptions = {
+            url: redux.config["url-react-base"] + "activate/lead/docusign",
+            method: "POST",
+            data: payload,
+            auth: redux.user.auth
+        }
+        return await sendRequest(requestOptions)
+
+    }
 }

@@ -6,6 +6,7 @@ import LeadBooking from "./LeadBooking";
 import LeadTimeline from "./LeadTimeline";
 import LeadCallQueue from "./LeadCallQueue";
 import LeadDocuments from "./LeadDocuments";
+import LeadDocusign from "./LeadDocusign";
 import LeadNotes from "./NotesTab/LeadNotes";
 import {connect} from "react-redux";
 
@@ -29,6 +30,7 @@ class LeadTabs extends Component {
                         <LeadCallQueue active={this.props.activeTab === '5'}/>
                         <LeadNotes active={this.props.activeTab === '6'}/>
                         <LeadDocuments active={this.props.activeTab === '7'}/>
+                        <LeadDocusign active={this.props.activeTab === '8'}/>
                     </MDBTabContent>
 
             </MDBBox>

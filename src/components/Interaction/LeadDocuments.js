@@ -145,7 +145,9 @@ class LeadDocuments extends Component {
                     />
                     <MDBBtn rounded
                             onClick={this.onNewDocumentSelect}
-                            disabled={this.state.createDisabled}>
+                            disabled={this.state.createDisabled}
+                            style={{maxHeight: "50px"}}
+                    >
                         {this.props.localization.interaction.documents.createNewButton}
                     </MDBBtn>
                 </div>
