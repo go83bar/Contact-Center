@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import {MDBBox, MDBBtn, MDBCard, MDBSelect,} from 'mdbreact'
-import DocumentEdit from './documentsTab/DocumentEdit'
 import {connect} from 'react-redux'
 import DocumentAPI from "../../api/documentAPI";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";

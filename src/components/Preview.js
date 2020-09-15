@@ -118,7 +118,6 @@ class Preview extends Component {
                     <MDBCardFooter className="d-flex justify-content-end">
                         <MDBBtn rounded className="skin-primary-background-color f-l" onClick={this.startInteraction}>{localization.nextButton}</MDBBtn>
                     </MDBCardFooter>
-
                 </MDBCard>
             </MDBBox>
         )
