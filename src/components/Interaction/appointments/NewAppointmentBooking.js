@@ -339,12 +339,12 @@ class NewAppointmentBooking extends Component {
                 // TODO waiting for responses to be part of the lead store from LeadDTO
 
             } else {
-                //TODO handle this error
+                toast.error(this.props.localization.toast.appointments.confirmFailed)
                 console.log("Got abnormal response from saveResponse: ", response)
             }
 
         }).catch( reason => {
-            //TODO handle this error
+            toast.error(this.props.localization.toast.appointments.confirmFailed)
             console.log("SAVE RESPONSE FAILED: ", reason)
         })
 

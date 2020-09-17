@@ -432,7 +432,7 @@ export default class LeadAPI {
      * Sets the lead contact preferences
      *
      * @static
-     * @param {ContactPreferencesParams} params
+     * @param {ContactPreferenceParams} params
      * @returns {Promise}
      * @memberof LeadAPI
      */
@@ -488,6 +488,44 @@ export default class LeadAPI {
             url: redux.config["url-api-base"] + "leads/" + params.leadID,
             method: "PUT",
             data: params.payload,
+            auth: redux.user.auth,
+            toast : true
+        }
+        const result = await sendRequest(requestOptions)
+
+        return result
+    }
+
+    /**
+     * @typedef ClientResponsesParams
+     * @type {object}
+     * @property {number} lead_id
+     * @property {number} interaction_id
+     * @property {array} questions
+     */
+
+    /**
+     * Updates the lead contact information
+     *
+     * @static
+     * @param {ClientResponsesParams} params
+     * @returns {Promise}
+     * @memberof LeadAPI
+     */
+    static async saveClientResponses(params) {
+        // Mock API responses for local dev
+        if (process.env.REACT_APP_QUERY_MODE === "development") {
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "/data/successTrue.json")
+
+            return mockData.json()
+        }
+
+        const redux = store.getState()
+        const requestOptions = {
+            url: redux.config["url-react-base"] + "activate/lead/clientresponses",
+            method: "POST",
+            type: "json",
+            data: params,
             auth: redux.user.auth,
             toast : true
         }

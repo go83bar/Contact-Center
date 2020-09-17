@@ -4,21 +4,21 @@ const initialState = {}
 // Reducer for handling lead actions
 export function lead(state = initialState, action) {
     switch (action.type) {
+        // initial DTO load for lead data
         case 'LEAD.LOAD':
-            // initial DTO load for lead data
             return Object.assign({}, state, {
                 ...action.payload
             })
 
+        // called when a new appointment is booked
         case "LEAD.APPOINTMENT_BOOKED":
-            // called when a new appointment is booked
             return {
                 ...state,
                 appointments: [ ...state.appointments, action.data]
             }
-        
+
+        // called when user updates lead's optout preferences
         case "LEAD.UPDATE_CONTACT_PREFERENCES":
-            // called when user updates lead's optout preferences
             let contactPreferences = { ...state.contact_preferences }
             let logContactPreferences = [ ...state.log_optouts]
             const newLog = {
@@ -36,8 +36,8 @@ export function lead(state = initialState, action) {
                 log_optouts: logContactPreferences
             }
 
+        // called when user updates lead's demographic information
         case "LEAD.UPDATE_DETAILS":
-            // called when user updates lead's demographic information
             // action.data is an object with only updated fields
             const newDetails = Object.assign({}, state.details, { ...action.data })
 
@@ -60,6 +60,7 @@ export function lead(state = initialState, action) {
             }
             return newState
 
+        // called when user sends an esignature notice to the lead
         case "LEAD.DOCUSIGN.SENT":
             const newEnvelopes = [ action.data, ...state.docusign]
             return {
@@ -67,8 +68,8 @@ export function lead(state = initialState, action) {
                 docusign: newEnvelopes
             }
 
+        // called when user updates one of their previous notes
         case "LEAD.NOTE_UPDATED":
-            // called when user updates one of their previous notes
             const newNotes = state.notes.map( note => {
                 if (note.id === action.data.noteID) {
                     return {
@@ -85,15 +86,15 @@ export function lead(state = initialState, action) {
                 notes: newNotes
             }
 
+        // called when user saves a new note
         case "LEAD.NOTE_SAVED":
-            // called when user saves a new note
             return {
                 ...state,
                 notes: [ ...state.notes, action.data]
             }
 
+        // called when user deletes one of their notes
         case "LEAD.NOTE_DELETED":
-            // called when user deletes one of their notes
             return {
                 ...state,
                 notes: state.notes.filter( note => {
@@ -101,30 +102,52 @@ export function lead(state = initialState, action) {
                 })
             }
 
+        // called when user saves updates to client responses
+        case "LEAD.CLIENT_RESPONSES.UPDATED":
+            const newResponses = state.client_responses.map( existingResponse => {
+                // if the questionable ID is contained in changedResponses, let's replace this questionable's data
+                const overWriteResponse = action.data.changedResponses.find(changedResponse => changedResponse.questionable_id === existingResponse.questionable_id)
+                let newResponse = {...existingResponse}
+                if (overWriteResponse === undefined) return newResponse // no change to this questionable, keep the existing one
+
+                // map text answer or answer_ids from changedResponse into newResponse
+                if (overWriteResponse.answer !== undefined) {
+                    newResponse.answer = overWriteResponse.answer
+                } else {
+                    newResponse.answer_id = overWriteResponse.answers.map(answer => answer.answer_id)
+                }
+                return newResponse
+            })
+
+            return {
+                ...state,
+                client_responses: newResponses
+            }
+
+        // called when agents sends lead an SMS message
         case "LEAD.TEXT_SENT":
-            // called when agents sends lead an SMS message
             return {
                 ...state,
                 texts: [ ...state.texts, action.data]
             }
 
+        // called when agents sends lead an SMS message
         case "LEAD.EMAIL_SENT":
-            // called when agents sends lead an SMS message
             return {
                 ...state,
                 emails: [ ...state.emails, action.data]
             }
 
+        // called when appointments get reloaded from backend
         case "LEAD.APPOINTMENTS_LOADED":
-            // called when appointments get reloaded from backend
             return {
                 ...state,
                 appointments: action.data.appointments,
                 appointment_logs: action.data.appointment_logs
             }
 
+        // called when an appointment confirmation status changes
         case "APPOINTMENT.CONFIRMED":
-            // called when an appointment confirmation status changes
             const newConfirmedAppointments = state.appointments.map( appt => {
                 if (appt.id === action.data.appointmentID) {
                     return { ...appt, confirmed: action.data.confirmedState}
@@ -140,8 +163,8 @@ export function lead(state = initialState, action) {
                 appointment_logs: newConfirmedLogs
             }
 
+        // called when an appointment gets a verified start time
         case "APPOINTMENT.VERIFIED":
-            // called when an appointment gets a verified start time
             const newVerifiedAppointments = state.appointments.map( appt => {
                 if (appt.id === action.data.appointmentID) {
                     return { 
@@ -160,9 +183,9 @@ export function lead(state = initialState, action) {
                 appointments: newVerifiedAppointments,
                 appointment_logs: newVerifiedLogs
             }
-                
+
+        // called when an appointment status changes
         case "APPOINTMENT.STATUS_UPDATED":
-            // called when an appointment status changes
             const newStatusAppointments = state.appointments.map( appt => {
                 if (appt.id === action.data.appointmentID) {
                     return { ...appt, appointment_status_id: action.data.newStatusID}
@@ -177,9 +200,9 @@ export function lead(state = initialState, action) {
                 appointments: newStatusAppointments,
                 appointment_logs: newStatusLogs
             }
-    
+
+        // called when an interaction first starts, we need to put it into the lead data
         case "INTERACTION.LOAD":
-            // called when an interaction first starts, we need to put it into the lead data
             return {
                 ...state,
                 interactions: [ ...state.interactions, action.payload]
