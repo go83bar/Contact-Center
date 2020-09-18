@@ -97,6 +97,7 @@ class TwilioDeviceSingleton {
             toast.error("Twilio error has occurred. Disconnected from Twilio.")
             Slack.sendMessage("Agent " + redux.user.id + " got a connection error from Twilio: " + err)
             console.log("Connection error: ", err)
+            store.dispatch(agentDisconnected())
         })
 
         //this.connection = agentConnection
@@ -131,13 +132,23 @@ class TwilioDeviceSingleton {
                 console.log("Lead incoming call merged")
             } else {
                 console.log("Twilio Connect Incoming Error!")
-                toast.error(redux.localization.toast.twilio.connectIncomingFailed)
+                if (response.code === 5) {
+                    toast.error(redux.localization.toast.twilio.incomingHungUp)
+                } else {
+                    toast.error(redux.localization.toast.twilio.connectIncomingFailed)
+                }
+
+                // when this happens we want to make sure we allow the agent to call the lead back
+                store.dispatch(agentConnected(redux.twilio.agentCallSID, redux.twilio.conferenceOID, false, ""))
             }
         }).catch( reason => {
-            // API rcall failed
+            // API call failed
             console.log("TwilioAPI response error: ", reason)
             toast.error(redux.localization.toast.twilio.connectIncomingFailed)
             Slack.sendMessage("Agent " + redux.user.id + " got an error answering incoming call for lead " + redux.lead.id + ": " + reason)
+
+            // when this happens we want to make sure we allow the agent to call the lead back
+            store.dispatch(agentConnected(redux.twilio.agentCallSID, redux.twilio.conferenceOID, false, ""))
         })
     }
 

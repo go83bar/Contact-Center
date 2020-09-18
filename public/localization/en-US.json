@@ -479,6 +479,7 @@
     "twilio": {
       "dialLeadFailed": "Twilio error! Lead could not be dialed.",
       "connectIncomingFailed": "Twilio error! Incoming call could not be connected.",
+      "incomingHungUp": "Incoming caller has hung up. Click Dial Button to call them back!",
       "playAutoVMFailed": "Twilio error! Could not play Autovoicemail.",
       "pauseRecordingFailed": "Twilio error! Recording not paused!",
       "resumeRecordingFailed": "Twilio error! Recording not resumed!",
