@@ -184,13 +184,13 @@ class MergeLead extends Component {
             if (String.formatPhoneNumber(this.state.search.phoneValue) === String.formatPhoneNumber(result.cell_phone)) {
                 cellPhoneClass = "font-weight-bold"
             }
-            if (this.state.search.firstNameValue.trim().toLowerCase() === result.first_name.trim().toLowerCase()) {
+            if (result.first_name !== null && this.state.search.firstNameValue.trim().toLowerCase() === result.first_name.trim().toLowerCase()) {
                 firstNameClass = "font-weight-bold"
             }
-            if (this.state.search.lastNameValue.trim().toLowerCase() === result.last_name.trim().toLowerCase()) {
+            if (result.last_name !== null && this.state.search.lastNameValue.trim().toLowerCase() === result.last_name.trim().toLowerCase()) {
                 lastNameClass = "font-weight-bold"
             }
-            if (this.state.search.emailValue.trim().toLowerCase() === result.email.trim().toLowerCase()) {
+            if (result.email !== null && this.state.search.emailValue.trim().toLowerCase() === result.email.trim().toLowerCase()) {
                 emailClass = "font-weight-bold"
             }
             return (<MDBBox className="mb-2 p-4 border skin-border-primary" key={result.id}>

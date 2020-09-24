@@ -81,7 +81,8 @@
       "answerIncomingLabel": "Answer Call",
       "hangupLabel": "Hang Up",
       "agentLabel": "Me",
-      "checkStatusLabel": "Check",
+      "checkStatusLabel": "Check Status",
+      "checkingStatusLabel": "Checking...",
       "voicemailLabel": "AutoVM",
       "pauseLabel": "Pause",
       "resumeLabel": "Resume",
@@ -104,6 +105,14 @@
         "title": "Dial Lead",
         "cellLabel": "Cell phone:",
         "homeLabel": "Home phone:"
+      },
+      "callStatuses": {
+        "connecting": "Connecting...",
+        "ringing": "Ringing",
+        "connected": "Connected",
+        "notConnected": "Not Connected",
+        "incoming": "Calling In...",
+        "onHold": "On Hold"
       }
     },
     "details": {
@@ -483,7 +492,10 @@
       "playAutoVMFailed": "Twilio error! Could not play Autovoicemail.",
       "pauseRecordingFailed": "Twilio error! Recording not paused!",
       "resumeRecordingFailed": "Twilio error! Recording not resumed!",
-      "playTonesFailed": "Twilio error! Keypad input not accepted!"
+      "playTonesFailed": "Twilio error! Keypad input not accepted!",
+      "providerDialFailed": "Twilio error! Could not dial provider!",
+      "checkStatusFailed": "Check Status has failed!",
+      "checkStatusUpdated": "Call Statuses Updated!"
     },
     "timeline": {
       "email": {

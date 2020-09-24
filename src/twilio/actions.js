@@ -30,20 +30,20 @@ export function providerDialed(callSID) {
 
 export function callRinging(party) {
     return {
-        type: `TWILIO.${party}.RINGING`
+        type: `TWILIO.${party.toUpperCase()}.RINGING`
     }
 }
 
 export function callConnected(callSID, party) {
     return {
-        type: `TWILIO.${party}.CONNECTED`,
+        type: `TWILIO.${party.toUpperCase()}.CONNECTED`,
         callSID: callSID
     }
 }
 
 export function callDisconnected(party) {
     return {
-        type: `TWILIO.${party}.DISCONNECTED`
+        type: `TWILIO.${party.toUpperCase()}.DISCONNECTED`
     }
 }
 

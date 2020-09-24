@@ -30,6 +30,38 @@ export default class TwilioAPI {
     }
 
     /**
+     * Performs call to check status of active connections for this interaction
+     * Promise resolves to an object like this:
+     * {
+     *  success: {boolean},
+     *  connections: [
+     *      {
+     *          callParty: {string},
+     *          callStatus: {string},
+     *          callSID: {string}
+     *      }
+     *  ]
+     * }
+     *
+     * @param interactionID
+     * @returns {Promise}
+     */
+    static async checkStatus(interactionID) {
+        const redux = store.getState()
+        const payload = {
+            token: redux.user.auth.token,
+            interaction_id: interactionID
+        }
+
+        const requestOptions = {
+            url: redux.config["url-twilio-base"] + "connect/check",
+            data: payload,
+            type: "json"
+        }
+        return await sendRequest(requestOptions)
+    }
+
+    /**
      * Performs call to initiate outbound dial to lead.  Lead's call is then routed into the
      * given Conference ID.  Returns the SID of the lead's call leg.
      * Promise resolves to an object like this:

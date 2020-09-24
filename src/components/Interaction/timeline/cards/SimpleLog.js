@@ -22,6 +22,7 @@ class SimpleLog extends Component {
         }
 
     }
+
     toggleCollapse() {
         this.setState({collapsed : !this.state.collapsed})
     }
@@ -45,8 +46,8 @@ class SimpleLog extends Component {
                     <div>{String.humanize(this.props.data.field) + localization.from + (this.props.data.old_value === "0" ? "False" : "True") + localization.to + (this.props.data.new_value === "0" ? "False" : "True")}</div>
                 break
             case "start_time":
-                const ov =  this.props.data.old_value ? <span><span className="font-weight-bold">{moment(this.props.data.old_value).format("MMM D")}</span>, {moment(this.props.data.old_value).format("hh:mm a")}</span> : localization.noTime
-                const nv =  this.props.data.new_value ? <span><span className="font-weight-bold">{moment(this.props.data.new_value).format("MMM D")}</span>, {moment(this.props.data.new_value).format("hh:mm a")}</span> : localization.noTime
+                const ov =  this.props.data.old_value ? <span><span className="font-weight-bold">{moment.utc(this.props.data.old_value).tz(this.props.lead.details.timezone).format("MMM D")}</span>, {moment.utc(this.props.data.old_value).tz(this.props.lead.details.timezone).format("hh:mm a")} {this.props.lead.details.timezone_short}</span> : localization.noTime
+                const nv =  this.props.data.new_value ? <span><span className="font-weight-bold">{moment.utc(this.props.data.new_value).tz(this.props.lead.details.timezone).format("MMM D")}</span>, {moment.utc(this.props.data.new_value).tz(this.props.lead.details.timezone).format("hh:mm a")} {this.props.lead.details.timezone_short}</span> : localization.noTime
                 result =
                     <div>{String.humanize(this.props.data.field)} {localization.from} {ov} {localization.to} {nv}</div>
                 break

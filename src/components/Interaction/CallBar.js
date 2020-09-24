@@ -14,6 +14,7 @@ import {
     faVoicemail,
     faRandom,
     faHandPaper,
+    faCheck,
     faTh
 } from "@fortawesome/pro-solid-svg-icons"
 import {connect} from "react-redux"
@@ -22,6 +23,9 @@ import ProviderChoices from './modals/ProviderChoices'
 import Keypad from './modals/Keypad'
 import DialChoice from './modals/DialChoice'
 import InteractionAPI from '../../api/interactionAPI'
+import TwilioAPI from "../../api/twilioAPI"
+import {toast} from 'react-toastify'
+import {callConnected, callDisconnected, callRinging} from "../../twilio/actions";
 
 class CallBar extends Component {
 
@@ -29,11 +33,64 @@ class CallBar extends Component {
         super(props)
 
         this.state = {
+            checkStatusOutlineColor: "skin-primary-color",
+            checkStatusTextColor: "skin-secondary-color",
+            checkStatusLabel: props.localization.interaction.callbar.checkStatusLabel,
             providerChoicesVisible: false,
             dialChoiceVisible: false,
             keypadVisible: false,
             callingHours: []
         }
+    }
+
+    checkStatus = () => {
+        this.setState({
+            checkStatusOutlineColor: "grey-text",
+            checkStatusTextColor: "grey-text",
+            checkStatusLabel: this.props.localization.interaction.callbar.checkingStatusLabel
+        })
+
+        TwilioAPI.checkStatus(this.props.interaction.id).then( response => {
+            if (response.success) {
+                // dispatch the current status action for each returned connection
+                response.connections.forEach( callData => {
+                    switch (callData.call_status) {
+                        case "ringing":
+                            this.props.dispatch(callRinging(callData.call_party))
+                            break
+
+                        case "in-progress":
+                            this.props.dispatch(callConnected(callData.call_sid, callData.call_party))
+                            break
+
+                        case "canceled":
+                        case "completed":
+                            this.props.dispatch(callDisconnected(callData.call_party))
+                            break
+
+                        default:
+                            console.log(`RECEIVED UNKNOWN CALL STATUS ${callData.call_status} FOR ${callData.call_party} CALL`)
+
+                    }
+                })
+                console.log("Status check successful")
+                toast.success(this.props.localization.toast.twilio.checkStatusUpdated)
+            } else {
+                toast.error(this.props.localization.toast.twilio.checkStatusFailed)
+            }
+            this.setState({
+                checkStatusOutlineColor: "skin-primary-color",
+                checkStatusTextColor: "skin-secondary-color",
+                checkStatusLabel: this.props.localization.interaction.callbar.checkStatusLabel
+            })
+        }).catch (error => {
+            toast.error(this.props.localization.toast.twilio.checkStatusFailed)
+            this.setState({
+                checkStatusOutlineColor: "skin-primary-color",
+                checkStatusTextColor: "skin-secondary-color",
+                checkStatusLabel: this.props.localization.interaction.callbar.checkStatusLabel
+            })
+        })
     }
 
     dialLead = () => {
@@ -154,10 +211,17 @@ class CallBar extends Component {
         if (!this.props.twilio.callbarVisible) {
             return ""
         }
+
+        const generateConnectionLabel = (callStatus) => {
+            let label = this.props.localized.callStatuses[callStatus]
+            if (label === undefined) label = "Unknown Status"
+            return label
+        }
+
         return (
             <MDBBox className="rounded p-0 mt-2 border float-right skin-border-primary skin-primary-faint-background-color callBar" style={{flex:"0 0 180px", order:2}}>
                 <MDBNav className="">
-                    <div className={"font-weight-bolder p-0 pb-1 mt-1 text-align-center w-100 "}>{this.props.localized.leadLabel}<br />{this.props.twilio.leadCallStatus}</div>
+                    <div className={"font-weight-bolder p-0 pb-1 mt-1 text-align-center w-100 "}>{this.props.localized.leadLabel}<br />{generateConnectionLabel(this.props.twilio.leadCallStatus)}</div>
                     <MDBNavItem className={"w-50 pb-2" + (this.props.twilio.leadHoldButtonEnabled ? "" : " hidden")} onClick={this.holdLead}>
                         <MDBNavLink to="#" className={"text-align-center p-0"}>
                             <span className="fa-layers fa-fw fa-3x">
@@ -256,7 +320,17 @@ class CallBar extends Component {
                             <span className="callBarText skin-secondary-color"><br/>{this.props.localized.keypadLabel}</span>
                         </MDBNavLink>
                     </MDBNavItem>
-                    <div className={"font-weight-bolder p-0 pb-1 mt-0 text-align-center w-100"}><hr className="mt-0 mb-2 w-100 skin-primary-background-color"/>{this.props.localized.providerLabel}<br />{this.props.twilio.providerCallStatus}</div>
+                    <MDBNavItem className={"w-50 pb-2"} onClick={this.checkStatus}>
+                        <MDBNavLink to="#" className={"text-align-center p-0"}>
+                            <span className="fa-layers fa-fw fa-3x">
+                                <FontAwesomeIcon icon={faCircleSolid} className="text-white"/>
+                                <FontAwesomeIcon icon={faCircle} className={this.state.checkStatusOutlineColor}/>
+                                <FontAwesomeIcon icon={faCheck} className={this.state.checkStatusTextColor} style={{fontSize:"20px"}}/>
+                            </span>
+                            <span className={"callBarText " + this.state.checkStatusTextColor}><br/>{this.state.checkStatusLabel}</span>
+                        </MDBNavLink>
+                    </MDBNavItem>
+                    <div className={"font-weight-bolder p-0 pb-1 mt-0 text-align-center w-100"}><hr className="mt-0 mb-2 w-100 skin-primary-background-color"/>{this.props.localized.providerLabel}<br />{generateConnectionLabel(this.props.twilio.providerCallStatus)}</div>
                     <MDBNavItem className={"w-100 pb-2"+ (this.props.twilio.providerDialButtonEnabled ? "" : " hidden")} onClick={this.openProviderChoices}>
                         <MDBNavLink to="#" className={"text-align-center p-0"}>
                             <span className="fa-layers fa-fw fa-3x">
@@ -300,6 +374,7 @@ const mapStateToProps = state => {
     return {
         localized: state.localization.interaction.callbar,
         localization: state.localization,
+        interaction: state.interaction,
         shift: state.shift,
         lead: state.lead,
         twilio: state.twilio,

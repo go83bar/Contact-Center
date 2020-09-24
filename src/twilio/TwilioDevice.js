@@ -229,18 +229,19 @@ class TwilioDeviceSingleton {
 
     // PROVIDER ACTIONS
     dialProvider(officeID, officeNumber) {
+        const redux = store.getState()
         TwilioAPI.dialProvider(officeID, officeNumber).then( response => {
             if (response.call_sid !== undefined && response.call_sid !== "") {
                 store.dispatch(providerDialed(response.call_sid))
                 console.log("Provider call inititiated")
             } else {
                 console.log("Twilio Dial Error:", response)
-                //TODO What do we want to do with these errors? Pop a modal?
+                toast.error(redux.localization.toast.twilio.providerDialFailed)
             }
         }).catch( reason => {
             // API call failed
             console.log("TwilioAPI response error: ", reason)
-            //TODO handle this error too
+            toast.error(redux.localization.toast.twilio.providerDialFailed)
         })
     }
 
