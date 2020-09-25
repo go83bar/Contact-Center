@@ -37,10 +37,6 @@ class Interaction extends Component {
         this.toggleEndInteraction = this.toggleEndInteraction.bind(this)
         this.toggleDetails = this.toggleDetails.bind(this)
 
-        // determine if the docusign tab is appropriate
-        const docusignVisible = props.shift.docusign_templates.some( template => {
-            return template.client_id === props.lead.client_id
-        })
 
         this.state = {
             endInteractionVisible : false,
@@ -48,7 +44,6 @@ class Interaction extends Component {
             slim : false,
             details : true,
             activeItem : "1",
-            docusignVisible,
             date: moment(),
             time: moment().hour(0).minute(0)
         };
@@ -147,6 +142,14 @@ class Interaction extends Component {
         let slim = this.state.slim
         let localization = this.props.localization.interaction
 
+        // determine if the docusign tab is appropriate
+        const docusignVisible = this.props.shift.docusign_templates.some( template => {
+            return template.client_id === this.props.lead.client_id
+        })
+
+        // determine if the questions tab is appropriate
+        const questionsVisible = this.props.lead.client.questions.length > 0
+
         return(
             <MDBBox className="d-flex w-100 skin-secondary-color">
                 <MDBBox className="m-0 my-2 ml-2 border rounded skin-secondary-background-color" style={{flex: slim ? "0 0 50px" : "0 0 100px", order : 0,  fontSize:"14px"}}>
@@ -154,12 +157,12 @@ class Interaction extends Component {
                         <SideNavItem active={false} toggle icon={faBars} label={""} slim={false} onClick={this.toggleNav}/>
                         <SideNavItem active={this.state.details} toggle toggleIcon={faChevronRight} icon={faUser} label={localization.details.tabTitle} slim={slim} onClick={this.toggleDetails}/>
                         <SideNavItem active={this.state.activeItem === "surveys"} icon={faPoll} label={localization.survey.tabTitle} rotation={90} slim={slim} onClick={this.toggleTab("surveys")}/>
-                        <SideNavItem active={this.state.activeItem === "questions"} icon={faPoll} label={localization.questions.tabTitle} rotation={90} slim={slim} onClick={this.toggleTab("questions")}/>
+                        {questionsVisible && <SideNavItem active={this.state.activeItem === "questions"} icon={faPoll} label={localization.questions.tabTitle} rotation={90} slim={slim} onClick={this.toggleTab("questions")}/>}
                         <SideNavItem active={this.state.activeItem === "timeline"} icon={faStream} label={localization.timeline.tabTitle} slim={slim} onClick={this.toggleTab("timeline")}/>
                         <SideNavItem active={this.state.activeItem === "appointments"} icon={faCalendarCheck} label={localization.appointment.tabTitle} slim={slim} onClick={this.toggleTab("appointments")}/>
                         <SideNavItem active={this.state.activeItem === "notes"} icon={faEdit} label={localization.notes.tabTitle} slim={slim} onClick={this.toggleTab("notes")}/>
                         <SideNavItem active={this.state.activeItem === "documents"} icon={faFile} label={localization.documents.tabTitle} slim={slim} onClick={this.toggleTab("documents")}/>
-                        {this.state.docusignVisible && <SideNavItem active={this.state.activeItem === "esignatures"} icon={faFileSignature} label={localization.docusign.tabTitle} slim={slim} onClick={this.toggleTab("esignatures")}/>}
+                        {docusignVisible && <SideNavItem active={this.state.activeItem === "esignatures"} icon={faFileSignature} label={localization.docusign.tabTitle} slim={slim} onClick={this.toggleTab("esignatures")}/>}
                     </MDBNav>
                 </MDBBox>
                 <MDBBox className="d-flex m-2" style={{flex: 1, overflow:"auto", flexDirection:"column"}}>
