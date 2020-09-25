@@ -36,8 +36,8 @@ class Merge extends Component {
                             <FontAwesomeIcon icon={faCodeMerge} transform={"shrink-8"} className={"darkIcon"}/>
                         </span>
                         <div className="d-flex w-75 p-2 flex-column text-left">
-                            <span className="f-l">
-                                {this.props.localization.interaction.timeline.leadMerge}
+                            <span className="font-weight-bold f-l">
+                                {this.props.localization.interaction.timeline.merge.cardTitle}
                             </span>
                             <span className="p-2">
                                 { this.props.data.direction === "target" ?
