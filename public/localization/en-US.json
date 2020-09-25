@@ -308,6 +308,13 @@
     "timeline": {
       "tabTitle": "Timeline",
       "noStartTime": "No start time, needs verify",
+      "unansweredCall": "Unanswered Incoming Call",
+      "merge": {
+        "cardTitle": "Lead Merge",
+        "sourceDetails": "Source Lead Details:",
+        "sourceMergeDescription": "This lead was merged into lead $",
+        "targetMergeDescription": "Lead $ was merged into this lead"
+      },
       "appointment": {
         "startTime": "Start time: ",
         "apptAbbr": "Appt #"

@@ -150,6 +150,7 @@ class TimelineData {
         this.processItems("text", lead.texts, timezone)
         this.processItems("incoming_call", lead.incoming_calls, timezone)
         this.processItems("agent_call", lead.agent_calls, timezone)
+        this.processItems("merge", lead.merges, timezone)
         let logs = lead.changelogs !== undefined ? lead.changelogs : []
         this.processLogItems("log", logs.concat(lead.log_optouts),timezone)
         this.processItems("appt_log", lead.appointment_logs,timezone)

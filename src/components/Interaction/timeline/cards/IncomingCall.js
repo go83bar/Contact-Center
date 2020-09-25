@@ -36,7 +36,7 @@ class IncomingCall extends Component {
                             <FontAwesomeIcon icon={faPhone} transform={"shrink-8"} className={"darkIcon"}/>
                         </span>
                         <div className="d-flex w-75 p-2 flex-column text-left">
-                            <span className="font-weight-bold px-3">Unanswered Incoming Call</span>
+                            <span className="font-weight-bold px-3">{this.props.localization.interaction.timeline.unansweredCall}</span>
                             <span className="f-l">
                                 <span className="px-3">{this.props.data.duration}</span>| {this.props.data.recording_url === undefined ? "No voicemail" : <FontAwesomeIcon className="skin-primary-color" icon={faPlay} size="sm" onClick={this.toggleCollapse} />}
                             </span>

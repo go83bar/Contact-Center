@@ -16,6 +16,7 @@ import Note from "./timeline/cards/Note";
 import AgentCall from "./timeline/cards/AgentCall";
 import IncomingCall from "./timeline/cards/IncomingCall";
 import Document from "./timeline/cards/Document";
+import Merge from "./timeline/cards/Merge";
 import Email from "./timeline/cards/Email";
 import Survey from "./timeline/cards/Survey";
 import Text from "./timeline/cards/Text";
@@ -150,6 +151,13 @@ class LeadTimeline extends Component {
                         result.push(
                             <MDBStep className="mb-4" key={"item-" + index}>
                                 <Text data={item}/>
+                            </MDBStep>
+                        )
+                        break
+                    case "merge":
+                        result.push(
+                            <MDBStep className="mb-4" key={"item-" + index}>
+                                <Merge data={item}/>
                             </MDBStep>
                         )
                         break
