@@ -36,6 +36,11 @@ class CallBar extends Component {
             checkStatusOutlineColor: "skin-primary-color",
             checkStatusTextColor: "skin-secondary-color",
             checkStatusLabel: props.localization.interaction.callbar.checkStatusLabel,
+            checkStatusDisabled: false,
+            connectIncomingIconColor: "skin-text",
+            connectIncomingTextColor: "text-danger",
+            connectIncomingLabel: props.localization.interaction.callbar.connectIncomingLabel,
+            connectIncomingDisabled: false,
             providerChoicesVisible: false,
             dialChoiceVisible: false,
             keypadVisible: false,
@@ -44,52 +49,66 @@ class CallBar extends Component {
     }
 
     checkStatus = () => {
-        this.setState({
+        // do nothing if the button is in disabled state
+        if (this.state.checkStatusDisabled) {
+            return
+        }
+
+        const disabledState = {
             checkStatusOutlineColor: "grey-text",
             checkStatusTextColor: "grey-text",
-            checkStatusLabel: this.props.localization.interaction.callbar.checkingStatusLabel
-        })
+            checkStatusLabel: this.props.localization.interaction.callbar.checkingStatusLabel,
+            checkStatusDisabled: true
+        }
+
+        const enabledState = {
+            checkStatusOutlineColor: "skin-primary-color",
+            checkStatusTextColor: "skin-secondary-color",
+            checkStatusLabel: this.props.localization.interaction.callbar.checkStatusLabel,
+            checkStatusDisabled: false
+        }
+
+        this.setState(disabledState)
 
         TwilioAPI.checkStatus(this.props.interaction.id).then( response => {
             if (response.success) {
                 // dispatch the current status action for each returned connection
-                response.connections.forEach( callData => {
-                    switch (callData.call_status) {
-                        case "ringing":
-                            this.props.dispatch(callRinging(callData.call_party))
-                            break
+                if (response.connections !== undefined) {
+                    response.connections.forEach( callData => {
+                        switch (callData.call_status) {
+                            case "ringing":
+                                this.props.dispatch(callRinging(callData.call_party))
+                                break
 
-                        case "in-progress":
-                            this.props.dispatch(callConnected(callData.call_sid, callData.call_party))
-                            break
+                            case "in-progress":
+                                this.props.dispatch(callConnected(callData.call_sid, callData.call_party))
+                                break
 
-                        case "canceled":
-                        case "completed":
-                            this.props.dispatch(callDisconnected(callData.call_party))
-                            break
+                            case "canceled":
+                            case "completed":
+                                this.props.dispatch(callDisconnected(callData.call_party))
+                                break
 
-                        default:
-                            console.log(`RECEIVED UNKNOWN CALL STATUS ${callData.call_status} FOR ${callData.call_party} CALL`)
+                            default:
+                                console.log(`RECEIVED UNKNOWN CALL STATUS ${callData.call_status} FOR ${callData.call_party} CALL`)
 
-                    }
-                })
+                        }
+                    })
+                }
                 console.log("Status check successful")
                 toast.success(this.props.localization.toast.twilio.checkStatusUpdated)
             } else {
+                console.log("Status check failed:", response)
                 toast.error(this.props.localization.toast.twilio.checkStatusFailed)
             }
-            this.setState({
-                checkStatusOutlineColor: "skin-primary-color",
-                checkStatusTextColor: "skin-secondary-color",
-                checkStatusLabel: this.props.localization.interaction.callbar.checkStatusLabel
-            })
+            // either way, re-enable the button
+            this.setState(enabledState)
+
         }).catch (error => {
+            // transport error, pop message and re-enable button
+            console.log("Caught some shit", error)
             toast.error(this.props.localization.toast.twilio.checkStatusFailed)
-            this.setState({
-                checkStatusOutlineColor: "skin-primary-color",
-                checkStatusTextColor: "skin-secondary-color",
-                checkStatusLabel: this.props.localization.interaction.callbar.checkStatusLabel
-            })
+            this.setState(enabledState)
         })
     }
 
@@ -112,13 +131,37 @@ class CallBar extends Component {
     }
 
     answerIncoming = () => {
+        // do nothing if the button is in disabled state
+        if (this.state.connectIncomingDisabled) {
+            return
+        }
+
+        const disabledState = {
+            connectIncomingTextColor: "grey-text",
+            connectIncomingIconColor: "grey-text",
+            connectIncomingLabel: this.props.localization.interaction.callbar.connectingIncomingLabel,
+            connectIncomingDisabled: true
+        }
+
+        const enabledState = {
+            connectIncomingTextColor: "text-danger",
+            connectIncomingIconColor: "skin-text",
+            connectIncomingLabel: this.props.localization.interaction.callbar.connectIncomingLabel,
+            connectIncomingDisabled: false,
+        }
+
+        this.setState(disabledState)
         let callSID = this.props.preview.call_sid
         if (this.props.twilio.leadCallSID !== "") {
             // if the incoming call happened within the interaction, the leadCallSID
             // will already be populated and we should use that
             callSID = this.props.twilio.leadCallSID
         }
-        TwilioDevice.connectIncoming(callSID, this.props.twilio.conferenceOID)
+        TwilioDevice.connectIncoming(callSID, this.props.twilio.conferenceOID).catch( error => {
+            // we only need to re-enable the button if there was an issue
+            this.setState(enabledState)
+            console.log("what.", error)
+        })
     }
 
     holdLead = () => {
@@ -142,7 +185,7 @@ class CallBar extends Component {
         }
     }
 
-    toggleModal = (modalKey) => {
+    toggleModal = (modalKey) => () => {
         let newState = {}
         newState[modalKey] = !this.state[modalKey]
         this.setState(newState)
@@ -265,9 +308,9 @@ class CallBar extends Component {
                         <MDBNavLink to="#" className={"text-align-center p-0"}>
                             <span className="fa-layers fa-fw fa-3x">
                                 <FontAwesomeIcon icon={faCircleSolid} className="skin-primary-color"/>
-                                <FontAwesomeIcon icon={faPhone} transform={"shrink-10"} className={"skin-text"}/>
+                                <FontAwesomeIcon icon={faPhone} transform={"shrink-10"} className={this.state.connectIncomingIconColor}/>
                             </span>
-                            <span className="callBarText text-danger"><br/><strong>{this.props.localized.answerIncomingLabel}</strong></span>
+                            <span className={"callBarText " + this.state.connectIncomingTextColor}><br/><strong>{this.state.connectIncomingLabel}</strong></span>
                         </MDBNavLink>
                     </MDBNavItem>
                     <MDBNavItem className={"w-100 pb-2"+ (this.props.twilio.leadDisconnectButtonEnabled ? "" : " hidden")} onClick={this.disconnectLead}>
@@ -310,7 +353,7 @@ class CallBar extends Component {
                             <span className="callBarText skin-secondary-color"><br/>{this.props.localized.hangupLabel}</span>
                         </MDBNavLink>
                     </MDBNavItem>
-                    <MDBNavItem className={"w-50 pb-2" + (this.props.twilio.agentKeypadButtonEnabled ? "" : " hidden")} onClick={() => this.toggleModal("keypadVisible")}>
+                    <MDBNavItem className={"w-50 pb-2" + (this.props.twilio.agentKeypadButtonEnabled ? "" : " hidden")} onClick={this.toggleModal("keypadVisible")}>
                         <MDBNavLink to="#" className={"text-align-center p-0"}>
                             <span className="fa-layers fa-fw fa-3x">
                                 <FontAwesomeIcon icon={faCircleSolid} className="text-white"/>
@@ -362,9 +405,9 @@ class CallBar extends Component {
                     </MDBNavItem>
                 </MDBNav>
 
-                {this.state.providerChoicesVisible === true && <ProviderChoices data={this.state.callingHours} selectOffice={this.selectOffice} toggle={() => this.toggleModal("providerChoicesVisible")} />}
-                {this.state.keypadVisible === true && <Keypad toggle={() => this.toggleModal("keypadVisible")} />}
-                {this.state.dialChoiceVisible === true && <DialChoice toggle={() => this.toggleModal("dialChoiceVisible")} />}
+                {this.state.providerChoicesVisible === true && <ProviderChoices data={this.state.callingHours} selectOffice={this.selectOffice} toggle={this.toggleModal("providerChoicesVisible")} />}
+                {this.state.keypadVisible === true && <Keypad toggle={this.toggleModal("keypadVisible")} />}
+                {this.state.dialChoiceVisible === true && <DialChoice toggle={this.toggleModal("dialChoiceVisible")} />}
             </MDBBox>
         )
     } 

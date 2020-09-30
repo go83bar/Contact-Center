@@ -126,7 +126,7 @@ class TwilioDeviceSingleton {
 
     connectIncoming(callSID, conferenceOID) {
         const redux = store.getState()
-        TwilioAPI.connectIncoming(callSID, conferenceOID).then( response => {
+        return TwilioAPI.connectIncoming(callSID, conferenceOID).then( response => {
             if (response.success) {
                 store.dispatch(callConnected(callSID, "LEAD"))
                 console.log("Lead incoming call merged")
