@@ -558,6 +558,7 @@ class NewAppointmentBooking extends Component {
                                         loadCalendarMonth={this.loadCalendarMonth}
                                         onChange={this.onCalendarChange}/>
                             <TimeSlots className="w-50 ml-3"
+                                        officeID={this.state.officeID}
                                         timeSelect={this.onSlotSelection}
                                         values={this.state.timeslots}/>
                         </MDBBox>

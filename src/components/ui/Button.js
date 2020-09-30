@@ -13,6 +13,10 @@ class Button extends Component {
 
     render() {
         let btnClass = "btn Ripple-parent"
+        if (this.props.className !== undefined) {
+            btnClass = btnClass + " " + this.props.className
+        }
+
         btnClass += this.props.rounded ? " btn-rounded" : ""
         switch (this.props.color) {
             case "accent":
