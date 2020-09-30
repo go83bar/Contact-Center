@@ -43,7 +43,7 @@ class Interaction extends Component {
             unsavedNoteModalVisible: false,
             slim : false,
             details : true,
-            activeItem : "1",
+            activeItem : "surveys",
             date: moment(),
             time: moment().hour(0).minute(0)
         };
