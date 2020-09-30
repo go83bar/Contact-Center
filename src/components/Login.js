@@ -52,6 +52,12 @@ class Login extends Component {
         })
     }
 
+    handleKeyPress = (triggerFunction) => (e) => {
+        if (e.charCode === 13 || e.keyCode === 13) {
+            triggerFunction()
+        }
+    }
+
     getPin = () => {
         const email = this.state.email
         const pass = this.state.password
@@ -122,12 +128,12 @@ class Login extends Component {
                         <MDBCardBody cascade className='text-center'>
                             {this.state.hasErrors && <div className="danger-text">{this.state.errorMessage}</div>}
                             <div className={"text-left"}><MDBInput label={localization.emailLabel} outline icon="envelope" iconClass={"skin-secondary-color"} className={"text-left skin-border-primary"} containerClass="my-3" onChange={this.updateEmail} /></div>
-                            <div className={"text-left"}><MDBInput label={localization.passwordLabel} outline icon="key" iconClass={"skin-secondary-color"} type="password" className={"text-left skin-border-primary"} containerClass="my-3" onChange={this.updatePassword} /></div>
+                            <div className={"text-left"}><MDBInput label={localization.passwordLabel} onKeyPress={this.handleKeyPress(this.getPin)} outline icon="key" iconClass={"skin-secondary-color"} type="password" className={"text-left skin-border-primary"} containerClass="my-3" onChange={this.updatePassword} /></div>
                             <div className="mb-2">
                                 <MDBInput id="remember" type="checkbox" checked={this.state.remember} label={localization.remember} onChange={this.toggleRemember} className="skin-border-primary" labelClass="skin-primary-color" containerClass="p-0"/>
                             </div>
                             <MDBBtn rounded onClick={this.getPin}><h5 style={{marginBottom:"0px"}}> {localization.frontButton} <MDBIcon icon="angle-double-right" style={{marginLeft : "10px"}}/> </h5></MDBBtn>
-                            <br /><a href={this.props.config["url-password-reset"]} target="_blank" rel="noopener noreferrer" className="skin-primary-color">{localization.forgotPassword}</a>
+                            <br /><a href="/reset" rel="noopener noreferrer" className="skin-primary-color">{localization.forgotPassword}</a>
                         </MDBCardBody>
                     </MDBCard>
                     <MDBCard className="face back" narrow >
@@ -141,8 +147,8 @@ class Login extends Component {
                             <h2 className='h2-responsive' style={{marginTop: "10px"}}>{localization.title}</h2>
                         </MDBCardImage>
                         <MDBCardBody cascade className='text-center'>
-                            <div className={"text-left"}><MDBInput label={localization.pinLabel} outline icon="lock" iconClass={"skin-secondary-color"} className={"text-left skin-border-primary"} containerClass="my-3" onChange={this.updatePin} /></div>
-                            <MDBBtn rounded onClick={this.login}><h5 style={{marginBottom:"0px"}}> <MDBIcon icon="unlock" style={{marginRight : "10px"}}/> {localization.backButton} </h5></MDBBtn>
+                            <div className={"text-left"}><MDBInput label={localization.pinLabel} outline icon="lock" iconClass={"skin-secondary-color"} onKeyPress={this.handleKeyPress(this.login)} className={"text-left skin-border-primary"} containerClass="my-3" onChange={this.updatePin} /></div>
+                            <MDBBtn rounded onClick={this.login}><h5 style={{marginBottom:"0px"}}> <MDBIcon icon="unlock" style={{marginRight : "10px"}}/> {localization.signInButton} </h5></MDBBtn>
                         </MDBCardBody>
                     </MDBCard>
                 </MDBRotatingCard>

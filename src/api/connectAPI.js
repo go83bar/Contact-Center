@@ -15,6 +15,7 @@ export default class ConnectAPI {
      * Promise resolves to false if it gets an error from the API endpoint
      *
      * @param {string} loginEmail
+     * @param {string} loginPassword
      * @return {boolean}
      */
     static async getPin(loginEmail, loginPassword) {
@@ -107,5 +108,113 @@ export default class ConnectAPI {
         }
         return await sendRequest(requestOptions)
     }
+
+    /**
+     * Performs password reset check for available PIN delivery methods
+     * Promise resolves to an object like this:
+     * {
+     *  "status": {string},
+     *  "key_id": {number},
+     *  "methods": {object}
+     * }
+     *
+     * @param {string} username
+     * @return {boolean|Auth}
+     */
+    static async getResetMethods(username) {
+        // Mock API responses for local dev
+        if (process.env.REACT_APP_QUERY_MODE === "development") {
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "/data/getResetMethods.json")
+
+            return mockData.json()
+        }
+
+        const redux = store.getState()
+        const payload = {
+            user: username
+        }
+
+        const requestOptions = {
+            url: redux.config["url-dashboard-base"] + "auth/otu/methods",
+            data: payload
+        }
+        return await sendRequest(requestOptions)
+    }
+
+    /**
+     * Performs password reset OTU delivery call
+     * Promise resolves to an object like this:
+     * {
+     *  "status": {string},
+     * }
+     *
+     * @param {number} userID
+     * @param {string} deliveryMethod
+     * @return {boolean|Auth}
+     */
+    static async sendOTUCode(userID, deliveryMethod) {
+        // Mock API responses for local dev
+        if (process.env.REACT_APP_QUERY_MODE === "development") {
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "/data/sendOTUCode.json")
+
+            return mockData.json()
+        }
+
+        const redux = store.getState()
+        const payload = {
+            user_id: userID,
+            delivery_mode: deliveryMethod
+        }
+
+        const requestOptions = {
+            url: redux.config["url-dashboard-base"] + "auth/otu/send",
+            data: payload
+        }
+        return await sendRequest(requestOptions)
+    }
+
+    /**
+     * @typedef ValidateParams
+     * @type {object}
+     * @property {number} userID
+     * @property {string} otu
+     * @property {string} password1
+     * @property {string} password2
+     */
+
+    /**
+     * Performs password reset OTU delivery call
+     * Promise resolves to an object like this:
+     * {
+     *  "status": {string},
+     * }
+     *
+     * @param {ValidateParams} params
+     * @return {boolean|Auth}
+     */
+    static async validateOTUCode(params) {
+        // Mock API responses for local dev
+        if (process.env.REACT_APP_QUERY_MODE === "development") {
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "/data/validateOTUCode.json")
+
+            return mockData.json()
+        }
+
+        const redux = store.getState()
+        const payload = {
+            user_id: params.userID,
+            otu: params.otu,
+            password: params.password1,
+            passwordMatch: params.password2
+        }
+
+        const requestOptions = {
+            url: redux.config["url-dashboard-base"] + "auth/otu/validate",
+            data: payload
+        }
+        return await sendRequest(requestOptions)
+    }
+
+
 
 }

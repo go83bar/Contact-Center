@@ -6,6 +6,7 @@ import NextLead from "./components/NextLead"
 import Interaction from "./components/Interaction"
 import Search from "./components/search/Search"
 import RecentLeads from "./components/RecentLeads"
+import PasswordReset from "./components/PasswordReset"
 import Login from "./components/Login"
 import ProtectedRoute from "./ProtectedRoute"
 import Preview from "./components/Preview"
@@ -49,6 +50,7 @@ class ContactCenter extends Component {
                 <BrowserRouter className="skin-secondary-color">
                     <Switch>
                         <Route exact path="/login" component={Login}/>
+                        <Route exact path="/reset" component={PasswordReset}/>
                         <ProtectedRoute exact path="/" component={Home}/>
                         <ProtectedRoute exact path="/recent" component={RecentLeads}/>
                         <ProtectedRoute exact path="/search" component={Search}/>

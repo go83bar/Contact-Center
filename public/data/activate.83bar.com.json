@@ -2,10 +2,10 @@
   "languages" : ["en-US"],
   "language-default" : "en-US",
   "url-api-base": "https://api.83bar.com/v3/",
+  "url-dashboard-base": "https://dashboard.83bar.com/",
   "url-aws-base" : "https://api-aws.83bar.com/",
   "url-react-base": "https://api.83bar.com/react/",
   "url-twilio-base": "https://l934ludyig.execute-api.us-east-1.amazonaws.com/prod/",
   "url-websocket": "wss://velrid4tud.execute-api.us-east-1.amazonaws.com/prod",
-  "url-password-reset": "https://dashboard.83bar.com/auth/otu",
   "slack-channel-default" : "dev_error_alerts"
 }
