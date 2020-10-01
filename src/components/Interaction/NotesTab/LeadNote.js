@@ -110,8 +110,8 @@ class LeadNote extends Component {
                                 {this.props.note.content}
                             </MDBBox>
                             <MDBBox className="d-flex f-s justify-content-end p-2 w-25 text-right">
-                                <strong>{moment(this.props.note.created_at).format("MMM D, YYYY")}</strong>
-                                &nbsp;{moment(this.props.note.created_at).format("h:mm a")}
+                                <strong>{moment.utc(this.props.note.created_at).tz(this.props.lead.details.timezone).format("MMM D, YYYY")}</strong>
+                                &nbsp;{moment.utc(this.props.note.created_at).tz(this.props.lead.details.timezone).format("h:mma z")}
                             </MDBBox>
                             {this.props.note.interaction_id === this.props.interaction.id && (
                                 <MDBBox className="noteButtons">
@@ -163,10 +163,11 @@ class LeadNote extends Component {
     }
 }
 
-const mapStateToProps = store => {
+const mapStateToProps = state => {
     return {
-        localization: store.localization,
-        interaction: store.interaction
+        localization: state.localization,
+        interaction: state.interaction,
+        lead: state.lead
     }
 }
 
