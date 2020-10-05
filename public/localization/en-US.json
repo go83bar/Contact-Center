@@ -476,17 +476,17 @@
     "appointments": {
       "confirmed": "Appointment confirmed!",
       "unconfirmed": "Appointment unconfirmed!",
-      "confirmFailed": "Failed to save!",
+      "confirmFailed": "Appointment could not be confirmed! Please try again or notify app issues.",
       "statusUpdated": "Appointment status updated!",
-      "statusFailed": "Appointment status could not be updated!",
+      "statusFailed": "Appointment status could not be updated! Please try again or notify app issues.",
       "verified": "Appointment verified",
-      "verifyFailed": "Appointment could not be verified"
+      "verifyFailed": "Appointment could not be verified! Please try again or notify app issues."
     },
     "documents": {
       "documentEdited": "Document Saved",
-      "editFailed": "Document could not be saved",
+      "editFailed": "Document could not be saved! Please try again or notify app issues.",
       "createError": "Document could not be created",
-      "loadError": "Document could not be loaded"
+      "loadError": "Document could not be loaded! Please try again or notify app issues."
     },
     "docusign": {
       "sendError": "Could not send DocuSign envelope.",
@@ -494,19 +494,19 @@
     },
     "editLead": {
       "success": "Lead Information Saved Successfully.",
-      "error": "Lead Information Save Unsuccessful.",
+      "error": "Lead Information Save Unsuccessful. Please try again or notify app issues.",
       "regionChangeWarning": "Warning: Changing region with appointments pending"
     },
     "editContactPreferences": {
       "success": "Lead Contact Preferences updated",
-      "error": "Lead Contact Preferences could not be updated"
+      "error": "Lead Contact Preferences could not be updated. Please try again or notify app issues."
     },
     "interaction": {
       "loadLead": {
-        "clientMissing": "Lead client is not in your shift data",
-        "campaignMissing": "Lead campaign is not in your shift data",
-        "regionMissing": "Lead region is not in your shift data",
-        "loadFailed": "Lead could not be loaded."
+        "clientMissing": "You aren't assigned to this client. Please notify your supervisor!",
+        "campaignMissing": "You aren't assigned to this campaign. Please notify your supervisor!",
+        "regionMissing": "You aren't assigned to this region. Please notify your supervisor!",
+        "loadFailed": "Lead could not be loaded. Please notify app issues!"
       },
       "outcome": {
         "missingResponseError": "Outcome requires response to: ",
@@ -517,8 +517,8 @@
       "leadRefreshed": "Lead Information refreshed!"
     },
     "mergeLead": {
-      "leadLoadError": "Could not load selected lead!",
-      "leadMergeError": "Lead could not be merged"
+      "leadLoadError": "Could not load selected lead! Please notify app issues!",
+      "leadMergeError": "Lead could not be merged. Please notify app issues!"
 
     },
     "profile": {
@@ -534,21 +534,21 @@
       "missingQuestionError": "That question cannot be updated, a support notice has been submitted"
     },
     "twilio": {
-      "dialLeadFailed": "Twilio error! Lead could not be dialed.",
-      "connectIncomingFailed": "Twilio error! Incoming call could not be connected.",
+      "dialLeadFailed": "Lead couldn't be dialed. Please check the number and try again!",
+      "connectIncomingFailed": "Incoming call couldn't be connected! Please call this lead back!",
       "incomingHungUp": "Incoming caller has hung up. Click Dial Button to call them back!",
-      "playAutoVMFailed": "Twilio error! Could not play Autovoicemail.",
-      "pauseRecordingFailed": "Twilio error! Recording not paused!",
-      "resumeRecordingFailed": "Twilio error! Recording not resumed!",
-      "playTonesFailed": "Twilio error! Keypad input not accepted!",
-      "providerDialFailed": "Twilio error! Could not dial provider!",
+      "playAutoVMFailed": "Couldn't play Autovoicemail, please leave a manual voicemail!",
+      "pauseRecordingFailed": "Recording not paused, please try again!",
+      "resumeRecordingFailed": "Recording not resumed, please try again!",
+      "playTonesFailed": "Keypad input not accepted, please try again!",
+      "providerDialFailed": "Provider couldn't be dialed. Please check the number and try again!",
       "checkStatusFailed": "Check Status has failed!",
       "checkStatusUpdated": "Call Statuses Updated!"
     },
     "timeline": {
       "email": {
         "emailResent": "Email resent!",
-        "emailResendError": "Email was not resent"
+        "emailResendError": "Email was not resent. Please try again or notify app issues!"
       }
     }
   }
