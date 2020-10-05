@@ -78,7 +78,7 @@ class EndInteraction extends Component {
         })
 
         // build office select options
-        this.officeOptions = props.lead.client.offices.filter(office => office.region_id === props.lead.region_id).map(office => {
+        this.officeOptions = props.lead.client.offices.filter(office => office.active && office.region_id === props.lead.region_id).map(office => {
             return {
                 text: office.name,
                 value: office.id.toString()
