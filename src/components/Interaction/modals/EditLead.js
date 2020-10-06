@@ -56,6 +56,15 @@ class EditLead extends Component {
             }
         })
 
+        // states options
+        const stateOptions = props.localization.states.map( state => {
+            return {
+                value: state.abbreviation,
+                text: state.name,
+                checked: state.abbreviation === props.lead.details.state
+            }
+        })
+
         this.state = {
             ...formattedLeadDetails,
             cell_phone: this.maskPhoneValue(formattedLeadDetails.cell_phone),
@@ -66,6 +75,7 @@ class EditLead extends Component {
             yearValue: year,
             timezoneOptions: timezoneOptions,
             regionOptions: regionOptions,
+            stateOptions: stateOptions,
             disableSave: true,
             hasErrors: false,
             hasChanges: false,
@@ -254,6 +264,10 @@ class EditLead extends Component {
 
     chooseTimezone = (values) => {
         this.setFieldUpdatesIntoState("timezone", values[0])
+    }
+
+    chooseState = (values) => {
+        this.setFieldUpdatesIntoState("state", values[0])
     }
 
     chooseRegion = (values) => {
@@ -479,13 +493,10 @@ class EditLead extends Component {
                               onChange={this.handleFormInput}
                               containerClass="m-0 pr-2 w-25"
                     />
-                    <MDBInput type="text"
-                              label={this.props.localized.state}
-                              id="state"
-                              name="state"
-                              value={this.state.state}
-                              onChange={this.handleFormInput}
-                              containerClass="m-0 pr-2 w-25"
+                    <MDBSelect options={this.state.stateOptions}
+                               getValue={this.chooseState}
+                               label={this.props.localized.state}
+                               className="mb-1 mt-1 mr-2 w-25"
                     />
                     <MDBInput type="text"
                               label={this.props.localized.zip}
