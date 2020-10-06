@@ -6,7 +6,9 @@ import {
     callDisconnected,
     incomingCall,
     interactionIncomingCall,
-    dismissIncomingCall
+    dismissIncomingCall,
+    callNoAnswer,
+    callFailed
 } from '../twilio/actions'
 
 export function processCallEvent(eventData) {
@@ -39,6 +41,14 @@ export function processCallEvent(eventData) {
         case "in-progress":
             store.dispatch(callConnected(eventData.CallSid, callParty))
             return
+
+        case "no-answer":
+            store.dispatch(callNoAnswer(callParty))
+            return;
+
+        case "failed":
+            store.dispatch(callFailed(callParty))
+            return;
 
         case "canceled":
         case "completed":

@@ -41,6 +41,18 @@ export function callConnected(callSID, party) {
     }
 }
 
+export function callNoAnswer(party) {
+    return {
+        type: `TWILIO.${party.toUpperCase()}.NOANSWER`
+    }
+}
+
+export function callFailed(party) {
+    return {
+        type: `TWILIO.${party.toUpperCase()}.CALLFAILED`
+    }
+}
+
 export function callDisconnected(party) {
     return {
         type: `TWILIO.${party.toUpperCase()}.DISCONNECTED`
