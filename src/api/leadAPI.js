@@ -146,6 +146,7 @@ export default class LeadAPI {
      * @type {object}
      * @property {number} leadID
      * @property {string} callQueueID - supports integers as well as "search"
+     * @property {string} callReason - used for "search" and "incoming"
      * @property {string} previewStartTime
      */
 
@@ -177,7 +178,8 @@ export default class LeadAPI {
             url: redux.config["url-api-base"] + "leads/" + params.leadID + "/startinteraction",
             data: {
                 call_queue_id: params.callQueueID,
-                preview_start_time: params.previewStartTime
+                preview_start_time: params.previewStartTime,
+                call_reason: params.callReason
             },
             method: "GET",
             auth: redux.user.auth

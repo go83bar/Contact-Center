@@ -22,6 +22,8 @@ class Preview extends Component {
         let leadID = 0
 
         // if this is a queued lead, we will already have preview data
+        // TODO Refactor this so that it isn't confusingly using props.previewData.lead_id vs. props.previewData.leadID
+
         if (props.previewData.lead_id !== undefined) {
             this.state.leadData = props.previewData
             leadID = props.previewData.lead_id
@@ -47,12 +49,20 @@ class Preview extends Component {
     }
 
     startInteraction() {
-        // Make API call to start interaction
+        // determine parameters
+        let callReason = ""
+        if (this.props.previewData.call_sid !== null) {
+            callReason = "incoming"
+        } else if (this.props.previewData.callQueueID === "search") {
+            callReason = "search"
+        }
         const payload = {
             callQueueID: this.props.previewData.queue_id === undefined ? null : this.props.previewData.queue_id,
             leadID: this.props.previewData.lead_id,
-            previewStartTime: this.state.previewStartTime
+            previewStartTime: this.state.previewStartTime,
+            callReason: callReason
         }
+        // Make API call to start interaction
         LeadAPI.startInteraction(payload)
             .then( response => {
                 if (response.success) {

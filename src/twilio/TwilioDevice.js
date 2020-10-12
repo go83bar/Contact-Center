@@ -194,6 +194,7 @@ class TwilioDeviceSingleton {
         })
     }
 
+
     // AGENT ACTIONS
     pauseRecording() {
         TwilioAPI.modifyRecording("paused").then( response => {
@@ -226,6 +227,12 @@ class TwilioDeviceSingleton {
             toast.error(redux.localization.toast.twilio.playTonesFailed)
         }
     }
+
+    disconnect() {
+        this.device.disconnectAll()
+        store.dispatch(agentDisconnected())
+    }
+
 
     // PROVIDER ACTIONS
     dialProvider(officeID, officeNumber) {
@@ -272,21 +279,15 @@ class TwilioDeviceSingleton {
 
     }
 
-    disconnect() {
-        this.device.disconnectAll()
 
-        store.dispatch(agentDisconnected())
-    }
-
+    // UTILITY
+    // provide outside access to singleton connection object
     checkActiveConnection() {
         console.log("Checking connection: ", this.connection)
-        if (this.connection === undefined) {
-            return false
-        }
-
-        return true
+        return this.connection !== undefined
     }
 
+    // clean up device upon logout
     cleanup = () => {
         if (this.device !== undefined) {
             this.device.destroy()
