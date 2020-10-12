@@ -221,7 +221,10 @@ class CallBar extends Component {
     selectOffice = (officeID, officeNumber) => {
         const dialNumber = officeNumber.replace(/\D/g,'');
         this.setState({ providerChoicesVisible: false })
-        TwilioDevice.holdLead()
+
+        // automatically put the lead on hold, if necessary
+        if (this.props.twilio.leadCallSID !== "") TwilioDevice.holdLead()
+
         TwilioDevice.dialProvider(officeID, dialNumber)
     }
     
