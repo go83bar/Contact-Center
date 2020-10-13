@@ -1,6 +1,6 @@
 {
   "name": "Activate",
-  "version": "3.5.30",
+  "version": "3.5.31",
   "private": true,
   "// If You want to install mdbreact from our GitLab repository, please replace '4.25.5' with gitURL provided here ->": "git+https://oauth2:<YOUR-TOKEN-GOES-HERE>@git.mdbootstrap.com/mdb/react/re-pro.git",
   "dependencies": {

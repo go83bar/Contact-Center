@@ -38,6 +38,9 @@
     "answerIncomingButtonLabel": "ACCEPT INCOMING",
     "dismissIncomingButtonLabel": "DISMISS",
     "profile": "User Profile",
+    "scheduleTitle": "Schedule",
+    "scheduleThisWeek": "This week",
+    "scheduleNextWeek": "Next week",
     "incoming": "Incoming Call",
     "welcome": "Welcome $!"
   },

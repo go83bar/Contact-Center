@@ -16,15 +16,16 @@ export default class AgentAPI {
      * }
      *
      * @static
+     * @param {string} targetDate
      * @return {Promise}
      * @memberof AgentAPI
      */
-    static async getAppStats() {
+    static async getAppStats(targetDate) {
         const redux = store.getState()
 
         const requestOptions = {
             url: redux.config["url-react-base"] + "activate/appstats",
-            data: { user_id: redux.user.id},
+            data: { user_id: redux.user.id, target_date: targetDate},
             method: "POST",
             auth: redux.user.auth
         }
@@ -51,6 +52,7 @@ export default class AgentAPI {
      * }
      *
      * @static
+     * @param {UpdateProfileParams} params
      * @return {Promise}
      * @memberof AgentAPI
      */

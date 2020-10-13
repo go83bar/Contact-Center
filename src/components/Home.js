@@ -28,6 +28,8 @@ import ConnectAPI from "../api/connectAPI";
 import Slack from '../utils/Slack';
 import TwilioAPI from "../api/twilioAPI";
 import {Slide, ToastContainer} from "react-toastify";
+import * as moment from 'moment'
+import AgentSchedule from "./ui/AgentSchedule";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
@@ -58,6 +60,8 @@ class Home extends Component {
             showProfile : false,
             queueCount: undefined,
             bookingsCount: undefined,
+            schedule: undefined,
+            scheduleDate: moment().format("YYYY-MM-DD"),
             educationsCount: undefined,
             interactionsCount: undefined,
         };
@@ -66,12 +70,18 @@ class Home extends Component {
 
     }
 
-    pollAppStats = () => {
-        AgentAPI.getAppStats().then( response => {
+    // this can be called with a specific date or on a timer, in which case we use the value in state
+    pollAppStats = (targetDate) => {
+        if (targetDate === undefined) {
+            targetDate = this.state.scheduleDate
+        }
+        AgentAPI.getAppStats(targetDate).then( response => {
             this.setState({
                 queueCount: response.queue,
                 bookingsCount: response.bookings,
                 educationsCount: response.educations,
+                schedule: response.schedule,
+                scheduleDate: targetDate,
                 interactionsCount: response.interactions
             })
         }).catch( reason => {
@@ -123,11 +133,12 @@ class Home extends Component {
 
     componentDidMount() {
         // Perform first time pull for app stats, with slack notice if it fails
-        AgentAPI.getAppStats().then( response => {
+        AgentAPI.getAppStats(this.state.scheduleDate).then( response => {
             this.setState({
                 queueCount: response.queue,
                 bookingsCount: response.bookings,
                 educationsCount: response.educations,
+                schedule: response.schedule,
                 interactionsCount: response.interactions
             })
         }).catch( reason => {
@@ -212,7 +223,7 @@ class Home extends Component {
 
         if (this.state.queueCount !== undefined) {
             const queueCard = (
-                <MDBCard key="queue" className="shadow-sm px-2 py-2" data-grid={{ w: 2, h: 2, x: 1, y: 5, minW: 2, minH: 2, isResizable : false, isDraggable : false  }}>
+                <MDBCard key="queue" className="shadow-sm px-2 py-2" data-grid={{ w: 2, h: 2, x: 7, y: 5, minW: 2, minH: 2, isResizable : false, isDraggable : false  }}>
                     <Link to="#" className="d-flex skin-secondary-color align-items-center justify-content-between">
                         <span className="small-font">{this.props.localization.home.queueLabel}: {this.state.queueCount}</span>
                         <span className="fa-layers fa-fw fa-3x">
@@ -227,7 +238,7 @@ class Home extends Component {
 
         if (this.state.interactionsCount !== undefined) {
             const interactionCard = (
-                <MDBCard key="interactions" className="shadow-sm px-2 py-2" data-grid={{ w: 2, h: 2, x: 4, y: 5, minW: 2, minH: 2, isResizable : false, isDraggable : false  }}>
+                <MDBCard key="interactions" className="shadow-sm px-2 py-2" data-grid={{ w: 2, h: 2, x: 10, y: 5, minW: 2, minH: 2, isResizable : false, isDraggable : false  }}>
                     <Link to="#" className="d-flex skin-secondary-color align-items-center justify-content-between">
                         <span className="small-font">{this.props.localization.home.interactionsLabel}: {this.state.interactionsCount}</span>
                         <span className="fa-layers fa-fw fa-3x">
@@ -242,7 +253,7 @@ class Home extends Component {
 
         if (this.state.bookingsCount !== undefined) {
             const bookingCard = (
-                <MDBCard key="bookings" className="shadow-sm px-2 py-2" data-grid={{ w: 2, h: 2, x: 7, y: 5,  minW: 2, minH: 2, isResizable : false, isDraggable : false  }}>
+                <MDBCard key="bookings" className="shadow-sm px-2 py-2" data-grid={{ w: 2, h: 2, x: 7, y: 7,  minW: 2, minH: 2, isResizable : false, isDraggable : false  }}>
                     <Link to="#" className="d-flex skin-secondary-color align-items-center justify-content-between">
                         <span className="small-font">{this.props.localization.home.bookingsLabel}: {this.state.bookingsCount}</span>
                         <span className="fa-layers fa-fw fa-3x">
@@ -257,7 +268,7 @@ class Home extends Component {
 
         if (this.state.educationsCount !== undefined) {
             const educationCard = (
-                <MDBCard key="educations" className="shadow-sm px-2 py-2" data-grid={{ w: 2, h: 2, x: 10, y: 5, minW: 2, minH: 2, isResizable : false, isDraggable : false  }}>
+                <MDBCard key="educations" className="shadow-sm px-2 py-2" data-grid={{ w: 2, h: 2, x: 10, y: 7, minW: 2, minH: 2, isResizable : false, isDraggable : false  }}>
                     <Link to="#" className="d-flex skin-secondary-color align-items-center justify-content-between">
                         <span className="small-font">{this.props.localization.home.educationsLabel}: {this.state.educationsCount}</span>
                         <span className="fa-layers fa-fw fa-3x">
@@ -268,6 +279,16 @@ class Home extends Component {
                 </MDBCard>
             )
             cards.push(educationCard)
+        }
+
+        if (this.state.schedule !== undefined) {
+            const scheduleCard = (
+                <MDBCard key="schedule" className="shadow-sm px-3 py-3" data-grid={{ w: 4, h: -1, x:1, y:5, minW: 3,minH: -1, isResizable: false, isDraggable: false}}>
+                    <AgentSchedule scheduleData={this.state.schedule} scheduleDate={this.state.scheduleDate} triggerPoll={this.pollAppStats} />
+                </MDBCard>
+                )
+
+            cards.push(scheduleCard)
         }
        
         return (
