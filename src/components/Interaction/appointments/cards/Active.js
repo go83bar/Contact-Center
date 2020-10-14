@@ -493,6 +493,7 @@ class Active extends Component {
                                       onChange={this.onCalendarChange}/>
                             <TimeSlots className="w-25 ml-3"
                                         timeSelect={this.onRescheduleSlotSelection}
+                                       officeID={this.props.data.office_id}
                                         values={this.state.appointmentAVS.appointments[this.state.dateSelected]}/>
                         </MDBCardBody>
                         <MDBCardFooter className="d-flex justify-content-between">
