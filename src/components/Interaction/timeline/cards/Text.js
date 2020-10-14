@@ -40,8 +40,8 @@ class Text extends Component {
                         <span className="fa-layers fa-fw fa-3x my-2">
                             <FontAwesomeIcon icon={faCircleSolid} className="text-white"/>
                             <FontAwesomeIcon icon={faCircle} className={"skin-primary-color"}/>
-                            {this.props.data.direction === "incoming" ? <FontAwesomeIcon icon={faComment}  flip="horizontal" transform={"shrink-8"}/> :
-                            <FontAwesomeIcon icon={faComment}  transform={"shrink-8"}/>}
+                            {this.props.data.direction === "incoming" ? <FontAwesomeIcon icon={faComment} className={"skin-primary-color"}  flip="horizontal" transform={"shrink-8"}/> :
+                            <FontAwesomeIcon icon={faComment} className={"skin-secondary-color"} transform={"shrink-8"}/>}
                         </span>
                         <div className="d-flex w-75 p-2 flex-column text-left">
                             <span className="f-l">
