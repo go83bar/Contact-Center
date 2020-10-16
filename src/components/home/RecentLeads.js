@@ -5,9 +5,9 @@ import {
     MDBCardBody,
 
 } from "mdbreact"
-import AgentAPI from '../api/agentAPI';
-import LoadingScreen from './LoadingScreen'
-import SearchResults from './search/SearchResults'
+import AgentAPI from '../../api/agentAPI';
+import LoadingScreen from '../LoadingScreen'
+import SearchResults from './SearchResults'
 import { connect } from 'react-redux';
 
 class RecentLeads extends Component {

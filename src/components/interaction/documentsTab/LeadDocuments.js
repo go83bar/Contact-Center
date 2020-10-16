@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
 import {MDBBox, MDBBtn, MDBCard, MDBSelect,} from 'mdbreact'
-import DocumentEdit from './documentsTab/DocumentEdit'
+import DocumentEdit from './DocumentEdit'
 import {connect} from 'react-redux'
-import DocumentAPI from "../../api/documentAPI";
+import DocumentAPI from "../../../api/documentAPI";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCircle as faCircleSolid, faFile,} from "@fortawesome/pro-solid-svg-icons";
 import {faCircle} from "@fortawesome/pro-light-svg-icons";

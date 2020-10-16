@@ -37,7 +37,7 @@ class TimeSlots extends Component {
                 // turn this into a moment object
                 const hour = value.substring(0, value.indexOf(":"))
                 const minute = value.substring(value.indexOf(":") + 1)
-                let slotTimeObject = moment().hours(hour).minutes(minute).tz(this.state.officeTimezone)
+                let slotTimeObject = moment().tz(this.state.officeTimezone).hours(hour).minutes(minute)
 
                 // the actual display text depends on whether the office and lead are in the same time zone
                 let slotTimeDisplay = ""

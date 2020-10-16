@@ -3,9 +3,9 @@ import {MDBBox, MDBBtn, MDBInput, MDBNav, MDBNavItem, MDBNavLink, MDBSelect, MDB
 import {connect} from "react-redux"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSquareFull} from "@fortawesome/pro-solid-svg-icons";
-import AgentAPI from "../api/agentAPI";
+import AgentAPI from "../../api/agentAPI";
 import {toast} from "react-toastify";
-import String from "../utils/String";
+import String from "../../utils/String";
 
 class Profile extends Component {
 

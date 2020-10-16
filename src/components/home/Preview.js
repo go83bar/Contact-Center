@@ -1,10 +1,10 @@
 import React, {Component} from 'react'
 import {MDBCard, MDBCardBody, MDBCardHeader, MDBBtn, MDBBox, MDBCardFooter, MDBChip} from "mdbreact";
 import { connect } from 'react-redux'
-import LoadingScreen from './LoadingScreen'
-import LeadAPI from '../api/leadAPI'
+import LoadingScreen from '../LoadingScreen'
+import LeadAPI from '../../api/leadAPI'
 import * as moment from 'moment'
-import Lead from "../utils/Lead";
+import Lead from "../../utils/Lead";
 //import {preview} from "../reducers/preview";
 
 class Preview extends Component {

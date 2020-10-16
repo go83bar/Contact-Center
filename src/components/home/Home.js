@@ -19,17 +19,17 @@ import {Link} from "react-router-dom";
 
 import { WidthProvider, Responsive } from "react-grid-layout";
 import RecentLeads from "./RecentLeads";
-import Search from "./search/Search";
+import Search from "./Search";
 import Profile from "./Profile";
-import {websocketDevice} from "../websocket/WebSocketDevice"
-import {TwilioDevice} from "../twilio/TwilioDevice"
-import AgentAPI from '../api/agentAPI';
-import ConnectAPI from "../api/connectAPI";
-import Slack from '../utils/Slack';
-import TwilioAPI from "../api/twilioAPI";
+import {websocketDevice} from "../../websocket/WebSocketDevice"
+import {TwilioDevice} from "../../twilio/TwilioDevice"
+import AgentAPI from '../../api/agentAPI';
+import ConnectAPI from "../../api/connectAPI";
+import Slack from '../../utils/Slack';
+import TwilioAPI from "../../api/twilioAPI";
 import {Slide, ToastContainer} from "react-toastify";
 import * as moment from 'moment'
-import AgentSchedule from "./ui/AgentSchedule";
+import AgentSchedule from "../ui/AgentSchedule";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 

@@ -18,14 +18,14 @@ import {
     faTh
 } from "@fortawesome/pro-solid-svg-icons"
 import {connect} from "react-redux"
-import { TwilioDevice } from '../../twilio/TwilioDevice'
-import ProviderChoices from './modals/ProviderChoices'
-import Keypad from './modals/Keypad'
-import DialChoice from './modals/DialChoice'
-import InteractionAPI from '../../api/interactionAPI'
-import TwilioAPI from "../../api/twilioAPI"
+import { TwilioDevice } from '../../../twilio/TwilioDevice'
+import ProviderChoices from './ProviderChoices'
+import Keypad from './Keypad'
+import DialChoice from './DialChoice'
+import InteractionAPI from '../../../api/interactionAPI'
+import TwilioAPI from "../../../api/twilioAPI"
 import {toast} from 'react-toastify'
-import {callConnected, callDisconnected, callRinging} from "../../twilio/actions";
+import {callConnected, callDisconnected, callRinging} from "../../../twilio/actions";
 
 class CallBar extends Component {
 

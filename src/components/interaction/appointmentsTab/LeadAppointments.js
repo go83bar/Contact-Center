@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
 import {MDBBox} from 'mdbreact'
 import {connect} from "react-redux";
-import Active from "./appointments/cards/Active";
-import NewAppointmentBooking from './appointments/NewAppointmentBooking';
+import Active from "./cards/Active";
+import NewAppointmentBooking from './NewAppointmentBooking';
 
 class LeadAppointments extends Component {
 

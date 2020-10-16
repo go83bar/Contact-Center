@@ -1,13 +1,12 @@
 import React, {Component} from 'react'
 import {MDBBox, MDBTabContent} from "mdbreact";
-import LeadSurvey from "./SurveyTab/LeadSurvey";
-import LeadAppointments from "./LeadAppointments";
-import LeadQuestions from "./LeadQuestions";
-import LeadTimeline from "./LeadTimeline";
-import LeadCallQueue from "./LeadCallQueue";
-import LeadDocuments from "./LeadDocuments";
-import LeadDocusign from "./LeadDocusign";
-import LeadNotes from "./NotesTab/LeadNotes";
+import LeadSurvey from "./surveyTab/LeadSurvey";
+import LeadAppointments from "./appointmentsTab/LeadAppointments";
+import LeadQuestions from "./questionsTab/LeadQuestions";
+import LeadTimeline from "./timelineTab/LeadTimeline";
+import LeadDocuments from "./documentsTab/LeadDocuments";
+import LeadDocusign from "./docusignTab/LeadDocusign";
+import LeadNotes from "./notesTab/LeadNotes";
 import {connect} from "react-redux";
 
 
@@ -27,7 +26,6 @@ class LeadTabs extends Component {
                         <LeadQuestions active={this.props.activeTab === 'questions'}/>
                         <LeadAppointments active={this.props.activeTab === 'appointments'}/>
                         <LeadTimeline active={this.props.activeTab === 'timeline'}/>
-                        <LeadCallQueue active={this.props.activeTab === '5'}/>
                         <LeadNotes active={this.props.activeTab === 'notes'}/>
                         <LeadDocuments active={this.props.activeTab === 'documents'}/>
                         <LeadDocusign active={this.props.activeTab === 'esignatures'}/>

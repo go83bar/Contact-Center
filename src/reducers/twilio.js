@@ -45,7 +45,6 @@ const initialState = {
 
 // Reducer for handling twilio actions
 export function twilio(state = initialState, action) {
-    let enableAgentDisconnect = true
     let transferEnabled = false
 
     switch (action.type) {
@@ -226,20 +225,11 @@ export function twilio(state = initialState, action) {
                 agentDisconnectButtonEnabled: false,
             })
         case 'TWILIO.LEAD.DISCONNECTED':
-            if (disconnectedStatuses.includes(state.providerCallStatus)) {
-                enableAgentDisconnect = false
-            }
-            return Object.assign({}, state, generateLeadDisconnectedState(callStatuses.notConnected, enableAgentDisconnect))
+            return Object.assign({}, state, generateLeadDisconnectedState(callStatuses.notConnected, disconnectedStatuses.includes(state.providerCallStatus)))
         case 'TWILIO.LEAD.NOANSWER':
-            if (disconnectedStatuses.includes(state.providerCallStatus)) {
-                enableAgentDisconnect = false
-            }
-            return Object.assign({}, state, generateLeadDisconnectedState(callStatuses.noAnswer, enableAgentDisconnect))
+            return Object.assign({}, state, generateLeadDisconnectedState(callStatuses.noAnswer, disconnectedStatuses.includes(state.providerCallStatus)))
         case 'TWILIO.LEAD.CALLFAILED':
-            if (disconnectedStatuses.includes(state.providerCallStatus)) {
-                enableAgentDisconnect = false
-            }
-            return Object.assign({}, state, generateLeadDisconnectedState(callStatuses.callFailed, enableAgentDisconnect))
+            return Object.assign({}, state, generateLeadDisconnectedState(callStatuses.callFailed, disconnectedStatuses.includes(state.providerCallStatus)))
 
         // Provider connection actions
         case 'TWILIO.PROVIDER.DIALED':
@@ -271,20 +261,11 @@ export function twilio(state = initialState, action) {
                 agentDisconnectButtonEnabled: false,
             })
         case 'TWILIO.PROVIDER.DISCONNECTED':
-            if (disconnectedStatuses.includes(state.leadCallStatus)) {
-                enableAgentDisconnect = false
-            }
-            return Object.assign({}, state, generateProviderDisconnectedState(callStatuses.notConnected,enableAgentDisconnect))
+            return Object.assign({}, state, generateProviderDisconnectedState(callStatuses.notConnected, disconnectedStatuses.includes(state.leadCallStatus)))
         case 'TWILIO.PROVIDER.NOANSWER':
-            if (disconnectedStatuses.includes(state.leadCallStatus)) {
-                enableAgentDisconnect = false
-            }
-            return Object.assign({}, state, generateProviderDisconnectedState(callStatuses.noAnswer,enableAgentDisconnect))
+            return Object.assign({}, state, generateProviderDisconnectedState(callStatuses.noAnswer, disconnectedStatuses.includes(state.leadCallStatus)))
         case 'TWILIO.PROVIDER.CALLFAILED':
-            if (disconnectedStatuses.includes(state.leadCallStatus)) {
-                enableAgentDisconnect = false
-            }
-            return Object.assign({}, state, generateProviderDisconnectedState(callStatuses.callFailed,enableAgentDisconnect))
+            return Object.assign({}, state, generateProviderDisconnectedState(callStatuses.callFailed, disconnectedStatuses.includes(state.leadCallStatus)))
 
         case 'LOG_OUT_USER':
             return initialState

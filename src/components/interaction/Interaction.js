@@ -11,24 +11,24 @@ import {
     MDBBtn
 } from "mdbreact"
 import {ToastContainer, Slide} from "react-toastify"
-import LeadSummary from "./Interaction/LeadSummary"
-import LeadDetail from "./Interaction/LeadDetail"
-import CallBar from "./Interaction/CallBar"
+import LeadSummary from "./summaryBar/LeadSummary"
+import LeadDetail from "./detailTab/LeadDetail"
+import CallBar from "./callBar/CallBar"
 import {connect} from "react-redux"
-import LoadingScreen from './LoadingScreen'
-import SideNavItem from "./ui/SideNavItem"
+import LoadingScreen from '../LoadingScreen'
+import SideNavItem from "../ui/SideNavItem"
 import {
     faBars,
     faCalendarCheck,
     faEdit, faFile,
     faPoll, faStream, faFileSignature
 } from "@fortawesome/pro-regular-svg-icons"
-import LeadTabs from "./Interaction/LeadTabs"
+import LeadTabs from "./LeadTabs"
 import {faChevronRight, faUser} from "@fortawesome/pro-solid-svg-icons"
 import moment from "moment"
-import EndInteraction from "./Interaction/EndInteraction"
+import EndInteraction from "./EndInteraction"
 import "react-toastify/dist/ReactToastify.css";
-import {TwilioDevice} from "../twilio/TwilioDevice";
+import {TwilioDevice} from "../../twilio/TwilioDevice";
 class Interaction extends Component {
 
     constructor(props) {

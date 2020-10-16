@@ -5,8 +5,8 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
     faStar,
 } from "@fortawesome/pro-solid-svg-icons";
-import Slack from "../../utils/Slack";
-import String from "../../utils/String";
+import Slack from "../../../utils/Slack";
+import String from "../../../utils/String";
 
 
 class LeadDetail extends Component {

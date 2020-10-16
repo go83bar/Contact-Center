@@ -7,8 +7,8 @@ import {
     MDBBox, MDBCardFooter, MDBBtn
 } from "mdbreact";
 import { connect } from 'react-redux'
-import LoadingScreen from './LoadingScreen'
-import LeadAPI from '../api/leadAPI'
+import LoadingScreen from '../LoadingScreen'
+import LeadAPI from '../../api/leadAPI'
 import {Link} from "react-router-dom";
 
 class NextLead extends Component {
