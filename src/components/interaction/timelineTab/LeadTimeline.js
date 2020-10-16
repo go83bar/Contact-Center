@@ -7,22 +7,22 @@ import {
 
 } from "mdbreact";
 
-import TimelineTouchpoints from "./timeline/TimelineTouchpoints";
-import Interaction from "./timeline/cards/Interaction";
+import TimelineTouchpoints from "./TimelineTouchpoints";
+import Interaction from "./cards/Interaction";
 import {connect} from "react-redux";
-import TimelineData from "./timeline/TimelineData";
-import Appointment from "./timeline/cards/Appointment";
-import Note from "./timeline/cards/Note";
-import AgentCall from "./timeline/cards/AgentCall";
-import IncomingCall from "./timeline/cards/IncomingCall";
-import Document from "./timeline/cards/Document";
-import Merge from "./timeline/cards/Merge";
-import Email from "./timeline/cards/Email";
-import Survey from "./timeline/cards/Survey";
-import Text from "./timeline/cards/Text";
+import TimelineData from "./TimelineData";
+import Appointment from "./cards/Appointment";
+import Note from "./cards/Note";
+import AgentCall from "./cards/AgentCall";
+import IncomingCall from "./cards/IncomingCall";
+import Document from "./cards/Document";
+import Merge from "./cards/Merge";
+import Email from "./cards/Email";
+import Survey from "./cards/Survey";
+import Text from "./cards/Text";
 import moment from "moment";
-import Lead from "./timeline/cards/Lead";
-import SimpleLog from "./timeline/cards/SimpleLog";
+import Lead from "./cards/Lead";
+import SimpleLog from "./cards/SimpleLog";
 
 class LeadTimeline extends Component {
 

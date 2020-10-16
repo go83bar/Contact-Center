@@ -2,9 +2,9 @@ import React, {Component} from 'react'
 import {connect} from "react-redux";
 import {MDBBox, MDBBtn} from "mdbreact";
 import {toast} from "react-toastify";
-import ClientQuestion from "./questions/ClientQuestion";
-import LeadAPI from "../../api/leadAPI";
-import Slack from "../../utils/Slack";
+import ClientQuestion from "./ClientQuestion";
+import LeadAPI from "../../../api/leadAPI";
+import Slack from "../../../utils/Slack";
 
 
 class LeadQuestions extends Component {
