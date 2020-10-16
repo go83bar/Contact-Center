@@ -1,23 +1,22 @@
 import React, {Component} from 'react'
-import {
-    MDBBox,
-    MDBCard,
-    MDBModal,MDBTooltip,
-    MDBModalHeader, MDBModalBody, MDBModalFooter, MDBBtn
-} from "mdbreact";
+import {MDBBox, MDBBtn, MDBCard, MDBModal, MDBModalBody, MDBModalFooter, MDBModalHeader, MDBTooltip} from "mdbreact";
 import {connect} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
-    faCircle as faCircleSolid,
     faCalendarCheck,
+    faCircle as faCircleSolid,
     faGraduationCap,
+    faHeadphones,
+    faList,
     faPhone,
-    faHeadphones, faSearch, faList, faSignOut, faUserCircle
+    faSearch,
+    faSignOut,
+    faUserCircle
 } from "@fortawesome/pro-solid-svg-icons";
 import {faCircle, faClipboardList} from "@fortawesome/pro-light-svg-icons";
 import {Link} from "react-router-dom";
 
-import { WidthProvider, Responsive } from "react-grid-layout";
+import {Responsive, WidthProvider} from "react-grid-layout";
 import RecentLeads from "./RecentLeads";
 import Search from "./Search";
 import Profile from "./Profile";
@@ -40,13 +39,13 @@ class Home extends Component {
         //console.log(props.shift)
         // kick off shift data load if we don't have it
         if (!props.shift.loaded) {
-            AgentAPI.getShiftData().then ( response => {
+            AgentAPI.getShiftData().then(response => {
                 if (response.clients) {
                     props.dispatch({type: 'SHIFT.LOAD', payload: response})
                 } else {
                     // SHIFT LOAD RETURNED A NON-POSITIVE RESULT
                 }
-            }).catch( reason => {
+            }).catch(reason => {
                 console.log("COULD NOT LOAD SHIFT: ", reason)
             })
         }
@@ -55,9 +54,9 @@ class Home extends Component {
         this.toggleSearch = this.toggleSearch.bind(this)
         this.toggleProfile = this.toggleProfile.bind(this)
         this.state = {
-            showRecent : false,
-            showSearch : false,
-            showProfile : false,
+            showRecent: false,
+            showSearch: false,
+            showProfile: false,
             queueCount: undefined,
             bookingsCount: undefined,
             schedule: undefined,
@@ -75,7 +74,7 @@ class Home extends Component {
         if (targetDate === undefined) {
             targetDate = this.state.scheduleDate
         }
-        AgentAPI.getAppStats(targetDate).then( response => {
+        AgentAPI.getAppStats(targetDate).then(response => {
             this.setState({
                 queueCount: response.queue,
                 bookingsCount: response.bookings,
@@ -84,8 +83,8 @@ class Home extends Component {
                 scheduleDate: targetDate,
                 interactionsCount: response.interactions
             })
-        }).catch( reason => {
-            console.log("App stats poll failed: ",reason)
+        }).catch(reason => {
+            console.log("App stats poll failed: ", reason)
         })
     }
 
@@ -95,24 +94,26 @@ class Home extends Component {
         this.props.config.cookies.remove("auth")
         ConnectAPI.logout(this.props.user.auth).then(responseJson => {
             this.props.dispatch({type: 'LOG_OUT_USER', payload: {}})
-        }).catch( error => {
+        }).catch(error => {
             console.log("LOGOUT ERROR: ", error)
         })
     }
 
     toggleRecent() {
-        this.setState({showRecent : !this.state.showRecent})
+        this.setState({showRecent: !this.state.showRecent})
     }
+
     toggleSearch() {
-        this.setState({showSearch : !this.state.showSearch})
+        this.setState({showSearch: !this.state.showSearch})
     }
+
     toggleProfile() {
-        this.setState({showProfile : !this.state.showProfile})
+        this.setState({showProfile: !this.state.showProfile})
     }
 
     closeIncoming = () => {
         if (this.props.twilio.incomingCallQueue.length > 0) {
-            this.props.dispatch({type:"TWILIO.INCOMING_CANCEL"})
+            this.props.dispatch({type: "TWILIO.INCOMING_CANCEL"})
         }
     }
 
@@ -133,7 +134,7 @@ class Home extends Component {
 
     componentDidMount() {
         // Perform first time pull for app stats, with slack notice if it fails
-        AgentAPI.getAppStats(this.state.scheduleDate).then( response => {
+        AgentAPI.getAppStats(this.state.scheduleDate).then(response => {
             this.setState({
                 queueCount: response.queue,
                 bookingsCount: response.bookings,
@@ -141,7 +142,7 @@ class Home extends Component {
                 schedule: response.schedule,
                 interactionsCount: response.interactions
             })
-        }).catch( reason => {
+        }).catch(reason => {
             Slack.sendMessage("Agent " + this.props.user.id + " could not load appstats: " + JSON.stringify(reason))
         })
 
@@ -149,6 +150,7 @@ class Home extends Component {
         this.pollStatsInterval = setInterval(this.pollAppStats, 30000)
 
     }
+
     componentWillUnmount() {
         // clear interval for refreshing app stats
         clearInterval(this.pollStatsInterval)
@@ -178,7 +180,8 @@ class Home extends Component {
         const localization = this.props.localization.home
         let cards = []
         const fetchNextButton = (
-            <MDBCard key="fetch" className="shadow-sm px-2 py-3" data-grid={{ w: 3, h: 3, x: 1, y: 1, minW: 3, minH: 3, isResizable : false, isDraggable : false }}>
+            <MDBCard key="fetch" className="shadow-sm px-2 py-3"
+                     data-grid={{w: 3, h: 3, x: 1, y: 1, minW: 3, minH: 3, static: true}}>
                 <Link to="/next" className="d-flex skin-secondary-color align-items-center justify-content-between">
                     <span className="fa-layers fa-fw fa-4x">
                         <FontAwesomeIcon icon={faCircleSolid} className="skin-primary-color"/>
@@ -191,8 +194,10 @@ class Home extends Component {
         cards.push(fetchNextButton)
 
         const searchButton = (
-            <MDBCard key="find" className="shadow-sm px-2 py-3" data-grid={{ w: 3, h: 3, x: 5, y: 1, minW: 3, minH: 3, isResizable : false, isDraggable : false  }}>
-                <Link to="#" onClick={this.toggleSearch} className="d-flex skin-secondary-color align-items-center justify-content-between">
+            <MDBCard key="find" className="shadow-sm px-2 py-3"
+                     data-grid={{w: 3, h: 3, x: 5, y: 1, minW: 3, minH: 3, static: true}}>
+                <Link to="#" onClick={this.toggleSearch}
+                      className="d-flex skin-secondary-color align-items-center justify-content-between">
                     <span className="fa-layers fa-fw fa-4x">
                         <FontAwesomeIcon icon={faCircleSolid} className="skin-primary-color"/>
                         <FontAwesomeIcon icon={faSearch} transform={"shrink-8"} className={"skin-text"}/>
@@ -204,8 +209,10 @@ class Home extends Component {
         cards.push(searchButton)
 
         const recentButton = (
-            <MDBCard key="recent" className="shadow-sm px-2 py-3" data-grid={{ w: 3, h: 3, x: 9, y: 1, minW: 3, minH: 3, isResizable : false, isDraggable : false  }}>
-                <Link to="#" onClick={this.toggleRecent} className="d-flex skin-secondary-color align-items-center justify-content-between">
+            <MDBCard key="recent" className="shadow-sm px-2 py-3"
+                     data-grid={{w: 3, h: 3, x: 9, y: 1, minW: 3, minH: 3, static: true}}>
+                <Link to="#" onClick={this.toggleRecent}
+                      className="d-flex skin-secondary-color align-items-center justify-content-between">
                     <span className="fa-layers fa-fw fa-4x">
                         <FontAwesomeIcon icon={faCircleSolid} className="skin-primary-color"/>
                         <FontAwesomeIcon icon={faList} transform={"shrink-8"} className={"skin-text"}/>
@@ -217,15 +224,17 @@ class Home extends Component {
         cards.push(recentButton)
 
         const divider = (
-            <MDBBox key="divider" data-grid={{ w: 13, h: 1, x:1, y:4, minW: 3, minH: 1, isResizable: false, isDraggable: false}}></MDBBox> 
+            <MDBBox key="divider" data-grid={{w: 13, h: 1, x: 1, y: 4, minW: 3, minH: 1, static: true}}></MDBBox>
         )
         cards.push(divider)
 
         if (this.state.queueCount !== undefined) {
             const queueCard = (
-                <MDBCard key="queue" className="shadow-sm px-2 py-2" data-grid={{ w: 2, h: 2, x: 7, y: 5, minW: 2, minH: 2, isResizable : false, isDraggable : false  }}>
+                <MDBCard key="queue" className="shadow-sm px-2 py-2"
+                         data-grid={{w: 2, h: 2, x: 1, y: 5, minW: 2, minH: 2, static: true}}>
                     <Link to="#" className="d-flex skin-secondary-color align-items-center justify-content-between">
-                        <span className="small-font">{this.props.localization.home.queueLabel}: {this.state.queueCount}</span>
+                        <span
+                            className="small-font">{this.props.localization.home.queueLabel}: {this.state.queueCount}</span>
                         <span className="fa-layers fa-fw fa-3x">
                             <FontAwesomeIcon icon={faCircleSolid} className="skin-secondary-color"/>
                             <FontAwesomeIcon icon={faClipboardList} transform={"shrink-8"} className={"skin-text"}/>
@@ -238,9 +247,11 @@ class Home extends Component {
 
         if (this.state.interactionsCount !== undefined) {
             const interactionCard = (
-                <MDBCard key="interactions" className="shadow-sm px-2 py-2" data-grid={{ w: 2, h: 2, x: 10, y: 5, minW: 2, minH: 2, isResizable : false, isDraggable : false  }}>
+                <MDBCard key="interactions" className="shadow-sm px-2 py-2"
+                         data-grid={{w: 2, h: 2, x: 4, y: 5, minW: 2, minH: 2, static: true}}>
                     <Link to="#" className="d-flex skin-secondary-color align-items-center justify-content-between">
-                        <span className="small-font">{this.props.localization.home.interactionsLabel}: {this.state.interactionsCount}</span>
+                        <span
+                            className="small-font">{this.props.localization.home.interactionsLabel}: {this.state.interactionsCount}</span>
                         <span className="fa-layers fa-fw fa-3x">
                             <FontAwesomeIcon icon={faCircleSolid} className="skin-secondary-color"/>
                             <FontAwesomeIcon icon={faPhone} transform={"shrink-8"} className={"skin-text"}/>
@@ -253,9 +264,11 @@ class Home extends Component {
 
         if (this.state.bookingsCount !== undefined) {
             const bookingCard = (
-                <MDBCard key="bookings" className="shadow-sm px-2 py-2" data-grid={{ w: 2, h: 2, x: 7, y: 7,  minW: 2, minH: 2, isResizable : false, isDraggable : false  }}>
+                <MDBCard key="bookings" className="shadow-sm px-2 py-2"
+                         data-grid={{w: 2, h: 2, x: 7, y: 5, minW: 2, minH: 2, static: true}}>
                     <Link to="#" className="d-flex skin-secondary-color align-items-center justify-content-between">
-                        <span className="small-font">{this.props.localization.home.bookingsLabel}: {this.state.bookingsCount}</span>
+                        <span
+                            className="small-font">{this.props.localization.home.bookingsLabel}: {this.state.bookingsCount}</span>
                         <span className="fa-layers fa-fw fa-3x">
                             <FontAwesomeIcon icon={faCircleSolid} className="skin-secondary-color"/>
                             <FontAwesomeIcon icon={faCalendarCheck} transform={"shrink-8"} className={"skin-text"}/>
@@ -268,9 +281,11 @@ class Home extends Component {
 
         if (this.state.educationsCount !== undefined) {
             const educationCard = (
-                <MDBCard key="educations" className="shadow-sm px-2 py-2" data-grid={{ w: 2, h: 2, x: 10, y: 7, minW: 2, minH: 2, isResizable : false, isDraggable : false  }}>
+                <MDBCard key="educations" className="shadow-sm px-2 py-2"
+                         data-grid={{w: 2, h: 2, x: 10, y: 5, minW: 2, minH: 2, static: true}}>
                     <Link to="#" className="d-flex skin-secondary-color align-items-center justify-content-between">
-                        <span className="small-font">{this.props.localization.home.educationsLabel}: {this.state.educationsCount}</span>
+                        <span
+                            className="small-font">{this.props.localization.home.educationsLabel}: {this.state.educationsCount}</span>
                         <span className="fa-layers fa-fw fa-3x">
                             <FontAwesomeIcon icon={faCircleSolid} className="skin-secondary-color"/>
                             <FontAwesomeIcon icon={faGraduationCap} transform={"shrink-8"} className={"skin-text"}/>
@@ -281,20 +296,22 @@ class Home extends Component {
             cards.push(educationCard)
         }
 
-        if (this.state.schedule !== undefined) {
+        if (false) { //(this.state.schedule !== undefined) {
             const scheduleCard = (
-                <MDBCard key="schedule" className="shadow-sm px-3 py-3" data-grid={{ w: 4, h: -1, x:1, y:5, minW: 3,minH: -1, isResizable: false, isDraggable: false}}>
-                    <AgentSchedule scheduleData={this.state.schedule} scheduleDate={this.state.scheduleDate} triggerPoll={this.pollAppStats} />
+                <MDBCard key="schedule" className="shadow-sm px-3 py-3"
+                         data-grid={{w: 4, h: -1, x: 1, y: 8, minW: 3, static: true}}>
+                    <AgentSchedule scheduleData={this.state.schedule} scheduleDate={this.state.scheduleDate}
+                                   triggerPoll={this.pollAppStats}/>
                 </MDBCard>
-                )
+            )
 
             cards.push(scheduleCard)
         }
-       
+
         return (
             <ResponsiveReactGridLayout
                 className="layout"
-                cols={{ lg: 13, md: 10, sm: 6, xs: 4, xxs: 2 }}
+                cols={{lg: 13, md: 10, sm: 6, xs: 4, xxs: 2}}
                 rowHeight={30}
                 layouts={this.state.layouts}
             >
@@ -306,11 +323,13 @@ class Home extends Component {
     render() {
         const localization = this.props.localization.home
         return (
-            <MDBBox className="d-flex flex-column w-100 justify-content-start skin-secondary-color mx-5">
+            <MDBBox className="d-flex flex-column w-100 justify-content-start skin-secondary-color px-5">
+
                 <MDBBox className="d-flex w-100 skin-secondary-background-color skin-text align-items-center p-1 f-l">
                     <MDBBox className="d-flex w-50 ml-4 align-items-center">
                         <MDBTooltip domElement tag="span" material placement="left">
-                            <img src={"/images/83Bar-white.png"} alt="logo" className="img-fluid m-1 mr-4" style={{height: "48px"}}/>
+                            <img src={"/images/83Bar-white.png"} alt="logo" className="img-fluid m-1 mr-4"
+                                 style={{height: "48px"}}/>
                             <span>{global.appVersion}</span>
                         </MDBTooltip>
                         <span>{localization.welcome.replace("$", this.props.user.first_name)}</span>
@@ -319,7 +338,7 @@ class Home extends Component {
                         <Link to="#" onClick={this.toggleProfile} className="f-xl px-3">
                             <span className="fa-layers fa-fw fa-2x m-0">
                                 <FontAwesomeIcon icon={faCircle} className={"skin-text"}/>
-                                <FontAwesomeIcon icon={faUserCircle} transform={"shrink-6"}  className={"skin-text"}/>
+                                <FontAwesomeIcon icon={faUserCircle} transform={"shrink-6"} className={"skin-text"}/>
                             </span>
                         </Link>
                         <Link to="#" onClick={this.logout} className="rounded-pill red-darken-2 p-2 px-4">
@@ -330,13 +349,99 @@ class Home extends Component {
 
                     </MDBBox>
                 </MDBBox>
-                <MDBBox className="w-100 h-50 mt-3">
-                    {this.renderCards()}
+
+
+                <MDBBox className="w-75 mt-3 mx-auto d-flex flex-column">
+                    <MDBBox className="d-flex flex-row justify-content-between flex-wrap">
+                        <MDBCard key="fetch" className="shadow-sm mr-5 mt-2 px-2 py-3 flex-grow-1">
+                            <Link to="/next"
+                                  className="d-flex skin-secondary-color align-items-center mr-4">
+                                <span className="fa-layers fa-fw fa-4x">
+                                    <FontAwesomeIcon icon={faCircleSolid} className="skin-primary-color"/>
+                                    <FontAwesomeIcon icon={faHeadphones} transform={"shrink-8"}
+                                                     className={"skin-text"}/>
+                                </span>
+                                <span className="ml-3">{localization.fetchNextButtonLabel}</span>
+                            </Link>
+                        </MDBCard>
+                        <MDBCard key="find" className="shadow-sm mx-5 mt-2 px-2 py-3 flex-grow-2">
+                            <Link to="#" onClick={this.toggleSearch}
+                                  className="d-flex skin-secondary-color align-items-center mr-4">
+                                <span className="fa-layers fa-fw fa-4x">
+                                    <FontAwesomeIcon icon={faCircleSolid} className="skin-primary-color"/>
+                                    <FontAwesomeIcon icon={faSearch} transform={"shrink-8"} className={"skin-text"}/>
+                                </span>
+                                <span className="ml-3">{localization.searchButtonLabel}</span>
+                            </Link>
+                        </MDBCard>
+                        <MDBCard key="recent" className="shadow-sm ml-5 mt-2 px-2 py-3 flex-grow-2">
+                            <Link to="#" onClick={this.toggleRecent}
+                                  className="d-flex skin-secondary-color align-items-center mr-4">
+                                <span className="fa-layers fa-fw fa-4x">
+                                    <FontAwesomeIcon icon={faCircleSolid} className="skin-primary-color"/>
+                                    <FontAwesomeIcon icon={faList} transform={"shrink-8"} className={"skin-text"}/>
+                                </span>
+                                <span className="ml-3">{localization.recentButtonLabel}</span>
+                            </Link>
+                        </MDBCard>
+                    </MDBBox>
+
+                    <MDBBox className="d-flex flex-row justify-content-between mt-3 flex-wrap">
+                        {this.state.queueCount !== undefined && <MDBCard key="queue" className="shadow-sm px-2 py-2 mt-1">
+                            <Link to="#" className="d-flex skin-secondary-color align-items-center justify-content-between ml-3">
+                                <span className="small-font">{this.props.localization.home.queueLabel}: {this.state.queueCount}</span>
+                                <span className="fa-layers fa-fw fa-3x">
+                                    <FontAwesomeIcon icon={faCircleSolid} className="skin-secondary-color"/>
+                                    <FontAwesomeIcon icon={faClipboardList} transform={"shrink-8"} className={"skin-text"}/>
+                                </span>
+                            </Link>
+                        </MDBCard>}
+
+                        {this.state.interactionsCount !== undefined && <MDBCard key="interactions" className="shadow-sm px-2 py-2 mt-1">
+                            <Link to="#" className="d-flex skin-secondary-color align-items-center justify-content-between ml-3">
+                                <span className="small-font">{this.props.localization.home.interactionsLabel}: {this.state.interactionsCount}</span>
+                                <span className="fa-layers fa-fw fa-3x">
+                                    <FontAwesomeIcon icon={faCircleSolid} className="skin-secondary-color"/>
+                                    <FontAwesomeIcon icon={faPhone} transform={"shrink-8"} className={"skin-text"}/>
+                                </span>
+                            </Link>
+                        </MDBCard>}
+
+                        {this.state.bookingsCount !== undefined && <MDBCard key="bookings" className="shadow-sm px-2 py-2 mt-1">
+                            <Link to="#" className="d-flex skin-secondary-color align-items-center justify-content-between ml-3">
+                                <span className="small-font">{this.props.localization.home.bookingsLabel}: {this.state.bookingsCount}</span>
+                                <span className="fa-layers fa-fw fa-3x">
+                                    <FontAwesomeIcon icon={faCircleSolid} className="skin-secondary-color"/>
+                                    <FontAwesomeIcon icon={faCalendarCheck} transform={"shrink-8"} className={"skin-text"}/>
+                                </span>
+                            </Link>
+                        </MDBCard>}
+
+                        {this.state.educationsCount !== undefined && <MDBCard key="educations" className="shadow-sm px-2 py-2 mt-1">
+                            <Link to="#" className="d-flex skin-secondary-color align-items-center justify-content-between ml-3">
+                                <span className="small-font">{this.props.localization.home.educationsLabel}: {this.state.educationsCount}</span>
+                                <span className="fa-layers fa-fw fa-3x">
+                                    <FontAwesomeIcon icon={faCircleSolid} className="skin-secondary-color"/>
+                                    <FontAwesomeIcon icon={faGraduationCap} transform={"shrink-8"} className={"skin-text"}/>
+                                </span>
+                            </Link>
+                        </MDBCard>}
+                    </MDBBox>
+                    <MDBBox className="d-flex flex-row mt-3">
+                        {this.state.schedule !== undefined && <MDBCard className="shadow-sm px-3 py-3" style={{minWidth: "335px"}}>
+                                <AgentSchedule scheduleData={this.state.schedule} scheduleDate={this.state.scheduleDate}
+                                               triggerPoll={this.pollAppStats}/>
+                            </MDBCard>}
+                    </MDBBox>
                 </MDBBox>
+
+
+
+
                 <MDBModal isOpen={this.state.showRecent} toggle={this.toggleRecent} centered size={"lg"}>
                     <MDBModalHeader toggle={this.toggleRecent}>{localization.recent}</MDBModalHeader>
                     <MDBModalBody className="p-0">
-                          <RecentLeads />
+                        <RecentLeads/>
                     </MDBModalBody>
                     <MDBModalFooter className="d-flex justify-content-between">
                         <MDBBtn rounded outline onClick={this.toggleRecent}>Close</MDBBtn>
@@ -345,7 +450,7 @@ class Home extends Component {
                 <MDBModal isOpen={this.state.showSearch} toggle={this.toggleSearch} centered size={"lg"}>
                     <MDBModalHeader toggle={this.toggleSearch}>{localization.search}</MDBModalHeader>
                     <MDBModalBody className="p-0">
-                        <Search />
+                        <Search/>
                     </MDBModalBody>
                     <MDBModalFooter className="d-flex justify-content-between">
                         <MDBBtn rounded outline onClick={this.toggleSearch}>Close</MDBBtn>
@@ -357,13 +462,16 @@ class Home extends Component {
                         <Profile onClose={this.toggleProfile}/>
                     </MDBModalBody>
                 </MDBModal>
-                <MDBModal isOpen={(this.props.twilio.incomingCallQueue.length > 0)} toggle={this.closeIncoming} centered>
+                <MDBModal isOpen={(this.props.twilio.incomingCallQueue.length > 0)} toggle={this.closeIncoming}
+                          centered>
                     <MDBModalHeader toggle={this.closeIncoming}>{localization.incoming}</MDBModalHeader>
                     <MDBModalBody className="p-3 d-flex justify-content-between">
-                        <MDBBtn rounded outline onClick={this.closeIncoming}>{localization.dismissIncomingButtonLabel}</MDBBtn>
+                        <MDBBtn rounded outline
+                                onClick={this.closeIncoming}>{localization.dismissIncomingButtonLabel}</MDBBtn>
 
                         <Link to="/next">
-                            <MDBBtn rounded onClick={this.acceptIncoming}>{localization.answerIncomingButtonLabel}</MDBBtn>
+                            <MDBBtn rounded
+                                    onClick={this.acceptIncoming}>{localization.answerIncomingButtonLabel}</MDBBtn>
                         </Link>
                     </MDBModalBody>
                 </MDBModal>
@@ -384,7 +492,7 @@ const mapStateToProps = state => {
     return {
         user: state.user,
         localization: state.localization,
-        config : state.config,
+        config: state.config,
         shift: state.shift,
         twilio: state.twilio
     }
