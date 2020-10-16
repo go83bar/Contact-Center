@@ -70,7 +70,7 @@ class AgentCall extends Component {
                             </MDBBox>
                         </div>
                         <div className="d-flex w-25 f-s flex-column text-right justify-content-start">
-                            <span><span className="font-weight-bold">{this.props.data.created_at.format("MMM D")}</span>, {this.props.data.created_at.format("hh:mm a z")}</span>
+                            <span><span className="font-weight-bold">{this.props.data.created_at.format("MMM D")}</span>, {this.props.data.created_at.format("h:mm a z")}</span>
                         </div>
                     </div>
                 </MDBBox>
