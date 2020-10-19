@@ -24,7 +24,7 @@ import {
     faPoll, faStream, faFileSignature
 } from "@fortawesome/pro-regular-svg-icons"
 import LeadTabs from "./LeadTabs"
-import {faChevronRight, faUser} from "@fortawesome/pro-solid-svg-icons"
+import {faChevronRight, faUser, faGift} from "@fortawesome/pro-solid-svg-icons"
 import moment from "moment"
 import EndInteraction from "./EndInteraction"
 import "react-toastify/dist/ReactToastify.css";
@@ -150,6 +150,9 @@ class Interaction extends Component {
         // determine if the questions tab is appropriate
         const questionsVisible = this.props.lead.client.questions.length > 0
 
+        // determine if the rewards tab is appropriate
+        const rewardsVisible = this.props.lead.rewards.length > 0
+
         return(
             <MDBBox className="d-flex w-100 skin-secondary-color">
                 <MDBBox className="m-0 my-2 ml-2 border rounded skin-secondary-background-color" style={{flex: slim ? "0 0 50px" : "0 0 100px", order : 0,  fontSize:"14px"}}>
@@ -163,6 +166,7 @@ class Interaction extends Component {
                         <SideNavItem active={this.state.activeItem === "notes"} icon={faEdit} label={localization.notes.tabTitle} slim={slim} onClick={this.toggleTab("notes")}/>
                         <SideNavItem active={this.state.activeItem === "documents"} icon={faFile} label={localization.documents.tabTitle} slim={slim} onClick={this.toggleTab("documents")}/>
                         {docusignVisible && <SideNavItem active={this.state.activeItem === "esignatures"} icon={faFileSignature} label={localization.docusign.tabTitle} slim={slim} onClick={this.toggleTab("esignatures")}/>}
+                        {rewardsVisible && <SideNavItem active={this.state.activeItem === "rewards"} icon={faGift} label={localization.rewards.tabTitle} slim={slim} onClick={this.toggleTab("rewards")}/>}
                     </MDBNav>
                 </MDBBox>
                 <MDBBox className="d-flex m-2" style={{flex: 1, overflow:"auto", flexDirection:"column"}}>

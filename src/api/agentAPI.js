@@ -147,10 +147,44 @@ export default class AgentAPI {
             toast: true,
             auth: redux.user.auth
         }
-        const result = await sendRequest(requestOptions)
 
-        return result
-       
+        return await sendRequest(requestOptions)
+    }
+
+    /**
+     * @typedef ResendRewardParams
+     * @type {object}
+     * @property {number} rewardID
+     */
+
+    /**
+     * Resends client reward to lead's current email
+     *
+     * @static
+     * @param {{rewardID: *}} params
+     * @returns {Promise}
+     * @memberof LeadAPI
+     */
+    static async resendReward(params) {
+        // Mock API responses for local dev
+        if (process.env.REACT_APP_QUERY_MODE === "development") {
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "/data/resendReward.json")
+
+            return mockData.json()
+        }
+
+        const redux = store.getState()
+        const requestOptions = {
+            url: redux.config["url-react-base"] + "activate/lead/resendreward",
+            method: "POST",
+            type: "json",
+            data: {
+                reward_id: params.rewardID
+            },
+            auth: redux.user.auth
+        }
+
+        return await sendRequest(requestOptions)
     }
 
     /**

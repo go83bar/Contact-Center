@@ -102,6 +102,26 @@ export function lead(state = initialState, action) {
                 })
             }
 
+        // called when lead reward is resent
+        case "LEAD.REWARD_RESENT":
+            const newRewards = state.rewards.map( existingReward => {
+                if (action.data.rewardID === existingReward.id) {
+                    return {
+                        ...existingReward,
+                        last_resent_at: action.data.lastResentAt,
+                        resendable: false
+                    }
+                }
+
+                return existingReward
+
+            })
+
+            return {
+                ...state,
+                rewards: newRewards
+            }
+
         // called when user saves updates to client responses
         case "LEAD.CLIENT_RESPONSES.UPDATED":
             const newResponses = state.client_responses.map( existingResponse => {

@@ -8,6 +8,7 @@ import LeadDocuments from "./documentsTab/LeadDocuments";
 import LeadDocusign from "./docusignTab/LeadDocusign";
 import LeadNotes from "./notesTab/LeadNotes";
 import {connect} from "react-redux";
+import LeadRewards from "./rewardsTab/LeadRewards";
 
 
 class LeadTabs extends Component {
@@ -29,6 +30,7 @@ class LeadTabs extends Component {
                         <LeadNotes active={this.props.activeTab === 'notes'}/>
                         <LeadDocuments active={this.props.activeTab === 'documents'}/>
                         <LeadDocusign active={this.props.activeTab === 'esignatures'}/>
+                        <LeadRewards active={this.props.activeTab === 'rewards'} />
                     </MDBTabContent>
 
             </MDBBox>

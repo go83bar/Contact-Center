@@ -393,11 +393,11 @@ class Active extends Component {
                             onClick={this.toggleCollapse}
                     >
                         <div className='d-flex p-1 px-3 w-100'>
-                        <span className="fa-layers fa-fw fa-3x mt-2">
-                            <FontAwesomeIcon icon={faCircleSolid} className="text-white"/>
-                            <FontAwesomeIcon icon={faCircle} className={"skin-primary-color"}/>
-                            <FontAwesomeIcon icon={faCalendar} transform={"shrink-8"} className={"darkIcon"}/>
-                        </span>
+                            <span className="fa-layers fa-fw fa-3x mt-2">
+                                <FontAwesomeIcon icon={faCircleSolid} className="text-white"/>
+                                <FontAwesomeIcon icon={faCircle} className={"skin-primary-color"}/>
+                                <FontAwesomeIcon icon={faCalendar} transform={"shrink-8"} className={"darkIcon"}/>
+                            </span>
                             <div className="d-flex p-2 flex-column text-left w-50">
                                 <span className="f-l">#{this.props.data.index} {apptType.label}</span>
                                 {office && <span>

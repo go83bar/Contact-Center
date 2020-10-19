@@ -200,6 +200,14 @@
     "queue": {
       "tabTitle": "Queue"
     },
+    "rewards": {
+      "tabTitle": "Gift Cards",
+      "lastResentAt": "last sent again on ",
+      "createdAt": "sent on ",
+      "amountDisplay": "$;",
+      "resendButtonLabel": "Resend Gift Card",
+      "resendingButtonLabel": "Resending..."
+    },
     "summary": {
       "client": "Client",
       "endInteraction": "END",
@@ -774,6 +782,10 @@
       "genericSaveError": "An error occurred, your updates were not saved.",
       "responsesUpdated": "Responses were updated!",
       "missingQuestionError": "That question cannot be updated, a support notice has been submitted"
+    },
+    "rewards": {
+      "resent": "Client Reward was successfully resent!",
+      "notResent": "Client Reward could not be resent. Please contact dev."
     },
     "twilio": {
       "dialLeadFailed": "Lead couldn't be dialed. Please check the number and try again!",
