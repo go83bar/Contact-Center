@@ -19,26 +19,27 @@ class Reward extends Component {
         }
 
         return (
-            <MDBCard className="d-flex w-100 shadow-sm border-0 mb-2">
-                <MDBBox className="d-flex backgroundColorInherit skin-border-primary f-m w-100">
-                    <div className="d-flex p-1 px-3 w-100 skin-border-primary timelineCardHeader">
-                        <MDBBox className="w-75 p-2 d-flex">
-                            <span className="fa-layers fa-fw fa-3x mt-2">
-                                <FontAwesomeIcon icon={faCircleSolid} className="text-white"/>
-                                <FontAwesomeIcon icon={faCircle} className={"skin-primary-color"}/>
-                                <FontAwesomeIcon icon={faGift} transform={"shrink-8"} className={"darkIcon"}/>
+            <MDBCard className='w-100 border-0 mb-3 z-2'>
+                <MDBBox className="backgroundColorInherit timelineCardHeader skin-border-primary f-m shadow-sm pb-2"
+                        onClick={this.toggleCollapse}
+                >
+                    <div className='d-flex justify-content-between p-1 px-3'>
+                        <span className="fa-layers fa-fw fa-3x mt-2">
+                            <FontAwesomeIcon icon={faCircleSolid} className="text-white"/>
+                            <FontAwesomeIcon icon={faCircle} className={"skin-primary-color"}/>
+                            <FontAwesomeIcon icon={faGift} transform={"shrink-8"}/>
+                        </span>
+                        <div className="d-flex w-75 p-2 flex-column text-left">
+                            <span className="f-l font-weight-bold">
+                                {this.props.reward.campaign} / {localization.amountDisplay.replace(";", this.props.reward.amount)}
                             </span>
-                            <div className="d-flex p-2 flex-column text-left w-50">
-                                <span className="f-l font-weight-bold">{this.props.reward.campaign} / {localization.amountDisplay.replace(";", this.props.reward.amount)}</span>
-                            </div>
-
-                        </MDBBox>
-                        <MDBBox className="d-flex w-25 p-2 f-s flex-column text-right justify-content-start grey-text">
+                        </div>
+                        <div className="d-flex w-25 f-s flex-column text-right justify-content-start">
                             {resendTime && <span>{localization.lastResentAt}<span
                                 className="font-weight-bold">{resendTime.format("MMM D")}</span>, {resendTime.format("h:mm a z")}</span>}
                             <span>{localization.createdAt} <span
                                 className="font-weight-bold">{this.props.reward.created_at.format("MMM D")}</span>, {this.props.reward.created_at.format("h:mm a z")}</span>
-                        </MDBBox>
+                        </div>
                     </div>
                 </MDBBox>
             </MDBCard>
