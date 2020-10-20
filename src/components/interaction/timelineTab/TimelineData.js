@@ -148,6 +148,7 @@ class TimelineData {
         this.processItems("note", lead.notes, timezone)
         this.processItems("survey", lead.surveys, timezone)
         this.processItems("text", lead.texts, timezone)
+        this.processItems("reward", lead.rewards, timezone)
         this.processItems("incoming_call", lead.incoming_calls, timezone)
         this.processItems("agent_call", lead.agent_calls, timezone)
         this.processItems("merge", lead.merges, timezone)

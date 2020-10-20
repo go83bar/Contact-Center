@@ -19,6 +19,7 @@ import Document from "./cards/Document";
 import Merge from "./cards/Merge";
 import Email from "./cards/Email";
 import Survey from "./cards/Survey";
+import Reward from "./cards/Reward";
 import Text from "./cards/Text";
 import moment from "moment";
 import Lead from "./cards/Lead";
@@ -109,6 +110,13 @@ class LeadTimeline extends Component {
                         result.push(
                             <MDBStep className="mb-4" key={"item-" + index}>
                                 <Note data={item}/>
+                            </MDBStep>
+                        )
+                        break
+                    case "reward":
+                        result.push(
+                            <MDBStep className="mb-4" key={"item-" + index}>
+                                <Reward reward={item}/>
                             </MDBStep>
                         )
                         break

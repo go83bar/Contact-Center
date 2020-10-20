@@ -337,6 +337,11 @@
         "sourceMergeDescription": "This lead was merged into lead $",
         "targetMergeDescription": "Lead $ was merged into this lead"
       },
+      "reward": {
+        "lastResentAt": "last sent again on ",
+        "createdAt": "sent on ",
+        "amountDisplay": "$;"
+      },
       "appointment": {
         "startTime": "Start time: ",
         "apptAbbr": "Appt #"
