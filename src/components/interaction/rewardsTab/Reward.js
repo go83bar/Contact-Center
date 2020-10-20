@@ -14,13 +14,16 @@ class Reward extends Component {
     constructor(props) {
         super(props)
 
+
+        const buttonLabelLocalizationName = props.reward.resendable ? "buttonLabelResend" : "buttonLabelCannotResend"
+
         this.state = {
-            resending: false,
-            resendButtonLabel: props.localization.interaction.rewards.resendButtonLabel
+            disableResend: !props.reward.resendable,
+            resendButtonLabel: this.props.localization.interaction.rewards[buttonLabelLocalizationName]
         }
     }
     resendReward = () => {
-        this.setState({resending: true, resendButtonLabel: this.props.localization.interaction.rewards.resendingButtonLabel})
+        this.setState({disableResend: true, resendButtonLabel: this.props.localization.interaction.rewards.buttonLabelResending})
         AgentAPI.resendReward({rewardID: this.props.reward.id}).then( response => {
             // just need to update the lead data with the new resend and the button will be destroyed
             this.props.dispatch({
@@ -30,12 +33,13 @@ class Reward extends Component {
                     lastResentAt: moment.utc().format("YYYY-MM-DD hh:mm:ss")
                 }
             })
+            this.setState({resendButtonLabel: this.props.localization.interaction.rewards.buttonLabelSent})
             toast.success(this.props.localization.toast.rewards.resent)
         }).catch( error => {
             console.log("Error resending reward: ", error);
             toast.error(this.props.localization.toast.rewards.notResent)
             this.setState({
-                resendButtonLabel: this.props.localization.interaction.rewards.resendButtonLabel
+                resendButtonLabel: this.props.localization.interaction.rewards.buttonLabelCannotResend
             })
         })
     }
@@ -61,7 +65,8 @@ class Reward extends Component {
                             </span>
                             <div className="d-flex p-2 flex-column text-left w-50">
                                 <span className="f-l font-weight-bold">{this.props.reward.campaign} / {localization.amountDisplay.replace(";", this.props.reward.amount)}</span>
-                                {this.props.reward.resendable && <div><MDBBtn rounded onClick={this.resendReward} className="btn-primary w-50" disabled={this.state.resending}>{this.state.resendButtonLabel}</MDBBtn></div>}
+                                <div><MDBBtn rounded onClick={this.resendReward} className="btn-primary w-50" disabled={this.state.disableResend}>{this.state.resendButtonLabel}</MDBBtn></div>
+                                {!this.props.reward.resendable && <div className="text-muted font-italic">{localization.timelockMessage}</div>}
                             </div>
 
                         </MDBBox>

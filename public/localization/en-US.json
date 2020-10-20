@@ -205,8 +205,11 @@
       "lastResentAt": "last sent again on ",
       "createdAt": "sent on ",
       "amountDisplay": "$;",
-      "resendButtonLabel": "Resend Gift Card",
-      "resendingButtonLabel": "Resending..."
+      "buttonLabelResend": "Resend Gift Card",
+      "buttonLabelSent": "Sent",
+      "buttonLabelResending": "Resending...",
+      "buttonLabelCannotResend": "Cannot Resend",
+      "timelockMessage": "Reward emails cannot be sent within 24 hours of each other."
     },
     "summary": {
       "client": "Client",
