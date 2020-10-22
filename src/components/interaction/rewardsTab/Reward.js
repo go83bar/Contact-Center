@@ -25,16 +25,23 @@ class Reward extends Component {
     resendReward = () => {
         this.setState({disableResend: true, resendButtonLabel: this.props.localization.interaction.rewards.buttonLabelResending})
         AgentAPI.resendReward({rewardID: this.props.reward.id}).then( response => {
-            // just need to update the lead data with the new resend and the button will be destroyed
-            this.props.dispatch({
-                type: "LEAD.REWARD_RESENT",
-                data: {
-                    rewardID: this.props.reward.id,
-                    lastResentAt: moment.utc().format("YYYY-MM-DD hh:mm:ss")
-                }
-            })
-            this.setState({resendButtonLabel: this.props.localization.interaction.rewards.buttonLabelSent})
-            toast.success(this.props.localization.toast.rewards.resent)
+            if (response.success) {
+                // just need to update the lead data with the new resend and the button will be destroyed
+                this.props.dispatch({
+                    type: "LEAD.REWARD_RESENT",
+                    data: {
+                        rewardID: this.props.reward.id,
+                        lastResentAt: moment.utc().format("YYYY-MM-DD hh:mm:ss")
+                    }
+                })
+                this.setState({resendButtonLabel: this.props.localization.interaction.rewards.buttonLabelSent})
+                toast.success(this.props.localization.toast.rewards.resent)
+            } else {
+                toast.error(this.props.localization.toast.rewards.notResent)
+                this.setState({
+                    resendButtonLabel: this.props.localization.interaction.rewards.buttonLabelCannotResend
+                })
+            }
         }).catch( error => {
             console.log("Error resending reward: ", error);
             toast.error(this.props.localization.toast.rewards.notResent)

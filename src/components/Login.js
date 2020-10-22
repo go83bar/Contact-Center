@@ -96,6 +96,11 @@ class Login extends Component {
                     })
                     return
                 }
+                // account for certain users
+                if (responseJson.user.id === 100) {
+                    console.log("A wild Centennial appears!")
+                }
+
                 // initialize the Twilio Device
                 TwilioDevice.bootstrap(responseJson.user.id, responseJson.auth.token)
 
