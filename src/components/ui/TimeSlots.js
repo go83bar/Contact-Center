@@ -3,20 +3,33 @@ import {MDBBox, MDBNav, MDBNavItem, MDBNavLink} from "mdbreact"
 import {connect} from "react-redux"
 import Button from "./Button";
 import moment from "moment";
+import {toast} from "react-toastify";
 
 class TimeSlots extends Component {
 
     constructor(props) {
         super(props)
 
-        const office = props.lead.client.offices.find(office => office.id === props.officeID)
-        if (office === undefined) {
-            // this office's data is not in client data, this could only happen via demonic possession
-            console.log("Missing client data for office " + this.props.officeID)
+        let officeTimezone = ""
+        // account for "all offices", which comes through as officeID 0
+        // in that case the timezone should be the lead's timezone
+        if (props.officeID === 0) {
+            officeTimezone = props.lead.details.timezone
+        } else {
+            const office = props.lead.client.offices.find(office => office.id === props.officeID)
+            if (office === undefined) {
+                // this office's data is not in client data, this could only happen via demonic possession
+                console.log("Missing client data for office " + this.props.officeID)
+                officeTimezone = props.lead.details.timezone
+                toast.error(props.localization.toast.appointments.officeMissing)
+            } else {
+                officeTimezone = office.timezone
+            }
+
         }
 
         this.state = {
-            officeTimezone: office.timezone,
+            officeTimezone: officeTimezone,
             activeSlot: "morning"
         }
     }

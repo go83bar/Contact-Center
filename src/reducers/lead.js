@@ -109,6 +109,7 @@ export function lead(state = initialState, action) {
                     return {
                         ...existingReward,
                         last_resent_at: action.data.lastResentAt,
+                        last_sent_to: action.data.sentTo,
                         resendable: false
                     }
                 }
@@ -116,9 +117,19 @@ export function lead(state = initialState, action) {
                 return existingReward
             })
 
+            const newResend = {
+                reward_campaign: action.data.campaign,
+                interaction_id: action.data.interactionID,
+                sent_to: action.data.sentTo,
+                created_at: action.data.lastResentAt
+            }
+
+            const newResends = [...state.reward_resends, newResend]
+
             return {
                 ...state,
-                rewards: newRewards
+                rewards: newRewards,
+                reward_resends: newResends
             }
 
         // called when user saves updates to client responses

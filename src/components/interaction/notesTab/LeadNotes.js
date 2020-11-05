@@ -239,7 +239,7 @@ class LeadNotes extends Component {
                         {!this.state.createNote && <MDBBtn
                             rounded
                             color="primary"
-                            className="float-right shadow-sm"
+                            className="float-left shadow-sm"
                             onClick={this.createNote}
                         >
                             {this.props.localization.interaction.notes.createNote}

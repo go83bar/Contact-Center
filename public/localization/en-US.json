@@ -119,14 +119,15 @@
         "homeLabel": "Home phone:"
       },
       "callStatuses": {
-        "connecting": "Connecting...",
-        "ringing": "Ringing",
+        "busy": "Line Busy",
+        "callFailed": "Call Failed",
         "connected": "Connected",
-        "notConnected": "Not Connected",
+        "connecting": "Connecting...",
         "incoming": "Calling In...",
         "onHold": "On Hold",
+        "notConnected": "Not Connected",
         "noAnswer": "No Answer",
-        "callFailed": "Call Failed"
+        "ringing": "Ringing"
       }
     },
     "details": {
@@ -203,9 +204,13 @@
     "rewards": {
       "tabTitle": "Gift Cards",
       "lastResentAt": "last sent again on ",
+      "sentTo": "Sent to ",
+      "lastResentTo": "Last resent to ",
       "createdAt": "sent on ",
       "amountDisplay": "$;",
       "buttonLabelResend": "Resend Gift Card",
+      "confirmTitle": "Gift cards are sent by email. Did you verify the lead's current email?",
+      "confirmEmail": "Email is currently: $",
       "buttonLabelSent": "Sent",
       "buttonLabelResending": "Resending...",
       "buttonLabelCannotResend": "Cannot Resend",
@@ -343,7 +348,13 @@
       "reward": {
         "lastResentAt": "last sent again on ",
         "createdAt": "sent on ",
+        "sentTo": "Sent to ",
         "amountDisplay": "$;"
+      },
+      "rewardResend": {
+        "createdAt": "resent on ",
+        "resentLabel": "Resent",
+        "sentTo": "Sent to "
       },
       "appointment": {
         "startTime": "Start time: ",
@@ -739,7 +750,8 @@
       "statusUpdated": "Appointment status updated!",
       "statusFailed": "Appointment status could not be updated! Please try again or notify app issues.",
       "verified": "Appointment verified",
-      "verifyFailed": "Appointment could not be verified! Please try again or notify app issues."
+      "verifyFailed": "Appointment could not be verified! Please try again or notify app issues.",
+      "officeMissing": "Office information was not found in your client data, you may need to log back in."
     },
     "documents": {
       "documentEdited": "Document Saved",
@@ -773,7 +785,9 @@
       }
     },
     "leadSummary": {
-      "leadRefreshed": "Lead Information refreshed!"
+      "genericConnectionError": "Telephonic connection cannot be opened. Please alert dev.",
+      "leadRefreshed": "Lead Information refreshed!",
+      "optOutError": "Lead has opted out of phone calls, cannot connect to telephone system."
     },
     "mergeLead": {
       "leadLoadError": "Could not load selected lead! Please notify app issues!",
@@ -805,7 +819,8 @@
       "playTonesFailed": "Keypad input not accepted, please try again!",
       "providerDialFailed": "Provider couldn't be dialed. Please check the number and try again!",
       "checkStatusFailed": "Check Status has failed!",
-      "checkStatusUpdated": "Call Statuses Updated!"
+      "checkStatusUpdated": "Call Statuses Updated!",
+      "noPhoneNumber": "Lead has no phone numbers!"
     },
     "timeline": {
       "email": {

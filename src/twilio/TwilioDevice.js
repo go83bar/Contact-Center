@@ -108,7 +108,7 @@ class TwilioDeviceSingleton {
     // LEAD ACTIONS
     dialLead(dialOption) {
         const redux = store.getState()
-        TwilioAPI.dialLead(dialOption).then( response => {
+        return TwilioAPI.dialLead(dialOption).then( response => {
             if (response.call_sid !== undefined && response.call_sid !== "") {
                 store.dispatch(leadDialed(response.call_sid))
                 console.log("Lead call initiated")
@@ -155,7 +155,7 @@ class TwilioDeviceSingleton {
 
     disconnectLead() {
         const redux = store.getState()
-        TwilioAPI.disconnectCall(redux.twilio.leadCallSID).then( response => {
+        return TwilioAPI.disconnectCall(redux.twilio.leadCallSID).then( response => {
             if (response.success === true) {
                 console.log("DISCONNECTED THE LEAD")
             }
@@ -163,7 +163,7 @@ class TwilioDeviceSingleton {
     }
 
     playAutoVM() {
-        TwilioAPI.playAutoVM().then( response => {
+        return TwilioAPI.playAutoVM().then( response => {
             console.log(response)
             this.disconnect()
         }).catch( reason => {
@@ -175,7 +175,7 @@ class TwilioDeviceSingleton {
     }
 
     holdLead() {
-        TwilioAPI.holdLead().then( response => {
+        return TwilioAPI.holdLead().then( response => {
             console.log(response)
             store.dispatch(leadPutOnHold())
         }).catch ( reason => {
@@ -184,7 +184,7 @@ class TwilioDeviceSingleton {
     }
 
     unholdLead() {
-        TwilioAPI.unholdLead().then( response => {
+        return TwilioAPI.unholdLead().then( response => {
             console.log(response)
             store.dispatch(leadRemoveHold())
         }).catch ( reason => {
@@ -197,7 +197,7 @@ class TwilioDeviceSingleton {
 
     // AGENT ACTIONS
     pauseRecording() {
-        TwilioAPI.modifyRecording("paused").then( response => {
+        return TwilioAPI.modifyRecording("paused").then( response => {
             console.log(response)
             store.dispatch(recordingPaused())
         }).catch( reason => {
@@ -208,7 +208,7 @@ class TwilioDeviceSingleton {
     }
 
     resumeRecording() {
-        TwilioAPI.modifyRecording("in-progress").then( response => {
+        return TwilioAPI.modifyRecording("in-progress").then( response => {
             console.log(response)
             store.dispatch(recordingResumed())
         }).catch( reason => {
@@ -237,7 +237,7 @@ class TwilioDeviceSingleton {
     // PROVIDER ACTIONS
     dialProvider(officeID, officeNumber) {
         const redux = store.getState()
-        TwilioAPI.dialProvider(officeID, officeNumber).then( response => {
+        return TwilioAPI.dialProvider(officeID, officeNumber).then( response => {
             if (response.call_sid !== undefined && response.call_sid !== "") {
                 store.dispatch(providerDialed(response.call_sid))
                 console.log("Provider call inititiated")
@@ -254,7 +254,7 @@ class TwilioDeviceSingleton {
 
     disconnectProvider() {
         const redux = store.getState()
-        TwilioAPI.disconnectCall(redux.twilio.providerCallSID).then( response => {
+        return TwilioAPI.disconnectCall(redux.twilio.providerCallSID).then( response => {
             if (response.success === true) {
                 console.log("DISCONNECTED THE PROVIDER")
             }
@@ -266,7 +266,7 @@ class TwilioDeviceSingleton {
     }
 
     transferHandoff() {
-        TwilioAPI.transferHandoff().then( response => {
+        return TwilioAPI.transferHandoff().then( response => {
             if (response.success === true) {
                 console.log("PERFORMED HANDOFF")
                 this.disconnect()

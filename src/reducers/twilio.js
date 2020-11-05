@@ -6,7 +6,8 @@ const callStatuses = {
     incoming: "incoming",
     ringing: "ringing",
     noAnswer: "noAnswer",
-    callFailed: "callFailed"
+    callFailed: "callFailed",
+    busy: "busy"
 }
 
 const disconnectedStatuses = [
@@ -17,6 +18,7 @@ const disconnectedStatuses = [
 
 const initialState = {
     deviceReady: false,
+    autoVoicemailURL: false,
     incomingCallQueue: [],
     interactionIncomingCallSID: "",
     callbarVisible: false,
@@ -29,18 +31,18 @@ const initialState = {
     providerCallSID: "",
     providerCallStatus: callStatuses.notConnected,
     recordingPaused: false,
-    leadDialButtonEnabled: false,
-    leadHoldButtonEnabled: false,
-    leadUnHoldButtonEnabled: false,
-    leadVoicemailButtonEnabled: false,
-    leadDisconnectButtonEnabled: false,
-    agentPauseButtonEnabled: false,
-    agentResumeButtonEnabled: false,
-    agentDisconnectButtonEnabled: false,
-    agentKeypadButtonEnabled: false,
-    providerDialButtonEnabled: false,
-    providerTransferButtonEnabled: false,
-    providerDisconnectButtonEnabled: false
+    leadDialButtonVisible: false,
+    leadHoldButtonVisible: false,
+    leadUnHoldButtonVisible: false,
+    leadVoicemailButtonVisible: false,
+    leadDisconnectButtonVisible: false,
+    agentPauseButtonVisible: false,
+    agentResumeButtonVisible: false,
+    agentDisconnectButtonVisible: false,
+    agentKeypadButtonVisible: false,
+    providerDialButtonVisible: false,
+    providerTransferButtonVisible: false,
+    providerDisconnectButtonVisible: false,
 }
 
 // Reducer for handling twilio actions
@@ -48,19 +50,32 @@ export function twilio(state = initialState, action) {
     let transferEnabled = false
 
     switch (action.type) {
+        // Interaction actions
+        case 'LEAD.LOAD':
+            return Object.assign({}, state, {
+                autoVoicemailURL: action.payload.auto_voicemail
+            })
+
+        case 'INTERACTION.END':
+            // reset state of callbar items at end of interaction, just in case
+            return Object.assign({}, state, {
+                ...initialState,
+                deviceReady: state.deviceReady
+            })
+
         // Device actions
         case 'TWILIO.DEVICE.INIT':
             return Object.assign({}, state, {
                 deviceReady: true,
             })
         case 'TWILIO.DEVICE.CONNECTED':
-            let leadDialButtonEnabled = true
+            let leadDialButtonVisible = true
             let leadConnectIncomingButtonEnabled = false
             let leadCallStatus = callStatuses.notConnected
             let leadCallSID = ""
 
             if (action.payload.incomingCallMode === true) {
-                leadDialButtonEnabled = false
+                leadDialButtonVisible = false
                 leadConnectIncomingButtonEnabled = true
                 leadCallStatus = callStatuses.incoming
                 leadCallSID = action.payload.incomingCallSID   
@@ -69,14 +84,14 @@ export function twilio(state = initialState, action) {
             return Object.assign({}, state, {
                 agentCallSID: action.payload.callSID,
                 conferenceOID: action.payload.conferenceOID,
-                leadDialButtonEnabled,
+                leadDialButtonVisible,
                 leadConnectIncomingButtonEnabled,
                 leadCallStatus,
                 leadCallSID,
                 interactionIncomingCallSID: "",
-                providerDialButtonEnabled: true,
-                agentKeypadButtonEnabled: true,
-                agentDisconnectButtonEnabled: true,
+                providerDialButtonVisible: true,
+                agentKeypadButtonVisible: true,
+                agentDisconnectButtonVisible: true,
                 callbarVisible: true,
             })
         case 'TWILIO.DEVICE.DISCONNECTED':
@@ -128,29 +143,29 @@ export function twilio(state = initialState, action) {
         case 'TWILIO.CONFERENCE.STARTED':
             return Object.assign({}, state, {
                 conferenceSID: action.conferenceSID,
-                agentPauseButtonEnabled: true
+                agentPauseButtonVisible: true
             })
 
         case 'TWILIO.RECORDING.PAUSE':
             return Object.assign({}, state, {
-                agentPauseButtonEnabled: false,
-                agentResumeButtonEnabled: true,
-                leadDisconnectButtonEnabled: false,
-                agentDisconnectButtonEnabled: false,
+                agentPauseButtonVisible: false,
+                agentResumeButtonVisible: true,
+                leadDisconnectButtonVisible: false,
+                agentDisconnectButtonVisible: false,
                 recordingPaused: true,
             })
         case 'TWILIO.RECORDING.RESUME':
             // definitely do these
             let newState = {
-                agentPauseButtonEnabled: true,
-                agentResumeButtonEnabled: false,
-                agentDisconnectButtonEnabled: true,
+                agentPauseButtonVisible: true,
+                agentResumeButtonVisible: false,
+                agentDisconnectButtonVisible: true,
                 recordingPaused: false,
             }
 
             // determine if we need to light up the lead disconnect
             if (state.leadCallStatus !== callStatuses.notConnected) {
-                newState.leadDisconnectButtonEnabled = true
+                newState.leadDisconnectButtonVisible = true
             }
             return Object.assign({}, state, newState)
         case 'TWILIO.DIALPAD.SHOW':
@@ -164,12 +179,12 @@ export function twilio(state = initialState, action) {
         case 'TWILIO.LEAD.ONHOLD':
             return Object.assign({}, state, {
                 leadCallStatus: callStatuses.onHold,
-                leadDialButtonEnabled: false,
-                leadHoldButtonEnabled: false,
-                leadUnHoldButtonEnabled: true,
-                leadVoicemailButtonEnabled: false,
-                leadDisconnectButtonEnabled: false,
-                agentDisconnectButtonEnabled: false,
+                leadDialButtonVisible: false,
+                leadHoldButtonVisible: false,
+                leadUnHoldButtonVisible: true,
+                leadVoicemailButtonVisible: false,
+                leadDisconnectButtonVisible: false,
+                agentDisconnectButtonVisible: false,
             })
         case 'TWILIO.LEAD.OFFHOLD':
             // sometimes we're taking them off hold because we dialed a provider
@@ -179,13 +194,13 @@ export function twilio(state = initialState, action) {
 
             return Object.assign({}, state, {
                 leadCallStatus: callStatuses.connected,
-                leadDialButtonEnabled: false,
-                leadHoldButtonEnabled: true,
-                leadUnHoldButtonEnabled: false,
-                leadVoicemailButtonEnabled: true,
-                leadDisconnectButtonEnabled: true,
-                agentDisconnectButtonEnabled: true,
-                providerTransferButtonEnabled: transferEnabled
+                leadDialButtonVisible: false,
+                leadHoldButtonVisible: true,
+                leadUnHoldButtonVisible: false,
+                leadVoicemailButtonVisible: true,
+                leadDisconnectButtonVisible: true,
+                agentDisconnectButtonVisible: true,
+                providerTransferButtonVisible: transferEnabled
             })
 
         // Lead connection actions
@@ -193,41 +208,43 @@ export function twilio(state = initialState, action) {
             return Object.assign({}, state, {
                 leadCallSID: action.callSID,
                 leadCallStatus: callStatuses.connecting,
-                leadDialButtonEnabled: false,
-                leadHoldButtonEnabled: false,
-                leadUnHoldButtonEnabled: false,
-                leadVoicemailButtonEnabled: false,
-                leadDisconnectButtonEnabled: true,
-                agentDisconnectButtonEnabled: false,
+                leadDialButtonVisible: false,
+                leadHoldButtonVisible: false,
+                leadUnHoldButtonVisible: false,
+                leadVoicemailButtonVisible: false,
+                leadDisconnectButtonVisible: true,
+                agentDisconnectButtonVisible: false,
             })
         case 'TWILIO.LEAD.RINGING':
             return Object.assign({}, state, {
                 leadCallStatus: callStatuses.ringing,
-                leadDialButtonEnabled: false,
-                leadHoldButtonEnabled: false,
-                leadUnHoldButtonEnabled: false,
-                leadVoicemailButtonEnabled: false,
-                leadDisconnectButtonEnabled: true,
-                agentDisconnectButtonEnabled: false,
+                leadDialButtonVisible: false,
+                leadHoldButtonVisible: false,
+                leadUnHoldButtonVisible: false,
+                leadVoicemailButtonVisible: false,
+                leadDisconnectButtonVisible: true,
+                agentDisconnectButtonVisible: false,
             })
         case 'TWILIO.LEAD.CONNECTED':
             return Object.assign({}, state, {
                 interactionIncomingCallSID: "",
                 leadCallSID: action.callSID,
                 leadCallStatus: callStatuses.connected,
-                leadDialButtonEnabled: false,
+                leadDialButtonVisible: false,
                 leadConnectIncomingButtonEnabled: false,
-                leadDisconnectButtonEnabled: true,
-                leadVoicemailButtonEnabled: true,
-                leadHoldButtonEnabled: true,
-                leadUnHoldButtonEnabled: false,
-                agentPauseButtonEnabled: true,
-                agentDisconnectButtonEnabled: false,
+                leadDisconnectButtonVisible: true,
+                leadVoicemailButtonVisible: true,
+                leadHoldButtonVisible: true,
+                leadUnHoldButtonVisible: false,
+                agentPauseButtonVisible: true,
+                agentDisconnectButtonVisible: false,
             })
         case 'TWILIO.LEAD.DISCONNECTED':
             return Object.assign({}, state, generateLeadDisconnectedState(callStatuses.notConnected, disconnectedStatuses.includes(state.providerCallStatus)))
         case 'TWILIO.LEAD.NOANSWER':
             return Object.assign({}, state, generateLeadDisconnectedState(callStatuses.noAnswer, disconnectedStatuses.includes(state.providerCallStatus)))
+        case 'TWILIO.LEAD.BUSY':
+            return Object.assign({}, state, generateLeadDisconnectedState(callStatuses.busy, disconnectedStatuses.includes(state.providerCallStatus)))
         case 'TWILIO.LEAD.CALLFAILED':
             return Object.assign({}, state, generateLeadDisconnectedState(callStatuses.callFailed, disconnectedStatuses.includes(state.providerCallStatus)))
 
@@ -236,16 +253,16 @@ export function twilio(state = initialState, action) {
             return Object.assign({}, state, {
                 providerCallSID: action.callSID,
                 providerCallStatus: callStatuses.connecting,
-                providerDialButtonEnabled: false,
-                providerDisconnectButtonEnabled: true,
-                agentDisconnectButtonEnabled: false,
+                providerDialButtonVisible: false,
+                providerDisconnectButtonVisible: true,
+                agentDisconnectButtonVisible: false,
             })
         case 'TWILIO.PROVIDER.RINGING':
             return Object.assign({}, state, {
                 providerCallStatus: callStatuses.ringing,
-                providerDialButtonEnabled: false,
-                providerDisconnectButtonEnabled: true,
-                agentDisconnectButtonEnabled: false,
+                providerDialButtonVisible: false,
+                providerDisconnectButtonVisible: true,
+                agentDisconnectButtonVisible: false,
             })
         case 'TWILIO.PROVIDER.CONNECTED':
             // if the lead is connected when the provider connects, show the transfer button
@@ -255,15 +272,17 @@ export function twilio(state = initialState, action) {
             return Object.assign({}, state, {
                 providerCallSID: action.callSID,
                 providerCallStatus: callStatuses.connected,
-                providerDialButtonEnabled: false,
-                providerDisconnectButtonEnabled: true,
-                providerTransferButtonEnabled: transferEnabled,
-                agentDisconnectButtonEnabled: false,
+                providerDialButtonVisible: false,
+                providerDisconnectButtonVisible: true,
+                providerTransferButtonVisible: transferEnabled,
+                agentDisconnectButtonVisible: false,
             })
         case 'TWILIO.PROVIDER.DISCONNECTED':
             return Object.assign({}, state, generateProviderDisconnectedState(callStatuses.notConnected, disconnectedStatuses.includes(state.leadCallStatus)))
         case 'TWILIO.PROVIDER.NOANSWER':
             return Object.assign({}, state, generateProviderDisconnectedState(callStatuses.noAnswer, disconnectedStatuses.includes(state.leadCallStatus)))
+        case 'TWILIO.PROVIDER.BUSY':
+            return Object.assign({}, state, generateProviderDisconnectedState(callStatuses.busy, disconnectedStatuses.includes(state.leadCallStatus)))
         case 'TWILIO.PROVIDER.CALLFAILED':
             return Object.assign({}, state, generateProviderDisconnectedState(callStatuses.callFailed, disconnectedStatuses.includes(state.leadCallStatus)))
 
@@ -278,14 +297,14 @@ const generateLeadDisconnectedState = (newStatus, enableAgentDisconnect) => {
     return {
         leadCallSID: "",
         leadCallStatus: newStatus,
-        leadDialButtonEnabled: true,
-        leadDisconnectButtonEnabled: false,
-        leadHoldButtonEnabled: false,
-        leadUnHoldButtonEnabled: false,
-        leadVoicemailButtonEnabled: false,
-        agentDisconnectButtonEnabled: enableAgentDisconnect,
-        agentPauseButtonEnabled: false,
-        agentResumeButtonEnabled: false
+        leadDialButtonVisible: true,
+        leadDisconnectButtonVisible: false,
+        leadHoldButtonVisible: false,
+        leadUnHoldButtonVisible: false,
+        leadVoicemailButtonVisible: false,
+        agentDisconnectButtonVisible: enableAgentDisconnect,
+        agentPauseButtonVisible: false,
+        agentResumeButtonVisible: false
     }
 }
 
@@ -293,10 +312,10 @@ const generateProviderDisconnectedState = (newStatus, enableAgentDisconnect) => 
     return {
         providerCallSID: "",
         providerCallStatus: newStatus,
-        providerDialButtonEnabled: true,
-        providerDisconnectButtonEnabled: false,
-        providerTransferButtonEnabled: false,
-        agentDisconnectButtonEnabled: enableAgentDisconnect
+        providerDialButtonVisible: true,
+        providerDisconnectButtonVisible: false,
+        providerTransferButtonVisible: false,
+        agentDisconnectButtonVisible: enableAgentDisconnect
     }
 
 }

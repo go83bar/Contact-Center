@@ -4,6 +4,24 @@
   .#{$skin}-skin {
 
     // START  ****** Put Custom Classes Here ******
+    .skin-callbar-background-color {
+      background-color: map-get($data, skin-callbar-bg) !important;
+    }
+    .skin-callbar-background-lighten {
+      background-color: map-get($data, skin-callbar-bg-lighten) !important;
+    }
+    .skin-callbar-icon-darken {
+      color: map-get($data, skin-callbar-icon-darken) !important;
+    }
+    .skin-callbar-danger-background-color {
+      color: map-get($data, skin-callbar-danger) !important;
+    }
+    .skin-callbar-danger-background-lighten {
+      color: map-get($data, skin-callbar-danger-bg) !important;
+    }
+    .skin-callbar-danger-color {
+      color: map-get($data, skin-callbar-danger) !important;
+    }
     .skin-primary-color {
       color: map-get($data, skin-primary-color) !important;
     }

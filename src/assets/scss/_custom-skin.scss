@@ -4,23 +4,28 @@ $skins: () !default;
 $skins: map-merge(
   (
           "eightthree": (
-                  "skin-primary-color":      #43C7B6,
+                  "skin-primary-color":      #43C7B7,
                   "skin-navbar":             #222,
                   "skin-footer-color":       #222,
                   "skin-accent":             #F77359,
                   "skin-flat":               #222,
-                  "skin-sidenav-item":       #43C7B6,
-                  "skin-sidenav-item-hover": #43C7B6,
+                  "skin-sidenav-item":       #43C7B7,
+                  "skin-sidenav-item-hover": #43C7B7,
                   "skin-gradient-start":     #000,
                   "skin-gradient-end":       #616161,
                   "skin-mask-slight":        rgba($black, .5),
                   "skin-mask-light":         rgba($black, .65),
                   "skin-mask-strong":        rgba($black, .8),
-                  "skin-sn-child":           #43C7B6,
-                  "skin-btn-primary":        #43C7B6,
+                  "skin-sn-child":           #43C7B7,
+                  "skin-btn-primary":        #43C7B7,
                   "skin-btn-secondary":      #212E60,
-                  "skin-btn-default":        #43C7B6,
-                  "skin-text":               $white
+                  "skin-btn-default":        #43C7B7,
+                  "skin-text":               $white,
+                  "skin-callbar-bg":         #E8F6F5,
+                  "skin-callbar-bg-lighten": rgba(255, 255, 255, .7),
+                  "skin-callbar-icon-darken":#e4f6f4,
+                  "skin-callbar-danger":     #CF522E,
+                  "skin-callbar-danger-bg":  #EDC7BE
           ),
           "eightthreeb": (
                   "skin-primary-color":      #43C7B6,
@@ -39,7 +44,13 @@ $skins: map-merge(
                   "skin-btn-primary":        #43C7B6,
                   "skin-btn-secondary":      #127C9E,
                   "skin-btn-default":        #43C7B6,
-                  "skin-text":               $white
+                  "skin-text":               $white,
+                  "skin-callbar-bg":         #E8F6F5,
+                  "skin-callbar-bg-lighten": rgba(255, 255, 255, .7),
+                  "skin-callbar-icon-darken":rgba(69, 199, 183, .1),
+                  "skin-callbar-danger":     #CF522E,
+                  "skin-callbar-danger-bg":  rgba(207, 82, 46, .3)
+
           ),
           "eightthreec": (
                   "skin-primary-color":      #43C7B6,
@@ -58,7 +69,13 @@ $skins: map-merge(
                   "skin-btn-primary":        #43C7B6,
                   "skin-btn-secondary":      #1468B5,
                   "skin-btn-default":        #43C7B6,
-                  "skin-text":               $white
+                  "skin-text":               $white,
+                  "skin-callbar-bg":         #E8F6F5,
+                  "skin-callbar-bg-lighten": rgba(255, 255, 255, .7),
+                  "skin-callbar-icon-darken":rgba(69, 199, 183, .1),
+                  "skin-callbar-danger":     #CF522E,
+                  "skin-callbar-danger-bg":  rgba(207, 82, 46, .3)
+
           ),
           "eightthreed": (
                   "skin-primary-color":      #43C7B6,
@@ -77,7 +94,13 @@ $skins: map-merge(
                   "skin-btn-primary":        #43C7B6,
                   "skin-btn-secondary":      #212E60,
                   "skin-btn-default":        #43C7B6,
-                  "skin-text":               $white
+                  "skin-text":               $white,
+                  "skin-callbar-bg":         #E8F6F5,
+                  "skin-callbar-bg-lighten": rgba(255, 255, 255, .7),
+                  "skin-callbar-icon-darken":rgba(69, 199, 183, .1),
+                  "skin-callbar-danger":     #CF522E,
+                  "skin-callbar-danger-bg":  rgba(207, 82, 46, .3)
+
           ),
           "eightthreee": (
                   "skin-primary-color":      #43C7B6,
@@ -96,7 +119,13 @@ $skins: map-merge(
                   "skin-btn-primary":        #43C7B6,
                   "skin-btn-secondary":      #127C9E,
                   "skin-btn-default":        #43C7B6,
-                  "skin-text":               $white
+                  "skin-text":               $white,
+                  "skin-callbar-bg":         #E8F6F5,
+                  "skin-callbar-bg-lighten": rgba(255, 255, 255, .7),
+                  "skin-callbar-icon-darken":rgba(69, 199, 183, .1),
+                  "skin-callbar-danger":     #CF522E,
+                  "skin-callbar-danger-bg":  rgba(207, 82, 46, .3)
+
           ),
           "eightthreef": (
                   "skin-primary-color":      #43C7B6,
@@ -115,7 +144,13 @@ $skins: map-merge(
                   "skin-btn-primary":        #43C7B6,
                   "skin-btn-secondary":      #1468B5,
                   "skin-btn-default":        #43C7B6,
-                  "skin-text":               $white
+                  "skin-text":               $white,
+                  "skin-callbar-bg":         #E8F6F5,
+                  "skin-callbar-bg-lighten": rgba(255, 255, 255, .7),
+                  "skin-callbar-icon-darken":rgba(69, 199, 183, .1),
+                  "skin-callbar-danger":     #CF522E,
+                  "skin-callbar-danger-bg":  rgba(207, 82, 46, .3)
+
           ),
   ),
   $skins

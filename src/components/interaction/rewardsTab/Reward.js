@@ -1,10 +1,18 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCircle as faCircleSolid, faGift,} from "@fortawesome/pro-solid-svg-icons";
+import {faCircle as faCircleSolid, faGift} from "@fortawesome/pro-solid-svg-icons";
 import {faCircle} from "@fortawesome/pro-light-svg-icons";
 import moment from "moment-timezone";
-import {MDBBox, MDBBtn, MDBCard} from "mdbreact";
+import {
+    MDBBox,
+    MDBBtn,
+    MDBCard,
+    MDBModal,
+    MDBModalBody,
+    MDBModalFooter,
+    MDBModalHeader,
+} from "mdbreact";
 import AgentAPI from "../../../api/agentAPI";
 import {toast} from "react-toastify";
 
@@ -19,6 +27,7 @@ class Reward extends Component {
 
         this.state = {
             disableResend: !props.reward.resendable,
+            confirmVisible: false,
             resendButtonLabel: this.props.localization.interaction.rewards[buttonLabelLocalizationName]
         }
     }
@@ -31,10 +40,18 @@ class Reward extends Component {
                     type: "LEAD.REWARD_RESENT",
                     data: {
                         rewardID: this.props.reward.id,
+                        interactionID: this.props.interaction.id,
+                        sentTo: this.props.lead.details.email,
+                        campaign: this.props.reward.campaign,
                         lastResentAt: moment.utc().format("YYYY-MM-DD hh:mm:ss")
                     }
                 })
-                this.setState({resendButtonLabel: this.props.localization.interaction.rewards.buttonLabelSent})
+
+                this.setState({
+                    resendButtonLabel: this.props.localization.interaction.rewards.buttonLabelSent,
+                    confirmVisible: false
+                })
+
                 toast.success(this.props.localization.toast.rewards.resent)
             } else {
                 toast.error(this.props.localization.toast.rewards.notResent)
@@ -51,6 +68,10 @@ class Reward extends Component {
         })
     }
 
+    toggleConfirm = () => {
+        this.setState({confirmVisible: !this.state.confirmVisible})
+    }
+
     render() {
         const timezone = this.props.lead.details.timezone
         const localization = this.props.localization.interaction.rewards
@@ -64,20 +85,23 @@ class Reward extends Component {
             <MDBCard className="d-flex w-100 shadow-sm border-0 mb-2">
                 <MDBBox className="d-flex backgroundColorInherit skin-border-primary f-m w-100">
                     <div className="d-flex p-1 px-3 w-100 skin-border-primary timelineCardHeader">
-                        <MDBBox className="w-75 p-2 d-flex">
+                        <MDBBox className="p-2 d-flex">
                             <span className="fa-layers fa-fw fa-3x mt-2">
                                 <FontAwesomeIcon icon={faCircleSolid} className="text-white"/>
                                 <FontAwesomeIcon icon={faCircle} className={"skin-primary-color"}/>
                                 <FontAwesomeIcon icon={faGift} transform={"shrink-8"} className={"darkIcon"}/>
                             </span>
-                            <div className="d-flex p-2 flex-column text-left w-50">
+                            <div className="d-flex flex-grow-1 p-2 flex-column text-left">
                                 <span className="f-l font-weight-bold">{this.props.reward.campaign} / {localization.amountDisplay.replace(";", this.props.reward.amount)}</span>
-                                <div><MDBBtn rounded onClick={this.resendReward} className="btn-primary w-50" disabled={this.state.disableResend}>{this.state.resendButtonLabel}</MDBBtn></div>
+                                <div>{localization.sentTo}{this.props.reward.original_sent_to}</div>
+                                {this.props.reward.last_sent_to && <div>{localization.lastResentTo}{this.props.reward.last_sent_to}</div>}
+                                <div><MDBBtn rounded onClick={this.toggleConfirm} className="btn-primary" disabled={this.state.disableResend}>{this.state.resendButtonLabel}</MDBBtn></div>
                                 {!this.props.reward.resendable && <div className="text-muted font-italic">{localization.timelockMessage}</div>}
                             </div>
 
                         </MDBBox>
-                        <MDBBox className="d-flex w-25 p-2 f-s flex-column text-right justify-content-start grey-text">
+                        <MDBBox className="ml-auto d-flex p-2 f-s flex-column text-right justify-content-start grey-text">
+                            <span className="font-weight-bold skin-secondary-color">{this.props.reward.status}</span>
                             {resendTime && <span>{localization.lastResentAt}<span
                                 className="font-weight-bold">{resendTime.format("MMM D")}</span>, {resendTime.format("h:mm a z")}</span>}
                             <span>{localization.createdAt} <span
@@ -85,6 +109,27 @@ class Reward extends Component {
                         </MDBBox>
                     </div>
                 </MDBBox>
+                <MDBModal isOpen={this.state.confirmVisible} toggle={this.toggleConfirm} size="lg" >
+                    <MDBModalHeader>{localization.confirmTitle}</MDBModalHeader>
+                    <MDBModalBody >
+                        <p>{localization.confirmEmail.replace('$', this.props.lead.details.email)}</p>
+                    </MDBModalBody>
+                    <MDBModalFooter className="p-1 d-flex justify-content-end">
+
+                        <MDBBtn color="secondary"
+                                rounded
+                                outline
+                                onClick={this.toggleConfirm}>
+                            {this.props.localization.buttonLabels.cancel}
+                        </MDBBtn>
+                        <MDBBtn color="secondary"
+                                rounded
+                                onClick={this.resendReward}>
+                            {this.props.localization.buttonLabels.send}
+                        </MDBBtn>
+                    </MDBModalFooter>
+                </MDBModal>
+
             </MDBCard>
         )
     }
@@ -96,6 +141,7 @@ const mapStateToProps = state => {
         localization: state.localization,
         lead: state.lead,
         shift: state.shift,
+        interaction: state.interaction,
         user: state.user
     }
 }

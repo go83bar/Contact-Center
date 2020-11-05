@@ -1,24 +1,19 @@
 import React, {Component} from 'react'
-import {
-    MDBBox,
-    MDBNav,
-    MDBNavItem,
-    MDBNavLink
-} from "mdbreact";
+import {MDBBox, MDBNav, MDBNavItem, MDBNavLink} from "mdbreact";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faPhone} from '@fortawesome/free-solid-svg-icons'
 import {faCircle} from "@fortawesome/pro-light-svg-icons"
 import {
-    faCircle as faCircleSolid,
-    faPause,
-    faVoicemail,
-    faRandom,
-    faHandPaper,
     faCheck,
-    faTh
+    faCircle as faCircleSolid,
+    faHandPaper,
+    faPause,
+    faRandom,
+    faTh,
+    faVoicemail
 } from "@fortawesome/pro-solid-svg-icons"
 import {connect} from "react-redux"
-import { TwilioDevice } from '../../../twilio/TwilioDevice'
+import {TwilioDevice} from '../../../twilio/TwilioDevice'
 import ProviderChoices from './ProviderChoices'
 import Keypad from './Keypad'
 import DialChoice from './DialChoice'
@@ -34,13 +29,22 @@ class CallBar extends Component {
 
         this.state = {
             checkStatusOutlineColor: "skin-primary-color",
-            checkStatusTextColor: "skin-secondary-color",
+            checkStatusTextColor: "skin-primary-color",
             checkStatusLabel: props.localization.interaction.callbar.checkStatusLabel,
             checkStatusDisabled: false,
-            connectIncomingIconColor: "skin-text",
+            connectIncomingIconColor: "white-text",
             connectIncomingTextColor: "text-danger",
             connectIncomingLabel: props.localization.interaction.callbar.connectIncomingLabel,
             connectIncomingDisabled: false,
+            dialLeadDisabled: false,
+            holdLeadDisabled: false,
+            unholdLeadDisabled: false,
+            handoffDisabled: false,
+            disconnectLeadDisabled: false,
+            disconnectProviderDisabled: false,
+            pauseRecordingDisabled: false,
+            resumeRecordingDisabled: false,
+            autovmDisabled: false,
             providerChoicesVisible: false,
             dialChoiceVisible: false,
             keypadVisible: false,
@@ -113,6 +117,15 @@ class CallBar extends Component {
     }
 
     dialLead = () => {
+        // check for doubletap
+        if (this.state.callLeadDisabled) {
+            console.log("nope")
+            return
+        }
+
+        // set the doubletap protection
+        this.setState({callLeadDisabled: true})
+
         // if lead only has one number, dial that number. If they have both, pop a DialChoice modal
         let hasCell = false
         let hasHome = false
@@ -121,13 +134,28 @@ class CallBar extends Component {
         if (cellPhone !== undefined && cellPhone !== "" && cellPhone !== null) hasCell = true
         if (homePhone !== undefined && homePhone !== "" && homePhone !== null) hasHome = true
 
-        if (hasCell && !hasHome) {
-            TwilioDevice.dialLead("cell")
-        } else if (hasHome && !hasCell) {
-            TwilioDevice.dialLead("home")
-        } else if (hasHome && hasCell) {
-            this.setState({ dialChoiceVisible: true })
+        // this shouldn't happen but who knows
+        if (!hasHome && !hasCell) {
+            toast(this.props.localization.toast.twilio.noPhoneNumber)
+            this.setState({callLeadDisabled: false})
+            return
         }
+
+        if (hasHome && hasCell) {
+            this.setState({ dialChoiceVisible: true })
+        } else {
+            let dialOption = "home"
+            if (hasCell && !hasHome) {
+                dialOption = "cell"
+            }
+            this.performDial(dialOption)
+        }
+    }
+
+    performDial = (dialOption) => {
+        TwilioDevice.dialLead(dialOption).then( response => {
+            this.setState({callLeadDisabled: false})
+        })
     }
 
     answerIncoming = () => {
@@ -165,24 +193,48 @@ class CallBar extends Component {
     }
 
     holdLead = () => {
-        TwilioDevice.holdLead()
+        if (this.state.holdLeadDisabled) {
+            return
+        }
+        this.setState({holdLeadDisabled: true})
+        TwilioDevice.holdLead().then( response => {
+            this.setState({holdLeadDisabled: false})
+        })
     }
 
     unholdLead = () => {
-        TwilioDevice.unholdLead()
+        if (this.state.unholdLeadDisabled) {
+            return
+        }
+        this.setState({unholdLeadDisabled: true})
+        TwilioDevice.unholdLead().then( response => {
+            this.setState({unholdLeadDisabled: false})
+        })
     }
 
     playAutoVoicemail = () => {
-        TwilioDevice.playAutoVM()
+        if (this.state.autovmDisabled) {
+            return
+        }
+        this.setState({autovmDisabled: true})
+        TwilioDevice.playAutoVM().then( response => {
+            this.setState({autovmDisabled: false})
+        })
     }
 
     disconnectLead = () => {
-        TwilioDevice.disconnectLead()
-
-        // if there is no provider connection, also hang up the conference itself
-        if (this.props.twilio.providerCallSID === "" || this.props.twilio.providerCallSID === undefined) {
-            this.agentDisconnect()
+        if (this.state.disconnectLeadDisabled) {
+            return
         }
+        this.setState({disconnectLeadDisabled: true})
+        TwilioDevice.disconnectLead().then( response => {
+            // if there is no provider connection, also hang up the conference itself
+            if (this.props.twilio.providerCallSID === "" || this.props.twilio.providerCallSID === undefined) {
+                this.agentDisconnect()
+            }
+            this.setState({disconnectLeadDisabled: false})
+        })
+
     }
 
     toggleModal = (modalKey) => () => {
@@ -229,11 +281,23 @@ class CallBar extends Component {
     }
     
     handoff = () => {
-        TwilioDevice.transferHandoff()
+        if (this.state.handoffDisabled) {
+            return
+        }
+        this.setState({handoffDisabled: true})
+        TwilioDevice.transferHandoff().then( response => {
+            this.setState({handoffDisabled: false})
+        })
     }
 
     disconnectProvider = () => {
-        TwilioDevice.disconnectProvider()
+        if (this.state.disconnectProviderDisabled) {
+            return
+        }
+        this.setState({disconnectProviderDisabled: true})
+        TwilioDevice.disconnectProvider().then( response => {
+            this.setState({disconnectProviderDisabled: false})
+        })
     }
 
     agentConnect = () => {
@@ -241,11 +305,23 @@ class CallBar extends Component {
     }
 
     agentPauseRecording = () => {
-        TwilioDevice.pauseRecording()
+        if (this.state.pauseRecordingDisabled) {
+            return
+        }
+        this.setState({pauseRecordingDisabled: true})
+        TwilioDevice.pauseRecording().then( response => {
+            this.setState({pauseRecordingDisabled: false})
+        })
     }
 
     agentResumeRecording = () => {
-        TwilioDevice.resumeRecording()
+        if (this.state.resumeRecordingDisabled) {
+            return
+        }
+        this.setState({resumeRecordingDisabled: true})
+        TwilioDevice.resumeRecording().then( response => {
+            this.setState({resumeRecordingDisabled: false})
+        })
     }
 
     agentDisconnect = () => {
@@ -258,6 +334,15 @@ class CallBar extends Component {
             return ""
         }
 
+        const generateConnectionClass = (callSID) => {
+            let connectionClass = "w-100 rounded d-flex flex-wrap"
+            if (callSID !== "") {
+                connectionClass = connectionClass + " skin-callbar-background-lighten"
+            }
+
+            return connectionClass
+        }
+
         const generateConnectionLabel = (callStatus) => {
             let label = this.props.localized.callStatuses[callStatus]
             if (label === undefined) label = "Unknown Status"
@@ -265,152 +350,156 @@ class CallBar extends Component {
         }
 
         return (
-            <MDBBox className="rounded p-0 mt-2 border float-right skin-border-primary skin-primary-faint-background-color callBar" style={{flex:"0 0 180px", order:2}}>
+            <MDBBox className="border rounded p-0 mt-2 float-right skin-border-primary skin-callbar-background-color callBar" style={{flex:"0 0 180px", order:2}}>
                 <MDBNav className="">
-                    <div className={"font-weight-bolder p-0 pb-1 mt-1 text-align-center w-100 "}>{this.props.localized.leadLabel}<br />{generateConnectionLabel(this.props.twilio.leadCallStatus)}</div>
-                    <MDBNavItem className={"w-50 pb-2" + (this.props.twilio.leadHoldButtonEnabled ? "" : " hidden")} onClick={this.holdLead}>
-                        <MDBNavLink to="#" className={"text-align-center p-0"}>
-                            <span className="fa-layers fa-fw fa-3x">
-                                <FontAwesomeIcon icon={faCircleSolid} className="text-white"/>
-                                <FontAwesomeIcon icon={faCircle} className="skin-primary-color"/>
-                                <FontAwesomeIcon icon={faHandPaper} transform={"shrink-10"} className="skin-secondary-color"/>
-                            </span>
-                            <span className="callBarText skin-secondary-color"><br/>{this.props.localized.holdLabel}</span>
-                        </MDBNavLink>
-                    </MDBNavItem>
-                    <MDBNavItem className={"w-50 pb-2" + (this.props.twilio.leadUnHoldButtonEnabled ? "" : " hidden")} onClick={this.unholdLead}>
-                        <MDBNavLink to="#" className={"text-align-center p-0"}>
-                            <span className="fa-layers fa-fw fa-3x">
-                                <FontAwesomeIcon icon={faCircleSolid} className="stop-icon-bg"/>
-                                <FontAwesomeIcon icon={faHandPaper} transform={"shrink-10"} className="stop-icon-color"/>
-                            </span>
-                            <span className="callBarText skin-secondary-color"><br/>{this.props.localized.unholdLabel}</span>
-                        </MDBNavLink>
-                    </MDBNavItem>
-                    <MDBNavItem className={"w-50 pb-2" + (this.props.twilio.leadVoicemailButtonEnabled ? "" : " hidden")} onClick={this.playAutoVoicemail}>
-                        <MDBNavLink to="#" className={"text-align-center p-0"}>
-                            <span className="fa-layers fa-fw fa-3x">
-                                <FontAwesomeIcon icon={faCircleSolid} className="text-white"/>
-                                <FontAwesomeIcon icon={faCircle} className="skin-primary-color"/>
+                    <MDBBox className={generateConnectionClass(this.props.twilio.leadCallSID)}>
+                        <div className={"font-weight-bolder p-0 pb-1 mt-1 text-align-center w-100 "}>{this.props.localized.leadLabel}<br />{generateConnectionLabel(this.props.twilio.leadCallStatus)}</div>
+                        <MDBNavItem className={"w-50 pb-2" + (this.props.twilio.leadHoldButtonVisible ? "" : " hidden")} onClick={this.holdLead}>
+                            <MDBNavLink to="#" className={"text-align-center p-0"}>
+                                <span className="fa-layers fa-fw fa-3x">
+                                    <FontAwesomeIcon icon={faCircleSolid} className="skin-callbar-icon-darken"/>
+                                    <FontAwesomeIcon icon={faCircle} className="skin-primary-color"/>
+                                    <FontAwesomeIcon icon={faHandPaper} transform={"shrink-10"} className="skin-primary-color"/>
+                                </span>
+                                <span className="callBarText skin-secondary-color"><br/>{this.props.localized.holdLabel}</span>
+                            </MDBNavLink>
+                        </MDBNavItem>
+                        <MDBNavItem className={"w-50 pb-2" + (this.props.twilio.leadUnHoldButtonVisible ? "" : " hidden")} onClick={this.unholdLead}>
+                            <MDBNavLink to="#" className={"text-align-center p-0"}>
+                                <span className="fa-layers fa-fw fa-3x">
+                                    <FontAwesomeIcon icon={faCircleSolid} className="skin-callbar-danger-background-lighten"/>
+                                    <FontAwesomeIcon icon={faHandPaper} transform={"shrink-10"} className="skin-callbar-danger-color"/>
+                                </span>
+                                <span className="callBarText skin-secondary-color"><br/>{this.props.localized.unholdLabel}</span>
+                            </MDBNavLink>
+                        </MDBNavItem>
+                        <MDBNavItem className={"w-50 pb-2" + (this.props.twilio.leadVoicemailButtonVisible && this.props.twilio.autoVoicemailURL ? "" : " hidden")} onClick={this.playAutoVoicemail}>
+                            <MDBNavLink to="#" className={"text-align-center p-0"}>
+                                <span className="fa-layers fa-fw fa-3x">
+                                    <FontAwesomeIcon icon={faCircleSolid} className="skin-callbar-icon-darken"/>
+                                    <FontAwesomeIcon icon={faCircle} className="skin-primary-color"/>
+                                    <FontAwesomeIcon icon={faVoicemail} transform={"shrink-10"} className="skin-primary-color"/>
+                                </span>
+                                <span className="callBarText skin-secondary-color"><br/>{this.props.localized.voicemailLabel}</span>
+                            </MDBNavLink>
+                        </MDBNavItem>
+                        <MDBNavItem className={"w-100 pb-2"+ (this.props.twilio.leadDialButtonVisible ? "" : " hidden")} onClick={this.dialLead}>
+                            <MDBNavLink to="#" className={"text-align-center p-0"}>
+                                <span className="fa-layers fa-fw fa-3x">
+                                    <FontAwesomeIcon icon={faCircleSolid} className="skin-primary-color"/>
+                                    <FontAwesomeIcon icon={faPhone} transform={"shrink-10"} className={"white-text"}/>
+                                </span>
+                                <span className="callBarText skin-secondary-color"><br/>{this.props.localized.dialLabel}</span>
+                            </MDBNavLink>
+                        </MDBNavItem>
+                        <MDBNavItem className={"w-100 pb-2"+ (this.props.twilio.leadConnectIncomingButtonEnabled ? "" : " hidden")} onClick={this.answerIncoming}>
+                            <MDBNavLink to="#" className={"text-align-center p-0"}>
+                                <span className="fa-layers fa-fw fa-3x">
+                                    <FontAwesomeIcon icon={faCircleSolid} className="skin-primary-color"/>
+                                    <FontAwesomeIcon icon={faPhone} transform={"shrink-10"} className={this.state.connectIncomingIconColor}/>
+                                </span>
+                                <span className={"callBarText " + this.state.connectIncomingTextColor}><br/><strong>{this.state.connectIncomingLabel}</strong></span>
+                            </MDBNavLink>
+                        </MDBNavItem>
+                        <MDBNavItem className={"w-100 pb-2"+ (this.props.twilio.leadDisconnectButtonVisible ? "" : " hidden")} onClick={this.disconnectLead}>
+                            <MDBNavLink to="#" className={"text-align-center p-0"}>
+                                <span className="fa-layers fa-fw fa-3x">
+                                    <FontAwesomeIcon icon={faCircleSolid} className="skin-callbar-danger-color"/>
+                                    <FontAwesomeIcon icon={faPhone} transform={{rotate:225}} className="white-text" style={{fontSize:"18px"}}/>
+                                </span>
+                                <span className="callBarText skin-secondary-color"><br/>{this.props.localized.hangupLabel}</span>
+                            </MDBNavLink>
+                        </MDBNavItem>
+                    </MDBBox>
 
-                                <FontAwesomeIcon icon={faVoicemail} transform={"shrink-10"} className="skin-secondary-color"/>
-                            </span>
-                            <span className="callBarText skin-secondary-color"><br/>{this.props.localized.voicemailLabel}</span>
-                        </MDBNavLink>
-                    </MDBNavItem>
-                    <MDBNavItem className={"w-100 pb-2"+ (this.props.twilio.leadDialButtonEnabled ? "" : " hidden")} onClick={this.dialLead}>
-                        <MDBNavLink to="#" className={"text-align-center p-0"}>
-                            <span className="fa-layers fa-fw fa-3x">
-                                <FontAwesomeIcon icon={faCircleSolid} className="skin-primary-color"/>
-                                <FontAwesomeIcon icon={faPhone} transform={"shrink-10"} className={"skin-text"}/>
-                            </span>
-                            <span className="callBarText skin-secondary-color"><br/>{this.props.localized.dialLabel}</span>
-                        </MDBNavLink>
-                    </MDBNavItem>
-                    <MDBNavItem className={"w-100 pb-2"+ (this.props.twilio.leadConnectIncomingButtonEnabled ? "" : " hidden")} onClick={this.answerIncoming}>
-                        <MDBNavLink to="#" className={"text-align-center p-0"}>
-                            <span className="fa-layers fa-fw fa-3x">
-                                <FontAwesomeIcon icon={faCircleSolid} className="skin-primary-color"/>
-                                <FontAwesomeIcon icon={faPhone} transform={"shrink-10"} className={this.state.connectIncomingIconColor}/>
-                            </span>
-                            <span className={"callBarText " + this.state.connectIncomingTextColor}><br/><strong>{this.state.connectIncomingLabel}</strong></span>
-                        </MDBNavLink>
-                    </MDBNavItem>
-                    <MDBNavItem className={"w-100 pb-2"+ (this.props.twilio.leadDisconnectButtonEnabled ? "" : " hidden")} onClick={this.disconnectLead}>
-                        <MDBNavLink to="#" className={"text-align-center p-0"}>
-                            <span className="fa-layers fa-fw fa-3x">
-                                <FontAwesomeIcon icon={faCircleSolid} className="text-white"/>
-                                <FontAwesomeIcon icon={faCircle} className="text-danger"/>
-                                <FontAwesomeIcon icon={faPhone} transform={{rotate:225}} className="skin-secondary-color" style={{fontSize:"20px"}}/>
-                            </span>
-                            <span className="callBarText skin-secondary-color"><br/>{this.props.localized.hangupLabel}</span>
-                        </MDBNavLink>
-                    </MDBNavItem>
-                    <div className={"font-weight-bolder p-0 pb-1 mt-0 text-align-center w-100"}><hr className="mt-0 mb-2 w-100 skin-primary-background-color"/>{this.props.localized.agentLabel}</div>
-                    <MDBNavItem className={"w-50 pb-2" + (recordingEnabled && this.props.twilio.agentPauseButtonEnabled ? "" : " hidden")} onClick={this.agentPauseRecording}>
-                        <MDBNavLink to="#" className={"text-align-center p-0"}>
-                            <span className="fa-layers fa-fw fa-3x">
-                                <FontAwesomeIcon icon={faCircleSolid} className="text-white"/>
-                                <FontAwesomeIcon icon={faCircle} className="skin-primary-color"/>
-                                <FontAwesomeIcon icon={faPause} transform={"shrink-10"} className="skin-secondary-color"/>
-                            </span>
-                            <span className="callBarText skin-secondary-color"><br/>{this.props.localized.pauseLabel}</span>
-                        </MDBNavLink>
-                    </MDBNavItem>
-                    <MDBNavItem className={"w-50 pb-2" + (recordingEnabled && this.props.twilio.agentResumeButtonEnabled ? "" : " hidden")} onClick={this.agentResumeRecording}>
-                        <MDBNavLink to="#" className={"text-align-center p-0"}>
-                            <span className="fa-layers fa-fw fa-3x">
-                                <FontAwesomeIcon icon={faCircleSolid} className="stop-icon-bg"/>
-                                <FontAwesomeIcon icon={faPause} transform={"shrink-10"} className="stop-icon-color"/>
-                            </span>
-                            <span className="callBarText skin-secondary-color"><br/>{this.props.localized.resumeLabel}</span>
-                        </MDBNavLink>
-                    </MDBNavItem>
-                    <MDBNavItem className={"w-50 pb-2" + (this.props.twilio.agentDisconnectButtonEnabled ? "" : " hidden")} onClick={this.agentDisconnect}>
-                        <MDBNavLink to="#" className={"text-align-center p-0"}>
-                            <span className="fa-layers fa-fw fa-3x">
-                                <FontAwesomeIcon icon={faCircleSolid} className="text-white"/>
-                                <FontAwesomeIcon icon={faCircle} className="text-danger"/>
-                                <FontAwesomeIcon icon={faPhone} transform={{rotate:225}} className="skin-secondary-color" style={{fontSize:"20px"}}/>
-                            </span>
-                            <span className="callBarText skin-secondary-color"><br/>{this.props.localized.hangupLabel}</span>
-                        </MDBNavLink>
-                    </MDBNavItem>
-                    <MDBNavItem className={"w-50 pb-2" + (this.props.twilio.agentKeypadButtonEnabled ? "" : " hidden")} onClick={this.toggleModal("keypadVisible")}>
-                        <MDBNavLink to="#" className={"text-align-center p-0"}>
-                            <span className="fa-layers fa-fw fa-3x">
-                                <FontAwesomeIcon icon={faCircleSolid} className="text-white"/>
-                                <FontAwesomeIcon icon={faCircle} className="skin-primary-color"/>
-                                <FontAwesomeIcon icon={faTh} className="skin-secondary-color" style={{fontSize:"20px"}}/>
-                            </span>
-                            <span className="callBarText skin-secondary-color"><br/>{this.props.localized.keypadLabel}</span>
-                        </MDBNavLink>
-                    </MDBNavItem>
-                    <MDBNavItem className={"w-50 pb-2"} onClick={this.checkStatus}>
-                        <MDBNavLink to="#" className={"text-align-center p-0"}>
-                            <span className="fa-layers fa-fw fa-3x">
-                                <FontAwesomeIcon icon={faCircleSolid} className="text-white"/>
-                                <FontAwesomeIcon icon={faCircle} className={this.state.checkStatusOutlineColor}/>
-                                <FontAwesomeIcon icon={faCheck} className={this.state.checkStatusTextColor} style={{fontSize:"20px"}}/>
-                            </span>
-                            <span className={"callBarText " + this.state.checkStatusTextColor}><br/>{this.state.checkStatusLabel}</span>
-                        </MDBNavLink>
-                    </MDBNavItem>
-                    <div className={"font-weight-bolder p-0 pb-1 mt-0 text-align-center w-100"}><hr className="mt-0 mb-2 w-100 skin-primary-background-color"/>{this.props.localized.providerLabel}<br />{generateConnectionLabel(this.props.twilio.providerCallStatus)}</div>
-                    <MDBNavItem className={"w-100 pb-2"+ (this.props.twilio.providerDialButtonEnabled ? "" : " hidden")} onClick={this.openProviderChoices}>
-                        <MDBNavLink to="#" className={"text-align-center p-0"}>
-                            <span className="fa-layers fa-fw fa-3x">
-                                <FontAwesomeIcon icon={faCircleSolid} className="skin-primary-color"/>
-                                <FontAwesomeIcon icon={faPhone} transform={"shrink-10"} className="skin-secondary-color"/>
-                            </span>
-                            <span className="callBarText skin-secondary-color"><br/>{this.props.localized.dialLabel}</span>
-                        </MDBNavLink>
-                    </MDBNavItem>
-                    <MDBNavItem className={"w-100 pb-2"+ (this.props.twilio.providerTransferButtonEnabled ? "" : " hidden")} onClick={this.handoff}>
-                        <MDBNavLink to="#" className={"text-align-center p-0"}>
-                            <span className="fa-layers fa-fw fa-3x">
-                                <FontAwesomeIcon icon={faCircleSolid} className="text-white"/>
-                                <FontAwesomeIcon icon={faCircle} className="skin-primary-color"/>
-                                <FontAwesomeIcon icon={faRandom} transform={"shrink-10"} className="skin-secondary-color"/>
-                            </span>
-                            <span className="callBarText skin-secondary-color"><br/>{this.props.localized.transferLabel}</span>
-                        </MDBNavLink>
-                    </MDBNavItem>
-                    <MDBNavItem className={"w-100 pb-2"+ (this.props.twilio.providerDisconnectButtonEnabled ? "" : " hidden")} onClick={this.disconnectProvider}>
-                        <MDBNavLink to="#" className={"text-align-center p-0"}>
-                            <span className="fa-layers fa-fw fa-3x">
-                                <FontAwesomeIcon icon={faCircleSolid} className="text-white"/>
-                                <FontAwesomeIcon icon={faCircle} className="text-danger"/>
-                                <FontAwesomeIcon icon={faPhone} transform={{rotate:225}} className="skin-secondary-color" style={{fontSize:"20px"}}/>
-                            </span>
-                            <span className="callBarText skin-secondary-color"><br/>{this.props.localized.hangupLabel}</span>
-                        </MDBNavLink>
-                    </MDBNavItem>
+                    <MDBBox className="w-100 d-flex flex-wrap skin-callbar-background-lighten">
+                        <div className={"font-weight-bolder p-0 pb-1 mt-0 text-align-center w-100"}><hr className="mt-0 mb-2 w-100 skin-primary-background-color"/>{this.props.localized.agentLabel}</div>
+                        <MDBNavItem className={"w-50 pb-2" + (recordingEnabled && this.props.twilio.agentPauseButtonVisible ? "" : " hidden")} onClick={this.agentPauseRecording}>
+                            <MDBNavLink to="#" className={"text-align-center p-0"}>
+                                <span className="fa-layers fa-fw fa-3x">
+                                    <FontAwesomeIcon icon={faCircleSolid} className="skin-callbar-icon-darken"/>
+                                    <FontAwesomeIcon icon={faCircle} className="skin-primary-color"/>
+                                    <FontAwesomeIcon icon={faPause} transform={"shrink-10"} className="skin-primary-color"/>
+                                </span>
+                                <span className="callBarText skin-secondary-color"><br/>{this.props.localized.pauseLabel}</span>
+                            </MDBNavLink>
+                        </MDBNavItem>
+                        <MDBNavItem className={"w-50 pb-2" + (recordingEnabled && this.props.twilio.agentResumeButtonVisible ? "" : " hidden")} onClick={this.agentResumeRecording}>
+                            <MDBNavLink to="#" className={"text-align-center p-0"}>
+                                <span className="fa-layers fa-fw fa-3x">
+                                    <FontAwesomeIcon icon={faCircleSolid} className="skin-callbar-danger-background-lighten"/>
+                                    <FontAwesomeIcon icon={faPause} transform={"shrink-10"} className="skin-callbar-danger-color"/>
+                                </span>
+                                <span className="callBarText skin-secondary-color"><br/>{this.props.localized.resumeLabel}</span>
+                            </MDBNavLink>
+                        </MDBNavItem>
+                        <MDBNavItem className={"w-50 pb-2" + (this.props.twilio.agentDisconnectButtonVisible ? "" : " hidden")} onClick={this.agentDisconnect}>
+                            <MDBNavLink to="#" className={"text-align-center p-0"}>
+                                <span className="fa-layers fa-fw fa-3x">
+                                    <FontAwesomeIcon icon={faCircleSolid} className="skin-callbar-danger-color"/>
+                                    <FontAwesomeIcon icon={faPhone} transform={{rotate:225}} className="white-text" style={{fontSize:"18px"}}/>
+                                </span>
+                                <span className="callBarText skin-secondary-color"><br/>{this.props.localized.hangupLabel}</span>
+                            </MDBNavLink>
+                        </MDBNavItem>
+                        <MDBNavItem className={"w-50 pb-2" + (this.props.twilio.agentKeypadButtonVisible ? "" : " hidden")} onClick={this.toggleModal("keypadVisible")}>
+                            <MDBNavLink to="#" className={"text-align-center p-0"}>
+                                <span className="fa-layers fa-fw fa-3x">
+                                    <FontAwesomeIcon icon={faCircleSolid} className="skin-callbar-icon-darken"/>
+                                    <FontAwesomeIcon icon={faCircle} className="skin-primary-color"/>
+                                    <FontAwesomeIcon icon={faTh} className="skin-primary-color" style={{fontSize:"20px"}}/>
+                                </span>
+                                <span className="callBarText skin-secondary-color"><br/>{this.props.localized.keypadLabel}</span>
+                            </MDBNavLink>
+                        </MDBNavItem>
+                        <MDBNavItem className={"w-50 pb-2"} onClick={this.checkStatus}>
+                            <MDBNavLink to="#" className={"text-align-center p-0"}>
+                                <span className="fa-layers fa-fw fa-3x">
+                                    <FontAwesomeIcon icon={faCircleSolid} className="skin-callbar-icon-darken"/>
+                                    <FontAwesomeIcon icon={faCircle} className={this.state.checkStatusOutlineColor}/>
+                                    <FontAwesomeIcon icon={faCheck} className={this.state.checkStatusTextColor} style={{fontSize:"19px"}}/>
+                                </span>
+                                <span className={"callBarText " + this.state.checkStatusTextColor}><br/>{this.state.checkStatusLabel}</span>
+                            </MDBNavLink>
+                        </MDBNavItem>
+                    </MDBBox>
+
+                    <MDBBox className={generateConnectionClass(this.props.twilio.providerCallSID)}>
+                        <div className={"font-weight-bolder p-0 pb-1 mt-0 text-align-center w-100"}><hr className="mt-0 mb-2 w-100 skin-primary-background-color"/>{this.props.localized.providerLabel}<br />{generateConnectionLabel(this.props.twilio.providerCallStatus)}</div>
+                        <MDBNavItem className={"w-100 pb-2"+ (this.props.twilio.providerDialButtonVisible ? "" : " hidden")} onClick={this.openProviderChoices}>
+                            <MDBNavLink to="#" className={"text-align-center p-0"}>
+                                <span className="fa-layers fa-fw fa-3x">
+                                    <FontAwesomeIcon icon={faCircleSolid} className="skin-primary-color"/>
+                                    <FontAwesomeIcon icon={faPhone} transform={"shrink-10"} className="white-text"/>
+                                </span>
+                                <span className="callBarText skin-secondary-color"><br/>{this.props.localized.dialLabel}</span>
+                            </MDBNavLink>
+                        </MDBNavItem>
+                        <MDBNavItem className={"w-100 pb-2"+ (this.props.twilio.providerTransferButtonVisible ? "" : " hidden")} onClick={this.handoff}>
+                            <MDBNavLink to="#" className={"text-align-center p-0"}>
+                                <span className="fa-layers fa-fw fa-3x">
+                                    <FontAwesomeIcon icon={faCircleSolid} className="skin-callbar-icon-darken"/>
+                                    <FontAwesomeIcon icon={faCircle} className="skin-primary-color"/>
+                                    <FontAwesomeIcon icon={faRandom} transform={"shrink-10"} className="skin-primary-color"/>
+                                </span>
+                                <span className="callBarText skin-secondary-color"><br/>{this.props.localized.transferLabel}</span>
+                            </MDBNavLink>
+                        </MDBNavItem>
+                        <MDBNavItem className={"w-100 pb-2"+ (this.props.twilio.providerDisconnectButtonVisible ? "" : " hidden")} onClick={this.disconnectProvider}>
+                            <MDBNavLink to="#" className={"text-align-center p-0"}>
+                                <span className="fa-layers fa-fw fa-3x">
+                                    <FontAwesomeIcon icon={faCircleSolid} className="skin-callbar-danger-color"/>
+                                    <FontAwesomeIcon icon={faPhone} transform={{rotate:225}} className="white-text" style={{fontSize:"18px"}}/>
+                                </span>
+                                <span className="callBarText skin-secondary-color"><br/>{this.props.localized.hangupLabel}</span>
+                            </MDBNavLink>
+                        </MDBNavItem>
+                    </MDBBox>
                 </MDBNav>
 
                 {this.state.providerChoicesVisible === true && <ProviderChoices data={this.state.callingHours} selectOffice={this.selectOffice} toggle={this.toggleModal("providerChoicesVisible")} />}
                 {this.state.keypadVisible === true && <Keypad toggle={this.toggleModal("keypadVisible")} />}
-                {this.state.dialChoiceVisible === true && <DialChoice toggle={this.toggleModal("dialChoiceVisible")} />}
+                {this.state.dialChoiceVisible === true && <DialChoice toggle={this.toggleModal("dialChoiceVisible")} dial={this.performDial} />}
             </MDBBox>
         )
     } 

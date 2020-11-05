@@ -210,7 +210,8 @@ export default class TwilioAPI {
         const payload = {
             token: redux.user.auth.token,
             lead_id: redux.lead.id,
-            call_sid: redux.twilio.leadCallSID
+            call_sid: redux.twilio.leadCallSID,
+            voicemail_url: redux.twilio.autoVoicemailURL
         }
 
         const requestOptions = {

@@ -8,7 +8,7 @@ import {
     faCircle as faCircleSolid,
     faEnvelope,
     faPhone,
-    faExchange, faFile, faEdit, faComment
+    faExchange, faFile, faEdit, faComment, faGift
 } from "@fortawesome/pro-solid-svg-icons";
 import {faCircle} from "@fortawesome/pro-light-svg-icons";
 import AgentCall from "./AgentCall";
@@ -18,6 +18,8 @@ import Lead from "./Lead";
 import Note from "./Note";
 import Survey from "./Survey";
 import Document from "./Document";
+import Reward from "./Reward";
+import RewardResend from "./RewardResend";
 
 class Interaction extends Component {
 
@@ -61,6 +63,14 @@ class Interaction extends Component {
                         return (
                             <Email data={item} key={"int-event-" + index}/>
                         )
+                    case "reward":
+                        return (
+                            <Reward data={item} key={"int-event-" + index}/>
+                        )
+                    case "reward_resend":
+                        return (
+                            <RewardResend data={item} key={"int-event-" + index}/>
+                        )
                     case "survey":
                         return (
                             <Survey data={item} key={"int-event-" + index}/>
@@ -69,7 +79,7 @@ class Interaction extends Component {
                         return (
                             <Text data={item} key={"int-event-" + index}/>
                         )
-                    case "lead":
+                    case "log":
                         return (
                             <Lead data={item} key={"int-event-" + index}/>
                         )
@@ -87,6 +97,7 @@ class Interaction extends Component {
             calls : 0,
             appointments : 0,
             documents : 0,
+            rewards: 0,
             texts: 0,
             notes: 0
         }
@@ -104,6 +115,10 @@ class Interaction extends Component {
                 case "text" : counts.texts++
                     break
                 case "note" : counts.notes++
+                    break
+                case "reward" : counts.rewards++
+                    break
+                case "reward_resend" : counts.rewards++
                     break
                 default: break
             }
@@ -134,6 +149,7 @@ class Interaction extends Component {
                                 {counts.calls > 0 && <div><MDBChip className="m-0 timelineChip">{counts.calls} <FontAwesomeIcon icon={faPhone}/></MDBChip></div>}
                                 {counts.appointments > 0 && <div><MDBChip className="m-0 timelineChip">{counts.appointments} <FontAwesomeIcon icon={faCalendar}/></MDBChip></div>}
                                 {counts.documents > 0 && <div><MDBChip className="m-0 timelineChip">{counts.documents} <FontAwesomeIcon icon={faFile}/></MDBChip></div>}
+                                {counts.rewards > 0 && <div><MDBChip className="m-0 timelineChip">{counts.rewards} <FontAwesomeIcon icon={faGift}/></MDBChip></div>}
                                 {counts.texts > 0 && <div><MDBChip className="m-0 timelineChip">{counts.texts} <FontAwesomeIcon icon={faComment}/></MDBChip></div>}
                                 {counts.notes > 0 && <div><MDBChip className="m-0 timelineChip">{counts.notes} <FontAwesomeIcon icon={faEdit}/></MDBChip></div>}
                             </div>

@@ -6,23 +6,16 @@ import {
     faCircle as faCircleSolid, faGift,
 } from "@fortawesome/pro-solid-svg-icons";
 import {faCircle} from "@fortawesome/pro-light-svg-icons";
-import moment from "moment-timezone";
 
-class Reward extends Component {
+class RewardResend extends Component {
 
 
     render() {
-        const localization = this.props.localization.interaction.timeline.reward
-        let resendTime = false
-        if (this.props.data.last_resent_at) {
-            resendTime = moment.utc(this.props.data.last_resent_at).tz(this.props.lead.details.timezone)
-        }
+        const localization = this.props.localization.interaction.timeline.rewardResend
 
         return (
             <MDBCard className='w-100 border-0 mb-3 z-2'>
-                <MDBBox className="backgroundColorInherit timelineCardHeader skin-border-primary f-m shadow-sm pb-2"
-                        onClick={this.toggleCollapse}
-                >
+                <MDBBox className="backgroundColorInherit timelineCardHeader skin-border-primary f-m shadow-sm pb-2">
                     <div className='d-flex justify-content-between p-1 px-3'>
                         <span className="fa-layers fa-fw fa-3x mt-2">
                             <FontAwesomeIcon icon={faCircleSolid} className="text-white"/>
@@ -31,13 +24,11 @@ class Reward extends Component {
                         </span>
                         <div className="d-flex flex-grow-1 p-2 flex-column text-left">
                             <div className="f-l font-weight-bold">
-                                {this.props.data.campaign} / {localization.amountDisplay.replace(";", this.props.data.amount)}
+                                {this.props.data.reward_campaign} / {localization.resentLabel}
                             </div>
-                            <div>{localization.sentTo}{this.props.data.original_sent_to}</div>
+                            <div>{localization.sentTo}{this.props.data.sent_to}</div>
                         </div>
-                        <div className="ml-auto d-flex f-s flex-column text-right justify-content-start">
-                            {resendTime && <span>{localization.lastResentAt}<span
-                                className="font-weight-bold">{resendTime.format("MMM D")}</span>, {resendTime.format("h:mm a z")}</span>}
+                        <div className="d-flex ml-auto f-s flex-column text-right justify-content-start">
                             <span>{localization.createdAt} <span
                                 className="font-weight-bold">{this.props.data.created_at.format("MMM D")}</span>, {this.props.data.created_at.format("h:mm a z")}</span>
                         </div>
@@ -54,4 +45,4 @@ const mapStateToProps = store => {
     }
 }
 
-export default connect(mapStateToProps)(Reward);
+export default connect(mapStateToProps)(RewardResend);

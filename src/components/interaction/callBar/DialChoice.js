@@ -8,13 +8,12 @@ import {
  import { faStar } from "@fortawesome/pro-solid-svg-icons";
 
 import {connect} from "react-redux";
-import { TwilioDevice } from '../../../twilio/TwilioDevice'
 import String from '../../../utils/String'
 
 class DialChoice extends Component {
 
     clickHandler = (phoneType) => {
-        TwilioDevice.dialLead(phoneType)
+        this.props.dial(phoneType)
         this.props.toggle()
     }
 

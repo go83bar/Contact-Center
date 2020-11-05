@@ -24,6 +24,7 @@ import Text from "./cards/Text";
 import moment from "moment";
 import Lead from "./cards/Lead";
 import SimpleLog from "./cards/SimpleLog";
+import RewardResend from "./cards/RewardResend";
 
 class LeadTimeline extends Component {
 
@@ -116,7 +117,14 @@ class LeadTimeline extends Component {
                     case "reward":
                         result.push(
                             <MDBStep className="mb-4" key={"item-" + index}>
-                                <Reward reward={item}/>
+                                <Reward data={item}/>
+                            </MDBStep>
+                        )
+                        break
+                    case "reward_resend":
+                        result.push(
+                            <MDBStep className="mb-4" key={"item-" + index}>
+                                <RewardResend data={item}/>
                             </MDBStep>
                         )
                         break

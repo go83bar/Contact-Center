@@ -8,7 +8,8 @@ import {
     interactionIncomingCall,
     dismissIncomingCall,
     callNoAnswer,
-    callFailed
+    callFailed,
+    callBusy,
 } from '../twilio/actions'
 
 export function processCallEvent(eventData) {
@@ -48,6 +49,10 @@ export function processCallEvent(eventData) {
 
         case "failed":
             store.dispatch(callFailed(callParty))
+            return;
+
+        case "busy":
+            store.dispatch(callBusy(callParty))
             return;
 
         case "canceled":

@@ -83,13 +83,13 @@ class LeadSummary extends Component {
 
         // make sure lead is not opted out
         if (this.props.lead.contact_preferences.phone_calls !== true) {
-            toast.error("Lead has opted out of phone calls, cannot connect to Twilio.")
+            toast.error(this.props.localization.toast.leadSummary.optOutError)
             return
         }
 
         // make sure there's no data issues that will trip up twilio
         if (this.props.interaction.id === undefined) {
-            toast.error("Twilio connection cannot be opened. Please alert dev.")
+            toast.error(this.props.localization.toast.leadSummary.genericConnectionError)
             Slack.sendMessage("Agent " + this.props.user.id + " cannot open Twilio due to interaction being undefined for lead " + this.props.lead.id)
             const interactionData = JSON.stringify(this.props.interaction)
             Slack.sendMessage("Redux Interaction object: " + interactionData)
@@ -194,8 +194,8 @@ class LeadSummary extends Component {
 
         return (
             <MDBBox className='p-0 m-0 w-100 d-flex' style={{flex:"0 53px", fontSize:"18px"}}>
-                <MDBCard className='skin-border-primary rounded w-100 h-100'>
-                    <MDBBox className="backgroundColorInherit border-0 p-0 m-0 px-3 w-100 d-flex justify-content-between">
+                <MDBCard className='skin-border-primary w-100 h-100'>
+                    <MDBBox className="backgroundColorInherit border-0 p-0 m-0 px-3 w-100 d-flex justify-content-between rounded">
                         <MDBBox>
                             <span className={"d-inline-block font-weight-bolder p-0 m-0 mt-2"} style={{fontSize:"1.5rem"}}>{lead.details.first_name} {lead.details.last_name}</span>
                             <div className="d-inline-block pl-3 pr-2 pointer" onClick={()=>this.showModal("Edit Lead")}><FontAwesomeIcon icon={faUserEdit} size={"lg"} className={"skin-secondary-color"}/></div>

@@ -47,6 +47,12 @@ export function callNoAnswer(party) {
     }
 }
 
+export function callBusy(party) {
+    return {
+        type: `TWILIO.${party.toUpperCase()}.BUSY`
+    }
+}
+
 export function callFailed(party) {
     return {
         type: `TWILIO.${party.toUpperCase()}.CALLFAILED`

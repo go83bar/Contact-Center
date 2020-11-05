@@ -35,16 +35,7 @@ class TimelineData {
             }
         })
         newItems.forEach(item => {
-            if (item.interaction_id) {
-                let interaction = this.timeline.find(i => i.id === item.interaction_id && i.type === "interaction")
-                if (interaction)
-                    interaction.events.push(item)
-                else
-                    this.timeline.push(item)
-            }
-            else {
-                this.timeline.push(item)
-            }
+            this.pushTimelineItem(item)
         })
     }
 
@@ -65,6 +56,7 @@ class TimelineData {
             if (newChange === undefined) {
                 newChange = {
                     type : type,
+                    interaction_id: item.interaction_id,
                     created_at : item.created_at,
                     created_by : item.created_by,
                     log : []
@@ -77,9 +69,10 @@ class TimelineData {
                 newChange.log.push(item)
             } else {
                 //console.log("After a minute")
-                this.timeline.push(newChange)
+                this.pushTimelineItem(newChange)
                 newChange = {
                     type : type,
+                    interaction_id: item.interaction_id,
                     created_at : item.created_at,
                     created_by : item.created_by,
                     log : [item]
@@ -89,7 +82,20 @@ class TimelineData {
             }
         })
         if (newChange !== undefined)
-           this.timeline.push(newChange)
+           this.pushTimelineItem(newChange)
+    }
+
+    pushTimelineItem = (item) => {
+        if (item.interaction_id) {
+            let interaction = this.timeline.find(i => i.id === item.interaction_id && i.type === "interaction")
+            if (interaction)
+                interaction.events.push(item)
+            else
+                this.timeline.push(item)
+        }
+        else {
+            this.timeline.push(item)
+        }
     }
 
     calculateTouchpoints(events) {
@@ -149,6 +155,7 @@ class TimelineData {
         this.processItems("survey", lead.surveys, timezone)
         this.processItems("text", lead.texts, timezone)
         this.processItems("reward", lead.rewards, timezone)
+        this.processItems("reward_resend", lead.reward_resends, timezone)
         this.processItems("incoming_call", lead.incoming_calls, timezone)
         this.processItems("agent_call", lead.agent_calls, timezone)
         this.processItems("merge", lead.merges, timezone)
