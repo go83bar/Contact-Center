@@ -19,6 +19,7 @@ const Twilio = require('twilio-client')
 
 class TwilioDeviceSingleton {
     bootstrap(userID, authToken) {
+        const localization = store.getState().localization
         // kick it off by getting an access token assigned to the user's auth token
         TwilioAPI.getAccessToken(userID, authToken).then( (response) => {
             if (response.access_token !== undefined) {
@@ -48,18 +49,24 @@ class TwilioDeviceSingleton {
 
                 device.on('error', (error) => {
                     console.log("Twilio Device error: ", error)
-                    toast.error("Twilio connection error! Please notify dev")
-                    Slack.sendMessage("Agent " + userID + " got a Twilio device connection error: " + JSON.stringify(error))
+                    toast.error(localization.toast.twilio.deviceError)
+                    const errorMessage = {
+                        code: error.code,
+                        message: error.message,
+                        twilioError: error.twilioError
+                    }
+                    Slack.sendMessage("Agent " + userID + " got a Twilio device connection error: " + JSON.stringify(errorMessage))
+
                 })
 
                 this.device = device
             } else {
                 console.log("Access Token error: ", response)
-                toast.error("Twilio could not be loaded. Try logging out and back in again.")
+                toast.error(localization.toast.twilio.connectionEstablishError)
             }
         }).catch( (err) => {
             console.log("Error fetching token: ", err)
-            toast.error("Twilio could not be loaded. Try logging out and back in again.")
+            toast.error(localization.toast.twilio.connectionEstablishError)
         })
     }
 

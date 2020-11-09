@@ -820,7 +820,9 @@
       "providerDialFailed": "Provider couldn't be dialed. Please check the number and try again!",
       "checkStatusFailed": "Check Status has failed!",
       "checkStatusUpdated": "Call Statuses Updated!",
-      "noPhoneNumber": "Lead has no phone numbers!"
+      "noPhoneNumber": "Lead has no phone numbers!",
+      "deviceError": "There was a problem in your connection. Please notify dev if this persists",
+      "connectionEstablishError": "There was a problem establishing your connection to the phone system. You can try logging out or restarting your browser."
     },
     "timeline": {
       "email": {
