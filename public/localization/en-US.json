@@ -773,6 +773,9 @@
       "error": "Lead Contact Preferences could not be updated. Please try again or notify app issues."
     },
     "interaction": {
+      "preview":{
+        "interactionStartError": "Interaction could not be loaded! Please notify app issues"
+      },
       "loadLead": {
         "clientMissing": "You aren't assigned to this client. Please notify your supervisor!",
         "campaignMissing": "You aren't assigned to this campaign. Please notify your supervisor!",
@@ -780,6 +783,7 @@
         "loadFailed": "Lead could not be loaded. Please notify app issues!"
       },
       "outcome": {
+        "saveFailed": "Interaction could not be saved. Please contact dev",
         "missingResponseError": "Outcome requires response to: ",
         "missingAppointmentError": "Chosen outcome requires an appointment, this lead has none"
       }

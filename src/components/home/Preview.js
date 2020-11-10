@@ -5,7 +5,7 @@ import LoadingScreen from '../LoadingScreen'
 import LeadAPI from '../../api/leadAPI'
 import * as moment from 'moment'
 import Lead from "../../utils/Lead";
-//import {preview} from "../reducers/preview";
+import {toast} from "react-toastify";
 
 class Preview extends Component {
 
@@ -15,6 +15,7 @@ class Preview extends Component {
         this.startInteraction = this.startInteraction.bind(this)
 
         this.state = {
+            startedInteraction: false,
             previewStartTime: moment().utc().format('YYYY-MM-DD HH:mm:ss')
         }
 
@@ -49,6 +50,12 @@ class Preview extends Component {
     }
 
     startInteraction() {
+        // prevent doubletap
+        if (this.state.startedInteraction) {
+            return
+        }
+        this.setState({startedInteraction: true})
+
         // determine parameters
         let callReason = ""
         if (this.props.previewData.call_sid !== null) {
@@ -83,7 +90,11 @@ class Preview extends Component {
                 this.props.history.push("/interaction")
             }).catch( error => {
                 console.log("Could not start interaction: ", error)
-            })
+
+                // Pop error and redirect to interaction view
+                toast.error(this.props.localization.toast.interaction.preview.interactionStartError)
+                this.props.history.push("/")
+        })
     }
 
     render() {
@@ -105,7 +116,7 @@ class Preview extends Component {
             return filteredFieldList.includes(item.name)
         }).map((item, i) => {
             return (
-                <MDBChip className="outlineChip mb-3" key={i}>{item.name}: <span className="font-weight-bold skin-secondary-color">{item.value}</span></MDBChip>
+                <MDBBox key={i} className="pt-2 border-top mt-2">{item.name}: <span className="font-weight-bold skin-secondary-color">{item.value}</span></MDBBox>
             )
         })
 
@@ -119,7 +130,7 @@ class Preview extends Component {
                     </MDBCardHeader>
                     <MDBCardBody className='justify-content-start border skin-border-primary'>
                         <div>
-                            <MDBChip className={"outlineChip mb-4"}>{localization.id}: <span className="font-weight-bold skin-secondary-color">{this.props.previewData.lead_id}</span></MDBChip>
+                            <MDBBox className="pt-2 mt-2">{localization.id}: <span className="font-weight-bold skin-secondary-color">{this.props.previewData.lead_id}</span></MDBBox>
                         </div>
                         <div>
                             {data}

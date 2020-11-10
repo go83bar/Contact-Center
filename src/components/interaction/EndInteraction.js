@@ -96,7 +96,8 @@ class EndInteraction extends Component {
             outcomeFilter: "",
             reason: undefined,
             appointment: undefined,
-            office: undefined
+            office: undefined,
+            disableEnding: false
         }
 
     }
@@ -117,6 +118,12 @@ class EndInteraction extends Component {
     }
 
     endInteraction(fetch) {
+        // prevent doubletap
+        if (this.state.disableEnding) {
+            return
+        }
+        this.setState({disableEnding: true})
+
         console.log("End Interaction")
         let payload = {
             interaction_id: this.props.interaction.id,
@@ -140,7 +147,10 @@ class EndInteraction extends Component {
             }
         }).catch(error => {
             console.log("End Interaction Failed: ", error)
-            Slack.sendMessage("End Interaction API call failed for Agent " + this.props.user.id + " on Interaction " + this.props.interaction.id + ": " + error.toString())
+            toast.error(this.props.localization.toast.interaction.outcome.saveFailed)
+            const userID = this.props.user ? this.props.user.id : 0
+            const interactionID = this.props.interaction ? this.props.interaction.id : 0
+            Slack.sendMessage("End Interaction API call failed for Agent " + userID + " on Interaction " + interactionID + ": " + error.toString())
         })
     }
 
