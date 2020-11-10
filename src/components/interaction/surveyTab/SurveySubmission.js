@@ -41,6 +41,7 @@ class SurveySubmission extends Component {
     }
 
     render() {
+        const parsedTime = moment.utc(this.props.survey.submission_date).tz(this.props.lead.details.timezone)
         return (
             <MDBCard id={"survey-" + this.props.survey.id} className="mb-4 w-100 border-light">
                 <MDBCardBody className="d-flex justify-content-left">
@@ -49,8 +50,8 @@ class SurveySubmission extends Component {
                     </MDBBox>
                     <MDBBox className="w-100">
                         <MDBBox className="float-right survey-thumb-date">
-                            <strong>{moment(this.props.survey.submission_date).format("MMM D, YYYY")}</strong>
-                            &nbsp;{moment(this.props.survey.submission_date).format("h:mm a")}
+                            <strong>{parsedTime.format("MMM D, YYYY")}</strong>
+                            &nbsp;{parsedTime.format("h:mm a")}
                         </MDBBox>
                         <h5 className="pt-1 pb-2">{this.props.survey.name}</h5>
                         <MDBChip className="outlineChip">{this.state.campaignName}</MDBChip>

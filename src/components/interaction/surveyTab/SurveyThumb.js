@@ -15,7 +15,7 @@ class SurveyThumb extends Component {
     }
 
     render() {
-        const parsedTime = moment(this.props.submission.submission_date)
+        const parsedTime = moment.utc(this.props.submission.submission_date).tz(this.props.lead.details.timezone)
         const thisYear = moment()
         let dateDisplay = parsedTime.format("MMM D").toUpperCase();
         if (parsedTime.isBefore(thisYear, 'year')) {
@@ -49,6 +49,7 @@ class SurveyThumb extends Component {
 const mapStateToProps = state => {
     return {
         localization: state.localization,
+        lead: state.lead
     }
 }
 
