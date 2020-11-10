@@ -499,6 +499,41 @@ export default class LeadAPI {
     }
 
     /**
+     * @typedef UpdateDetailsParams
+     * @type {object}
+     * @property {number} lead_id
+     * @property {object} updates
+     */
+
+    /**
+     * Updates the lead details in the new react controller
+     *
+     * @static
+     * @param {UpdateDetailsParams} params
+     * @returns {Promise}
+     * @memberof LeadAPI
+     */
+    static async updateDetails(params) {
+        // Mock API responses for local dev
+        if (process.env.REACT_APP_QUERY_MODE === "development") {
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "/data/successTrue.json")
+
+            return mockData.json()
+        }
+
+        const redux = store.getState()
+        const requestOptions = {
+            url: redux.config["url-react-base"] + "activate/lead/updatedetails",
+            method: "POST",
+            type: "json",
+            data: params,
+            auth: redux.user.auth,
+            toast : true
+        }
+        return await sendRequest(requestOptions)
+    }
+
+    /**
      * @typedef ClientResponsesParams
      * @type {object}
      * @property {number} lead_id

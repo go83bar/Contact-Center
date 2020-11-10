@@ -753,6 +753,11 @@
       "verifyFailed": "Appointment could not be verified! Please try again or notify app issues.",
       "officeMissing": "Office information was not found in your client data, you may need to log back in."
     },
+    "details": {
+      "selectedRegionMissing": "The region you selected was not found in the lead's client data. Please contact dev.",
+      "updateFailed": "Update Failed!",
+      "updateSucceeded": "Update Saved!"
+    },
     "documents": {
       "documentEdited": "Document Saved",
       "editFailed": "Document could not be saved! Please try again or notify app issues.",

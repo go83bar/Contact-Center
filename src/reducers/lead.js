@@ -68,6 +68,14 @@ export function lead(state = initialState, action) {
                 docusign: newEnvelopes
             }
 
+        // called when user updates lead's region
+        case "LEAD.REGION_UPDATED":
+            return {
+                ...state,
+                region_id: action.data.regionID,
+                region: action.data.newRegion
+            }
+
         // called when user updates one of their previous notes
         case "LEAD.NOTE_UPDATED":
             const newNotes = state.notes.map( note => {
