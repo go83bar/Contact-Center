@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {MDBBox, MDBCard, MDBCardBody, MDBChip, MDBSelect, MDBTooltip} from "mdbreact";
+import {MDBBox, MDBCard, MDBCardBody, MDBSelect, MDBTooltip} from "mdbreact";
 import {connect} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
@@ -132,7 +132,7 @@ class LeadDetail extends Component {
         return (
             <MDBCard className="w-100 p-2 mb-2 d-flex border rounded skin-border-primary">
                 <MDBCardBody className="d-flex flex-wrap w-100 p-2">
-                    <div className="d-flex flex-column justify-content-between pr-3 mb-3 mr-3 border-right">
+                    <div className="d-flex flex-column justify-content-between pr-3 mb-3 mr-3 border-right flex-grow-1">
                         <span className="d-flex justify-content-between border-bottom pb-2">
                             <span className="mr-3">
                                 {lead.details.preferred_phone === "cell" && <FontAwesomeIcon icon={faStar} className="skin-primary-color"/>} {localization.cellPhoneLabel} <span className="font-weight-bold skin-secondary-color">{formatPhoneNumber(lead.details.cell_phone)}</span>

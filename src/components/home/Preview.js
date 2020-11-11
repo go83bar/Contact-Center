@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {MDBCard, MDBCardBody, MDBCardHeader, MDBBtn, MDBBox, MDBCardFooter, MDBChip} from "mdbreact";
+import {MDBCard, MDBCardBody, MDBCardHeader, MDBBtn, MDBBox, MDBCardFooter} from "mdbreact";
 import { connect } from 'react-redux'
 import LoadingScreen from '../LoadingScreen'
 import LeadAPI from '../../api/leadAPI'
