@@ -14,6 +14,7 @@ class SurveyIcon extends Component {
             <span className={"fa-layers fa-fw fa-" + size}>
                 <FontAwesomeIcon icon={faCircle} className="skin-primary-color" />
                 <FontAwesomeIcon icon={faPoll} transform={"shrink-8"} rotation={90} />
+                {this.props.listIndex && <span className={"fa-layers-counter fa-layers-top-right skin-primary-background-color"}>{this.props.listIndex}</span>}
             </span>
         )
     }

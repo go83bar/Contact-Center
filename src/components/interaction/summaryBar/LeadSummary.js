@@ -10,7 +10,7 @@ import {
     MDBDropdown,
     MDBDropdownToggle,
     MDBDropdownMenu,
-    MDBDropdownItem, MDBPopover, MDBPopoverHeader, MDBPopoverBody, MDBBtn
+    MDBDropdownItem, MDBPopover, MDBPopoverHeader, MDBPopoverBody, MDBBtn, MDBTooltip
 
 } from "mdbreact";
 import {connect} from "react-redux";
@@ -76,7 +76,12 @@ class LeadSummary extends Component {
     }
 
     openTwilio = () => {
-        // make sure there is no active connection already 
+        // prevent doubletap
+        if (this.state.openingTwilio) {
+            return false
+        }
+
+        // make sure there is no active connection already
         if (TwilioDevice.checkActiveConnection() === true) {
             return
         }
@@ -97,7 +102,8 @@ class LeadSummary extends Component {
         }
 
         // open twilio connection in normal mode
-        TwilioDevice.openAgentConnection(false)
+        this.setState({openingTwilio: true})
+        TwilioDevice.openAgentConnection(false, () => {this.setState({openingTwilio: false})})
     }
 
     refreshLead = () => {
@@ -175,8 +181,8 @@ class LeadSummary extends Component {
         if (this.props.lead.client.record_calls === 0) label = this.props.localization.interaction.summary.callActiveLabel
         return (
             <span className={ labelClass }>
-                { label }: &nbsp; 
-            </span>  
+                { label }: &nbsp;
+            </span>
         )
     }
 
@@ -198,7 +204,14 @@ class LeadSummary extends Component {
                     <MDBBox className="backgroundColorInherit border-0 p-0 m-0 px-3 w-100 d-flex justify-content-between rounded">
                         <MDBBox>
                             <span className={"d-inline-block font-weight-bolder p-0 m-0 mt-2"} style={{fontSize:"1.5rem"}}>{lead.details.first_name} {lead.details.last_name}</span>
-                            <div className="d-inline-block pl-3 pr-2 pointer" onClick={()=>this.showModal("Edit Lead")}><FontAwesomeIcon icon={faUserEdit} size={"lg"} className={"skin-secondary-color"}/></div>
+                            <MDBTooltip placement="bottom" domElement tag="span">
+                                <span>
+                                    <div className="d-inline-block pl-3 pr-2 pointer" onClick={()=>this.showModal("Edit Lead")}>
+                                        <FontAwesomeIcon icon={faUserEdit} size={"lg"} className={"skin-secondary-color"}/>
+                                    </div>
+                                </span>
+                                <span>{localization.editLeadTooltip}</span>
+                            </MDBTooltip>
                             <MDBDropdown className={"d-inline-block"}>
                                 <MDBDropdownToggle nav className="px-2">
                                     <span className=""><FontAwesomeIcon icon={faEllipsisH} size={"lg"} className={"skin-secondary-color"}/></span>
@@ -208,7 +221,14 @@ class LeadSummary extends Component {
                                     <MDBDropdownItem href="#"><div onClick={() => this.showModal("Create Lead")}><FontAwesomeIcon icon={faUserPlus} size={"lg"} className={"skin-primary-color pr-1"}/> {localization.createLead.title}</div></MDBDropdownItem>
                                 </MDBDropdownMenu>
                             </MDBDropdown>
-                            <div className="d-inline-block pl-3 pr-2 pointer" onClick={this.refreshLead}><FontAwesomeIcon icon={faSyncAlt} size={"lg"} spin={this.state.isRefreshing} className={this.state.isRefreshing ? "grey-text" : "skin-secondary-color"}/></div>
+                            <MDBTooltip placement="bottom" domElement tag="span">
+                                <span>
+                                    <div className="d-inline-block pl-3 pr-2 pointer" onClick={this.refreshLead}>
+                                        <FontAwesomeIcon icon={faSyncAlt} size={"lg"} spin={this.state.isRefreshing} className={this.state.isRefreshing ? "grey-text" : "skin-secondary-color"}/>
+                                    </div>
+                                </span>
+                                <span>{localization.refreshLeadTooltip}</span>
+                            </MDBTooltip>
 
                         </MDBBox>
                         <div className="mt-2 pt-1 d-inline-block" style={{lineHeight:1.25}}>
@@ -260,42 +280,62 @@ class LeadSummary extends Component {
                             </div>}
                             { (this.props.twilio.leadCallSID === undefined && this.props.preview.call_sid) && <div className="f-m border-right p-2 py-0 mt-2">
                                 <span className="text-danger">{ localization.incomingCallLabel }</span>
-                                
+
                             </div>}
-                            <MDBNavItem className="px-2 h-100" onClick={this.openTwilio}>
-                                <MDBNavLink to="#" className={"py-0 px-2 align-middle"}>
-                                    <span className="fa-layers fa-2x mt-2">
-                                        <FontAwesomeIcon icon={faCircle} className={lead.contact_preferences.phone_calls === true ? "skin-primary-color" : "disabledColor"}/>
-                                        <FontAwesomeIcon icon={faPhone} transform={"shrink-8"} className={lead.contact_preferences.phone_calls === true ? "skin-secondary-color" : "disabledColor"}/>
-                                        {this.props.twilio.conferenceSID && <span className="fa-layers-counter fa-layers-top-left red-darken-2"></span>}
-                                    </span>
-                                </MDBNavLink>
-                            </MDBNavItem>
-                            <MDBNavItem className="px-2" onClick={this.toggleCallback}>
-                                <MDBNavLink to="#" className="p-0">
-                                    <span className="fa-layers fa-2x mt-2 p-0 px-2">
-                                        <FontAwesomeIcon icon={faCircle} className={lead.contact_preferences.phone_calls === true ? "skin-primary-color" : "disabledColor"}/>
-                                        <FontAwesomeIcon icon={faCalendar} transform={"shrink-8"} className={lead.contact_preferences.phone_calls === true ? "skin-secondary-color" : "disabledColor"}/>
-                                        <FontAwesomeIcon icon={faPhone} transform={"shrink-12 down-1"} className={lead.contact_preferences.phone_calls === true ? "skin-secondary-color" : "disabledColor"}/>
-                                    </span>
-                                </MDBNavLink>
-                            </MDBNavItem>
-                            <MDBNavItem className="px-2" onClick={this.toggleEmail}>
-                                <MDBNavLink to="#" className="p-0" disabled={lead.contact_preferences.emails !== true}>
-                                    <span className="fa-layers fa-2x mt-2 p-0 px-2">
-                                        <FontAwesomeIcon icon={faCircle} className={lead.contact_preferences.emails === true ? "skin-primary-color" : "disabledColor"}/>
-                                        <FontAwesomeIcon icon={faEnvelope} transform={"shrink-8"} className={lead.contact_preferences.emails === true ? "skin-secondary-color" : "disabledColor"}/>
-                                    </span>
-                                </MDBNavLink>
-                            </MDBNavItem>
-                            <MDBNavItem className="px-2" onClick={this.toggleText}>
-                                <MDBNavLink to="#" className="p-0" disabled={lead.contact_preferences.texts !== true}>
-                                    <span className="fa-layers fa-2x mt-2 p-0 px-2">
-                                        <FontAwesomeIcon icon={faCircle} className={lead.contact_preferences.texts === true ? "skin-primary-color" : "disabledColor"}/>
-                                        <FontAwesomeIcon icon={faSms} transform={"shrink-8"} className={lead.contact_preferences.texts === true ? "skin-secondary-color" : "disabledColor"}/>
-                                    </span>
-                                </MDBNavLink>
-                            </MDBNavItem>
+                            <MDBTooltip placement="bottom" domElement tag="span">
+                                <span>
+                                    <MDBNavItem className="px-2 h-100" onClick={this.openTwilio}>
+                                        <MDBNavLink to="#" className={"py-0 px-2 align-middle"}>
+                                            <span className="fa-layers fa-2x mt-2">
+                                                <FontAwesomeIcon icon={faCircle} className={lead.contact_preferences.phone_calls === true ? "skin-primary-color" : "disabledColor"}/>
+                                                <FontAwesomeIcon icon={faPhone} transform={"shrink-8"} className={lead.contact_preferences.phone_calls === true ? "skin-secondary-color" : "disabledColor"}/>
+                                                {this.props.twilio.conferenceSID && <span className="fa-layers-counter fa-layers-top-left red-darken-2"> </span>}
+                                            </span>
+                                        </MDBNavLink>
+                                    </MDBNavItem>
+                                </span>
+                                <span>{localization.openTwilioTooltip}</span>
+                            </MDBTooltip>
+                            <MDBTooltip placement="bottom" domElement tag="span">
+                                <span>
+                                    <MDBNavItem className="px-2" onClick={this.toggleCallback}>
+                                        <MDBNavLink to="#" className="p-0">
+                                            <span className="fa-layers fa-2x mt-2 p-0 px-2">
+                                                <FontAwesomeIcon icon={faCircle} className={lead.contact_preferences.phone_calls === true ? "skin-primary-color" : "disabledColor"}/>
+                                                <FontAwesomeIcon icon={faCalendar} transform={"shrink-8"} className={lead.contact_preferences.phone_calls === true ? "skin-secondary-color" : "disabledColor"}/>
+                                                <FontAwesomeIcon icon={faPhone} transform={"shrink-12 down-1"} className={lead.contact_preferences.phone_calls === true ? "skin-secondary-color" : "disabledColor"}/>
+                                            </span>
+                                        </MDBNavLink>
+                                    </MDBNavItem>
+                                 </span>
+                                <span>{localization.setCallbackTooltip}</span>
+                            </MDBTooltip>
+                            <MDBTooltip placement="bottom" domElement tag="span">
+                                <span>
+                                   <MDBNavItem className="px-2" onClick={this.toggleEmail}>
+                                        <MDBNavLink to="#" className="p-0" disabled={lead.contact_preferences.emails !== true}>
+                                            <span className="fa-layers fa-2x mt-2 p-0 px-2">
+                                                <FontAwesomeIcon icon={faCircle} className={lead.contact_preferences.emails === true ? "skin-primary-color" : "disabledColor"}/>
+                                                <FontAwesomeIcon icon={faEnvelope} transform={"shrink-8"} className={lead.contact_preferences.emails === true ? "skin-secondary-color" : "disabledColor"}/>
+                                            </span>
+                                        </MDBNavLink>
+                                    </MDBNavItem>
+                                 </span>
+                                <span>{localization.sendEmailTooltip}</span>
+                            </MDBTooltip>
+                            <MDBTooltip placement="bottom" domElement tag="span">
+                                <span>
+                                    <MDBNavItem className="px-2" onClick={this.toggleText}>
+                                        <MDBNavLink to="#" className="p-0" disabled={lead.contact_preferences.texts !== true}>
+                                            <span className="fa-layers fa-2x mt-2 p-0 px-2">
+                                                <FontAwesomeIcon icon={faCircle} className={lead.contact_preferences.texts === true ? "skin-primary-color" : "disabledColor"}/>
+                                                <FontAwesomeIcon icon={faSms} transform={"shrink-8"} className={lead.contact_preferences.texts === true ? "skin-secondary-color" : "disabledColor"}/>
+                                            </span>
+                                        </MDBNavLink>
+                                    </MDBNavItem>
+                                 </span>
+                                <span>{localization.sendSMSTooltip}</span>
+                            </MDBTooltip>
                             <MDBNavItem className="rounded-pill m-2 red-darken-2 m-1" style={{maxHeight: "37px"}} onClick={this.props.toggleEndInteraction}>
                                 <MDBNavLink to="#" className="py-0 px-2 m-2 align-middle skin-text f-s font-weight-bold">
                                     {localization.endInteraction}

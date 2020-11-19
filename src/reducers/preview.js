@@ -16,6 +16,10 @@ export function preview(state = initialState, action) {
             })
         case "INTERACTION.END":
             return {}
+
+        case 'USER.LOG_OUT':
+            return initialState
+
         default:
             return state
     }

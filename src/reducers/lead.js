@@ -245,8 +245,10 @@ export function lead(state = initialState, action) {
                 ...state,
                 interactions: [ ...state.interactions, action.payload]
             }
+
         case "INTERACTION.END":
-            return {}
+        case 'USER.LOG_OUT':
+            return initialState
 
         default:
             return state

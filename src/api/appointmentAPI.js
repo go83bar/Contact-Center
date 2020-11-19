@@ -192,6 +192,7 @@ export default class AppointmentAPI {
         const requestOptions = {
             url: redux.config["url-api-base"] + "appointments/" + params.appointmentID + "/confirm",
             method: "POST",
+            data: {interaction_id: params.interactionID},
             toast: true,
             auth: redux.user.auth
         }
@@ -244,7 +245,8 @@ export default class AppointmentAPI {
      * @typedef UpdateStatusParams
      * @type {object}
      * @property {number} appointmentID 
-     * @property {number} statusID 
+     * @property {number} interactionID
+     * @property {number} statusID
      */
 
     /**
@@ -268,7 +270,8 @@ export default class AppointmentAPI {
             url: redux.config["url-api-base"] + "appointments/" + params.appointmentID + "/status",
             method: "POST",
             data: {
-                status_id: params.statusID
+                status_id: params.statusID,
+                interaction_id: params.interactionID
             },
             toast: true,
             auth: redux.user.auth
@@ -281,8 +284,9 @@ export default class AppointmentAPI {
     /**
      * @typedef RescheduleParams
      * @type {object}
-     * @property {number} appointmentID 
-     * @property {string} appointmentTime 
+     * @property {number} appointmentID
+     * @property {number} interactionID
+     * @property {string} appointmentTime
      */
 
     /**
@@ -306,7 +310,8 @@ export default class AppointmentAPI {
             url: redux.config["url-api-base"] + "appointments/" + params.appointmentID,
             method: "PUT",
             data: {
-                appointment_time: params.appointmentTime
+                appointment_time: params.appointmentTime,
+                interaction_id: params.interactionID
             },
             toast: true,
             auth: redux.user.auth

@@ -121,7 +121,10 @@ class EditLead extends Component {
         let updatedFields = this.detectChangedFields()
 
         // build payload for save API call and array of changes for redux action
-        let payload = {}
+        const interactionID = this.props.interaction.id
+        let payload = {
+            interaction_id: interactionID
+        }
         let changeLogs = []
         updatedFields.forEach(field => {
             payload[field.fieldName] = field.value
@@ -129,6 +132,7 @@ class EditLead extends Component {
                 field: field.fieldName,
                 old_value: field.oldValue,
                 new_value: field.value,
+                interaction_id: interactionID,
                 created_at: moment().utc().format("YYYY-MM-DD HH:mm:ss"),
                 created_by: this.props.user.label_name
             })
@@ -588,6 +592,7 @@ const mapStateToProps = state => {
         user: state.user,
         localization: state.localization,
         localized: state.localization.interaction.summary.editLead,
+        interaction: state.interaction,
         lead: state.lead,
         shift: state.shift
     }

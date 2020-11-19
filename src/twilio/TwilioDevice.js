@@ -9,7 +9,7 @@ import {
     agentConnected,
     recordingPaused,
     recordingResumed,
-    agentDisconnected,
+    agentDisconnected, leadBadNumber,
 } from './actions'
 import ObjectID from 'bson-objectid'
 import {toast} from "react-toastify";
@@ -71,7 +71,7 @@ class TwilioDeviceSingleton {
     }
 
     // opens agent connection to Twilio, which opens callbar in either normal or incoming call mode
-    openAgentConnection(incomingCallMode = false) {
+    openAgentConnection(incomingCallMode = false, connectedCallback) {
         const redux = store.getState()
         const newConferenceOID = ObjectID.generate()
 
@@ -99,6 +99,11 @@ class TwilioDeviceSingleton {
             }
 
             store.dispatch(agentConnected(connection.parameters.CallSid, newConferenceOID, incomingCallMode, callSID))
+
+            // if there is a connect callback, fire it now
+            if (connectedCallback !== undefined) (
+                connectedCallback()
+            )
         })
         agentConnection.on('error', (err) => {
             toast.error("Twilio error has occurred. Disconnected from Twilio.")
@@ -119,6 +124,10 @@ class TwilioDeviceSingleton {
             if (response.call_sid !== undefined && response.call_sid !== "") {
                 store.dispatch(leadDialed(response.call_sid))
                 console.log("Lead call initiated")
+            } else if (response.error_code === 5003) { // Bad phone number error
+                console.log("OK so you dialed a number that either doesn't exist or is overseas. You're it!")
+                toast.error(redux.localization.toast.twilio.badNumberError)
+                store.dispatch(leadBadNumber())
             } else {
                 console.log("Twilio Dial Error!")
                 toast.error(redux.localization.toast.twilio.dialLeadFailed)

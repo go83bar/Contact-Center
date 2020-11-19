@@ -96,13 +96,10 @@ export default async function (options) {
     
     // trigger immediate redirect to login on Unauthorized response
     if (response.status === 401) {
-        store.dispatch({ type: "USER.TOKEN_EXPIRED"})
+        store.dispatch({ type: "USER.LOG_OUT"})
         throw new Error("Token Expired")
     }
 
-    // else reset token expiration timer
-    const newExpirationTime = moment.utc().add(60, 'minutes')
-    store.dispatch({ type: "USER.TOKEN_REFRESH", data: newExpirationTime})
 
     // optionally cut toast short, and return fetch API response
     options.toast && toast.update(ref, {autoClose: 1000})

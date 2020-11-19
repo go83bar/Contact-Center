@@ -10,6 +10,7 @@ import ProtectedRoute from "./ProtectedRoute"
 import Preview from "./components/home/Preview"
 import { connect } from 'react-redux';
 import CacheBuster from "./CacheBuster";
+import Cookies from "universal-cookie";
 
 class ContactCenter extends Component {
     constructor(props) {
@@ -23,7 +24,8 @@ class ContactCenter extends Component {
             sideNavToggled: false,
             breakWidth: 1400,
         };
-        let theme = this.props.config.cookies.get("theme")
+        const cookies = new Cookies()
+        let theme = cookies.get("theme")
         document.body.className =  theme !== undefined ? theme : 'eightthree-skin';
     }
 

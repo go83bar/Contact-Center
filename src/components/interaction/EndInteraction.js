@@ -144,10 +144,14 @@ class EndInteraction extends Component {
                     }
                 })
                 fetch === true ? this.props.history.push("/next") : this.props.history.push("/")
+            } else {
+                toast.error(this.props.localization.toast.interaction.outcome.saveFailed)
+                this.setState({disabledEnding: false})
             }
         }).catch(error => {
             console.log("End Interaction Failed: ", error)
             toast.error(this.props.localization.toast.interaction.outcome.saveFailed)
+            this.setState({disabledEnding: false})
             const userID = this.props.user ? this.props.user.id : 0
             const interactionID = this.props.interaction ? this.props.interaction.id : 0
             Slack.sendMessage("End Interaction API call failed for Agent " + userID + " on Interaction " + interactionID + ": " + error.toString())

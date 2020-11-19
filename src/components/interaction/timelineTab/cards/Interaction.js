@@ -8,7 +8,7 @@ import {
     faCircle as faCircleSolid,
     faEnvelope,
     faPhone,
-    faExchange, faFile, faEdit, faComment, faGift
+    faExchange, faFile, faEdit, faComment, faGift, faPencil
 } from "@fortawesome/pro-solid-svg-icons";
 import {faCircle} from "@fortawesome/pro-light-svg-icons";
 import AgentCall from "./AgentCall";
@@ -20,6 +20,7 @@ import Survey from "./Survey";
 import Document from "./Document";
 import Reward from "./Reward";
 import RewardResend from "./RewardResend";
+import SimpleLog from "./SimpleLog";
 
 class Interaction extends Component {
 
@@ -83,6 +84,10 @@ class Interaction extends Component {
                         return (
                             <Lead data={item} key={"int-event-" + index}/>
                         )
+                    case "appt_log":
+                        return (
+                            <SimpleLog data={item} key={"int-event-" + index}/>
+                        )
                     default:
                         return null
                 }
@@ -99,7 +104,8 @@ class Interaction extends Component {
             documents : 0,
             rewards: 0,
             texts: 0,
-            notes: 0
+            notes: 0,
+            logs: 0
         }
         this.props.data && this.props.data.events && this.props.data.events.forEach(event => {
             switch (event.type) {
@@ -119,6 +125,10 @@ class Interaction extends Component {
                 case "reward" : counts.rewards++
                     break
                 case "reward_resend" : counts.rewards++
+                    break
+                case "log":
+                case "appt_log":
+                    counts.logs++
                     break
                 default: break
             }
@@ -152,20 +162,21 @@ class Interaction extends Component {
                                 {counts.rewards > 0 && <div><MDBChip className="m-0 timelineChip">{counts.rewards} <FontAwesomeIcon icon={faGift}/></MDBChip></div>}
                                 {counts.texts > 0 && <div><MDBChip className="m-0 timelineChip">{counts.texts} <FontAwesomeIcon icon={faComment}/></MDBChip></div>}
                                 {counts.notes > 0 && <div><MDBChip className="m-0 timelineChip">{counts.notes} <FontAwesomeIcon icon={faEdit}/></MDBChip></div>}
+                                {counts.logs > 0 && <div><MDBChip className="m-0 timelineChip">{counts.logs} <FontAwesomeIcon icon={faPencil}/></MDBChip></div>}
                             </div>
                         </div>
                         <div className="d-flex w-50 f-s flex-column text-right justify-content-end">
                             <span><span className="font-weight-bold">{this.props.data.created_at.format("MMM D")}</span>, {this.props.data.created_at.format("h:mm a z")}</span>
                             {this.props.data.created_by && <span>{this.props.localization.created_by}: {this.props.data.created_by}</span>}
                             <span>{this.props.data.reason_id && this.props.shift.call_reasons.find(reason => reason.id === this.props.data.reason_id).text} / {this.props.data.phase_id && this.props.shift.phases.find(phase => phase.id === this.props.data.phase_id).label}</span>
-                            <MDBIcon className="m-2" size={"lg"} icon={this.state.collapsed ? 'angle-down' : 'angle-up'}/>
+                            {this.props.data && this.props.data.events.length > 0 && <MDBIcon className="m-2" size={"lg"} icon={this.state.collapsed ? 'angle-down' : 'angle-up'}/>}
                         </div>
                     </div>
                 </MDBBox>
                 <MDBCollapse id='collapse1' isOpen={!this.state.collapsed} style={{}}>
                     <hr className="m-0" style={{height: "2px", backgroundColor: "#DCE0E3", borderTop: 0}}/>
                     <MDBCardBody className="timelineCardBody skin-border-primary pt-3 px-3 pb-0">
-                        {this.props.data && this.props.data.events && this.renderEvents()}
+                        {this.props.data && this.props.data.events.length > 0 && this.renderEvents()}
                     </MDBCardBody>
                 </MDBCollapse>
             </MDBCard>

@@ -5,51 +5,32 @@ import {
 } from "mdbreact";
 import {connect} from "react-redux";
 import SurveySubmission from "./SurveySubmission"
-import SurveyThumb from "./SurveyThumb"
 
 class LeadSurvey extends Component {
 
-    generateSurveyView = () => {
-        if (this.props.lead.surveys && this.props.lead.surveys.length > 0) {
-            return this.props.lead.surveys.map( (submission) => {
-                    return <SurveySubmission
-                        key={submission.id}
-                        survey={submission}
-                        />
-                    })
-            
-        } 
-        return (
-            <MDBBox>No Surveys</MDBBox>
-        )
-        
-    }
     render() {
+
         if (this.props.active === true) {
             if (this.props.lead.surveys.length > 0) {
+                let surveyCount = this.props.lead.surveys.length
+                const surveys = this.props.lead.surveys.map( (submission) => {
+                    // the first one should be open, they all need the index to display in the icon, last first
+                    const thisSubmission = (<SurveySubmission
+                        key={submission.id}
+                        survey={submission}
+                        listIndex={surveyCount}
+                        defaultOpen={surveyCount === this.props.lead.surveys.length}
+                    />)
+                    surveyCount--
+                    return thisSubmission
+                })
+
                 return (
                     <MDBBox className="d-flex flex-1 overflow-auto">
-                        <MDBBox className="mr-2 d-flex" style={{order: 0, flex: "0 0 30%"}}>
-                            <MDBCard border="light" className="p-2 rounded">
-                                <strong className="black-text">{this.props.localization.interaction.survey.tabTitle.toUpperCase()}</strong>
-                                <MDBBox>
-                                    {this.props.lead.surveys.map((submission) => {
-                                        return <SurveyThumb
-                                            key={submission.id}
-                                            submission={submission}
-                                        />
-                                    })}
-                                </MDBBox>
-                            </MDBCard>
-                        </MDBBox>
+
                         <MDBBox border="light" className="w-100 rounded d-flex overflow-auto flex-1 order-1">
                             <div className="w-100 smooth-scroll flex-1 order-1 d-flex overflow-auto flex-column">
-                                {this.props.lead.surveys.map( (submission) => {
-                                    return <SurveySubmission
-                                        key={submission.id}
-                                        survey={submission}
-                                        />
-                                    })}
+                                {surveys}
                             </div>
                         </MDBBox>
                     </MDBBox>

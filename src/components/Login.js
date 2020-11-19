@@ -13,12 +13,16 @@ import ConnectAPI from '../api/connectAPI'
 import {connect} from 'react-redux';
 import {TwilioDevice} from "../twilio/TwilioDevice"
 import {websocketDevice} from "../websocket/WebSocketDevice"
+import {TokenRefreshDevice} from "../ auth/TokenRefreshDevice"
+import Cookies from "universal-cookie";
 
 
 class Login extends Component {
 
     constructor(props) {
         super(props);
+
+        const cookies = new Cookies()
 
         this.state = {
             password: "",
@@ -28,9 +32,10 @@ class Login extends Component {
             hasErrors: false,
             errorMessage: "",
             flipped: false,
-            auth : this.props.config.cookies.get("auth")
+            auth : cookies.get("auth")
         }
-        this.props.config.cookies.remove("auth")
+
+        cookies.remove("auth")
         if (this.state.auth !== undefined) this.login()
     }
 
@@ -78,12 +83,13 @@ class Login extends Component {
     }
 
     login = () => {
+        console.log("running login")
         if (this.state.pin === "" && this.state.auth === undefined) {
             return
         }
-
+        console.log("auth: ", this.state.auth)
         // check supplied PIN, if successful log the user in and route to the home view
-        let loginMethod = this.state.auth !== undefined ?  ConnectAPI.validateAuth(this.state.auth) : ConnectAPI.login(this.state.pin, this.state.email)
+        let loginMethod = this.state.auth !== undefined ?  ConnectAPI.validateAuth(this.state.auth, false) : ConnectAPI.login(this.state.pin, this.state.email)
 
            loginMethod.then((responseJson) => {
                 // if login failed, there will be just an empty response
@@ -107,8 +113,16 @@ class Login extends Component {
                 // initialize the websocket connection
                 websocketDevice.bootstrap(responseJson.user.id, responseJson.auth.token)
 
+               // initialize the token refresh device
+               TokenRefreshDevice.bootstrap()
+
+               // set new auth into cookies if remember setting is set
+               if (this.state.remember) {
+                   const cookies = new Cookies()
+                   cookies.set('auth', responseJson.auth)
+               }
                 // set user and shift data into store
-                this.props.dispatch({type: 'LOG_IN_USER', payload: {user: responseJson.user, auth: responseJson.auth, cookies: this.state.remember === true ? this.props.config.cookies : undefined}})
+                this.props.dispatch({type: 'LOG_IN_USER', payload: {user: responseJson.user, auth: responseJson.auth}})
                 this.props.history.push("/")
             })
     }

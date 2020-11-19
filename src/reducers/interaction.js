@@ -23,7 +23,10 @@ export function interaction (state = initialState, action) {
             return { ...state, hasResponses: true}
 
         case "INTERACTION.END":
-            return {}
+        case 'USER.LOG_OUT':
+            return initialState
+
+
         default:
             return state
     }

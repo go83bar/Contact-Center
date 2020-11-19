@@ -1,23 +1,28 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
+import ExpiredTokenModal from "./ExpiredTokenModal";
+import {CookiesProvider} from "react-cookie";
 
 // eslint-disable-next-line
 const PrivateRoute = ({ component: Component, user: user, ...rest }) => (
   <Route
     {...rest}
-    render={props =>
-      user.isAuthenticated === true ? (
-        <Component {...props} />
-      ) : (
+    render={props => {
+      return user.isAuthenticated === true ? (
+        <CookiesProvider>
+            <Component {...props} />
+            <ExpiredTokenModal />
+        </CookiesProvider>
+            ) : (
         <Redirect to={{
                 pathname: "/login",
                 state: { from : props.location }
             }}
         />
       )
-    }
+    }}
   />
 );
 

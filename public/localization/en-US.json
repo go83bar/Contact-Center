@@ -1,4 +1,9 @@
 {
+  "auth": {
+    "inactivityTitle": "You session will expire soon",
+    "inactivityCopy": "You will be automatically logged out in $ seconds...",
+    "inactivityButtonLabel": "Keep me logged in"
+  },
   "created_by": "Created By",
   "days": [
     "SUN",
@@ -217,6 +222,12 @@
       "timelockMessage": "Reward emails cannot be sent within 24 hours of each other."
     },
     "summary": {
+      "editLeadTooltip": "Edit Lead",
+      "refreshLeadTooltip": "Refresh Lead",
+      "openTwilioTooltip": "Open Call Bar",
+      "setCallbackTooltip": "Set Callback",
+      "sendEmailTooltip": "Send Email",
+      "sendSMSTooltip": "Send SMS",
       "client": "Client",
       "endInteraction": "END",
       "recordingPausedLabel": "Paused",
@@ -331,14 +342,27 @@
       }
     },
     "survey": {
+      "showResponses": "Show responses ",
+      "hideResponses": "Hide responses ",
       "tabTitle": "Surveys",
       "score": "Score",
       "qualified": "Qualified"
     },
     "timeline": {
+      "showSummary": ">> Show summary",
+      "hideSummary": "<< Hide summary",
       "tabTitle": "Timeline",
       "noStartTime": "No start time, needs verify",
       "unansweredCall": "Unanswered Incoming Call",
+      "summary": {
+        "surveysTooltip": "Surveys",
+        "interactionsTooltip": "Interactions",
+        "callsTooltip": "Calls",
+        "textsTooltip": "SMS",
+        "emailsTooltip": "Emails",
+        "notesTooltip": "Notes",
+        "appointmentsTooltip": "Appointments"
+      },
       "merge": {
         "cardTitle": "Lead Merge",
         "sourceDetails": "Source Lead Details:",
@@ -802,6 +826,9 @@
       "leadLoadError": "Could not load selected lead! Please notify app issues!",
       "leadMergeError": "Lead could not be merged. Please notify app issues!"
     },
+    "notes": {
+      "saveFailed": "Note could not be saved."
+    },
     "profile": {
       "passwordBlacklistedError": "Your chosen password violates a blacklist rule. Please choose another.",
       "passwordHistoryError": "Your chosen password was in your last 8 passwords. Please do not re-use passwords.",
@@ -818,8 +845,18 @@
       "resent": "Client Reward was successfully resent!",
       "notResent": "Client Reward could not be resent. Please contact dev."
     },
+    "timeline": {
+      "email": {
+        "emailResent": "Email resent!",
+        "emailResendError": "Email was not resent. Please try again or notify app issues!"
+      }
+    },
+    "tokenRefresh": {
+      "refreshError": "Your security token could not be refreshed.  Please log in again."
+    },
     "twilio": {
       "dialLeadFailed": "Lead couldn't be dialed. Please check the number and try again!",
+      "badNumberError": "The number dialed is not a real number! Please remove this number from the lead and mark as wrong number.",
       "connectIncomingFailed": "Incoming call couldn't be connected! Please call this lead back!",
       "incomingHungUp": "Incoming caller has hung up. Click Dial Button to call them back!",
       "playAutoVMFailed": "Couldn't play Autovoicemail, please leave a manual voicemail!",
@@ -832,12 +869,6 @@
       "noPhoneNumber": "Lead has no phone numbers!",
       "deviceError": "There was a problem in your connection. Please notify dev if this persists",
       "connectionEstablishError": "There was a problem establishing your connection to the phone system. You can try logging out or restarting your browser."
-    },
-    "timeline": {
-      "email": {
-        "emailResent": "Email resent!",
-        "emailResendError": "Email was not resent. Please try again or notify app issues!"
-      }
     }
   }
 }

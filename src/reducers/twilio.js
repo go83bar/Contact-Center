@@ -286,7 +286,7 @@ export function twilio(state = initialState, action) {
         case 'TWILIO.PROVIDER.CALLFAILED':
             return Object.assign({}, state, generateProviderDisconnectedState(callStatuses.callFailed, disconnectedStatuses.includes(state.leadCallStatus)))
 
-        case 'LOG_OUT_USER':
+        case 'USER.LOG_OUT':
             return initialState
         default:
             return state

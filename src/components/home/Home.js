@@ -91,7 +91,7 @@ class Home extends Component {
         TwilioDevice.cleanup()
         this.props.config.cookies.remove("auth")
         ConnectAPI.logout(this.props.user.auth).then(responseJson => {
-            this.props.dispatch({type: 'LOG_OUT_USER', payload: {}})
+            this.props.dispatch({type: 'USER.LOG_OUT', payload: {}})
         }).catch(error => {
             console.log("LOGOUT ERROR: ", error)
         })

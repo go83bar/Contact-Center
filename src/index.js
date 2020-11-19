@@ -11,12 +11,10 @@ import "./assets/scss/mdb-pro.scss"
 import "./index.css";
 import 'react-dates/initialize';
 
-import Cookies from 'universal-cookie'
 import registerServiceWorker from './registerServiceWorker';
 import ContactCenter from "./ContactCenter";
 import Unauthorized from "./Unauthorized";
 import store from './store'
-import ExpiredTokenModal from "./ExpiredTokenModal";
 
 
 const host = window.location.host.indexOf(":") > 0 ? window.location.host.substr(0, window.location.host.indexOf(":")) : window.location.host
@@ -25,7 +23,6 @@ const host = window.location.host.indexOf(":") > 0 ? window.location.host.substr
 fetch(window.location.protocol + "//" + window.location.host + "/data/" + host + '.json')
     .then(response => response.json())
     .then((responseJson) => {
-        responseJson["cookies"] = new Cookies()
         store.dispatch({type: 'CONFIGURE', payload: responseJson})
         const lang = responseJson.languages && responseJson.languages.indexOf(window.navigator.language) !== -1 ? window.navigator.language : responseJson["language-default"]
 
@@ -36,7 +33,6 @@ fetch(window.location.protocol + "//" + window.location.host + "/data/" + host +
                 ReactDOM.render(
                     <Provider store={store}>
                         <ContactCenter/>
-                        <ExpiredTokenModal />
                     </Provider>,
                     document.getElementById('83Bar-Activate')
                 )

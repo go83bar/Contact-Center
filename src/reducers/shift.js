@@ -17,7 +17,7 @@ export function shift(state = initialState, action) {
                 ...action.payload
             })
 
-        case 'LOG_OUT_USER':
+        case 'USER.LOG_OUT':
             return initialState
 
         default:

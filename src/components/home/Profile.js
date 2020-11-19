@@ -6,6 +6,7 @@ import {faSquareFull} from "@fortawesome/pro-solid-svg-icons";
 import AgentAPI from "../../api/agentAPI";
 import {toast} from "react-toastify";
 import String from "../../utils/String";
+import Cookies from "universal-cookie";
 
 class Profile extends Component {
 
@@ -168,7 +169,8 @@ class Profile extends Component {
     }
 
     changeSkin(value) {
-        this.props.config.cookies.set("theme", value)
+        const cookies = new Cookies()
+        cookies.set("theme", value)
         document.body.className = value;
     }
 

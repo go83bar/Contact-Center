@@ -14,6 +14,7 @@ import {connect} from "react-redux"
 import LeadNote from './LeadNote'
 import LeadAPI from '../../../api/leadAPI'
 import * as moment from 'moment'
+import {toast} from "react-toastify";
 
 class LeadNotes extends Component {
 
@@ -112,20 +113,22 @@ class LeadNotes extends Component {
                             type: "LEAD.NOTE_UPDATED",
                             data: payload
                         })
+                        // update local state to clear editing box
+                        this.setState({
+                            noteContent: "",
+                            noteID: undefined,
+                            noteBtnLabel: this.props.localization.buttonLabels.save,
+                            isEditing: false,
+                        })
+                    } else {
+                        toast.error(this.localization.toast.notes.saveFailed)
                     }
 
-                    // update local state to clear editing box
-                    this.setState({
-                        noteContent: "",
-                        noteID: undefined,
-                        noteBtnLabel: this.props.localization.buttonLabels.save,
-                        isEditing: false,
-                        createNote: false
-                    })
                 }).catch((reason) => {
-                // TODO handle error
-                console.log("Error saving note: ", reason)
-            })
+                    // TODO handle error
+                    console.log("Error saving note: ", reason)
+                    toast.error(this.localization.toast.notes.saveFailed)
+                })
         } else {
             // this a new note to save
             const payload = {
@@ -236,16 +239,7 @@ class LeadNotes extends Component {
                         className="mb-2 rounded gray-border"
                         style={{backgroundColor: "transparent"}}
                     >
-                        {!this.state.createNote && <MDBBtn
-                            rounded
-                            color="primary"
-                            className="float-left shadow-sm"
-                            onClick={this.createNote}
-                        >
-                            {this.props.localization.interaction.notes.createNote}
-
-                        </MDBBtn>}
-                        {this.state.createNote && <MDBBox className="d-flex flex-column p-2">
+                        <MDBBox className="d-flex flex-column p-2">
                             <MDBBox
                                 className="font-weight-bold">{this.props.localization.interaction.notes.createNote}</MDBBox>
                             <textarea className="form-control"
@@ -256,15 +250,6 @@ class LeadNotes extends Component {
                                       value={this.state.noteContent}
                             />
                             <MDBBox>
-                                <MDBBtn
-                                    color="primary"
-                                    rounded
-                                    outline
-                                    className="float-left"
-                                    onClick={this.cancelAdd}
-                                >
-                                    {this.props.localization.buttonLabels.cancel}
-                                </MDBBtn>
                                 <MDBBtn
                                     rounded
                                     color="primary"
@@ -278,7 +263,7 @@ class LeadNotes extends Component {
                                 </MDBBtn>
                             </MDBBox>
                         </MDBBox>
-                        }
+
                     </MDBBox>
 
                     <MDBBox className="d-flex flex-column p-1 px-3 rounded gray-border gray-background overflow-auto">

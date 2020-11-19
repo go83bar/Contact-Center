@@ -3,7 +3,7 @@ import {
     MDBBox,
     MDBCardHeader,
     MDBCardBody,
-    MDBCard, MDBChip, MDBStepper, MDBStep
+    MDBCard, MDBChip, MDBStepper, MDBStep, MDBBtn
 
 } from "mdbreact";
 
@@ -34,6 +34,8 @@ class LeadTimeline extends Component {
         this.toggleFilter = this.toggleFilter.bind(this)
 
         this.state = {
+            sidebarCollapsed: true,
+            sidebarButtonLabel: props.localization.interaction.timeline.showSummary,
             filters: []
         };
     }
@@ -61,11 +63,23 @@ class LeadTimeline extends Component {
         return existingFilters
     }
 
+    toggleSidebar = () => {
+        console.log("doin it")
+        // flip the collapse state
+        const newCollapsed = !this.state.sidebarCollapsed
+        const sidebarButtonLabel = newCollapsed ? this.props.localization.interaction.timeline.showSummary : this.props.localization.interaction.timeline.hideSummary
+
+        this.setState({
+            sidebarCollapsed: newCollapsed,
+            sidebarButtonLabel
+        })
+    }
+
 
     buildTimeline(td) {
         let date = undefined
         const filters = this.state.filters
-        const timeline = td.map((item, index) => {
+        return td.map((item, index) => {
             let result = []
             let showInteraction = false
             if (item.type === "interaction") {
@@ -197,7 +211,6 @@ class LeadTimeline extends Component {
             }
             return result
         })
-        return timeline
     }
     render() {
         if (this.props.active === true) {
@@ -206,15 +219,24 @@ class LeadTimeline extends Component {
             const tp = td.getTouchpoints()
             return (
                 <MDBBox className="d-flex flex-row overflow-auto flex-1 p-0 m-0 w-auto">
-                    <TimelineTouchpoints data={tp} toggleFilter={this.toggleFilter} filters={this.state.filters}/>
+                    <TimelineTouchpoints data={tp} collapsed={this.state.sidebarCollapsed} toggleFilter={this.toggleFilter} filters={this.state.filters}/>
                     <MDBCard className="d-flex order-1 overflow-auto w-100 border-0 backgroundColorInherit">
                         <MDBCardHeader
                             className="d-flex card-header-no-back-no-border bg-white mb-3 f-s py-2 px-3 justify-content-end">
-                                <span
-                                    className={"p-0 px-2 pointer " + (this.state.filters.length === 0 ? "skin-primary-color" : "skin-secondary-color")}
-                                    onClick={() => this.toggleFilter("all")}>
-                                    All
-                                </span>
+                            <span className="mr-auto">
+                                <MDBBtn color="primary"
+                                        className="my-0 py-1 px-2 z-depth-0"
+                                        size="sm"
+                                        rounded
+                                        onClick={this.toggleSidebar}>
+                                    {this.state.sidebarButtonLabel}
+                                </MDBBtn>
+                            </span>
+                            <span
+                                className={"p-0 px-2 pointer " + (this.state.filters.length === 0 ? "skin-primary-color" : "skin-secondary-color")}
+                                onClick={() => this.toggleFilter("all")}>
+                                All
+                            </span>
                             <span
                                 className={"p-0 px-2 pointer " + (tp.surveys.total > 0 ? (this.state.filters.includes("surveys") ? "skin-primary-color" : "skin-secondary-color") : "disabledColor")}
                                 onClick={tp.surveys.total > 0 ? () => this.toggleFilter("surveys") : null}>

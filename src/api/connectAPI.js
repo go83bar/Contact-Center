@@ -69,7 +69,7 @@ export default class ConnectAPI {
         return await sendRequest(requestOptions)
     }
 
-    static async validateAuth(auth) {
+    static async validateAuth(auth, refreshMode) {
         // Mock API responses for local dev
         if (process.env.REACT_APP_QUERY_MODE === "development") {
             const mockData = await fetch(window.location.protocol + "//" + window.location.host + "/data/userLogin.json")
@@ -80,7 +80,8 @@ export default class ConnectAPI {
         const redux = store.getState()
         const payload = {
             user_id: auth.userID,
-            token: auth.token
+            token: auth.token,
+            refresh_mode: refreshMode
         }
 
         const requestOptions = {

@@ -77,6 +77,12 @@ export function leadRemoveHold() {
     }
 }
 
+export function leadBadNumber() {
+    return {
+        type: "TWILIO.LEAD.BAD_NUMBER"
+    }
+}
+
 export function agentConnected(agentCallSID, conferenceOID, incomingCallMode, incomingCallSID) {
     return {
         type: "TWILIO.DEVICE.CONNECTED",

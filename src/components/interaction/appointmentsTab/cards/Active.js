@@ -8,7 +8,6 @@ import {
     MDBCollapse,
     MDBNavLink,
     MDBSelect,
-    MDBTooltip
 } from "mdbreact"
 import {connect} from "react-redux"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -76,6 +75,8 @@ class Active extends Component {
         availableStatuses.sort((a, b) => a.order - b.order)
 
         this.state = {
+            controlsVisible: false,
+            controlsButtonLabel: "<< More",
             verifyDate: moment(),
             verifyTime: "00:00:00",
             reschedule: false,
@@ -89,11 +90,18 @@ class Active extends Component {
         }
 
     }
-
+    toggleControls = () => {
+        let newState = {controlsVisible: true, controlsButtonLabel: "Less >>"}
+        if (this.state.controlsVisible) {
+            newState.controlsVisible = false
+            newState.controlsButtonLabel = "<< More"
+        }
+        this.setState(newState)
+    }
 
     toggleConfirm = () => {
         // persist change to API
-        AppointmentAPI.confirm({ appointmentID: this.props.data.id}).then( response => {
+        AppointmentAPI.confirm({ appointmentID: this.props.data.id, interactionID: this.props.interaction.id}).then( response => {
             if (response.success) {
                 // success message
                 const toastMessage = this.props.data.confirmed ? this.props.localization.toast.appointments.unconfirmed : this.props.localization.toast.appointments.confirmed
@@ -105,6 +113,7 @@ class Active extends Component {
                     field: "confirmed",
                     old_value: this.props.data.confirmed,
                     new_value: !this.props.data.confirmed,
+                    interaction_id: this.props.interaction.id,
                     created_at: moment().utc().format("YYYY-MM-DD hh:mm:ss"),
                     created_by: this.props.user.label_name
                 }
@@ -139,7 +148,8 @@ class Active extends Component {
         // send update to API
         const updateStatusParams = {
             appointmentID: this.props.data.id,
-            statusID: this.state.changeStatus
+            statusID: this.state.changeStatus,
+            interactionID: this.props.interaction.id
         }
 
         AppointmentAPI.updateStatus(updateStatusParams).then( response => {
@@ -244,7 +254,8 @@ class Active extends Component {
         const apptTime = this.state.dateSelected + " " + slotTime + ":00"
         const rescheduleParams = {
             appointmentTime: apptTime,
-            appointmentID: this.props.data.id
+            appointmentID: this.props.data.id,
+            interactionID: this.props.interaction.id
         }
 
         console.log("Reschedule params: ", rescheduleParams)
@@ -373,6 +384,9 @@ class Active extends Component {
             return ""
         }
 
+        // set controls container flex width
+        let controlsStyle = {flex: "0 0 96px"}
+        if (this.state.controlsVisible) controlsStyle = {flex: "0 0 380px"}
         // determine disabled/enabled status of the action buttons, starting with common-sense defaults
         let allowConfirm = this.props.data.start_time ? (moment().isBefore(this.props.data.start_time)) ? true : false : false
         let allowVerify = this.props.data.start_time ? false : true
@@ -416,70 +430,68 @@ class Active extends Component {
                                     className="d-flex font-weight-bold skin-primary-color f-l w-100 justify-content-end">{apptStatus.label}</span>
                                 {this.props.data.created_by && <span
                                     className="d-flex w-100 justify-content-end">{this.props.localization.created_by}: {this.props.data.created_by}</span>}
+                                <span className="ml-auto">
+                                <MDBBtn color="primary"
+                                        className="my-1 mr-0 py-1 px-2 z-depth-0"
+                                        size="sm"
+                                        rounded
+                                        onClick={this.toggleControls}>
+                                    {this.state.controlsButtonLabel}
+                                </MDBBtn>
+                            </span>
+
                             </div>
                         </div>
-                        <MDBBox className="d-flex" style={{flex: "0 0 380px"}}>
-                            <MDBTooltip material placement="top">
-                                <MDBNavLink to="#"
-                                            disabled={!allowStatusChange}
-                                            className="d-flex flex-column h-100 align-items-center justify-content-center border-left p-2 skin-secondary-color"
-                                            onClick={this.toggleStatus}
-                                            style={{flex: "0 0 96px"}}
-                                >
-                                    <FontAwesomeIcon icon={faHeartbeat}
-                                                     className={allowStatusChange ? this.state.status ? "skin-primary-color" : "skin-secondary-color" : "disabledColor"}
-                                                     size="lg"/><span
-                                    className={allowStatusChange ? this.state.status ? "skin-primary-color" : "skin-secondary-color" : "disabledColor"}>{localization.status}</span>
-                                </MDBNavLink>
-                                <div>{localization.status}</div>
-                            </MDBTooltip>
-                            <MDBTooltip material placement="top">
-                                <MDBNavLink to="#"
-                                            disabled={!allowReschedule}
-                                            className="d-flex flex-column h-100 align-items-center justify-content-center border-left p-2 skin-secondary-color"
-                                            onClick={this.toggleReschedule}
-                                            style={{flex: "0 0 96px"}}
-                                >
-                                    <FontAwesomeIcon icon={faCalendarDay}
-                                                     className={allowReschedule ? this.state.reschedule ? "skin-primary-color" : "skin-secondary-color" : "disabledColor"}
-                                                     size="lg"/><span
-                                    className={allowReschedule ? this.state.reschedule ? "skin-primary-color" : "skin-secondary-color" : "disabledColor"}>{localization.reschedule}</span>
-                                </MDBNavLink>
-                                <div>{localization.reschedule}</div>
-                            </MDBTooltip>
-                            <MDBTooltip material placement="top">
-                                <MDBNavLink to="#"
-                                            disabled={!allowConfirm}
-                                            className={"d-flex flex-column h-100 align-items-center justify-content-center border-left p-2 skin-secondary-color"}
-                                            onClick={this.toggleConfirm}
-                                            style={{flex: "0 0 96px"}}
-                                >
-                                    {this.props.data.confirmed ?
-                                        <span className="fa-layers fa-fw mt-1" style={{marginBottom: "2px"}}>
-                                            <FontAwesomeIcon icon={faSquare} transform={"shrink-4"}
-                                                             className={"skin-primary-color mt-1"}/>
-                                            <FontAwesomeIcon className={allowConfirm ? "skin-secondary-color" : "disabledColor"} icon={faCalendarCheck} size="lg"/>
-                                        </span>
-                                        :
-                                        <FontAwesomeIcon className={allowConfirm ? "skin-secondary-color" : "disabledColor"} icon={faCalendar} size="lg"/>}
-                                    <span className={allowConfirm ? "skin-secondary-color" : "disabledColor"}>{this.props.data.confirmed ? localization.confirmed : localization.confirm}</span>
-                                </MDBNavLink>
-                                <span>{this.props.data.confirmed ? localization.confirmed : localization.confirm}</span>
-                            </MDBTooltip>
-                            <MDBTooltip material placement="top">
-                                <MDBNavLink to="#"
-                                            disabled={!allowVerify}
-                                            className="d-flex flex-column h-100 align-items-center justify-content-center border-left p-2 skin-secondary-color"
-                                            onClick={this.toggleVerify}
-                                            style={{flex: "0 0 96px"}}
-                                >
-                                    <FontAwesomeIcon icon={faCheckDouble}
-                                                     className={allowVerify ? this.state.verify ? "skin-primary-color" : "skin-secondary-color" : "disabledColor"}
-                                                     size="lg"/><span
-                                    className={allowVerify ? this.state.verify ? "skin-primary-color" : "skin-secondary-color" : "disabledColor"}>{localization.verify}</span>
-                                </MDBNavLink>
-                                <span>{localization.verify}</span>
-                            </MDBTooltip>
+                        <MDBBox className="d-flex" style={controlsStyle}>
+                            <MDBNavLink to="#"
+                                        disabled={!allowStatusChange}
+                                        className="d-flex flex-column h-100 align-items-center justify-content-center border-left p-2 skin-secondary-color"
+                                        onClick={this.toggleStatus}
+                                        style={{flex: "0 0 96px"}}
+                            >
+                                <FontAwesomeIcon icon={faHeartbeat}
+                                                 className={allowStatusChange ? this.state.status ? "skin-primary-color" : "skin-secondary-color" : "disabledColor"}
+                                                 size="lg"/><span
+                                className={allowStatusChange ? this.state.status ? "skin-primary-color" : "skin-secondary-color" : "disabledColor"}>{localization.status}</span>
+                            </MDBNavLink>
+                            { this.state.controlsVisible && <React.Fragment><MDBNavLink to="#"
+                                        disabled={!allowReschedule}
+                                        className="d-flex flex-column h-100 align-items-center justify-content-center border-left p-2 skin-secondary-color"
+                                        onClick={this.toggleReschedule}
+                                        style={{flex: "0 0 96px"}}
+                            >
+                                <FontAwesomeIcon icon={faCalendarDay}
+                                                 className={allowReschedule ? this.state.reschedule ? "skin-primary-color" : "skin-secondary-color" : "disabledColor"}
+                                                 size="lg"/><span
+                                className={allowReschedule ? this.state.reschedule ? "skin-primary-color" : "skin-secondary-color" : "disabledColor"}>{localization.reschedule}</span>
+                            </MDBNavLink>
+                            <MDBNavLink to="#"
+                                        disabled={!allowConfirm}
+                                        className={"d-flex flex-column h-100 align-items-center justify-content-center border-left p-2 skin-secondary-color"}
+                                        onClick={this.toggleConfirm}
+                                        style={{flex: "0 0 96px"}}
+                            >
+                                {this.props.data.confirmed ?
+                                    <span className="fa-layers fa-fw mt-1" style={{marginBottom: "2px"}}>
+                                        <FontAwesomeIcon icon={faSquare} transform={"shrink-4"}
+                                                         className={"skin-primary-color mt-1"}/>
+                                        <FontAwesomeIcon className={allowConfirm ? "skin-secondary-color" : "disabledColor"} icon={faCalendarCheck} size="lg"/>
+                                    </span>
+                                    :
+                                    <FontAwesomeIcon className={allowConfirm ? "skin-secondary-color" : "disabledColor"} icon={faCalendar} size="lg"/>}
+                                <span className={allowConfirm ? "skin-secondary-color" : "disabledColor"}>{this.props.data.confirmed ? localization.confirmed : localization.confirm}</span>
+                            </MDBNavLink>
+                            <MDBNavLink to="#"
+                                        disabled={!allowVerify}
+                                        className="d-flex flex-column h-100 align-items-center justify-content-center border-left p-2 skin-secondary-color"
+                                        onClick={this.toggleVerify}
+                                        style={{flex: "0 0 96px"}}
+                            >
+                                <FontAwesomeIcon icon={faCheckDouble}
+                                                 className={allowVerify ? this.state.verify ? "skin-primary-color" : "skin-secondary-color" : "disabledColor"}
+                                                 size="lg"/><span
+                                className={allowVerify ? this.state.verify ? "skin-primary-color" : "skin-secondary-color" : "disabledColor"}>{localization.verify}</span>
+                            </MDBNavLink></React.Fragment>}
                         </MDBBox>
                     </MDBBox>
                 </MDBCard>

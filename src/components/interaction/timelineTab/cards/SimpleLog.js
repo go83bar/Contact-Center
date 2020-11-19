@@ -43,7 +43,7 @@ class SimpleLog extends Component {
                 break
             case "confirmed":
                 result =
-                    <div>{String.humanize(this.props.data.field) + localization.from + (this.props.data.old_value === "0" ? "False" : "True") + localization.to + (this.props.data.new_value === "0" ? "False" : "True")}</div>
+                    <div>{String.humanize(this.props.data.field) + localization.from + (this.props.data.old_value === 0 ? "False" : "True") + localization.to + (this.props.data.new_value === 0 ? "False" : "True")}</div>
                 break
             case "start_time":
                 const ov =  this.props.data.old_value ? <span><span className="font-weight-bold">{moment.utc(this.props.data.old_value).tz(this.props.lead.details.timezone).format("MMM D")}</span>, {moment.utc(this.props.data.old_value).tz(this.props.lead.details.timezone).format("h:mm a")} {this.props.lead.details.timezone_short}</span> : localization.noTime
