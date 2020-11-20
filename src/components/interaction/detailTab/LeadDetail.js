@@ -9,6 +9,7 @@ import Slack from "../../../utils/Slack";
 import String from "../../../utils/String";
 import LeadAPI from "../../../api/leadAPI";
 import {toast} from "react-toastify";
+import moment from "moment";
 
 
 class LeadDetail extends Component {
@@ -67,6 +68,7 @@ class LeadDetail extends Component {
         // call API method and dispatch new data to the store when it's complete
         const data = {
             lead_id: this.props.lead.id,
+            interaction_id: this.props.interaction.id,
             updates: {
                 region_id: regionID
             }
@@ -81,6 +83,9 @@ class LeadDetail extends Component {
                         type: "LEAD.REGION_UPDATED",
                         data: {
                             regionID,
+                            interactionID: this.props.interaction.id,
+                            time: moment.utc().format('YYYY-MM-DD hh:mm:ss'),
+                            createdBy: this.props.user.label_name,
                             newRegion
                         }
                     })
@@ -196,6 +201,8 @@ const mapStateToProps = state => {
     return {
         localization: state.localization,
         lead: state.lead,
+        interaction: state.interaction,
+        user: state.user,
         shift: state.shift
     }
 }

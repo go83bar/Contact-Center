@@ -856,7 +856,7 @@
     },
     "twilio": {
       "dialLeadFailed": "Lead couldn't be dialed. Please check the number and try again!",
-      "badNumberError": "The number dialed is not a real number! Please remove this number from the lead and mark as wrong number.",
+      "badNumberError": "The number dialed is not a real number! The number has been removed from the lead, please mark as wrong number.",
       "connectIncomingFailed": "Incoming call couldn't be connected! Please call this lead back!",
       "incomingHungUp": "Incoming caller has hung up. Click Dial Button to call them back!",
       "playAutoVMFailed": "Couldn't play Autovoicemail, please leave a manual voicemail!",

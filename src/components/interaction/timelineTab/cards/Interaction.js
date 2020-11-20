@@ -21,6 +21,7 @@ import Document from "./Document";
 import Reward from "./Reward";
 import RewardResend from "./RewardResend";
 import SimpleLog from "./SimpleLog";
+import Merge from "./Merge";
 
 class Interaction extends Component {
 
@@ -63,6 +64,10 @@ class Interaction extends Component {
                     case "email":
                         return (
                             <Email data={item} key={"int-event-" + index}/>
+                        )
+                    case "merge":
+                        return (
+                            <Merge data={item} key={"int-event-" + index}/>
                         )
                     case "reward":
                         return (

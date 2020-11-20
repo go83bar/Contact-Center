@@ -77,9 +77,13 @@ export function leadRemoveHold() {
     }
 }
 
-export function leadBadNumber() {
+export function leadBadNumber(fieldName, newLogItem) {
     return {
-        type: "TWILIO.LEAD.BAD_NUMBER"
+        type: "LEAD.BAD_NUMBER",
+        data: {
+            fieldName,
+            newLogItem
+        }
     }
 }
 

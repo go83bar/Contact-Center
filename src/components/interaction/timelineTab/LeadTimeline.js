@@ -54,6 +54,7 @@ class LeadTimeline extends Component {
     }
 
     adjustFilters(filtersToToggle, existingFilters) {
+        this.props.dispatch({type: "AUTH.ACTION_TAKEN"})
         filtersToToggle.forEach( filter => {
             const index = existingFilters.indexOf(filter)
             if (index > -1) existingFilters.splice(index, 1)
@@ -64,7 +65,7 @@ class LeadTimeline extends Component {
     }
 
     toggleSidebar = () => {
-        console.log("doin it")
+        this.props.dispatch({type: "AUTH.ACTION_TAKEN"})
         // flip the collapse state
         const newCollapsed = !this.state.sidebarCollapsed
         const sidebarButtonLabel = newCollapsed ? this.props.localization.interaction.timeline.showSummary : this.props.localization.interaction.timeline.hideSummary

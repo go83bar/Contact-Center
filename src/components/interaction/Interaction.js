@@ -119,15 +119,18 @@ class Interaction extends Component {
 
     toggleNav()
     {
+        this.props.dispatch({type: "AUTH.ACTION_TAKEN"})
         this.setState({slim : !this.state.slim})
     }
 
     toggleDetails() {
+        this.props.dispatch({type: "AUTH.ACTION_TAKEN"})
         this.setState({details : !this.state.details})
     }
 
     toggleTab = tab => () => {
         if (this.state.activeItem !== tab) {
+            this.props.dispatch({type: "AUTH.ACTION_TAKEN"})
             this.setState({
                 activeItem: tab
             });

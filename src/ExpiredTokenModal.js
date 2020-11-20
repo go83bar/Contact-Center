@@ -17,6 +17,24 @@ const ExpiredTokenModal = () => {
     const timerRef = useRef()
     const dispatch = useDispatch()
 
+    const userLogout = useCallback(() => {
+        // hit logout endpoint
+        ConnectAPI.logout(userID).then(responseJson => {
+            // wipe out auth cookie
+            if (cookies.auth !== undefined) {
+                removeCookie('auth')
+            }
+
+            // wipe out store
+            store.dispatch({
+                type: "USER.LOG_OUT"
+            })
+        }).catch(error => {
+            toast.error("PLEASE REFRESH YOUR BROWSER")
+            console.log("LOGOUT ERROR: ", error)
+        })
+    }, [cookies, removeCookie, userID])
+
     useEffect( () => {
         if (showInactiveWarning) {
             setTimerValue(30)
@@ -32,14 +50,9 @@ const ExpiredTokenModal = () => {
     // effect to nuke user if timer ever reaches zero
     useEffect( () => {
         if (timerValue === 0) {
-            if (cookies.auth !== undefined) {
-                removeCookie('auth')
-            }
-            dispatch({
-                type: "USER.LOG_OUT"
-            })
+            userLogout()
         }
-    }, [timerValue, dispatch, removeCookie, cookies.auth])
+    }, [timerValue, dispatch, removeCookie, cookies.auth, userLogout])
 
     const handleRefreshClick = useCallback(() => {
         clearInterval(timerRef.current)
@@ -56,19 +69,16 @@ const ExpiredTokenModal = () => {
             } else {
                 console.log("Token refresh failed: " + response.errorMessage)
                 toast.error(tokenRefreshToastError)
-                store.dispatch({
-                    type: "USER.LOG_OUT"
-                })
+                userLogout()
             }
 
         }).catch( error => {
             console.log("Token refresh exception: " + error)
             toast.error(tokenRefreshToastError)
-            store.dispatch({
-                type: "USER.LOG_OUT"
-            })
+            userLogout()
         })
-    }, [timerRef, userID, authToken, setCookie, dispatch, tokenRefreshToastError])
+    }, [timerRef, userID, authToken, setCookie, dispatch, tokenRefreshToastError, userLogout])
+
 
     return (
         <MDBModal isOpen={showInactiveWarning} centered keyboard={false}>

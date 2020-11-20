@@ -70,11 +70,29 @@ export function lead(state = initialState, action) {
 
         // called when user updates lead's region
         case "LEAD.REGION_UPDATED":
+            // create timeline entry
+            const newChangeLog = {
+                field: "region_id",
+                old_value: state.region_id,
+                new_value: action.data.regionID,
+                interaction_id: action.data.interactionID,
+                created_by: action.data.createdBy,
+                created_at: action.data.time
+            }
             return {
                 ...state,
                 region_id: action.data.regionID,
-                region: action.data.newRegion
+                region: action.data.newRegion,
+                changelogs: [ newChangeLog, ...state.changelogs]
             }
+
+        // called when the lead's number is rejected by twilio
+        case "LEAD.BAD_NUMBER":
+            const fieldName = action.data.fieldName
+            const newLeadDetails = { ...state.details}
+            newLeadDetails[fieldName] = null
+            return { ...state, details: newLeadDetails, changelogs: [...state.changelogs, action.data.newLogItem]}
+
 
         // called when user updates one of their previous notes
         case "LEAD.NOTE_UPDATED":

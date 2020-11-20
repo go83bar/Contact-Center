@@ -91,6 +91,7 @@ class Active extends Component {
 
     }
     toggleControls = () => {
+        this.props.dispatch({type: "AUTH.ACTION_TAKEN"})
         let newState = {controlsVisible: true, controlsButtonLabel: "Less >>"}
         if (this.state.controlsVisible) {
             newState.controlsVisible = false
@@ -110,9 +111,10 @@ class Active extends Component {
                 // push update to store
                 const newLog = {
                     appointment_id: this.props.data.id,
+                    appointment_index: this.props.data.index,
                     field: "confirmed",
-                    old_value: this.props.data.confirmed,
-                    new_value: !this.props.data.confirmed,
+                    old_value: this.props.data.confirmed ? "1" : "0",
+                    new_value: this.props.data.confirmed ? "0" : "1",
                     interaction_id: this.props.interaction.id,
                     created_at: moment().utc().format("YYYY-MM-DD hh:mm:ss"),
                     created_by: this.props.user.label_name
@@ -159,6 +161,7 @@ class Active extends Component {
                 // push update to store
                 const newLog = {
                     appointment_id: this.props.data.id,
+                    appointment_index: this.props.data.index,
                     field: "appointment_status_id",
                     old_value: this.props.data.appointment_status_id,
                     new_value: updateStatusParams.statusID,
@@ -331,6 +334,7 @@ class Active extends Component {
                     newStatusID = defaultStatus.id
                     newLogs.push({
                         appointment_id: this.props.data.id,
+                        appointment_index: this.props.data.index,
                         field: "appointment_status_id",
                         old_value: this.props.data.appointment_status_id,
                         new_value: newStatusID,
@@ -343,6 +347,7 @@ class Active extends Component {
                 const utcTime = moment.tz(params.startTime, office.timezone).utc()
                 newLogs.push({
                     appointment_id: this.props.data.id,
+                    appointment_index: this.props.data.index,
                     field: "start_time",
                     old_value: this.props.data.start_time,
                     new_value: utcTime,

@@ -14,6 +14,8 @@ import {
 import ObjectID from 'bson-objectid'
 import {toast} from "react-toastify";
 import Slack from '../utils/Slack';
+import LeadAPI from "../api/leadAPI";
+import moment from "moment";
 
 const Twilio = require('twilio-client')
 
@@ -125,9 +127,7 @@ class TwilioDeviceSingleton {
                 store.dispatch(leadDialed(response.call_sid))
                 console.log("Lead call initiated")
             } else if (response.error_code === 5003) { // Bad phone number error
-                console.log("OK so you dialed a number that either doesn't exist or is overseas. You're it!")
-                toast.error(redux.localization.toast.twilio.badNumberError)
-                store.dispatch(leadBadNumber())
+                this.handleBadNumber(redux, dialOption)
             } else {
                 console.log("Twilio Dial Error!")
                 toast.error(redux.localization.toast.twilio.dialLeadFailed)
@@ -301,6 +301,40 @@ class TwilioDeviceSingleton {
     checkActiveConnection() {
         console.log("Checking connection: ", this.connection)
         return this.connection !== undefined
+    }
+
+
+    // handles cleanup after dials to bad numbers
+    handleBadNumber(redux, dialOption) {
+        console.log("OK so you dialed a number that either doesn't exist or is overseas. You're it!")
+        toast.error(redux.localization.toast.twilio.badNumberError)
+
+        const fieldName = dialOption + "_phone"
+
+        const data = {
+            lead_id: redux.lead.id,
+            interaction_id: redux.interaction.id,
+            updates: {
+                [fieldName]: "undefined"
+            }
+        }
+        LeadAPI.updateDetails(data)
+            .then(response => {
+                if (response.success !== true) {
+                    console.log("Bad Number could not be removed...")
+                } else {
+                    const newLogItem = {
+                        field: fieldName,
+                        old_value: redux.lead.details[fieldName],
+                        new_value: null,
+                        interaction_id: redux.interaction.id,
+                        created_at: moment.utc().format('YYYY-MM-DD hh:mm:ss'),
+                        created_by: redux.user.label_name
+                    }
+                    store.dispatch(leadBadNumber(fieldName, newLogItem))
+                }
+            })
+
     }
 
     // clean up device upon logout

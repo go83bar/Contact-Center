@@ -101,6 +101,8 @@ class LeadSummary extends Component {
             return
         }
 
+        this.props.dispatch({type: "AUTH.ACTION_TAKEN"})
+
         // open twilio connection in normal mode
         this.setState({openingTwilio: true})
         TwilioDevice.openAgentConnection(false, () => {this.setState({openingTwilio: false})})
@@ -119,14 +121,17 @@ class LeadSummary extends Component {
     }
 
     toggleEmail = () => {
+        this.props.dispatch({type: "AUTH.ACTION_TAKEN"})
         if (this.props.lead.contact_preferences.emails === true)
         this.setState({emailVisible : !this.state.emailVisible})
     }
     toggleText = () => {
+        this.props.dispatch({type: "AUTH.ACTION_TAKEN"})
         if (this.props.lead.contact_preferences.texts === true)
         this.setState({textVisible : !this.state.textVisible})
     }
     toggleCallback = () => {
+        this.props.dispatch({type: "AUTH.ACTION_TAKEN"})
         if (this.props.lead.contact_preferences.phone_calls === true)
             this.setState({callbackVisible : !this.state.callbackVisible})
     }

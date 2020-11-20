@@ -37,6 +37,7 @@ class Email extends Component {
     toggleCollapse() {
         // if we haven't already, load the email content from the backend
         if (this.state.collapsed === true && this.state.emailContent === undefined) {
+            this.props.dispatch({type: "AUTH.ACTION_TAKEN"})
             const getEmailContentParams = {
                 leadID: this.props.lead.id,
                 emailLogID: this.props.data.id
@@ -60,6 +61,7 @@ class Email extends Component {
 
     resendEmail = () => {
         if (this.state.resent === false) {
+            this.props.dispatch({type: "AUTH.ACTION_TAKEN"})
             const params = {
                 leadID: this.props.lead.id,
                 logEmailID: this.props.data.id
