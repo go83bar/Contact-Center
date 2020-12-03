@@ -24,7 +24,7 @@ export default class AgentAPI {
         const redux = store.getState()
 
         const requestOptions = {
-            url: redux.config["url-react-base"] + "activate/appstats",
+            url: redux.config["url-react-base"] + "activate/agent/appstats",
             data: { user_id: redux.user.id, target_date: targetDate},
             method: "POST",
             auth: redux.user.auth
@@ -32,6 +32,63 @@ export default class AgentAPI {
 
         return await sendRequest(requestOptions)
     }
+
+    /**
+     * verifyPhoneNumber is called to send a confirm code when the user wants
+     * to change their phone number
+     * Promise resolves to an object like
+     * {
+     *  success: {boolean},
+     * }
+     *
+     * @static
+     * @param {string} phoneNumber
+     * @return {Promise}
+     * @memberof AgentAPI
+     */
+    static async verifyPhoneNumber(phoneNumber) {
+        const redux = store.getState()
+
+        const requestOptions = {
+            url: redux.config["url-react-base"] + "activate/agent/verifyphone",
+            data: { number: phoneNumber},
+            method: "POST",
+            auth: redux.user.auth
+        }
+
+        return await sendRequest(requestOptions)
+    }
+
+
+
+    /**
+     * confirmPhoneNumber is called to verify a confirm code and update the phone
+     * to change their phone number
+     * Promise resolves to an object like
+     * {
+     *  success: {boolean},
+     * }
+     *
+     * @static
+     * @param {string} phoneNumber
+     * @param {string} pinEntry
+     * @return {Promise}
+     * @memberof AgentAPI
+     */
+    static async confirmPhoneNumber(phoneNumber, pinEntry) {
+        const redux = store.getState()
+
+        const requestOptions = {
+            url: redux.config["url-react-base"] + "activate/agent/confirmphone",
+            data: { number: phoneNumber, pin: pinEntry},
+            method: "POST",
+            auth: redux.user.auth
+        }
+
+        return await sendRequest(requestOptions)
+    }
+
+
 
     /**
      * @typedef UpdateProfileParams
@@ -60,7 +117,7 @@ export default class AgentAPI {
         const redux = store.getState()
 
         const requestOptions = {
-            url: redux.config["url-react-base"] + "activate/profile",
+            url: redux.config["url-react-base"] + "activate/agent/profile",
             method: "POST",
             data: params,
             toast: true,
@@ -200,7 +257,7 @@ export default class AgentAPI {
 
         const redux = store.getState()
         const requestOptions = {
-            url: redux.config["url-react-base"] + "activate/shift",
+            url: redux.config["url-react-base"] + "activate/agent/shift",
             method: "POST",
             auth: redux.user.auth
         }

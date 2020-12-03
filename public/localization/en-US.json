@@ -407,6 +407,10 @@
     },
     "timezoneChoices": [
       {
+        "value": "Pacific/Honolulu",
+        "label": "Hawaii Time"
+      },
+      {
         "value": "America/Los_Angeles",
         "label": "Pacific Time"
       },
@@ -498,6 +502,7 @@
       "last_name": "Last Name",
       "email": "Email",
       "phone": "Phone",
+      "code": "Security Code has been sent. Enter it here:",
       "password": "Password",
       "confirm_password": "Confirm Password"
     },
@@ -833,7 +838,10 @@
       "passwordBlacklistedError": "Your chosen password violates a blacklist rule. Please choose another.",
       "passwordHistoryError": "Your chosen password was in your last 8 passwords. Please do not re-use passwords.",
       "genericSaveError": "An error occurred, your updates were not saved.",
-      "infoUpdated": "Profile updated!"
+      "infoUpdated": "Profile updated!",
+      "numberVerified": "Phone number verified!",
+      "numberNotVerified": "",
+      "pinNotSent": "Confirm code could not be sent."
     },
     "questions": {
       "noChangesError": "There were no changes to save.",

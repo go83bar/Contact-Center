@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import ExpiredTokenModal from "./ExpiredTokenModal";
+import ExpiredTokenModal from "./ auth/ExpiredTokenModal";
 import {CookiesProvider} from "react-cookie";
 
 // eslint-disable-next-line

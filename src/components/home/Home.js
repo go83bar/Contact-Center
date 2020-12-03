@@ -28,6 +28,7 @@ import TwilioAPI from "../../api/twilioAPI";
 import {Slide, ToastContainer} from "react-toastify";
 import * as moment from 'moment'
 import AgentSchedule from "../ui/AgentSchedule";
+import {Cookies} from "react-cookie";
 
 
 class Home extends Component {
@@ -89,7 +90,9 @@ class Home extends Component {
     logout() {
         websocketDevice.disconnect()
         TwilioDevice.cleanup()
-        this.props.config.cookies.remove("auth")
+        const cookies = new Cookies()
+        cookies.remove("auth")
+
         ConnectAPI.logout(this.props.user.auth).then(responseJson => {
             this.props.dispatch({type: 'USER.LOG_OUT', payload: {}})
         }).catch(error => {

@@ -7,6 +7,7 @@ import AgentAPI from "../../api/agentAPI";
 import {toast} from "react-toastify";
 import String from "../../utils/String";
 import Cookies from "universal-cookie";
+import ConfirmedPhoneInput from "./ConfirmedPhoneInput";
 
 class Profile extends Component {
 
@@ -68,10 +69,19 @@ class Profile extends Component {
                 newPassword2: ""
             },
             passwordRules: {...this.defaultPasswordRules},
-            saveButtonDisabled: false,
+            saveButtonDisabled: true,
             skin: undefined
         }
 
+    }
+
+    handleConfirmedPhoneChange = (newPhone) => {
+        const newDetails = {...this.state.details, phone: newPhone}
+
+        // disable save button if password validation have been tripped
+        const saveButtonDisabled = !this.state.passwordRules.valid
+
+        this.setState({details: newDetails, saveButtonDisabled})
     }
 
     handleFormInput = (fieldName) => (evt) => {
@@ -87,25 +97,23 @@ class Profile extends Component {
             newPasswordRules = Object.assign({}, newPasswordRules, validationResults)
         }
 
-        // update matching password status
-        if (newDetails.newPassword1 !== newDetails.newPassword2) {
-            newPasswordRules.matchTest = false
-        } else {
-            newPasswordRules.matchTest = true
+        // run password rules for changes to either field
+        if (fieldName === "newPassword1" || fieldName === "newPassword2") {
+            // update matching password status
+            newPasswordRules.matchTest = newDetails.newPassword1 === newDetails.newPassword2
+
+            // flip visible if we need to
+            newPasswordRules.visible = (newDetails.newPassword1 !== "" && newDetails.newPassword1 !== undefined)
+
+            // set valid flag
+            newPasswordRules.valid = (newPasswordRules.matchTest &&
+                newPasswordRules.lengthTest &&
+                newPasswordRules.lowerCaseTest &&
+                newPasswordRules.upperCaseTest &&
+                newPasswordRules.numbersTest &&
+                newPasswordRules.specialCharsTest
+            )
         }
-
-        // flip visible if we need to
-        newPasswordRules.visible = (newDetails.newPassword1 !== "" && newDetails.newPassword1 !== undefined)
-
-
-        // set valid flag
-        newPasswordRules.valid = (newPasswordRules.matchTest &&
-            newPasswordRules.lengthTest &&
-            newPasswordRules.lowerCaseTest &&
-            newPasswordRules.upperCaseTest &&
-            newPasswordRules.numbersTest &&
-            newPasswordRules.specialCharsTest
-        )
 
         // disable save button if we need to
         const saveButtonDisabled = (newDetails.newPassword1 !== "" && !newPasswordRules.valid)
@@ -197,16 +205,6 @@ class Profile extends Component {
                         </MDBNavItem>
                         <MDBNavItem>
                             <MDBNavLink
-                                className={this.state.activeTab === "schedule" ? "skin-primary-background-color skin-text" : "skin-secondary-color"}
-                                to="#"
-                                active={this.state.activeTab === "schedule"}
-                                onClick={() => this.toggle("schedule")}
-                            >
-                                {localization.schedule}
-                            </MDBNavLink>
-                        </MDBNavItem>
-                        <MDBNavItem>
-                            <MDBNavLink
                                 className={this.state.activeTab === "theme" ? "skin-primary-background-color skin-text" : "skin-secondary-color"}
                                 to="#"
                                 active={this.state.activeTab === "theme"}
@@ -251,11 +249,8 @@ class Profile extends Component {
                                 value={this.state.details.last_name}
                                 onChange={this.handleFormInput('last_name')}
                             />
-                            <MDBInput
-                                label={localization.account.phone}
-                                value={this.state.details.phone}
-                                onChange={this.handleFormInput('phone')}
-                            />
+                            <ConfirmedPhoneInput initialPhoneNumber={this.state.details.phone} setConfirmedNumber={this.handleConfirmedPhoneChange} />
+
                             <MDBInput
                                 label={localization.account.email}
                                 value={this.state.details.email}
@@ -283,9 +278,6 @@ class Profile extends Component {
                         </MDBTabPane>
                         <MDBTabPane tabId="music">
                             Coming Not As Soon ...
-                        </MDBTabPane>
-                        <MDBTabPane tabId="schedule">
-                            Coming Soon ...
                         </MDBTabPane>
                     </MDBTabContent>
                 </MDBBox>

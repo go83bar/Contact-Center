@@ -1,9 +1,9 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react'
 import {MDBBtn, MDBModal, MDBModalBody} from "mdbreact";
 import {useDispatch, useSelector} from "react-redux";
-import ConnectAPI from "./api/connectAPI";
+import ConnectAPI from "../api/connectAPI";
 import {useCookies} from "react-cookie";
-import store from "./store";
+import store from "../store";
 import {toast} from "react-toastify";
 
 const ExpiredTokenModal = () => {
