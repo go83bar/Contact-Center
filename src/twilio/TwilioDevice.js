@@ -41,27 +41,47 @@ class TwilioDeviceSingleton {
 
                 device.on('connect', (connection) => {
                     this.connection = connection
-                    console.log("Twilio Device connected: ", connection)
+                    console.log("Twilio Device connected")
                 })
 
                 device.on('disconnect', (connection) => {
                     this.connection = undefined
-                    console.log("Twilio Device disconnected from connection: ", connection)
+                    console.log("Twilio Device disconnected")
                 })
 
                 device.on('error', (error) => {
+                    // some errors just require restarting the device
+                    const reconnectErrorCodes = [
+                        31000, // signaling disconnect
+                        31005, // websocket connection lost
+                        31009, // transport unavailable
+                        31202, // access token expired
+                        31204, // invalid access token
+                    ]
+
                     console.log("Twilio Device error: ", error)
-                    toast.error(localization.toast.twilio.deviceError)
-                    const errorMessage = {
-                        code: error.code,
-                        message: error.message,
-                        twilioError: error.twilioError
+
+                    if(reconnectErrorCodes.includes(error.code)) {
+                        if (this.refreshing !== true) {
+                            this.refreshing = true
+                            console.log("bamf")
+                            this.cleanup()
+                            this.bootstrap(userID, authToken)
+                        }
+                    } else {
+                        toast.error(localization.toast.twilio.deviceError)
+                        const errorMessage = {
+                            code: error.code,
+                            message: error.message,
+                            twilioError: error.twilioError
+                        }
+                        Slack.sendMessage("Agent " + userID + " got a Twilio device connection error: " + JSON.stringify(errorMessage))
                     }
-                    Slack.sendMessage("Agent " + userID + " got a Twilio device connection error: " + JSON.stringify(errorMessage))
 
                 })
 
                 this.device = device
+                this.refreshing = false
             } else {
                 console.log("Access Token error: ", response)
                 toast.error(localization.toast.twilio.connectionEstablishError)
@@ -76,6 +96,18 @@ class TwilioDeviceSingleton {
     openAgentConnection(incomingCallMode = false, connectedCallback) {
         const redux = store.getState()
         const newConferenceOID = ObjectID.generate()
+
+        // check for agent connection opening without a valid interaction
+        if (redux.interaction.id === undefined) {
+            toast.error(redux.localization.toast.twilio.noInteractionError)
+            return
+        }
+
+        // check for broken Twilio device, this can happen when the agent's internet connection breaks and then comes back
+        if (this.device === undefined) {
+            toast.error(redux.localization.toast.twilio.noDeviceError)
+            return
+        }
 
         const input = {
             interaction_id: redux.interaction.id,
@@ -108,7 +140,7 @@ class TwilioDeviceSingleton {
             )
         })
         agentConnection.on('error', (err) => {
-            toast.error("Twilio error has occurred. Disconnected from Twilio.")
+            toast.error(redux.localization.toast.twilio.agentConnectionError)
             Slack.sendMessage("Agent " + redux.user.id + " got a connection error from Twilio: " + err)
             console.log("Connection error: ", err)
             store.dispatch(agentDisconnected())
@@ -340,6 +372,7 @@ class TwilioDeviceSingleton {
     // clean up device upon logout
     cleanup = () => {
         if (this.device !== undefined) {
+            this.disconnect()
             this.device.destroy()
             delete this.device
         }

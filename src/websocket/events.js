@@ -11,6 +11,7 @@ import {
     callFailed,
     callBusy,
 } from '../twilio/actions'
+import {TwilioDevice} from "../twilio/TwilioDevice";
 
 export function processCallEvent(eventData) {
     // validate websocket input
@@ -83,8 +84,16 @@ export function processInteractionIncomingCall(data) {
         return
     }
 
-    // agent is still in interaction with correct lead, push to store
-    store.dispatch(interactionIncomingCall(data.CallSID))
+    // if the agent has an open connection to the lead, terminate it
+    if (redux.twilio.leadCallSID !== "") {
+        TwilioDevice.disconnectLead().then( response => {
+            // then pop up the modal
+            store.dispatch(interactionIncomingCall(data.CallSID))
+        })
+    } else {
+        // just pop the modal now
+        store.dispatch(interactionIncomingCall(data.CallSID))
+    }
 }
 
 export function processIncomingCallDismiss(callSID) {

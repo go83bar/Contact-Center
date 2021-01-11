@@ -864,6 +864,9 @@
     },
     "twilio": {
       "dialLeadFailed": "Lead couldn't be dialed. Please check the number and try again!",
+      "noDeviceError": "Your phone connection was disrupted and could not be re-established. Refresh the browser tab on the home screen to reconnect.",
+      "noInteractionError": "Could not open callbar without a valid interaction! Please refresh your browser tab.",
+      "agentConnectionError": "Your connection to the phone system has encountered a problem. You are no longer connected.",
       "badNumberError": "The number dialed is not a real number! The number has been removed from the lead, please mark as wrong number.",
       "connectIncomingFailed": "Incoming call couldn't be connected! Please call this lead back!",
       "incomingHungUp": "Incoming caller has hung up. Click Dial Button to call them back!",
@@ -876,7 +879,14 @@
       "checkStatusUpdated": "Call Statuses Updated!",
       "noPhoneNumber": "Lead has no phone numbers!",
       "deviceError": "There was a problem in your connection. Please notify dev if this persists",
-      "connectionEstablishError": "There was a problem establishing your connection to the phone system. You can try logging out or restarting your browser."
+      "connectionEstablishError": "There was a problem establishing your connection to the phone system. You can try logging out or restarting your browser.",
+      "pleaseRefreshError": "There was a problem with the app. Please refresh the browser, you may be asked to log in."
+    },
+    "websocket": {
+      "offlineError": "Your network connection is down. Please reconnect to the internet",
+      "reconnectingError": "Your app connection was lost.  Attempting to reconnect...",
+      "cannotReconnectError": "Could not reconnect. Please contact dev!",
+      "reconnectedMessage": "Successfully reconnected!"
     }
   }
 }

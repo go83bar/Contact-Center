@@ -185,10 +185,10 @@ class CallBar extends Component {
             // will already be populated and we should use that
             callSID = this.props.twilio.leadCallSID
         }
-        TwilioDevice.connectIncoming(callSID, this.props.twilio.conferenceOID).catch( error => {
+        TwilioDevice.connectIncoming(callSID, this.props.twilio.conferenceOID).finally( result => {
             // we only need to re-enable the button if there was an issue
             this.setState(enabledState)
-            console.log("what.", error)
+            console.log("incoming connected: ", result)
         })
     }
 

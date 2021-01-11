@@ -520,7 +520,8 @@ const mapStateToProps = store => {
         localization: store.localization,
         lead: store.lead,
         shift: store.shift,
-        interaction: store.interaction
+        interaction: store.interaction,
+        twilio: store.twilio
     }
 }
 

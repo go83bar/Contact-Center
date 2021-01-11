@@ -64,7 +64,10 @@ class Home extends Component {
             interactionsCount: undefined,
         };
 
-        console.log("constructing home")
+        // sanity check if twilio connection is still open, we want to disconnect
+        if (TwilioDevice.checkActiveConnection()) {
+            TwilioDevice.disconnect()
+        }
 
     }
 
@@ -88,13 +91,13 @@ class Home extends Component {
     }
 
     logout() {
-        websocketDevice.disconnect()
-        TwilioDevice.cleanup()
         const cookies = new Cookies()
         cookies.remove("auth")
 
         ConnectAPI.logout(this.props.user.auth).then(responseJson => {
             this.props.dispatch({type: 'USER.LOG_OUT', payload: {}})
+            websocketDevice.disconnect()
+            TwilioDevice.cleanup()
         }).catch(error => {
             console.log("LOGOUT ERROR: ", error)
         })

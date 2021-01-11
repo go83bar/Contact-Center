@@ -87,6 +87,8 @@ class Interaction extends Component {
     }
 
     answerIncoming = () => {
+        this.setState({endInteractionVisible: false})
+
         if (this.props.twilio.conferenceOID === "") {
             TwilioDevice.openAgentConnection(true)
         } else {
