@@ -169,7 +169,7 @@ class LeadSummary extends Component {
     }
 
     generateCallReason = () => {
-        let reason = this.props.preview.reason
+        let reason = this.props.interaction.callReason
         if (reason.search("Call Chain") !== -1) {
             reason = reason + " of " + this.props.lead.call_attempts.max
         }
@@ -193,7 +193,7 @@ class LeadSummary extends Component {
 
     componentDidMount() {
         // check to see if this is an incoming call on hold
-        if (this.props.preview.call_sid !== null) {
+        if (this.props.preview.call_sid !== undefined && this.props.preview.call_sid !== null) {
             // open twilio connection in incoming call mode
             TwilioDevice.openAgentConnection(true)
         }

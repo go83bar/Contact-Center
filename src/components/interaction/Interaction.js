@@ -29,6 +29,7 @@ import moment from "moment"
 import EndInteraction from "./EndInteraction"
 import "react-toastify/dist/ReactToastify.css";
 import {TwilioDevice} from "../../twilio/TwilioDevice";
+import {websocketDevice} from "../../websocket/WebSocketDevice";
 class Interaction extends Component {
 
     constructor(props) {
@@ -37,6 +38,8 @@ class Interaction extends Component {
         this.toggleEndInteraction = this.toggleEndInteraction.bind(this)
         this.toggleDetails = this.toggleDetails.bind(this)
 
+        // bootstrap the websocket, in case the existing connection is dead and we can't detect it
+        websocketDevice.keepAlive()
 
         this.state = {
             endInteractionVisible : false,
@@ -49,7 +52,7 @@ class Interaction extends Component {
         };
 
     }
-    
+
     earlyCloseWarning = (ev) => {
         ev.preventDefault()
 		const confirmationMessage = this.props.localization.interaction.earlyCloseWarning
@@ -242,7 +245,8 @@ const mapStateToProps = state => {
         lead : state.lead,
         twilio: state.twilio,
         interaction: state.interaction,
-        shift: state.shift
+        shift: state.shift,
+        user: state.user
     }
 }
 

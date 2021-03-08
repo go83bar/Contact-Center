@@ -30,6 +30,7 @@ const initialState = {
     leadCallStatus: callStatuses.notConnected,
     providerCallSID: "",
     providerCallStatus: callStatuses.notConnected,
+    providerExtension: "",
     recordingPaused: false,
     leadDialButtonVisible: false,
     leadConnectIncomingButtonEnabled: false,
@@ -254,6 +255,8 @@ export function twilio(state = initialState, action) {
             return Object.assign({}, state, generateLeadDisconnectedState(callStatuses.callFailed, disconnectedStatuses.includes(state.providerCallStatus)))
 
         // Provider connection actions
+        case 'TWILIO.SET_PROVIDER_EXTENSION':
+            return Object.assign({}, state, {providerExtension: action.payload.extension})
         case 'TWILIO.PROVIDER.DIALED':
             return Object.assign({}, state, {
                 providerCallSID: action.callSID,
@@ -316,6 +319,7 @@ const generateLeadDisconnectedState = (newStatus, enableAgentDisconnect) => {
 const generateProviderDisconnectedState = (newStatus, enableAgentDisconnect) => {
     return {
         providerCallSID: "",
+        providerExtension: "",
         providerCallStatus: newStatus,
         providerDialButtonVisible: true,
         providerDisconnectButtonVisible: false,

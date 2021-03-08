@@ -264,4 +264,25 @@ export default class AgentAPI {
 
         return await sendRequest(requestOptions)
     }
+
+    /**
+     * Signals to the API that the user is declining to work the lead locked to them
+     *
+     * @param leadID
+     * @returns {Promise<{error: string}|{error: string}|*>}
+     */
+    static async declineLockedLead(leadID) {
+
+        const redux = store.getState()
+        const requestOptions = {
+            url: redux.config["url-react-base"] + "activate/agent/declinelock",
+            method: "POST",
+            data: {
+                lead_id: leadID
+            },
+            auth: redux.user.auth
+        }
+
+        return await sendRequest(requestOptions)
+    }
 }

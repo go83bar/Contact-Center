@@ -68,6 +68,7 @@ class ProviderChoices extends Component {
                                 <th>{this.props.localized.nameHeader}</th>
                                 <th>{this.props.localized.cityHeader}</th>
                                 <th>{this.props.localized.numberHeader}</th>
+                                <th>{this.props.localized.extensionHeader}</th>
                                 <th>{this.props.localized.hoursHeader}</th>
                                 <th>{this.props.localized.priorityHeader}</th>
                                 <th></th>

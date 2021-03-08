@@ -32,6 +32,7 @@ import {toast} from 'react-toastify';
 import moment from 'moment-timezone'
 import Slack from "../../utils/Slack";
 import String from "../../utils/String";
+import {DisplayDashboard} from "../../reducers/actions/hubActions";
 
 
 class EndInteraction extends Component {
@@ -45,8 +46,6 @@ class EndInteraction extends Component {
         this.selectReason = this.selectReason.bind(this)
         this.selectAppointment = this.selectAppointment.bind(this)
         this.selectOffice = this.selectOffice.bind(this)
-        this.endInteraction = this.endInteraction.bind(this)
-        this.endInteractionFetch = this.endInteractionFetch.bind(this)
         this.renderLeadSummary = this.renderLeadSummary.bind(this)
         this.renderAppointmentButton = this.renderAppointmentButton.bind(this)
         this.toStep = this.toStep.bind(this)
@@ -117,7 +116,7 @@ class EndInteraction extends Component {
         }
     }
 
-    endInteraction(fetch) {
+    endInteraction = (fetchMode) => {
         // prevent doubletap
         if (this.state.disableEnding) {
             return
@@ -143,7 +142,37 @@ class EndInteraction extends Component {
                         interactionID: payload.interactionID
                     }
                 })
-                fetch === true ? this.props.history.push("/next") : this.props.history.push("/")
+
+                // where we go next depends on user selection
+                if (fetchMode) {
+                    // if fetchMode is true we need to get the next lead and display the preview screen
+                    LeadAPI.getNextLead().then((response) => {
+                        // the existing PHP endpoint has some irregular output for errors
+                        // first check for APIException output
+                        if (response.success !== true) {
+                            console.log("Fetch Next Lead Response: ", response)
+                            toast.error(this.props.localization.toast.home.fetchQueueError)
+                            this.props.dispatch(DisplayDashboard())
+                        } else {
+                            // now check for empty queue situation
+                            if (response.data === undefined) {
+                                toast.error(this.props.localization.toast.home.fetchQueueError)
+                                this.props.dispatch(DisplayDashboard())
+                            } else {
+                                // push preview data into redux and redirect to preview screen
+                                this.props.dispatch({type: 'PREVIEW.LOAD',payload: response.data})
+                            }
+                        }
+                    }).catch((reason) => {
+                        console.log("Fetch Exception: ", reason)
+                        toast.error(this.props.localization.toast.home.fetchQueueError)
+                        this.props.dispatch(DisplayDashboard())
+                    })
+
+                } else {
+                    // if fetchMode is false, we just need to show the dashboard
+                    this.props.dispatch(DisplayDashboard())
+                }
             } else {
                 toast.error(this.props.localization.toast.interaction.outcome.saveFailed)
                 this.setState({disabledEnding: false})
@@ -156,10 +185,6 @@ class EndInteraction extends Component {
             const interactionID = this.props.interaction ? this.props.interaction.id : 0
             Slack.sendMessage("End Interaction API call failed for Agent " + userID + " on Interaction " + interactionID + ": " + error.toString())
         })
-    }
-
-    endInteractionFetch() {
-        this.endInteraction(true)
     }
 
     setOutcomeFilter = (evt) => {
@@ -303,13 +328,24 @@ class EndInteraction extends Component {
     }
 
     renderAppointmentButton(appointment) {
+        // first make sure this isn't a rescheduled appointment
+        const appointmentStatus = this.props.lead.client.appointment_statuses.find( apptStatus => {
+            return apptStatus.id === appointment.appointment_status_id
+        })
+        if (appointmentStatus === undefined || appointmentStatus.reschedule === 1 || appointment.reschedule_in_progress === 1) {
+            return ""
+        }
+
+        // calculate appointment time display
         const office = this.props.lead.client.offices.find(office => office.id === appointment.office_id)
-        let startTimeDate = "Unkonwn start time"
+        let startTimeDate = "Unknown start time"
         let startTime = ""
         if (appointment.start_time !== null) {
             startTimeDate = moment.utc(appointment.start_time).tz(this.props.lead.details.timezone).format("MMM D")
             startTime = ", " + moment.utc(appointment.start_time).tz(this.props.lead.details.timezone).format("h:mm a z")
         }
+
+        // render a button for this appointment
         return (
             <MDBBtn style={{minWidth: "300px"}}
                     rounded
@@ -503,9 +539,9 @@ class EndInteraction extends Component {
                                 <MDBBtn rounded color={"primary"}
                                         onClick={this.nextStep}>{localization.nextButton}</MDBBtn>}
                                 {this.state.currentStep === "finish" && <MDBBtn rounded color={"primary"}
-                                                                                onClick={this.endInteraction}>{localization.endButton}</MDBBtn>}
+                                                                                onClick={() => this.endInteraction(false)}>{localization.endButton}</MDBBtn>}
                                 {this.state.currentStep === "finish" && <MDBBtn rounded color={"primary"}
-                                                                                onClick={this.endInteractionFetch}>{localization.endFetchButton}</MDBBtn>}
+                                                                                onClick={() => this.endInteraction( true)}>{localization.endFetchButton}</MDBBtn>}
                             </MDBBox>
                         </MDBCardFooter>
                     </MDBCard>
@@ -520,6 +556,7 @@ const mapStateToProps = store => {
         localization: store.localization,
         lead: store.lead,
         shift: store.shift,
+        user: store.user,
         interaction: store.interaction,
         twilio: store.twilio
     }

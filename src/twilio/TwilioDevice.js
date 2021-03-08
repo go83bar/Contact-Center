@@ -64,7 +64,7 @@ class TwilioDeviceSingleton {
                     if(reconnectErrorCodes.includes(error.code)) {
                         if (this.refreshing !== true) {
                             this.refreshing = true
-                            console.log("bamf")
+                            console.log("reconnecting to Twilio...")
                             this.cleanup()
                             this.bootstrap(userID, authToken)
                         }

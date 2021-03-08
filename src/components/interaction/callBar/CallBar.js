@@ -20,7 +20,7 @@ import DialChoice from './DialChoice'
 import InteractionAPI from '../../../api/interactionAPI'
 import TwilioAPI from "../../../api/twilioAPI"
 import {toast} from 'react-toastify'
-import {callConnected, callDisconnected, callRinging} from "../../../twilio/actions";
+import {callConnected, callDisconnected, callRinging, setProviderExtension} from "../../../twilio/actions";
 
 class CallBar extends Component {
 
@@ -270,7 +270,7 @@ class CallBar extends Component {
         })
     }
 
-    selectOffice = (officeID, officeNumber) => {
+    selectOffice = (officeID, officeNumber, officeExtension) => {
         const dialNumber = officeNumber.replace(/\D/g,'');
         this.setState({ providerChoicesVisible: false })
 
@@ -278,6 +278,7 @@ class CallBar extends Component {
         if (this.props.twilio.leadCallSID !== "") TwilioDevice.holdLead()
 
         TwilioDevice.dialProvider(officeID, dialNumber)
+        this.props.dispatch(setProviderExtension(officeExtension))
     }
     
     handoff = () => {
@@ -465,7 +466,15 @@ class CallBar extends Component {
                     </MDBBox>
 
                     <MDBBox className={generateConnectionClass(this.props.twilio.providerCallSID)}>
-                        <div className={"font-weight-bolder p-0 pb-1 mt-0 text-align-center w-100"}><hr className="mt-0 mb-2 w-100 skin-primary-background-color"/>{this.props.localized.providerLabel}<br />{generateConnectionLabel(this.props.twilio.providerCallStatus)}</div>
+                        <div className={"font-weight-bolder p-0 pb-1 mt-0 text-align-center w-100"}>
+                            <hr className="mt-0 mb-2 w-100 skin-primary-background-color"/>
+                            {this.props.localized.providerLabel}<br />
+                            {generateConnectionLabel(this.props.twilio.providerCallStatus)}
+                            {this.props.twilio.providerExtension !== "" && <React.Fragment>
+                                <br />
+                                {this.props.localized.providerExtensionLabel} {this.props.twilio.providerExtension}
+                            </React.Fragment>}
+                        </div>
                         <MDBNavItem className={"w-100 pb-2"+ (this.props.twilio.providerDialButtonVisible ? "" : " hidden")} onClick={this.openProviderChoices}>
                             <MDBNavLink to="#" className={"text-align-center p-0"}>
                                 <span className="fa-layers fa-fw fa-3x">

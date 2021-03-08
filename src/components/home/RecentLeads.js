@@ -1,58 +1,54 @@
-import React, { Component } from 'react'
+import React, {useEffect, useState} from 'react'
 import {
-
+    MDBBtn,
     MDBCard,
-    MDBCardBody,
+    MDBCardBody, MDBModal, MDBModalBody, MDBModalFooter, MDBModalHeader,
 
 } from "mdbreact"
 import AgentAPI from '../../api/agentAPI';
 import LoadingScreen from '../LoadingScreen'
 import SearchResults from './SearchResults'
-import { connect } from 'react-redux';
+import {useSelector} from 'react-redux';
 
-class RecentLeads extends Component {
+const RecentLeads = ({isOpen, closeFunction}) => {
+    const localization = useSelector( state => state.localization.home)
+    const [isLoaded, setIsLoaded] = useState(false)
+    const [recentLeadsData, setRecentLeadsData] = useState(undefined)
 
-    constructor(props) {
-        super(props);
-
-        AgentAPI.getRecentLeads()
-            .then((response) => {
+    // if isOpen is changing to true, fetch recent lead data
+    useEffect(() => {
+        if( isOpen) {
+            AgentAPI.getRecentLeads().then( response => {
                 if (response.success) {
-                    const searchifiedResults = response.data.map( (item) => {
+                    const formattedResults = response.data.map( (item) => {
                         item.id = item.lead_id
                         return item
                     })
-                    this.setState({
-                        recentData: searchifiedResults
-                    })
+                    setRecentLeadsData(formattedResults)
+                    setIsLoaded(true)
                 }
-            }).catch((reason) => {
-                // TODO HANDLE ERRORS
-                console.log(reason)
             })
-
-        this.state = {
-        };
-    }
-
-    render() {
-        if (this.state.recentData === undefined) {
-            return <LoadingScreen />
+        } else {
+            setIsLoaded(false)
         }
-        return (
-            <MDBCard>
-                <MDBCardBody className="shadow-none">
-                    <SearchResults results={this.state.recentData} />
-                </MDBCardBody>
-            </MDBCard>
-        )
-    }
-}
-const mapStateToProps = store => {
-    return {
-        localization : store.localization,
-        previewData: store.preview
-    }
+    }, [isOpen])
+
+    return (
+        <MDBModal isOpen={isOpen} toggle={closeFunction} centered size={"lg"}>
+            <MDBModalHeader toggle={closeFunction}>{localization.recent}</MDBModalHeader>
+            <MDBModalBody className="p-0">
+                <MDBCard>
+                    <MDBCardBody className="shadow-none">
+                        {isLoaded ? <SearchResults results={recentLeadsData} /> : <LoadingScreen />}
+                    </MDBCardBody>
+                </MDBCard>
+            </MDBModalBody>
+            <MDBModalFooter className="d-flex justify-content-between">
+                <MDBBtn rounded outline onClick={closeFunction}>Close</MDBBtn>
+            </MDBModalFooter>
+        </MDBModal>
+
+    )
 }
 
-export default connect(mapStateToProps)(RecentLeads);
+export default RecentLeads

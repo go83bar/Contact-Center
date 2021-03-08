@@ -46,8 +46,27 @@
     "scheduleTitle": "Schedule",
     "scheduleThisWeek": "This week",
     "scheduleNextWeek": "Next week",
+    "lockedLead": {
+      "title": "Locked Lead",
+      "content": "This lead is locked to you:",
+      "nameLabel": "Name",
+      "idLabel": "ID",
+      "clientLabel": "Client",
+      "interactionLabel": "Last Interaction",
+      "unknownClientName":  "Unknown Client! Notify dev!",
+      "declineButton": "DECLINE",
+      "startButton": "START",
+      "resumeButton": "RESUME"
+    },
     "incoming": "Incoming Call",
-    "welcome": "Welcome $!"
+    "welcome": {
+      "welcomeMessage0": "Welcome $!",
+      "welcomeMessage1": "WELCOME TO THE THUNDERDOME!",
+      "welcomeMessage2": "OMG $ how are you? So nice to see you again!",
+      "welcomeMessage3": "Have you heard about $? KILLING IT",
+      "welcomeMessage4": "This space for rent, contact $ for info",
+      "welcomeMessage5": "Can you smell what $ is cookin?"
+    }
   },
   "interaction": {
     "answerInteractionIncomingLabel": "ANSWER CALL",
@@ -105,6 +124,7 @@
       "resumeLabel": "Resume",
       "keypadLabel": "Keypad",
       "providerLabel": "Provider",
+      "providerExtensionLabel": "Extension:",
       "transferLabel": "Transfer",
       "providerChoices": {
         "title": "Choose Provider in ",
@@ -112,6 +132,7 @@
         "nameHeader": "Name",
         "cityHeader": "City",
         "numberHeader": "Number",
+        "extensionHeader": "Extension",
         "hoursHeader": "Hours",
         "priorityHeader": "Priority"
       },
@@ -151,7 +172,7 @@
       "leadIDLabel": "ID: ",
       "preferredOfficeLabel": "Preferred Office: ",
       "copyLeadIDTooltip": "Click to copy to clipboard",
-      "copiedLeadIDTooltip": "Copied!"
+      "copiedTooltip": "Copied!"
     },
     "documents": {
       "tabTitle": "Documents",
@@ -806,9 +827,18 @@
       "success": "Lead Contact Preferences updated",
       "error": "Lead Contact Preferences could not be updated. Please try again or notify app issues."
     },
+    "home": {
+      "logoutError": "There was a problem logging you out.  Please post in app-issues for help.",
+      "shiftLoadError": "There was a problem loading your shift data.  Please contact your supervisor.",
+      "fetchQueueError": "There was a problem fetching your next lead. Please post in app-issues for help.",
+      "emptyQueueError": "Your queue is empty!",
+      "incomingTooLate": "The incoming call is no longer available",
+      "nextLeadNotIncoming": "The incoming call is no longer available, but here's another lead!"
+    },
     "interaction": {
       "preview":{
-        "interactionStartError": "Interaction could not be loaded! Please notify app issues"
+        "interactionStartError": "Interaction could not be loaded! Please notify app issues",
+        "leadLockedError": "Another agent is already working this lead.  Please move to the next in your queue."
       },
       "loadLead": {
         "clientMissing": "You aren't assigned to this client. Please notify your supervisor!",

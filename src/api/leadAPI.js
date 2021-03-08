@@ -132,10 +132,14 @@ export default class LeadAPI {
         const redux = store.getState()
         const requestOptions = {
             url: redux.config["url-api-base"] + "leads/" + params.leadID + "/preview",
-            data: { call_queue_id: params.callQueueID},
             method: "GET",
             auth: redux.user.auth
         }
+
+        if (params.callQueueID !== undefined) {
+            requestOptions.data = {call_queue_id: params.callQueueID}
+        }
+
         const result = await sendRequest(requestOptions)
 
         return result
@@ -187,6 +191,30 @@ export default class LeadAPI {
         const result = await sendRequest(requestOptions)
 
         return result
+    }
+
+    /**
+     * Calls the backend function to load a locked lead and any unfinished interaction ID attached to it
+     *
+     * @static
+     * @param {number} leadID
+     * @returns {Promise}
+     * @memberof LeadAPI
+     */
+    static async fetchLockedLead(leadID) {
+        // Mock API responses for local dev
+        if (process.env.REACT_APP_QUERY_MODE === "development") {
+            const mockData = await fetch(window.location.protocol + "//" + window.location.host + "/data/startInteraction.json")
+            return mockData.json()
+        }
+
+        const redux = store.getState()
+        const requestOptions = {
+            url: redux.config["url-api-base"] + "leads/" + leadID + "/lockedlead",
+            method: "GET",
+            auth: redux.user.auth
+        }
+        return await sendRequest(requestOptions)
     }
 
     /**

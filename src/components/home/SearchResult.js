@@ -3,6 +3,7 @@ import {MDBBtn} from "mdbreact"
 //import LeadAPI from '../../api/leadAPI'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import Lead from "../../utils/Lead";
 
 class SearchResult extends Component {
     constructor(props) {
@@ -27,11 +28,7 @@ class SearchResult extends Component {
 
     // when user clicks on a result, we load the preview screen for that lead
     handleResultClick() {
-        this.props.dispatch({type: "PREVIEW.LOAD", payload: {
-            leadID: this.props.row.id,
-            callQueueID: "search"
-        }})
-        this.props.history.push('/preview')
+        Lead.loadPreview(this.props.row.id, "search").then(() => { console.log("Preview loaded")})
     }
 
     render() {

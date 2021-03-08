@@ -144,3 +144,12 @@ export function dismissIncomingCall(callSID) {
     }
 }
 
+export function setProviderExtension(extension) {
+    return {
+        type: "TWILIO.SET_PROVIDER_EXTENSION",
+        payload: {
+            extension
+        }
+    }
+}
+

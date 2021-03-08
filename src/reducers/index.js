@@ -8,6 +8,7 @@ import {shift} from "./shift"
 import {interaction} from "./interaction"
 import {twilio} from "./twilio"
 import {auth} from "./auth";
+import {hub} from "./hub";
 
 export default combineReducers({
     auth: auth,
@@ -18,5 +19,6 @@ export default combineReducers({
     lead : lead,
     shift: shift,
     interaction: interaction,
-    twilio: twilio
+    twilio: twilio,
+    hub: hub,
 })

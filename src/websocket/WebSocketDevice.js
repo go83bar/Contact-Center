@@ -16,6 +16,12 @@ class WebSocketDevice {
             return
         }
 
+        // close any previous connections
+        if (this.ws !== undefined && this.ws.readyState !== this.ws.CLOSED) {
+            console.log("closing existing ws connection")
+            this.ws.close(4000)
+        }
+
         // set up connection attempt tracking var
         if (this.connectionAttempt === undefined) {
             this.connectionAttempt = 0
@@ -32,7 +38,8 @@ class WebSocketDevice {
         ws.onopen = (evt) => {
             console.log("Websocket connected")
 
-            // set the keepalive to run every 9 minutes
+            // (re)set the keepalive to run every 9 minutes
+            this.cancelKeepAlive()
             const timeout = 60000 * 9
             this.timerID = setInterval(this.keepAlive, timeout)
 
@@ -65,6 +72,10 @@ class WebSocketDevice {
                     case "incoming_call_dismiss":
                         processIncomingCallDismiss(payload.data)
                         break
+                    case "pong":
+                        console.log("Websocket ping has ponged!")
+                        clearTimeout(this.pongTimer)
+                        break
                     default:
                         console.log("Unknown websocket event: ", evt)
                 }
@@ -78,6 +89,11 @@ class WebSocketDevice {
 
         ws.onclose = (evt) => {
             console.log("Websocket disconnected")
+            this.cancelKeepAlive()
+            if (evt.code === 4000) {
+                console.log("Intentional close")
+                return
+            }
             const redux = store.getState()
             if (redux.user.id !== 0) { // websocket closing with the user still logged in is a problem we need to handle
                 console.log("Websocket closing with code ", evt.code)
@@ -109,17 +125,25 @@ class WebSocketDevice {
     }
 
     keepAlive = () => {
-        console.log("keeping")
+        console.log("pinging websocket server")
         if (this.ws.readyState === this.ws.OPEN) {
-            this.ws.send('{"action": "trees", "data": "keepalive"}');
+            this.ws.send('{"action": "trees", "data": "keepalive"}')
+            this.pongTimer = setTimeout( () => {
+                const redux = store.getState()
+                console.log("Websocket connection is broken!")
+                this.bootstrap(redux.user.id, redux.user.auth.token)
+            }, 5000)
         } else {
-            console.log("websocket is not open")
+            console.log("Websocket is not open")
         }
     }
 
     cancelKeepAlive = () => {
         if (this.timerID) {
             clearInterval(this.timerID);
+        }
+        if (this.pongTimer) {
+            clearTimeout(this.pongTimer)
         }
     }
 

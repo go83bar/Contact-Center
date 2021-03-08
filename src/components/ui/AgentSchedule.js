@@ -9,6 +9,7 @@ import {
     MDBSelectOptions,
 } from "mdbreact";
 import * as moment from 'moment'
+import AgentAPI from "../../api/agentAPI";
 
 class AgentSchedule extends Component {
 
@@ -16,6 +17,8 @@ class AgentSchedule extends Component {
         super(props)
 
         this.state = {
+            targetDate: moment().format("YYYY-MM-DD"),
+            schedule: props.scheduleData,
             nextWeekMode: false,
         }
     }
@@ -23,6 +26,17 @@ class AgentSchedule extends Component {
     handleWeekSelector = (values) => {
         this.setState({
             nextWeekMode: values[0] === "true"
+        })
+    }
+
+    pollAppStats = (targetDate) => {
+        AgentAPI.getAppStats(targetDate).then(response => {
+            this.setState({
+                schedule: response.schedule,
+                targetDate: targetDate,
+            })
+        }).catch(reason => {
+            console.log("Schedule poll failed: ", reason)
         })
     }
 
@@ -48,15 +62,15 @@ class AgentSchedule extends Component {
 
         // build array of rendered date components
         const dates = dateArray.map( data => {
-            const dayColor = data.fullDate === this.props.scheduleDate ? "skin-primary-color" : "grey-text"
+            const dayColor = data.fullDate === this.state.targetDate ? "skin-primary-color" : "grey-text"
 
             let dateDisplay = (<div className="grey-text f-rs">{data.date}</div>)
-            if (data.fullDate === this.props.scheduleDate) {
+            if (data.fullDate === this.state.targetDate) {
                 dateDisplay = (<MDBBadge pill color="deep-orange lighten-3 f-rs">{data.date}</MDBBadge>)
             }
 
             return (
-                <MDBBox key={data.date} className="d-flex flex-column align-items-center pointer" onClick={() => this.props.triggerPoll(data.fullDate)}>
+                <MDBBox key={data.date} className="d-flex flex-column align-items-center pointer" onClick={() => this.pollAppStats(data.fullDate)}>
                     <div className={dayColor}>{data.day}</div>
                     {dateDisplay}
                 </MDBBox>
@@ -71,8 +85,8 @@ class AgentSchedule extends Component {
     }
 
     renderAssignments = () => {
-        if (this.props.scheduleData.length > 0) {
-            const steps = this.props.scheduleData.map( scheduleBlock => {
+        if (this.state.schedule.length > 0) {
+            const steps = this.state.schedule.map( scheduleBlock => {
                 return (
                     <MDBBox key={scheduleBlock.timeLabel} className="mt-3">
                         <span>
@@ -104,7 +118,7 @@ class AgentSchedule extends Component {
     }
 
     render() {
-        const targetDate = moment(this.props.scheduleDate)
+        const targetDate = moment(this.state.targetDate)
         return (
             <MDBBox className="d-flex flex-column">
                 <MDBBox className="d-flex flex-row justify-content-between">

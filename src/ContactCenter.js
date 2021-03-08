@@ -1,16 +1,13 @@
 import React, {Component} from "react";
 import "./index.css";
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
-import Home from "./components/home/Home"
-import NextLead from "./components/home/NextLead"
-import Interaction from "./components/interaction/Interaction"
 import PasswordReset from "./components/PasswordReset"
 import Login from "./components/Login"
 import ProtectedRoute from "./ProtectedRoute"
-import Preview from "./components/home/Preview"
 import { connect } from 'react-redux';
 import CacheBuster from "./CacheBuster";
 import Cookies from "universal-cookie";
+import Hub from "./components/Hub";
 
 class ContactCenter extends Component {
     constructor(props) {
@@ -51,10 +48,7 @@ class ContactCenter extends Component {
                     <Switch>
                         <Route exact path="/login" component={Login}/>
                         <Route exact path="/reset" component={PasswordReset}/>
-                        <ProtectedRoute exact path="/" component={Home}/>
-                        <ProtectedRoute exact path="/preview" component={Preview}/>
-                        <ProtectedRoute exact path="/next" component={NextLead}/>
-                        <ProtectedRoute exact path="/interaction" component={Interaction}/>
+                        <ProtectedRoute exact path="/" component={Hub}/>
                     </Switch>
                 </BrowserRouter>
                     );

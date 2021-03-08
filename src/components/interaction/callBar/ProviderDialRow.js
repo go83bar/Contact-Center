@@ -6,17 +6,9 @@ import { faPhone } from "@fortawesome/pro-solid-svg-icons"
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 
 class ProviderDialRow extends Component {
-    constructor(props) {
-        super(props)
-         
-        this.state = {
-            
-        }
-    }
-
-    // when user clicks on a result, we load the preview screen for that lead
+    // when user clicks on a result, call the handler function with the chosen office and number
     handleDialClick = () => {
-        this.props.dialHandler(this.props.row.office.id, this.props.row.number)
+        this.props.dialHandler(this.props.row.office.id, this.props.row.number, this.props.row.extension)
     }
 
     render() {
@@ -25,6 +17,7 @@ class ProviderDialRow extends Component {
                 <td className="border-right">{this.props.row.office.name}</td>
                 <td className="border-right">{this.props.row.office.city}</td>
                 <td className="border-right">{this.props.row.number}</td>
+                <td className="border-right">{this.props.row.extension}</td>
                 <td className="border-right">{this.props.row.hours}</td>
                 <td>{this.props.row.priority}</td>
                 <td className="align-middle">{this.props.row.available && (

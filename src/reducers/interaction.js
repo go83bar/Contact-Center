@@ -1,6 +1,8 @@
 const initialState = {
     hasUnsavedNote: false,
-    hasResponses: false
+    hasResponses: false,
+    callReason: undefined,
+    callSid: undefined
 }
 
 // Reducer for handling auth actions
@@ -21,6 +23,9 @@ export function interaction (state = initialState, action) {
 
         case "LEAD.RESPONSE_SAVED":
             return { ...state, hasResponses: true}
+
+        case "PREVIEW.LOAD":
+            return { ...state, callReason: action.payload.reason, callSid: action.payload.call_sid}
 
         case "INTERACTION.END":
         case 'USER.LOG_OUT':

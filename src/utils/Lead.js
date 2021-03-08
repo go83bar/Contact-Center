@@ -1,8 +1,28 @@
 import LeadAPI from "../api/leadAPI";
 import store from "../store"
 import { toast } from "react-toastify";
+import {DisplayDashboard} from "../reducers/actions/hubActions";
 
 class Lead {
+    static async loadPreview(leadID, callQueueID) {
+
+        LeadAPI.getLeadPreview({leadID, callQueueID}).then( response => {
+            if (response.success) {
+                store.dispatch({type: "PREVIEW.LOAD", payload: response.data})
+            } else {
+                // something went wrong on the backend, dump to the dashboard
+                toast.error("Lead Preview cannot be loaded!")
+                store.dispatch(DisplayDashboard())
+            }
+        }).catch( reason => {
+            // a problem with the request itself, dump to dashboard
+            console.log("Preview could not be loaded: ", reason)
+            toast.error("Error loading preview! Another agent might have just loaded this lead.")
+            store.dispatch(DisplayDashboard())
+        })
+
+    }
+
     static async loadLead(leadID) {
         const redux = store.getState()
 

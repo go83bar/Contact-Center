@@ -1,6 +1,6 @@
 {
   "name": "Activate",
-  "version": "3.5.51",
+  "version": "3.5.60",
   "private": true,
   "// If You want to install mdbreact from our GitLab repository, please replace '4.25.5' with gitURL provided here ->": "git+https://oauth2:<YOUR-TOKEN-GOES-HERE>@git.mdbootstrap.com/mdb/react/re-pro.git",
   "dependencies": {
@@ -36,7 +36,8 @@
     "react-toastify": "^6.0.5",
     "redux": "^4.0.5",
     "twilio-client": "^1.10.2",
-    "universal-cookie": "^4.0.3"
+    "universal-cookie": "^4.0.3",
+    "use-sound": "^2.0.1"
   },
   "scripts": {
     "start": "HTTPS=true react-scripts start",
