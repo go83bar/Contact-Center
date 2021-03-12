@@ -1,6 +1,7 @@
 
 const initialState = {
-    leadID: 0
+    leadID: 0,
+    queue_id: 0
   }
 
 // Reducer for handling auth actions

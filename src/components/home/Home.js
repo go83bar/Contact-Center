@@ -26,6 +26,7 @@ import LockedLeadModal from "./LockedLeadModal";
 import FetchNextLeadCard from "./FetchNextLeadCard";
 import AgentStatCard from "./AgentStatCard";
 import IncomingCallModal from "./IncomingCallModal";
+import useInterval from "../../utils/UseInterval";
 
 const Home = (props) => {
 
@@ -38,7 +39,6 @@ const Home = (props) => {
     const [agentStats, setAgentStats] = useState({})
     const [lockedLead, setLockedLead] = useState({})
     const [welcome, setWelcome] = useState("")
-
 
 
     // generate welcome message
@@ -105,7 +105,7 @@ const Home = (props) => {
 
 
     // call stats polling function every 30 seconds
-    //useInterval(pollAppStats, 30000)
+    useInterval(pollAppStats, 30000)
 
     // utility function to clear modals
     const resetModals = () => {

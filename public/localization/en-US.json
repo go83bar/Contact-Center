@@ -900,6 +900,8 @@
       "badNumberError": "The number dialed is not a real number! The number has been removed from the lead, please mark as wrong number.",
       "connectIncomingFailed": "Incoming call couldn't be connected! Please call this lead back!",
       "incomingHungUp": "Incoming caller has hung up. Click Dial Button to call them back!",
+      "onHoldError": "The lead could not be placed on hold. Use Check Status button to make sure the lead is still connected.",
+      "offHoldError": "The lead could not rejoin the call. Use Check Status button to make sure the lead is still connected.",
       "playAutoVMFailed": "Couldn't play Autovoicemail, please leave a manual voicemail!",
       "pauseRecordingFailed": "Recording not paused, please try again!",
       "resumeRecordingFailed": "Recording not resumed, please try again!",

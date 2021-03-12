@@ -223,22 +223,30 @@ class TwilioDeviceSingleton {
     }
 
     holdLead() {
+        const redux = store.getState()
         return TwilioAPI.holdLead().then( response => {
-            console.log(response)
-            store.dispatch(leadPutOnHold())
+            if (response.success) {
+                store.dispatch(leadPutOnHold())
+            } else {
+                toast.error(redux.localization.toast.twilio.onHoldError)
+            }
         }).catch ( reason => {
             console.log( "Error putting lead on hold: ", reason)
+            toast.error(redux.localization.toast.twilio.onHoldError)
         })
     }
 
     unholdLead() {
+        const redux = store.getState()
         return TwilioAPI.unholdLead().then( response => {
-            console.log(response)
-            store.dispatch(leadRemoveHold())
+            if (response.success) {
+                store.dispatch(leadRemoveHold())
+            } else {
+                toast.error(redux.localization.toast.twilio.offHoldError)
+            }
         }).catch ( reason => {
-            const redux = store.getState()
             console.log( "Error removing lead from hold: ", reason)
-            toast.error(redux.localization.toast.twilio.playAutoVMFailed)
+            toast.error(redux.localization.toast.twilio.offHoldError)
         })
     }
 
