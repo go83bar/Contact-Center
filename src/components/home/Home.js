@@ -46,7 +46,8 @@ const Home = (props) => {
         const determinant = Math.random()
         let messageNumber = 0
         if (determinant < 0.05) {
-            messageNumber = Math.floor(Math.random() * localization.welcome.length)
+            const messageCount = Object.keys(localization.welcome).length
+            messageNumber = Math.floor(Math.random() * messageCount)
         }
 
         const messageElement = "welcomeMessage" + messageNumber
