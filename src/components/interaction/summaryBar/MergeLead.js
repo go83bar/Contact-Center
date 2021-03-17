@@ -166,6 +166,8 @@ class MergeLead extends Component {
                     this.props.closeModal()
                 })
 
+            } else {
+                toast.error(this.props.localization.toast.mergeLead.docusignError)
             }
         }).catch(error => {
             // backend error

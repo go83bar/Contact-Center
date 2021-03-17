@@ -859,7 +859,8 @@
     },
     "mergeLead": {
       "leadLoadError": "Could not load selected lead! Please notify app issues!",
-      "leadMergeError": "Lead could not be merged. Please notify app issues!"
+      "leadMergeError": "Lead could not be merged. Please notify app issues!",
+      "docusignError": "The source lead has DocuSign documents and cannot be merged."
     },
     "notes": {
       "saveFailed": "Note could not be saved."
