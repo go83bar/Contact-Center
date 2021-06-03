@@ -14,8 +14,10 @@ import {
     faStar as solidStar,
 } from "@fortawesome/pro-solid-svg-icons";
 import {
+    faSearch,
     faStar as emptyStar,
 } from "@fortawesome/pro-regular-svg-icons"
+import AddressInput from "./AddressInput";
 
 class EditLead extends Component {
 
@@ -80,7 +82,9 @@ class EditLead extends Component {
             hasErrors: false,
             hasChanges: false,
             errorMessage: "",
-            closeConfirm: false
+            closeConfirm: false,
+            showAddressSearch: false,
+            showAddressSuccess: false
         };
     }
 
@@ -388,6 +392,22 @@ class EditLead extends Component {
             })
     }
 
+    handleNewAddress = (newAddress) => {
+        const stateOptions = this.props.localization.states.map( state => {
+            return {
+                value: state.abbreviation,
+                text: state.name,
+                checked: state.abbreviation === newAddress.state
+            }
+        })
+
+        this.setState({...newAddress, stateOptions, showAddressSearch: false, showAddressSuccess: true})
+    }
+
+    handleAddressSearchButton = () => {
+        this.setState({showAddressSearch: true, showAddressSuccess: false})
+    }
+
     render() {
         const switches = ['phone_calls', 'emails', 'texts'].map((field) => {
             let icon = ""
@@ -469,8 +489,23 @@ class EditLead extends Component {
                               containerClass="m-0 pr-2 w-25"
                     />
                     <div className="break mt-3 pb-1"/>
-                    {this.props.localized.streetAddressHeader}
+                    <div className="addressHeader">
+                        <div>{this.props.localized.streetAddressHeader}</div>
+                        { !this.state.showAddressSearch && <MDBBtn color="secondary"
+                                                                   size={"sm"}
+                                                                   rounded outline={true}
+                                                                   onClick={this.handleAddressSearchButton}>
+                            <FontAwesomeIcon icon={faSearch} className="skin-secondary-color mr-2"/>
+                            {this.props.localized.addressSearchButtonLabel}
+                        </MDBBtn>}
+                    </div>
                     <div className="break mb-1"/>
+                    <div className="break mb-1"/>
+
+                    {this.state.showAddressSearch && <AddressInput selectCallback={this.handleNewAddress}/>}
+                    {this.state.showAddressSuccess && <div>{this.props.localized.addressSuccessWarning}</div>}
+                    <div className="break mb-2"/>
+
                     <MDBInput type="text"
                               label={this.props.localized.address}
                               id="address_1"

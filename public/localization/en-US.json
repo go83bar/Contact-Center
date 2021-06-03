@@ -301,7 +301,10 @@
         "dobHeader": "Date Of Birth",
         "contactPreferencesHeader": "Contact Preferences",
         "submitButton": "Save Changes",
-        "cancelButton": "Close"
+        "cancelButton": "Close",
+        "addressSearchButtonLabel": "Search for new address",
+        "addressPlaceholder": "Start typing...",
+        "addressSuccessWarning": "Address verified! Don't forget to add any apartment or suite number in Address 2 field."
       },
       "contactPreferences": {
         "title": "Contact Preferences",
@@ -825,7 +828,8 @@
     },
     "editContactPreferences": {
       "success": "Lead Contact Preferences updated",
-      "error": "Lead Contact Preferences could not be updated. Please try again or notify app issues."
+      "error": "Lead Contact Preferences could not be updated. Please try again or notify app issues.",
+      "addressError": "Address verification failed! Please notify app issues."
     },
     "home": {
       "logoutError": "There was a problem logging you out.  Please post in app-issues for help.",
@@ -913,6 +917,7 @@
       "noPhoneNumber": "Lead has no phone numbers!",
       "deviceError": "There was a problem in your connection. Please notify dev if this persists",
       "connectionEstablishError": "There was a problem establishing your connection to the phone system. You can try logging out or restarting your browser.",
+      "openConnectionError": "Your Phone Connection is not opening! You may need to refresh your browser and get a new connection.",
       "pleaseRefreshError": "There was a problem with the app. Please refresh the browser, you may be asked to log in."
     },
     "websocket": {

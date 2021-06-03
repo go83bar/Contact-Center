@@ -1,0 +1,12 @@
+{
+  "languages" : ["en-US"],
+  "language-default" : "en-US",
+  "url-api-base": "https://api-qa.go83bar.com/v3/",
+  "url-dashboard-base": "https://dashboard-qa.go83bar.com/",
+  "url-aws-base" : "https://api-aws.83bar.com/",
+  "url-react-base": "https://api-qa.go83bar.com/react/",
+  "url-twilio-base": "https://wczujtsj03.execute-api.us-east-1.amazonaws.com/QA/",
+  "url-websocket": "wss://j6zyq3tyfc.execute-api.us-east-1.amazonaws.com/qa",
+  "slack-channel-default" : "dev_error_alerts",
+  "gmap-key": "QUl6YVN5QjJrTG1iU3FiTnVZYTBxUWxJYzZPR2tULXhRZC1ZZjN3"
+}

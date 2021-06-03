@@ -308,7 +308,7 @@ export default class AppointmentAPI {
         const redux = store.getState()
         const requestOptions = {
             url: redux.config["url-api-base"] + "appointments/" + params.appointmentID,
-            method: "PUT",
+            method: "POST",
             data: {
                 appointment_time: params.appointmentTime,
                 interaction_id: params.interactionID

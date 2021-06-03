@@ -394,3 +394,68 @@ audio:focus {
    max-width: 100%;
  }
 }*/
+
+/** AddessAutocomplete Styles **/
+.addressHeader {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.autocomplete {
+  display: flex;
+  width: 100%;
+  @media (max-width : 800px) {
+    width: 94%;
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+}
+
+.autocompleteColumn {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+
+.autocomplete-dropdown-container {
+  background-color: #ffffff;
+  z-index: 600;
+}
+
+.locationSearchInput {
+  border-radius: 25px;
+  border-color: var(--main-color);
+  box-sizing: content-box;
+  height: 36px;
+  //width: 100%;
+  font-size: 20px;
+  color: var(--main-color);
+  font-weight: 400;
+  padding: 5px 15px;
+  display: flex;
+  text-align: center;
+  outline: 0;
+}
+
+.locationSearchInput:active {
+  border-radius: 25px;
+}
+
+.suggestion {
+  margin: 5px 5px 5px 20px;
+}
+
+.suggestion-item {
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.suggestion-item-active, {
+  background-color: #eee;
+  cursor: pointer;
+}
+
+

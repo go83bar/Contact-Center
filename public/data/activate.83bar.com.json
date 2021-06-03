@@ -7,5 +7,6 @@
   "url-react-base": "https://api.83bar.com/react/",
   "url-twilio-base": "https://l934ludyig.execute-api.us-east-1.amazonaws.com/prod/",
   "url-websocket": "wss://velrid4tud.execute-api.us-east-1.amazonaws.com/prod",
-  "slack-channel-default" : "dev_error_alerts"
+  "slack-channel-default" : "dev_error_alerts",
+  "gmap-key": "QUl6YVN5QjJrTG1iU3FiTnVZYTBxUWxJYzZPR2tULXhRZC1ZZjN3"
 }

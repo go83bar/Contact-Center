@@ -515,8 +515,8 @@ export default class LeadAPI {
 
         const redux = store.getState()
         const requestOptions = {
-            url: redux.config["url-api-base"] + "leads/" + params.leadID,
-            method: "PUT",
+            url: redux.config["url-api-base"] + "leads/" + params.leadID + "/contact",
+            method: "POST",
             data: params.payload,
             auth: redux.user.auth,
             toast : true
