@@ -104,8 +104,14 @@ class LeadSummary extends Component {
         this.props.dispatch({type: "AUTH.ACTION_TAKEN"})
 
         // open twilio connection in normal mode
+        let connectionTimeout = setTimeout(() => {
+            toast.error(this.props.localization.toast.twilio.openConnectionError)
+        }, 5000)
         this.setState({openingTwilio: true})
-        TwilioDevice.openAgentConnection(false, () => {this.setState({openingTwilio: false})})
+        TwilioDevice.openAgentConnection(false, () => {
+            clearTimeout(connectionTimeout)
+            this.setState({openingTwilio: false})
+        })
     }
 
     refreshLead = () => {

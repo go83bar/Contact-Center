@@ -59,7 +59,10 @@ class BookingQuestion extends Component {
             case "radio":
             case "checkbox":
             case "dropdown":
-                const selectOptions = this.props.question.answers.map( answer => {
+                const selectOptions = this.props.question.answers.filter( answer => {
+                    // only include inactive answer if it is the selected answer
+                    return answer.selected || answer.active
+                }).map( answer => {
                     return {
                         text: answer.text,
                         value: answer.answerable_id.toString(),

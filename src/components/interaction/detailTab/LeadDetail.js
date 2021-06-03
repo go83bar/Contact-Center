@@ -117,9 +117,15 @@ class LeadDetail extends Component {
     }
 
     render() {
-        const phase = this.props.shift.phases.find(phase => phase.id === this.props.lead.phase_id)
+        const lead = this.props.lead
+        const phase = this.props.shift.phases.find(phase => phase.id === lead.phase_id)
         let localization = this.props.localization.interaction.details
-        let lead = this.props.lead
+        const campaignNumbers = lead.campaign.twilioNumbers
+        let outboundPhone = "Error";
+        if (campaignNumbers !== undefined && campaignNumbers[lead.region_id] !== undefined) {
+            outboundPhone = campaignNumbers[lead.region_id]
+        }
+
         let formatPhoneNumber = (str) => {
             //Filter only numbers from the input
             let cleaned = ('' + str).replace(/\D/g, '')
@@ -186,7 +192,7 @@ class LeadDetail extends Component {
                              label={localization.regionLabel}
                             />
                         </MDBBox>
-                        <MDBBox className="mb-0">{localization.regionPhoneLabel}<span className="font-weight-bold skin-secondary-color">{formatPhoneNumber(lead.region.default_number)}</span></MDBBox>
+                        <MDBBox className="mb-0">{localization.regionPhoneLabel}<span className="font-weight-bold skin-secondary-color">{formatPhoneNumber(outboundPhone)}</span></MDBBox>
                     </div>
                     <div className="d-flex flex-column justify-content-between align-items-end">
                         {this.generatePreferredOfficeChip()}

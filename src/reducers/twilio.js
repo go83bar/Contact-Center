@@ -97,7 +97,12 @@ export function twilio(state = initialState, action) {
                 callbarVisible: true,
             })
         case 'TWILIO.DEVICE.DISCONNECTED':
-            return { ...initialState, deviceReady: true }
+            return {
+                ...initialState,
+                autoVoicemailURL: state.autoVoicemailURL,
+                incomingCallQueue: state.incomingCallQueue,
+                deviceReady: true
+            }
 
         // Incoming call actions
         case "TWILIO.INCOMING_CALL":

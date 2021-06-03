@@ -48,7 +48,8 @@ class LeadQuestions extends Component {
                             answerable_id: answer.id,
                             answer_id: answer.answer_id,
                             text: answer.text,
-                            selected: leadData.answer_id.includes(answer.answer_id)
+                            selected: leadData.answer_id.includes(answer.answer_id),
+                            active: answer.active
                         })
                     })
                     thisQuestion.answers = thisQuestionAnswers
