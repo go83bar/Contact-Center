@@ -106,6 +106,7 @@ class LeadSummary extends Component {
         // open twilio connection in normal mode
         let connectionTimeout = setTimeout(() => {
             toast.error(this.props.localization.toast.twilio.openConnectionError)
+            this.setState({openingTwilio: false})
         }, 5000)
         this.setState({openingTwilio: true})
         TwilioDevice.openAgentConnection(false, () => {
