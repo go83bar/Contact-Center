@@ -30,6 +30,8 @@ class Lead {
             .then((responseJson) => {
                 if (responseJson.success) {
                     let leadData = responseJson.data
+
+                    // load some client data into convenience properties on the redux Lead object
                     const currentClient = redux.shift.clients.find(client => client.id === leadData.client_id)
                     leadData["client"] = currentClient
                     if (currentClient === undefined) {
@@ -53,6 +55,16 @@ class Lead {
                         toast.error(redux.localization.toast.interaction.loadLead.regionMissing)
                         throw new Error("Missing region data")
                     }
+
+                    // set the lead's current email
+                    let primaryEmail = ""
+                    if (Array.isArray(leadData.email_summary)) {
+                        leadData.email_summary.forEach(summary => {
+                            if (summary.is_current) primaryEmail = summary.email_address
+                        })
+                    }
+                    leadData.details.email = primaryEmail
+
                     store.dispatch({type: 'LEAD.LOAD',payload: leadData})
                 } else {
                     toast.error(redux.localization.toast.interaction.loadLead.loadFailed)

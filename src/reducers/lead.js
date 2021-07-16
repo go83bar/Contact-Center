@@ -191,8 +191,101 @@ export function lead(state = initialState, action) {
         case "LEAD.EMAIL_SENT":
             return {
                 ...state,
-                emails: [ ...state.emails, action.data]
+                emails: [...state.emails, action.data]
             }
+
+        // called when an email_summary gets marked as current
+        case "LEAD.EMAIL_CURRENT":
+            let newEmailValue = state.details.email
+            const newSummaryEmails = state.email_summary.map( summary => {
+                let isCurrent = 0
+                if (summary.id === action.payload) {
+                    isCurrent = 1
+                    newEmailValue = summary.email_address
+                }
+                return {...summary, is_current: isCurrent}
+            })
+            const newEmailDetails = { ...state.details, email: newEmailValue}
+
+            return {
+                ...state,
+                details: newEmailDetails,
+                email_summary: newSummaryEmails
+            }
+
+        // called when a lead has 2 current emails and we're demarking one of them
+        case "LEAD.EMAIL_UNMARKED":
+            let newMarkedEmailValue = state.details.email
+            const newMarkedEmails = state.email_summary.map( summary => {
+                let isCurrent = summary.is_current
+                if (summary.id === action.payload) {
+                    isCurrent = 0
+                } else if (isCurrent === 1) {
+                    // set the other current email into lead details if it isn't already
+                    newMarkedEmailValue = summary.email_address
+                }
+                return {...summary, is_current: isCurrent}
+            })
+
+            return {
+                ...state,
+                details: { ...state.details, email: newMarkedEmailValue},
+                email_summary: newMarkedEmails
+            }
+
+        // called when an email_summary gets validated
+        case "LEAD.EMAIL_VALIDATED":
+            const newSummary = {
+                id: action.payload.summaryID,
+                is_current: action.payload.isCurrent,
+                is_usable: action.payload.isUsable,
+                email_address: action.payload.emailAddress
+            }
+            let updatedSummaryEmails = []
+            let updatedContactDetails = {...state.details}
+
+            let isUpdate = false
+            updatedSummaryEmails = state.email_summary.map( summary => {
+                if (summary.id === newSummary.id) {
+                    // we updated this existing summary, replace with the new one
+                    isUpdate = true
+                    if (newSummary.is_current) {
+                        // set contact details value if this new one is current
+                        updatedContactDetails.email = newSummary.email_address
+                    }
+                    return newSummary
+                }
+
+                // for other summaries, we just need to set their is_current back to 0 if newSummary is now current
+                return { ...summary, is_current: newSummary.is_current ? 0 : summary.is_current}
+            })
+
+            if (isUpdate) {
+                // we just updated an existing one, and we aren't resorting, so do nothing?
+                console.log("Lori was here, testing emails for your sins")
+
+            } else if (action.payload.isCurrent === 1) {
+                // set value in current email
+                updatedContactDetails.email = action.payload.emailAddress
+
+                // remove current setting from all existing emails
+                updatedSummaryEmails = state.email_summary.map( summary => {
+                    return {...summary, is_current: 0}
+                })
+
+                // add this new one to the front of the array
+                updatedSummaryEmails.unshift(newSummary)
+            } else {
+                updatedSummaryEmails = [...state.email_summary]
+                updatedSummaryEmails.push(newSummary)
+            }
+
+            return {
+                ...state,
+                email_summary: updatedSummaryEmails,
+                details: updatedContactDetails
+            }
+
 
         // called when appointments get reloaded from backend
         case "LEAD.APPOINTMENTS_LOADED":

@@ -25,6 +25,10 @@
     "delete": "Delete",
     "cancel": "Cancel",
     "close": "Close",
+    "validate": "Validate",
+    "addEmail": "Add Email",
+    "showMore": "Show More",
+    "working": "Working...",
     "closeWithoutSaving": "Close without saving changes",
     "confirmCloseWithoutSaving": "Confirm close without saving",
     "search": "Search",
@@ -296,12 +300,15 @@
         "preferredCellLabel": "Cell",
         "preferredHomeLabel": "Home",
         "contactInfoHeader": "Contact Info",
+        "emailHeader": "Email Addresses",
+        "newEmailAddress": "New Email Address",
         "streetAddressHeader": "Street Address",
         "regionHeader": "Region & Timezone",
         "dobHeader": "Date Of Birth",
         "contactPreferencesHeader": "Contact Preferences",
         "submitButton": "Save Changes",
         "cancelButton": "Close",
+        "validateButton": "Validate",
         "addressSearchButtonLabel": "Search for new address",
         "addressPlaceholder": "Start typing...",
         "addressSuccessWarning": "Address verified! Don't forget to add any apartment or suite number in Address 2 field."
@@ -824,7 +831,14 @@
     "editLead": {
       "success": "Lead Information Saved Successfully.",
       "error": "Lead Information Save Unsuccessful. Please try again or notify app issues.",
-      "regionChangeWarning": "Warning: Changing region with appointments pending"
+      "regionChangeWarning": "Warning: Changing region with appointments pending",
+      "emailValidated": "The email was validated and set as current",
+      "emailMalformed": "Please enter a properly formed email address and try again",
+      "emailCurrent": "Current email saved!",
+      "emailNoncurrent": "Email deselected!",
+      "emailCurrentError": "Email could not be made current!",
+      "emailNoncurrentError": "Email could not be made deselected!",
+      "emailInvalid": "The email address $ is known to be invalid."
     },
     "editContactPreferences": {
       "success": "Lead Contact Preferences updated",

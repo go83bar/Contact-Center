@@ -35,3 +35,29 @@ export function setCallReason(reason) {
         payload: reason
     }
 }
+
+export function setCurrentEmail(emailSummaryID) {
+    return {
+        type: "LEAD.EMAIL_CURRENT",
+        payload: emailSummaryID
+    }
+}
+
+export function deselectEmail(emailSummaryID) {
+    return {
+        type: "LEAD.EMAIL_UNMARKED",
+        payload: emailSummaryID
+    }
+}
+
+export function setValidatedEmail(summaryID, isCurrent, isUsable, emailAddress) {
+    return {
+        type: "LEAD.EMAIL_VALIDATED",
+        payload: {
+            summaryID,
+            isCurrent,
+            isUsable,
+            emailAddress
+        }
+    }
+}

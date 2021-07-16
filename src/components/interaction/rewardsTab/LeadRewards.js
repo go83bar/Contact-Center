@@ -3,7 +3,7 @@ import {MDBBox } from 'mdbreact'
 import {connect} from 'react-redux'
 import Reward from "./Reward";
 
-class LeadDocusign extends Component {
+class LeadRewards extends Component {
 
     constructor(props) {
         super(props);
@@ -45,4 +45,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(LeadDocusign)
+export default connect(mapStateToProps)(LeadRewards)

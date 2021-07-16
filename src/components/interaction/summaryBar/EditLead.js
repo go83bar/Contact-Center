@@ -18,6 +18,7 @@ import {
     faStar as emptyStar,
 } from "@fortawesome/pro-regular-svg-icons"
 import AddressInput from "./AddressInput";
+import EmailSummaryList from "./EmailSummaryList";
 
 class EditLead extends Component {
 
@@ -295,7 +296,7 @@ class EditLead extends Component {
         switch(field) {
             case "cell_phone":
             case "home_phone":
-                // strip fromatting characters from phone values before comparison
+                // strip formatting characters from phone values before comparison
                 value = value.replace(/\D/g, '')
                 break
             
@@ -455,39 +456,43 @@ class EditLead extends Component {
                               onChange={this.handleFormInput}
                               containerClass="m-0 pr-2 w-25"
                     />
-                    <MDBInput type="text"
-                              label={this.props.localized.email}
-                              id="email"
-                              name="email"
-                              value={this.state.email}
-                              onChange={this.handleFormInput}
-                              containerClass="m-0 pr-2 w-50"
-                    />
                     <div className="break mt-1"/>
-                    <FontAwesomeIcon icon={this.state.preferred_phone === "cell" ? solidStar : emptyStar}
-                                     onClick={this.togglePreferredPhone}
-                                     className="skin-primary-color mt-2 mr-1 pointer"/>
-                    <MDBInput type="text"
-                              label={this.props.localized.cellPhone}
-                              id="cell_phone"
-                              name="cell_phone"
-                              value={this.state.cell_phone}
-                              onChange={this.handleFormInput}
-                              getValue={(val) => this.maskPhone(val, "cell_phone")}
-                              containerClass="m-0 pr-2 w-25"
-                    />
-                    <FontAwesomeIcon icon={this.state.preferred_phone === "home" ? solidStar : emptyStar}
-                                     onClick={this.togglePreferredPhone}
-                                     className="skin-primary-color mt-2 ml-2 mr-1 pointer"/>
-                    <MDBInput type="text"
-                              label={this.props.localized.homePhone}
-                              id="home_phone"
-                              name="home_phone"
-                              value={this.state.home_phone}
-                              getValue={(val) => this.maskPhone(val, "home_phone")}
-                              onChange={this.handleFormInput}
-                              containerClass="m-0 pr-2 w-25"
-                    />
+                    <div className="w-25 d-flex">
+                        <FontAwesomeIcon icon={this.state.preferred_phone === "cell" ? solidStar : emptyStar}
+                                         onClick={this.togglePreferredPhone}
+                                         className="skin-primary-color mt-2 mr-1 pointer"/>
+                        <MDBInput type="text"
+                                  label={this.props.localized.cellPhone}
+                                  id="cell_phone"
+                                  name="cell_phone"
+                                  value={this.state.cell_phone}
+                                  onChange={this.handleFormInput}
+                                  getValue={(val) => this.maskPhone(val, "cell_phone")}
+                                  containerClass="m-0 pr-2 flex-grow-1"
+                        />
+
+                    </div>
+                    <div className="w-25 d-flex">
+                        <FontAwesomeIcon icon={this.state.preferred_phone === "home" ? solidStar : emptyStar}
+                                         onClick={this.togglePreferredPhone}
+                                         className="skin-primary-color mt-2 ml-2 mr-1 pointer"/>
+                        <MDBInput type="text"
+                                  label={this.props.localized.homePhone}
+                                  id="home_phone"
+                                  name="home_phone"
+                                  value={this.state.home_phone}
+                                  getValue={(val) => this.maskPhone(val, "home_phone")}
+                                  onChange={this.handleFormInput}
+                                  containerClass="m-0 pr-2 flex-grow-1"
+                        />
+                    </div>
+                    <div className="break mt-1"/>
+                    {this.props.localized.emailHeader}
+                    <div className="break mt-1"/>
+
+                    <EmailSummaryList />
+
+                    <div className="break mt-1"/>
                     <div className="break mt-3 pb-1"/>
                     <div className="addressHeader">
                         <div>{this.props.localized.streetAddressHeader}</div>
@@ -546,7 +551,6 @@ class EditLead extends Component {
                               containerClass="m-0 pr-2 w-25"
                     />
                     <div className="break mt-3 pb-1"/>
-                    {this.props.localized.regionHeader}
                     <div className="break mb-1"/>
                     <MDBSelect options={this.state.regionOptions}
                                getValue={this.chooseRegion}
@@ -599,12 +603,12 @@ class EditLead extends Component {
                     {this.props.localized.contactPreferencesHeader}
                     <div className="break mb-1"/>
 
-                    <MDBBox className="d-flex flex-wrap w-100">
+                    <MDBBox className="d-flex flex-column">
                         {switches}
                     </MDBBox>
                 </MDBModalBody>
 
-                <MDBModalFooter className="p-1 justify-content-between">
+                <MDBModalFooter className="p-1 justify-content-start">
                     <MDBBtn color={this.state.closeConfirm ? "danger" : "secondary"}
                             rounded outline={!this.state.closeConfirm}
                             onClick={this.cancel}>

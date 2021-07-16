@@ -716,4 +716,83 @@ export default class LeadAPI {
 
     }
 
+    /**
+     * Sets an email summary row to be the lead's current email
+     *
+     * @param {Number} emailSummaryID
+     * @returns {Promise}
+     * @memberof LeadAPI
+     */
+    static async setCurrentEmail(emailSummaryID) {
+
+        const redux = store.getState()
+        const requestOptions = {
+            url: redux.config["url-react-base"] + "activate/lead/email/current",
+            method: "POST",
+            data: {
+                email_summary_id: emailSummaryID,
+            },
+            auth: redux.user.auth
+        }
+        return await sendRequest(requestOptions)
+    }
+
+    /**
+     * Sets an email summary row to not be the lead's current email
+     *
+     * @param {Number} emailSummaryID
+     * @returns {Promise}
+     * @memberof LeadAPI
+     */
+    static async deselectEmail(emailSummaryID) {
+
+        const redux = store.getState()
+        const requestOptions = {
+            url: redux.config["url-react-base"] + "activate/lead/email/deselect",
+            method: "POST",
+            data: {
+                email_summary_id: emailSummaryID,
+            },
+            auth: redux.user.auth
+        }
+        return await sendRequest(requestOptions)
+    }
+
+    /**
+     * @typedef CreateEmailParams
+     * @type {object}
+     * @property {number} leadID
+     * @property {string} email
+     * @property {number} clientID
+     * @property {number} summaryID
+     *
+     */
+
+    /**
+     * Creates a new leadEmailSummary and runs it through the validation service
+     *
+     * @param {CreateEmailParams} params
+     * @returns {Promise}
+     * @memberof LeadAPI
+     */
+    static async createEmail(params) {
+        const redux = store.getState()
+        const requestOptions = {
+            url: redux.config["url-react-base"] + "activate/lead/email/validate",
+            method: "POST",
+            data: {
+                email: params.email,
+                lead_id: params.leadID,
+                client_id: params.clientID,
+                email_summary_id: params.summaryID
+            },
+            auth: redux.user.auth
+        }
+        return await sendRequest(requestOptions)
+    }
 }
+/*
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+ */
