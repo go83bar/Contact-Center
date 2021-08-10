@@ -280,6 +280,10 @@ class EditLead extends Component {
     }
 
     chooseRegion = (values) => {
+        if (parseInt(values[0]) === Number.NaN) {
+            // this happens sometimes, agents are weird
+            return
+        }
         this.setFieldUpdatesIntoState("region_id", parseInt(values[0]))
     }
 

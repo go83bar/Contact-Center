@@ -35,7 +35,8 @@ import {faCircle} from "@fortawesome/pro-light-svg-icons";
 import {faCalendar} from "@fortawesome/pro-regular-svg-icons"
 import Timer from 'react-compound-timer'
 import { TwilioDevice } from '../../../twilio/TwilioDevice'
-import EmailForm from './EmailForm'
+//import EmailForm from './EmailForm'
+import EmailEditor from './EmailEditor'
 import TextForm from './TextForm'
 import CallbackForm from './CallbackForm'
 import moment from "moment-timezone";
@@ -360,7 +361,7 @@ class LeadSummary extends Component {
                 {this.state.modal === "Merge Lead" && <MergeLead closeModal={this.closeModal}/>}
                 {this.state.modal === "Edit Lead" && <EditLead closeModal={this.closeModal}/>}
                 {this.state.modal === "Create Lead" && <CreateLead closeModal={this.closeModal}/>}
-                {this.state.emailVisible === true && <EmailForm toggle={this.toggleEmail} />}
+                {this.state.emailVisible === true && <EmailEditor toggle={this.toggleEmail} />}
                 {this.state.textVisible === true && <TextForm toggle={this.toggleText} />}
                 {this.state.callbackVisible === true && <CallbackForm toggle={this.toggleCallback} />}
 

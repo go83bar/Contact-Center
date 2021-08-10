@@ -27,10 +27,14 @@ const IncomingCallModal = () => {
         if (incomingCallQueue.length > 0) {
             playRinging()
         }
+        return () => {ringingSound.stop()}
     }, [incomingCallQueue, playRinging, ringingSound])
 
     // handle incoming call modal close
     const closeIncoming = () => {
+        if (ringingSound.isPlaying) {
+            ringingSound.stop();
+        }
         if (incomingCallQueue.length > 0) {
             dispatch({type: "TWILIO.INCOMING_CANCEL"})
         }
@@ -39,10 +43,7 @@ const IncomingCallModal = () => {
     // handle incoming call accept
     const acceptIncoming = () => {
         setDisabled(true)
-
-        if (ringingSound.isPlaying) {
-            ringingSound.stop();
-        }
+        ringingSound.stop()
 
         // if there's still a call on the incoming hold queue, let's fetch it and display the preview
         if (incomingCallQueue.length > 0) {
@@ -50,19 +51,18 @@ const IncomingCallModal = () => {
             const callSID = incomingCallQueue[0]
             TwilioAPI.clearIncomingHold(callSID).then(() => {
                 dispatch({type: "TWILIO.INCOMING_CANCEL"})
+                closeIncoming()
                 LeadAPI.getNextLead().then((response) => {
                     // the existing PHP endpoint has some irregular output for errors
                     // first check for APIException output
                     if (response.success !== true) {
                         toast.error(toastMessages.fetchIncomingError)
                         setDisabled(false)
-                        closeIncoming()
                     } else {
                         // now check for empty queue situation
                         if (response.data === undefined) {
                             toast.error(toastMessages.incomingTooLate)
                             setDisabled(false)
-                            closeIncoming()
                         } else {
                             // now just a helpful note to the agent if the returned preview lead is not the incoming call
                             if (response.data.call_sid !== undefined || response.data.call_sid !== callSID) {

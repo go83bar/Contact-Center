@@ -849,6 +849,7 @@
       "logoutError": "There was a problem logging you out.  Please post in app-issues for help.",
       "shiftLoadError": "There was a problem loading your shift data.  Please contact your supervisor.",
       "fetchQueueError": "There was a problem fetching your next lead. Please post in app-issues for help.",
+      "fetchIncomingError": "There was a problem fetching the incoming call data",
       "emptyQueueError": "Your queue is empty!",
       "incomingTooLate": "The incoming call is no longer available",
       "nextLeadNotIncoming": "The incoming call is no longer available, but here's another lead!"
@@ -873,7 +874,12 @@
     "leadSummary": {
       "genericConnectionError": "Telephonic connection cannot be opened. Please alert dev.",
       "leadRefreshed": "Lead Information refreshed!",
-      "optOutError": "Lead has opted out of phone calls, cannot connect to telephone system."
+      "optOutError": "Lead has opted out of phone calls, cannot connect to telephone system.",
+      "templateLoadError": "Templates could not be loaded, post a screenshot of your console in app-issues.",
+      "templateValidationError": "Subject and Content must be filled to send email",
+      "notSentError": "There was an error. Email could not be sent.",
+      "optedOutError": "This lead has opted out of email communications. Email not sent.",
+      "invalidRecipientError": "This lead does not have a valid email.  Please double-check the email address."
     },
     "mergeLead": {
       "leadLoadError": "Could not load selected lead! Please notify app issues!",

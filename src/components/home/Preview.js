@@ -77,7 +77,7 @@ const Preview = () => {
     }
 
     // just display a loading screen if the preview data isn't loaded yet
-    if (previewData === undefined) {
+    if (previewData === undefined || previewData.meta === undefined) {
         return <LoadingScreen />
     }
 
