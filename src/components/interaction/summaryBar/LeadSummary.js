@@ -43,6 +43,7 @@ import moment from "moment-timezone";
 import { toast } from 'react-toastify';
 import Slack from '../../../utils/Slack';
 import Lead from "../../../utils/Lead";
+import AgentAPI from "../../../api/agentAPI";
 
 
 class LeadSummary extends Component {
@@ -121,7 +122,18 @@ class LeadSummary extends Component {
             this.setState({isRefreshing: true})
             Lead.loadLead(this.props.lead.id).then( result => {
                 toast.success(this.props.localization.toast.leadSummary.leadRefreshed, {autoClose: 1000})
-                this.setState({isRefreshing: false})
+                AgentAPI.getShiftData().then(response => {
+                    if (response.clients) {
+                        this.props.dispatch({type: 'SHIFT.LOAD', payload: response})
+                    } else {
+                        // SHIFT LOAD RETURNED A NON-POSITIVE RESULT
+                        toast.error(this.props.localization.toast.home.shiftLoadError)
+                    }
+                    this.setState({isRefreshing: false})
+                }).catch(reason => {
+                    console.log("COULD NOT LOAD SHIFT: ", reason)
+                    toast.error(this.props.localization.toast.home.shiftLoadError)
+                })
             }).catch( reason => {
                 console.log("Refresh lead failed: ", reason)
             })

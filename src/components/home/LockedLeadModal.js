@@ -22,8 +22,8 @@ const LockedLeadModal = ({isOpen, closeFunction, leadData}) => {
                 dispatch(resumeInteraction(leadData.interaction_id, leadData.interaction_start, userName))
             })
         } else {
-            // load preview screen as locked lead
-            Lead.loadPreview(leadData.lead_id).then( () => {console.log("Preview loaded")})
+            // load preview screen as locked lead, possibly
+            Lead.loadPreview(leadData.lead_id, leadData.queue_call_id).then( () => {console.log("Preview loaded")})
         }
     }
 

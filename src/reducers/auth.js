@@ -11,8 +11,6 @@ export function auth(state = initialState, action) {
         case "LOG_IN_USER":
         case "CONFIGURE":
         case "LOCALIZE":
-        case "SHIFT.LOAD":
-        case "TWILIO.DEVICE.INIT":
             return initialState
 
         case "USER.INACTIVE_WARNING":

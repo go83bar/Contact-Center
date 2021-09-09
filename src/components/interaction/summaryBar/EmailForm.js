@@ -18,6 +18,7 @@ import InteractionAPI from '../../../api/interactionAPI'
 import moment from 'moment'
 import {toast} from "react-toastify";
 import Slack from '../../../utils/Slack';
+import {Editor} from "@tinymce/tinymce-react";
 
 class EmailForm extends Component {
     constructor(props) {
@@ -150,9 +151,9 @@ class EmailForm extends Component {
                         <FontAwesomeIcon icon={faTimes} className="float-right" onClick={this.props.toggle}/>
                     </MDBCardHeader>
                     <MDBCardBody className="px-3 py-0">
-                        {this.state.hasTemplates && <MDBSelect selected={this.props.localized.templatePlaceholder} options={this.state.templateOptions} getValue={this.chooseTemplate} label={this.props.localized.templateLabel}/>}
+                        <MDBSelect selected={this.props.localized.templatePlaceholder} options={this.state.templateOptions} getValue={this.chooseTemplate} label={this.props.localized.templateLabel}/>
                         <MDBInput label={this.props.localized.subjectLabel} onChange={this.updateSubject} value={this.state.subjectValue} />
-                        <MDBWysiwyg />
+
                     </MDBCardBody>
                     <MDBCardFooter className="d-flex justify-content-between">
                         <MDBBtn rounded outline onClick={this.props.toggle}>{this.props.localization.buttonLabels.cancel}</MDBBtn>
