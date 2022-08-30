@@ -19,6 +19,7 @@ import {
 } from "@fortawesome/pro-regular-svg-icons"
 import AddressInput from "./AddressInput";
 import EmailSummaryList from "./EmailSummaryList";
+import Lead from "../../../utils/Lead";
 
 class EditLead extends Component {
 
@@ -177,25 +178,23 @@ class EditLead extends Component {
                     if (payload.timezone !== undefined) {
                         payload.timezone_short = moment().tz(payload.timezone).format('z')
                     }
-                    let updateAction = {
-                        type: "LEAD.UPDATE_DETAILS",
-                        data: payload,
-                        logs: changeLogs
-                    }
-                    // check to see if region changed, to add a couple things to the action
+                    // check to see if region changed, that updates several other things so we just reload the lead
                     if (payload.region_id !== undefined) {
-                        // find new region
-                        const newRegion = this.props.lead.client.regions.find(region => {
-                            return region.id === payload.region_id
+                        Lead.loadLead(this.props.lead.id).then( result => {
+                            toast.success(this.props.localization.toast.editLead.success, {delay: 1000})
+                        }).catch( reason => {
+                            console.log("Refresh lead failed: ", reason)
+                            toast.error(this.props.localization.toast.editLead.error, {delay: 1000})
                         })
-
-                        updateAction.regionData = {
-                            region_id: payload.region_id,
-                            region: newRegion
+                    } else {
+                        let updateAction = {
+                            type: "LEAD.UPDATE_DETAILS",
+                            data: payload,
+                            logs: changeLogs
                         }
+                        this.props.dispatch(updateAction)
+                        toast.success(this.props.localization.toast.editLead.success, {delay: 1000})
                     }
-                    this.props.dispatch(updateAction)
-                    toast.success(this.props.localization.toast.editLead.success, {delay: 1000})
                 } else {
                     toast.error(this.props.localization.toast.editLead.error, {delay: 1000})
                 }

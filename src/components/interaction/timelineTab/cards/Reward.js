@@ -31,7 +31,7 @@ class Reward extends Component {
                         </span>
                         <div className="d-flex flex-grow-1 p-2 flex-column text-left">
                             <div className="f-l font-weight-bold">
-                                {this.props.data.campaign} / {localization.amountDisplay.replace(";", this.props.data.amount)}
+                                {this.props.data.campaign} / {this.props.data.status} / {localization.amountDisplay.replace(";", this.props.data.amount)}
                             </div>
                             <div>{localization.sentTo}{this.props.data.original_sent_to}</div>
                         </div>
@@ -40,6 +40,7 @@ class Reward extends Component {
                                 className="font-weight-bold">{resendTime.format("MMM D")}</span>, {resendTime.format("h:mm a z")}</span>}
                             <span>{localization.createdAt} <span
                                 className="font-weight-bold">{this.props.data.created_at.format("MMM D")}</span>, {this.props.data.created_at.format("h:mm a z")}</span>
+                            {this.props.data.orderID && <span>Order #{this.props.data.orderID}</span>}
                         </div>
                     </div>
                 </MDBBox>

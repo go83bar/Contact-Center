@@ -28,6 +28,9 @@ class MergeLead extends Component {
             cellPhoneOptions: [],
             homePhoneOptions: [],
             targetLead: undefined,
+            mergeIDFields: {
+                phase_id: 0,
+            },
             mergeWriteFields: {
                 first_name: "",
                 last_name: "",
@@ -122,9 +125,15 @@ class MergeLead extends Component {
                 state: selectedResult.state,
                 zip: selectedResult.zip
             }
+
+            const idData = {
+                phase_id: selectedResult.phase_id
+            }
+
             this.setState({
                 targetLead: {...fieldData, id: selectedResult.id},
                 mergeWriteFields: {...fieldData},
+                mergeIDFields: {...idData},
                 cellPhoneOptions,
                 homePhoneOptions
             })
@@ -144,11 +153,14 @@ class MergeLead extends Component {
     merge = () => {
         this.setState({mergeDisabled: true})
         // first we call the PHP backend to merge all the lead data
+        // TODO new section for things like Phase ID that are not simply text fields on the lead record. Also, can use redux shift.phases to generate labels
+
         const leadMergeParams = {
             targetLeadID: this.state.targetLead.id,
             sourceLeadID: this.props.lead.id,
             interactionID: this.props.interaction.id,
-            mergeFields: this.state.mergeWriteFields
+            mergeFields: this.state.mergeWriteFields,
+            mergeIDFields: this.state.mergeIDFields
         }
 
         leadAPI.mergeLead(leadMergeParams).then(response => {

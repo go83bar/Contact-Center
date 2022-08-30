@@ -246,7 +246,8 @@ export default class LeadAPI {
     /**
      * @typedef LeadDTOParams
      * @type {object}
-     * @property {number} leadID
+     * @property {number} lead_id
+     * @property {number} queue_id
      */
 
     /**
@@ -260,6 +261,7 @@ export default class LeadAPI {
      */
     static async getLeadDTO(params) {
         // Mock API responses for local dev
+        console.log("getLeadDTO called")
         if (process.env.REACT_APP_QUERY_MODE === "development") {
             const mockData = await fetch(window.location.protocol + "//" + window.location.host + "/data/leadDTOReact.json")
 
@@ -270,9 +272,7 @@ export default class LeadAPI {
         const requestOptions = {
             url: redux.config["url-react-base"] + "activate/lead",
             method: "POST",
-            data: {
-                lead_id: params.leadID
-            },
+            data: params,
             auth: redux.user.auth
         }
         const result = await sendRequest(requestOptions)
@@ -506,6 +506,7 @@ export default class LeadAPI {
      * @memberof LeadAPI
      */
     static async saveContactInfo(params) {
+        console.log("saveContactInfo called")
         // Mock API responses for local dev
         if (process.env.REACT_APP_QUERY_MODE === "development") {
             const mockData = await fetch(window.location.protocol + "//" + window.location.host + "/data/successTrue.json")
@@ -542,6 +543,7 @@ export default class LeadAPI {
      * @memberof LeadAPI
      */
     static async updateDetails(params) {
+        console.log("updateDetails called")
         // Mock API responses for local dev
         if (process.env.REACT_APP_QUERY_MODE === "development") {
             const mockData = await fetch(window.location.protocol + "//" + window.location.host + "/data/successTrue.json")

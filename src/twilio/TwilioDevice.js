@@ -53,10 +53,12 @@ class TwilioDeviceSingleton {
                     // some errors just require restarting the device
                     const reconnectErrorCodes = [
                         31000, // signaling disconnect
+                        31003, // connection interrupted
                         31005, // websocket connection lost
                         31009, // transport unavailable
                         31202, // access token expired
                         31204, // invalid access token
+                        31205, // expired JWT
                     ]
 
                     console.log("Twilio Device error: ", error)

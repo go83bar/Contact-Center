@@ -25,8 +25,8 @@ class Lead {
 
     static async loadLead(leadID) {
         const redux = store.getState()
-
-        const result = await LeadAPI.getLeadDTO({leadID: leadID})
+        console.log('loadLead called')
+        const result = await LeadAPI.getLeadDTO({lead_id: leadID, queue_id: redux.preview.queue_id})
             .then((responseJson) => {
                 if (responseJson.success) {
                     let leadData = responseJson.data

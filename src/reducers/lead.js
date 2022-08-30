@@ -68,6 +68,20 @@ export function lead(state = initialState, action) {
                 docusign: newEnvelopes
             }
 
+        // called when user sends an esignature notice to the lead
+        case "LEAD.DOCUSIGN.RESENT":
+            let resentEnvelopes = state.docusign.map(envelope => {
+                if (envelope.id === action.data.envelopeID) {
+                    return { ...envelope, resent_at: action.data.resendTime}
+                }
+                return { ...envelope}
+            })
+
+            return {
+                ...state,
+                docusign: resentEnvelopes
+            }
+
         // called when user updates lead's region
         case "LEAD.REGION_UPDATED":
             // create timeline entry

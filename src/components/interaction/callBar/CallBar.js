@@ -20,7 +20,7 @@ import DialChoice from './DialChoice'
 import InteractionAPI from '../../../api/interactionAPI'
 import TwilioAPI from "../../../api/twilioAPI"
 import {toast} from 'react-toastify'
-import {callConnected, callDisconnected, callRinging, setProviderExtension} from "../../../twilio/actions";
+import {callConnected, callDisconnected, callRinging, callBusy, setProviderExtension} from "../../../twilio/actions";
 
 class CallBar extends Component {
 
@@ -80,6 +80,10 @@ class CallBar extends Component {
                 if (response.connections !== undefined) {
                     response.connections.forEach( callData => {
                         switch (callData.call_status) {
+                            case "busy":
+                                this.props.dispatch(callBusy(callData.call_party))
+                                break;
+
                             case "ringing":
                                 this.props.dispatch(callRinging(callData.call_party))
                                 break

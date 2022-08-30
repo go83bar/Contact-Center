@@ -45,8 +45,8 @@ const EmailSummaryCreate = () => {
         }
         LeadAPI.createEmail(params).then( response => {
             // pop a toast message to the user indicating the result
-            if (response.summary.is_current === 1) {
-                toast.success()
+            if (response.summary !== undefined && response.summary.is_current === 1) {
+                toast.success(localized.toast.editLead.emailCurrent)
 
             } else {
                 const toastMsg = localized.toast.editLead.emailInvalid

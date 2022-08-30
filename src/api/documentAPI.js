@@ -110,4 +110,25 @@ export default class DocumentAPI {
         return await sendRequest(requestOptions)
 
     }
+
+    /**
+     * Reends a DocuSign Envelope
+     * @param params
+     * @returns {Promise}
+     */
+    static async resendDocusign(params) {
+        const payload = {
+            envelope_id: params.envelopeID
+        }
+
+        const redux = store.getState()
+        const requestOptions = {
+            url: redux.config["url-react-base"] + "activate/lead/docusignresend",
+            method: "POST",
+            data: payload,
+            auth: redux.user.auth
+        }
+        return await sendRequest(requestOptions)
+
+    }
 }

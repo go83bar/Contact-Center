@@ -63,14 +63,19 @@
       "resumeButton": "RESUME"
     },
     "incoming": "Incoming Call",
-    "welcome": {
-      "welcomeMessage0": "Welcome $!",
-      "welcomeMessage1": "WELCOME TO THE THUNDERDOME!",
-      "welcomeMessage2": "OMG $ how are you? So nice to see you again!",
-      "welcomeMessage3": "Have you heard about $? KILLING IT",
-      "welcomeMessage4": "This space for rent, contact $ for info",
-      "welcomeMessage5": "Can you smell what $ is cookin?"
-    }
+    "welcomeMessages": [
+      "Welcome $!",
+      "WELCOME TO THE THUNDERDOME!",
+      "OMG $ how are you? So nice to see you again!",
+      "Have you heard about $? KILLING IT",
+      "Breaking News: $ Wins All The Points!",
+      "You can check out, but you can never leave.",
+      "Welcome to the Jungle $!",
+      "Is it a holiday weekend yet?",
+      "Breaking News: Powerball Lotto winner $ promises to buy the dev team a yacht",
+      "Gesundheit!",
+      "Loading... please wait, approximately 38,314 minutes remaining..."
+    ]
   },
   "interaction": {
     "answerInteractionIncomingLabel": "ANSWER CALL",
@@ -190,12 +195,17 @@
     "docusign": {
       "tabTitle": "eSignature",
       "sentAtLabel": "sent on ",
+      "resentAtLabel": "resent on ",
       "openedAtLabel": "opened on ",
       "completedAtLabel": "completed on ",
       "declinedAtLabel": "declined on ",
       "voidedAtLabel": "voided on ",
       "templateOptionsLabel": "Please select a document...",
-      "sendButton": "Request eSignature"
+      "sendButtonLabel": "Request eSignature",
+      "sendingButtonLabel": "Creating Request...",
+      "resendButtonLabel": "Resend",
+      "resendingButtonLabel": "Resending...",
+      "resentButtonLabel": "Resent!"
     },
     "endInteraction": {
       "endButton": "Save & Go to Dashboard",
@@ -826,7 +836,9 @@
     },
     "docusign": {
       "sendError": "Could not send DocuSign envelope.",
-      "sendSuccess": "DocuSign Envelope Sent"
+      "sendSuccess": "DocuSign Envelope Sent",
+      "resendError": "Could not resend DocuSign envelope.",
+      "resendSuccess": "DocuSign Envelope Resent"
     },
     "editLead": {
       "success": "Lead Information Saved Successfully.",

@@ -45,14 +45,13 @@ const Home = (props) => {
     const generateWelcome = useCallback(() => {
         const determinant = Math.random()
         let messageNumber = 0
-        if (determinant < 0.05) {
-            const messageCount = Object.keys(localization.welcome).length
+        if (determinant > 0.95) {
+            const messageCount = localization.welcomeMessages.length
             messageNumber = Math.floor(Math.random() * messageCount)
         }
 
-        const messageElement = "welcomeMessage" + messageNumber
-        setWelcome(localization.welcome[messageElement].replace("$", user.first_name))
-    }, [localization.welcome, user.first_name])
+        setWelcome(localization.welcomeMessages[messageNumber].replace("$", user.first_name))
+    }, [localization.welcomeMessages, user.first_name])
 
     // function to fetch up-to-the-second stats about current user
     const pollAppStats = () => {
@@ -105,8 +104,8 @@ const Home = (props) => {
     }, [fetchShift, generateWelcome])
 
 
-    // call stats polling function every 30 seconds
-    useInterval(pollAppStats, 30000)
+    // call stats polling function every 5 minutes
+    useInterval(pollAppStats, 300000)
 
     // utility function to clear modals
     const resetModals = () => {

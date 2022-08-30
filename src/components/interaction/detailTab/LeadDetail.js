@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {MDBBox, MDBCard, MDBCardBody, MDBSelect, MDBTooltip} from "mdbreact";
+import {MDBBox, MDBCard, MDBCardBody, MDBTooltip} from "mdbreact";
 import {connect} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
@@ -7,9 +7,7 @@ import {
 } from "@fortawesome/pro-solid-svg-icons";
 import Slack from "../../../utils/Slack";
 import String from "../../../utils/String";
-import LeadAPI from "../../../api/leadAPI";
-import {toast} from "react-toastify";
-import moment from "moment";
+import RegionSelect from "../../ui/RegionSelect"
 
 
 class LeadDetail extends Component {
@@ -56,43 +54,6 @@ class LeadDetail extends Component {
         this.setState({leadIDCopyTooltip: this.props.localization.interaction.details.copyLeadIDTooltip})
     }
 
-    onRegionSelect = (values) => {
-        const regionID = parseInt(values[0])
-
-        const newRegion = this.props.lead.client.regions.find(region => region.id === regionID)
-        if (newRegion === undefined) {
-            toast.error(this.props.localization.toast.details.selectedRegionMissing)
-            return
-        }
-
-        // call API method and dispatch new data to the store when it's complete
-        const data = {
-            lead_id: this.props.lead.id,
-            interaction_id: this.props.interaction.id,
-            updates: {
-                region_id: regionID
-            }
-        }
-        LeadAPI.updateDetails(data)
-            .then(response => {
-                if (response.success !== true) {
-                    toast.error(this.props.localization.toast.details.updateFailed)
-                } else {
-                    toast.success(this.props.localization.toast.details.updateSucceeded)
-                    this.props.dispatch({
-                        type: "LEAD.REGION_UPDATED",
-                        data: {
-                            regionID,
-                            interactionID: this.props.interaction.id,
-                            time: moment.utc().format('YYYY-MM-DD hh:mm:ss'),
-                            createdBy: this.props.user.label_name,
-                            newRegion
-                        }
-                    })
-                }
-            })
-
-    }
 
     generatePreferredOfficeChip = () => {
         const preferredOfficeMeta = this.props.lead.meta.find(meta => {
@@ -185,12 +146,9 @@ class LeadDetail extends Component {
                         </MDBTooltip>
                         <MDBBox className="mb-2">{localization.phaseLabel}<span className="font-weight-bold skin-secondary-color">{phase.label}</span></MDBBox>
                         <MDBBox className="mb-0 w-100">
-                            <MDBSelect className="mb-0"
-                             options={this.state.regionOptions}
-                             search={this.state.regionOptions.length > 8}
-                             getValue={this.onRegionSelect}
-                             label={localization.regionLabel}
-                            />
+                            <div className="form-group">
+                                <RegionSelect />
+                            </div>
                         </MDBBox>
                         <MDBBox className="mb-0">{localization.regionPhoneLabel}<span className="font-weight-bold skin-secondary-color">{formatPhoneNumber(outboundPhone)}</span></MDBBox>
                     </div>

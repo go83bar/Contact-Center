@@ -75,8 +75,12 @@ class Lead extends Component {
                     const nullValue = {
                         label: "None"
                     }
+                    // make sure we have a value and that we know what it means
                     let oldV = item.old_value === null ? nullValue : timezones.find(tz => tz.value === item.old_value)
                     let newV = item.new_value === null ? nullValue : timezones.find(tz => tz.value === item.new_value)
+                    if (oldV === undefined) oldV = nullValue;
+                    if (newV === undefined) newV = nullValue;
+
                     result.push(<div key={"log-" + item.created_at.format()+ "-" + index}>
                         {String.humanize(item.field) + localization.from + oldV.label + localization.to +  newV.label}
                     </div>)

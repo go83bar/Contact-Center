@@ -427,7 +427,7 @@ class Active extends Component {
                                     {this.props.data.start_time ? <span><span className="font-weight-bold">{moment.utc(this.props.data.start_time).tz(this.props.lead.details.timezone).format("MMM D")}</span>, {moment.utc(this.props.data.start_time).tz(this.props.lead.details.timezone).format("h:mm a z")}</span> : <span className="text-danger">{localization.noStartTime}</span>}
                                     {this.props.data.start_time && (office.timezone !== this.props.lead.details.timezone) &&
                                     <span className="ml-3">{localization.office}<span
-                                        className="font-weight-bold">{moment.utc(this.props.data.start_time).tz(office.timezone).format("MMM D")}</span>, {moment.utc(this.props.data.start_time).tz(office.timezone).format("h:mm a z")}</span>}
+                                        className="font-weight-bold">{moment.utc(this.props.data.start_time).tz(office.timezone).format("MMM D, YYYY")}</span>, {moment.utc(this.props.data.start_time).tz(office.timezone).format("h:mm a z")}</span>}
                                 </span>
                             </div>
                             <div className="d-flex flex-column f-s justify-content-start p-2 w-50 text-right">

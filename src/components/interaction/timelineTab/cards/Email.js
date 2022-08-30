@@ -69,16 +69,20 @@ class Email extends Component {
             this.setState({resent: true})
 
             AgentAPI.resendEmail(params).then( response => {
-                toast.success(this.props.localization.toast.timeline.email.emailResent)
-                const newEmailLog = {
-                    id: response.new_log_id,
-                    direction: "outgoing",
-                    subject: this.props.data.subject,
-                    events: [],
-                    created_at: moment.utc().format()
+                if (response.success) {
+                    toast.success(this.props.localization.toast.timeline.email.emailResent)
+                    const newEmailLog = {
+                        id: response.new_log_id,
+                        direction: "outgoing",
+                        subject: this.props.data.subject,
+                        events: [],
+                        created_at: moment.utc().format()
+                    }
+                    this.props.dispatch({ type: "LEAD.EMAIL_SENT", data: newEmailLog })
+                } else {
+                    console.log("Email Resend Error Response: ", response)
+                    toast.error(this.props.localization.toast.timeline.email.emailResendError)
                 }
-                this.props.dispatch({ type: "LEAD.EMAIL_SENT", data: newEmailLog })
-
             }).catch( reason => {
                 toast.error(this.props.localization.toast.timeline.email.emailResendError)
             })
@@ -133,7 +137,7 @@ class Email extends Component {
                         {this.state.emailContent === undefined && <LoadingScreen />}
                         <div dangerouslySetInnerHTML={{ __html: this.state.emailContent }} />
                         <MDBBox className="d-flex justify-content-between mt-2">
-                            {this.state.emailContent !== undefined && <MDBBox><MDBBtn rounded disabled={this.state.resent} onClick={this.resendEmail}>
+                            {(this.state.emailContent !== undefined && this.props.data.direction !== "incoming") && <MDBBox><MDBBtn rounded disabled={this.state.resent} onClick={this.resendEmail}>
                                 <FontAwesomeIcon className="mr-1" icon={faPaperPlane} size="sm"/>{this.props.localization.interaction.timeline.email.resendButtonLabel}
                             </MDBBtn></MDBBox>}
                             {(this.props.data.events && this.props.data.events.length > 0) && <MDBListGroup>
