@@ -124,7 +124,7 @@ const LeadLabOrders = ({ active }) => {
                     <div>
                       <a
                         style={{
-                          background: "orange",
+                          background: "#43C7B7",
                           color: "white",
                           borderRadius: 5,
                           padding: 10,
@@ -137,7 +137,7 @@ const LeadLabOrders = ({ active }) => {
                       </a>
                       <a
                         style={{
-                          background: "#43C7B7",
+                          background: "#465663",
                           color: "white",
                           borderRadius: 5,
                           padding: 10,
@@ -167,7 +167,7 @@ const LeadLabOrders = ({ active }) => {
                   ) : (
                     <a
                       style={{
-                        background: "#43C7B7",
+                        background: "#465663",
                         color: "white",
                         borderRadius: 5,
                         padding: 10,
