@@ -1,19 +1,8 @@
 import React, { useState } from "react";
-import { MDBBox, MDBBtn, MDBCard, MDBSelect } from "mdbreact";
-import { connect } from "react-redux";
+import { MDBBox } from "mdbreact";
 import AddLabOrder from "./AddLabOrder";
 import LabOrderAPI from "../../../api/labOrderAPI";
-import DocumentAPI from "../../../api/documentAPI";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
-import {
-  faCircle as faCircleSolid,
-  faFile,
-} from "@fortawesome/pro-solid-svg-icons";
-import { faCircle } from "@fortawesome/pro-light-svg-icons";
-import moment from "moment-timezone";
 import { toast } from "react-toastify";
-import { isThisHour } from "date-fns";
 import { useDispatch, useSelector } from "react-redux";
 
 const LeadLabOrders = ({ active }) => {
@@ -25,10 +14,17 @@ const LeadLabOrders = ({ active }) => {
   const deleteLabOrderErrorMessage = useSelector(
     (state) => state.localization.toast.editLead.deleteLabOrderError
   );
+
+  const confirmLabOrderSuccessMessage = useSelector(
+    (state) => state.localization.toast.editLead.confirmLabOrderSuccess
+  );
+  const confirmLabOrderErrorMessage = useSelector(
+    (state) => state.localization.toast.editLead.confirmLabOrderError
+  );
+
   let lab_orders = useSelector((state) => state.lead.lab_orders);
 
   const deleteLabOrder = (id) => {
-    console.log(id, "hi");
     LabOrderAPI.deleteLabOrder({ order_id: id })
       .then((response) => {
         if (response.success) {
@@ -43,9 +39,6 @@ const LeadLabOrders = ({ active }) => {
           } catch (err) {
             console.log(err);
           }
-
-          console.log(response, "hello");
-
           // notify user
           toast.success(deleteLabOrderSuccessMessage);
         } else {
@@ -57,6 +50,22 @@ const LeadLabOrders = ({ active }) => {
         toast.error(deleteLabOrderErrorMessage);
         console.log("Failed to delete lab order: ", error);
       });
+    return;
+  };
+
+  const confirmLabOrder = (id) => {
+    try {
+      dispatch({
+        type: "LEAD.LAB_ORDERS.CONFIRM_LAB_ORDER",
+        data: {
+          envelopeID: id,
+        },
+      });
+      toast.success(confirmLabOrderSuccessMessage);
+    } catch (err) {
+      console.log(err);
+      toast.error(confirmLabOrderErrorMessage);
+    }
     return;
   };
 
@@ -111,34 +120,65 @@ const LeadLabOrders = ({ active }) => {
                 <br />
                 <div>REQ # {obj.requisition_number}</div>
                 <div style={{ marginTop: 20, marginBottom: 10 }}>
-                  <a
-                    style={{
-                      background: "#43C7B7",
-                      color: "white",
-                      borderRadius: 5,
-                      padding: 10,
-                      margin: 5,
-                      fontWeight: "bold",
-                    }}
-                    href={obj.file_link}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                  >
-                    VIEW PDF
-                  </a>
-                  {obj?.deleteable && (
+                  {obj?.deleteable ? (
+                    <div>
+                      <a
+                        style={{
+                          background: "orange",
+                          color: "white",
+                          borderRadius: 5,
+                          padding: 10,
+                          margin: 5,
+                          fontWeight: "bold",
+                        }}
+                        onClick={() => confirmLabOrder(obj.id)}
+                      >
+                        CONFIRM
+                      </a>
+                      <a
+                        style={{
+                          background: "#43C7B7",
+                          color: "white",
+                          borderRadius: 5,
+                          padding: 10,
+                          margin: 5,
+                          fontWeight: "bold",
+                        }}
+                        href={obj.file_link}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                      >
+                        VIEW PDF
+                      </a>
+                      <a
+                        style={{
+                          background: "#d32f2f",
+                          color: "white",
+                          borderRadius: 5,
+                          padding: 10,
+                          margin: 5,
+                          fontWeight: "bold",
+                        }}
+                        onClick={() => deleteLabOrder(obj.id)}
+                      >
+                        DELETE
+                      </a>
+                    </div>
+                  ) : (
                     <a
                       style={{
-                        background: "#d32f2f",
+                        background: "#43C7B7",
                         color: "white",
                         borderRadius: 5,
                         padding: 10,
                         margin: 5,
                         fontWeight: "bold",
                       }}
-                      onClick={() => deleteLabOrder(obj.id)}
+                      href={obj.file_link}
+                      target="_blank"
+                      rel="noreferrer noopener"
                     >
-                      DELETE
+                      VIEW PDF
                     </a>
                   )}
                 </div>

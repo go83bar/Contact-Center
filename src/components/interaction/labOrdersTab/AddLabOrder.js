@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import LabOrderAPI from "../../../api/labOrderAPI";
+import { toast } from "react-toastify";
 
 const AddLabOrder = ({ setToggleAddLadOrderButton }) => {
   const dispatch = useDispatch();
@@ -52,14 +53,14 @@ const AddLabOrder = ({ setToggleAddLadOrderButton }) => {
 
           setToggleAddLadOrderButton(false);
           //   // notify user
-          toast.success(addLabOrderSuccess);
+          toast.success(deleteLabOrderSuccessMessage);
         } else {
-          toast.error(addLabOrderError);
+          toast.error(deleteLabOrderErrorMessage);
           console.log("Failed to add lab order: ", response);
         }
       })
       .catch((error) => {
-        toast.error(addLabOrderError);
+        toast.error(deleteLabOrderErrorMessage);
         console.log("Failed to add lab order: ", error);
       });
     return;

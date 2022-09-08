@@ -852,7 +852,9 @@
       "deleteLabOrderSuccess": "The lab order has been deleted.",
       "deleteLabOrderError": "Something went wrong, failed to delete lab order.",
       "addLabOrderSuccess": "The lab order has been added.",
-      "addLabOrderError": "Something went wrong, failed to add lab order."
+      "addLabOrderError": "Something went wrong, failed to add lab order.",
+      "confirmLabOrderSuccess": "The lab order has been confirmed.",
+      "confirmLabOrderError": "Something went wrong, failed to add lab order."
     },
     "editContactPreferences": {
       "success": "Lead Contact Preferences updated",

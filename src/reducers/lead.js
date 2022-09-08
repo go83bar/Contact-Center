@@ -102,10 +102,25 @@ export function lead(state = initialState, action) {
       };
 
     case "LEAD.LAB_ORDERS.DELETE_LAB_ORDER":
-      let arr = state.lab_orders.filter((obj) => obj.id !== action.data.id);
+      let deleteLabOrder = state.lab_orders.filter(
+        (obj) => obj.id !== action.data.id
+      );
       return {
         ...state,
-        lab_orders: arr,
+        lab_orders: deleteLabOrder,
+      };
+
+    case "LEAD.LAB_ORDERS.CONFIRM_LAB_ORDER":
+      let confirmedLabOrder = state.lab_orders.map((envelope) => {
+        if (envelope.id === action.data.envelopeID) {
+          console.log(envelope.id, action.data.envelopeID);
+          envelope.deleteable = false;
+        }
+        return { ...envelope };
+      });
+      return {
+        ...state,
+        lab_orders: confirmedLabOrder,
       };
 
     // called when user updates lead's region
