@@ -23,15 +23,23 @@ const Envelope = ({ envelope }) => {
   const resendErrorMessage = useSelector(
     (state) => state.localization.toast.docusign.resendError
   );
+  const reactUrlBase = useSelector(
+    (state) => state.config['url-react-base']
+  );
+  const userID = useSelector(
+    (state) => state.user.id
+  );
+  const userToken = useSelector(
+    (state) => state.user.auth.token
+  );
+
+  // TODO add support for envelopes with multiple completed files
+  const docusignViewUrl = reactUrlBase + "activate/lead/docusign/view?envelope_id=" + envelope.id + "&user_id=" + userID + "&auth_token=" + userToken
   const dispatch = useDispatch();
 
   const [isResending, setIsResending] = useState(false);
   const [resendBtnLabel, setResendBtnLabel] = useState();
   // localization.
-  const [isUpdating, setIsUpdating] = useState(false);
-  const [updateBtnLabel, setUpdateBtnLabel] = useState(
-    localization.resendButtonLabel
-  );
 
   const resendEnvelope = () => {
     // handle double-clicks
@@ -70,7 +78,7 @@ const Envelope = ({ envelope }) => {
         console.log("Could not send template: ", error);
       });
   };
-  console.log(envelope.statuses);
+
   return (
     <MDBCard className="d-flex w-100 shadow-sm border-0 mb-2">
       <MDBBox className="d-flex backgroundColorInherit skin-border-primary f-m w-100">
@@ -86,7 +94,7 @@ const Envelope = ({ envelope }) => {
           </span>
           <div className="d-flex p-2 text-left w-75">
             <div>
-              <span className="f-l">{envelope.name}</span>
+              <span className="f-l"><a href={docusignViewUrl} target="_blank">{envelope.name}</a></span>
               {envelope.completed_at === null &&
                 envelope.declined_at === null &&
                 envelope.voided_at === null && (

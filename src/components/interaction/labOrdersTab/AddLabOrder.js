@@ -11,14 +11,15 @@ const AddLabOrder = ({ setToggleAddLadOrderButton }) => {
   const [reqNum, setReqNum] = useState("");
 
   const onChange = (e) => {
-    setFile(e.target.files[0]), setFileName(e.target.files[0].name);
+    setFile(e.target.files[0]);
+    setFileName(e.target.files[0].name);
   };
 
   const lead_id = useSelector((state) => state.lead.id);
-  const deleteLabOrderSuccessMessage = useSelector(
+  const addLabOrderSuccessMessage = useSelector(
     (state) => state.localization.toast.editLead.addLabOrderSuccess
   );
-  const deleteLabOrderErrorMessage = useSelector(
+  const addLabOrderErrorMessage = useSelector(
     (state) => state.localization.toast.editLead.addLabOrderError
   );
 
@@ -53,14 +54,14 @@ const AddLabOrder = ({ setToggleAddLadOrderButton }) => {
 
           setToggleAddLadOrderButton(false);
           //   // notify user
-          toast.success(deleteLabOrderSuccessMessage);
+          toast.success(addLabOrderSuccessMessage);
         } else {
-          toast.error(deleteLabOrderErrorMessage);
+          toast.error(addLabOrderErrorMessage);
           console.log("Failed to add lab order: ", response);
         }
       })
       .catch((error) => {
-        toast.error(deleteLabOrderErrorMessage);
+        toast.error(addLabOrderErrorMessage);
         console.log("Failed to add lab order: ", error);
       });
     return;

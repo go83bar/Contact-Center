@@ -181,6 +181,8 @@ class Interaction extends Component {
     // determine if the rewards tab is appropriate
     const rewardsVisible = this.props.lead.rewards.length > 0;
 
+    const labOrdersVisible = this.props.lead.campaign.usesLabOrders === 1;
+
     return (
       <MDBBox className="d-flex w-100 skin-secondary-color">
         <MDBBox
@@ -274,7 +276,7 @@ class Interaction extends Component {
                 onClick={this.toggleTab("rewards")}
               />
             )}
-            {true && (
+            {labOrdersVisible && (
               <SideNavItem
                 active={this.state.activeItem === "lab orders"}
                 icon={faVial}

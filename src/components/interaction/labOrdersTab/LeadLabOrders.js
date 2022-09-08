@@ -14,6 +14,16 @@ const LeadLabOrders = ({ active }) => {
   const deleteLabOrderErrorMessage = useSelector(
     (state) => state.localization.toast.editLead.deleteLabOrderError
   );
+  const leadMeta = useSelector((state) => {
+      let meta = state.lead.meta
+    console.log("Meta: ", meta)
+      return meta.find(item => item.key === "alzmatch_id")
+  })
+  console.log("Found almzatch: ", leadMeta)
+  let alzmatchID = ""
+  if (leadMeta !== undefined) {
+      alzmatchID = leadMeta.value
+  }
 
   const confirmLabOrderSuccessMessage = useSelector(
     (state) => state.localization.toast.editLead.confirmLabOrderSuccess
@@ -73,16 +83,21 @@ const LeadLabOrders = ({ active }) => {
     <MDBBox
       className={active ? "d-flex w-100 flex-column bg-white f-m" : "hidden"}
     >
-      <button
-        type="button"
-        className="btn btn-primary"
-        data-mdb-toggle="modal"
-        data-mdb-target="#exampleModal"
-        style={{ maxWidth: 150 }}
-        onClick={() => setToggleAddLadOrderButton(!toggleAddLabOrderButton)}
-      >
-        Add Lab Order
-      </button>
+      <div className={"d-flex w-100"} style={{justifyContent:"space-between"}}>
+        <button
+            type="button"
+            className="btn btn-primary"
+            data-mdb-toggle="modal"
+            data-mdb-target="#exampleModal"
+            style={{ maxWidth: 150 }}
+            onClick={() => setToggleAddLadOrderButton(!toggleAddLabOrderButton)}
+        >
+          Add Lab Order
+        </button>
+        <div style={{textAlign: "right", fontSize: "large", paddingTop: "1.5 em", paddingRight: "2em"}}>
+          AlzMatch ID: { alzmatchID }
+        </div>
+      </div>
       {toggleAddLabOrderButton ? (
         <AddLabOrder setToggleAddLadOrderButton={setToggleAddLadOrderButton} />
       ) : (
